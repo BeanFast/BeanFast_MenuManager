@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-// import '../models/user.dart';
+import '../enums/auth_state_enum.dart';
+import '../models/user.dart';
 
-enum AuthState {
-  authenticated,
-  unauthenticated,
-  unknown,
-}
 
-class AuthController extends GetxController {
-  // late Rx<Account?> account;
+
+class AuthController extends GetxController with CacheManager {
+
+  late Rx<Account?> account;
   Rx<AuthState> authState = AuthState.unauthenticated.obs;
   // final RxBool logged = false.obs;
 
@@ -24,6 +23,13 @@ class AuthController extends GetxController {
     authState.value = newState;
   }
 
+  void checkLoginStatus() {
+    final token = getToken();
+    print('token: ${token}');
+    if (token != null) {
+      changeAuthState(AuthState.authenticated);
+    }
+  }
 
   final _username = "".obs;
   final _password = "".obs;
@@ -79,7 +85,18 @@ class AuthController extends GetxController {
   //     print(e.toString());
   //   }
   // }
+  void login() async {
+    changeAuthState(AuthState.authenticated);
+    String token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+    //Token is cached
+    await saveToken(token);
+  }
 
+  void logOut() {
+    changeAuthState(AuthState.unauthenticated);
+    removeToken();
+  }
   // void signOut() {
   //   try {
   //     auth.signOut();
@@ -88,3 +105,23 @@ class AuthController extends GetxController {
   //   }
   // }
 }
+
+mixin CacheManager {
+  Future<bool> saveToken(String? token) async {
+    final box = GetStorage();
+    await box.write(CacheManagerKey.TOKEN.toString(), token);
+    return true;
+  }
+
+  String? getToken() {
+    final box = GetStorage();
+    return box.read(CacheManagerKey.TOKEN.toString());
+  }
+
+  Future<void> removeToken() async {
+    final box = GetStorage();
+    await box.remove(CacheManagerKey.TOKEN.toString());
+  }
+}
+
+enum CacheManagerKey { TOKEN }

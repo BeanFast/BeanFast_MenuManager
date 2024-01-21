@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
 
-class Login extends StatelessWidget {
-  final AuthController _controller = Get.find();
+class LoginView extends StatelessWidget {
+  final AuthController _authController = Get.find();
 
   final _formKey = GlobalKey<FormState>();
 
   final _isPasswordHidden = true.obs;
   final RxBool _isChecked = false.obs;
 
-  Login({super.key});
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class Login extends StatelessWidget {
                 ),
                 const SizedBox(height: 35),
                 TextFormField(
-                  controller: _controller.usernameController,
+                  controller: _authController.usernameController,
                   decoration: const InputDecoration(
                     labelText: 'Tên đăng nhập',
                     border: OutlineInputBorder(),
@@ -71,7 +71,7 @@ class Login extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: _controller.passwordController,
+                  controller: _authController.passwordController,
                   decoration: InputDecoration(
                     labelText: 'Mật khẩu',
                     border: const OutlineInputBorder(),
@@ -145,8 +145,7 @@ class Login extends StatelessWidget {
                       //   );
                       //   // Get.to(ImageSlider());
                       // }
-                      _controller.authState.value = AuthState.authenticated;
-                      print('button: ${_controller.authState.value}');
+                      _authController.login();
                     },
                     child: const Text('Đăng nhập'),
                   ),
@@ -170,12 +169,5 @@ class Login extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class LoginBindingController extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<AuthController>(() => AuthController());
   }
 }
