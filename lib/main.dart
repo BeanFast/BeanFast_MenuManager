@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'binding.dart';
-import 'views/pages/home_page.dart';
 import 'views/pages/splash_page.dart';
 
 Future<void> main() async {
@@ -18,20 +17,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'BeanFast',
       initialRoute: "/",
       getPages: [
         GetPage(
           name: '/',
           page: () => SplashView(),
-          binding: AuthBindingController(),// create dependencie auth
+          binding: AuthBindingController(), // create dependencie auth
+          // transition: Transition.fade,
         ),
-        GetPage(
-          name: '/',
-          page: () => const HomeView(),
-          binding: HomeBindingController(),
-        ),
-        // GetPage(name: '/seconds', page: () => const SecondsView()),
+        // GetPage(
+        //   name: '/home',
+        //   page: () => HomeView(),
+        //   binding: HomeBindingController(),
+        // ),
       ],
     );
   }

@@ -1,42 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// import '../../controllers/auth_controller.dart';
-
+import '../../controllers/home_controller.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final HomeController _homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: ElevatedButton(
-          child: Text('Click go to seconds'),
+      appBar: AppBar(
+        title: const Text('Admin page'),
+        automaticallyImplyLeading: false,
+        leading: ElevatedButton(
+          child: const Icon(Icons.menu),
           onPressed: () {
-            Get.offAndToNamed('/seconds');
-            // Get.offAll(SecondsScreen);
+            _homeController.toggleNavigation();
           },
         ),
       ),
+      body: Obx(() {
+        return _homeController.isNavigationRailSelected.value
+            ? navigaView()
+            : drawerView();
+      }),
     );
   }
 }
 
-class SecondsView extends StatelessWidget {
-  const SecondsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: ElevatedButton(
-          child: Text('Click go to Home'),
-          onPressed: () {
-            Get.toNamed('/');
-          },
+Widget navigaView() {
+  return Row(
+    children: [
+      NavigationRail(
+        // selectedIndex: widget.currentIndex,
+        selectedIndex: 1,
+        destinations: const [
+          NavigationRailDestination(
+            icon: Icon(Icons.home),
+            label: Text('Home'),
+          ),
+          NavigationRailDestination(
+            icon: Icon(Icons.settings),
+            label: Text('Settings'),
+          ),
+        ],
+        onDestinationSelected: (destination) {
+          // Do something when a destination is selected.
+        },
+      ),
+      VerticalDivider(
+        width: 1,
+        thickness: 1,
+        color: Colors.grey[300],
+      ),
+      Expanded(
+        child: Container(
+          color: Colors.black,
         ),
       ),
-    );
-  }
+    ],
+  );
+}
+
+Widget drawerView() {
+  return Row(
+    children: [
+      Drawer(
+        child: ListView(
+          children: const [
+            ListTile(
+              title: Text('Item 1'),
+            ),
+            ListTile(
+              title: Text('Item 2'),
+            ),
+          ],
+        ),
+      ),
+      Expanded(
+        child: Container(
+          color: Colors.red,
+        ),
+      ),
+    ],
+  );
 }

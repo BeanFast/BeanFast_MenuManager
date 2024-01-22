@@ -34,11 +34,12 @@ class SplashView extends StatelessWidget {
             return Obx(() {
               switch (_authController.authState.value) {
                 case AuthState.authenticated:
-                  return const HomeView(); // get token -> get User
+                  return HomeView(); // get token -> get User
+                  // return const HomeView(); // get token -> get User
                 case AuthState.unauthenticated:
                   return LoginView();
                 default:
-                  return const ErrorView(errorMessage: 'Lỗi xác thực đăng nhập');
+                  return const ErrorView(errorMessage: 'Lỗi xác thực đăng nhập');// 
               }
             });
           }
@@ -50,18 +51,18 @@ class SplashView extends StatelessWidget {
   Scaffold waitingView() {
     return const Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Padding(
+        //       padding: EdgeInsets.all(16.0),
               child: CircularProgressIndicator(),
             ),
-            Text('Loading...'),
-          ],
-        ),
-      ),
+            // Text('Loading...'),
+        //   ],
+        // ),
+      // ),
     );
   }
 }
