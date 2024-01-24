@@ -9,6 +9,7 @@ class AuthBindingController extends Bindings {
   void dependencies() {
     Get.put<AuthController>(AuthController(), permanent: true);
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<FoodController>(() => FoodController());
   }
 }
 class HomeBindingController extends Bindings {

@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/views/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,11 +26,6 @@ class MyApp extends StatelessWidget {
           page: () => SplashView(),
           binding: AuthBindingController(), // create dependencie auth
           // transition: Transition.fade,
-        ),
-        GetPage(
-          name: '/food',
-          page: () => FoodView(),
-          binding: HomeBindingController(),
         ),
       ],
     );

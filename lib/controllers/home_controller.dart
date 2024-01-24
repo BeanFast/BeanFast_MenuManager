@@ -14,20 +14,39 @@ class HomeController extends GetxController {
 
   // menu mặc định
   List<MenuItem> menuItems = [
-    const MenuItem(title: 'Home', icon: Icons.home, route: ''),
-    const MenuItem(title: 'Dashboard', icon: Icons.dashboard, route: ''),
-    const MenuItem(title: 'Setting', icon: Icons.settings, route: ''),
+    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard),
+    const MenuItem(title: 'Thức ăn', icon: Icons.fastfood),
+    const MenuItem(title: 'Thực đơn', icon: Icons.menu),
+    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment),
+    const MenuItem(title: 'Quà', icon: Icons.card_giftcard),
+    const MenuItem(title: 'Khách hàng', icon: Icons.assignment_ind),
+    // const MenuItem(title: 'Khách hàng', icon: Icons.settings),// deliverer
+    const MenuItem(title: 'Bếp', icon: Icons.kitchen),
+    const MenuItem(title: 'Trường', icon: Icons.school),
+    const MenuItem(title: 'Cài đặt', icon: Icons.settings),
   ];
 
   // index là vị trí của menuItems
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return colorRed();
+        return colorYellow();
       case 1:
         return FoodView();
       case 2:
+        return colorGreen();
+      case 3:
         return colorYellow();
+      case 4:
+        return colorGreen();
+      case 5:
+        return colorYellow();
+      case 6:
+        return colorGreen();
+      case 7:
+        return colorYellow();
+      case 8:
+        return colorGreen();
       default:
         return colorGreen();
     }
