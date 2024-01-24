@@ -23,7 +23,7 @@ class DashboardSample extends StatelessWidget {
                 Spacer(), 
                 Padding(
                   padding: const EdgeInsets.all(10),
-                  child: ElevatedButton.icon(
+                  child: FloatingActionButton.extended(
                     icon: Icon(Icons.calendar_today), // Add your icon here
                     label: Obx(
                       () => Text(
@@ -48,7 +48,7 @@ class DashboardSample extends StatelessWidget {
                 ),
                 Padding(
                     padding: const EdgeInsets.all(10),
-                  child: ElevatedButton.icon(
+                  child: FloatingActionButton.extended(
                     icon: Icon(Icons.calendar_today), // Add your icon here
                     label: Obx(
                       () => Text(
