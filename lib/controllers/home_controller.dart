@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:beanfast_menumanager/views/pages/dashboard_page.dart';
 import 'package:beanfast_menumanager/views/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,9 +26,9 @@ class HomeController extends GetxController {
       case 0:
         return colorRed();
       case 1:
-        return FoodView();
+        return DashboardSample(isShowingMainData: false,);
       case 2:
-        return colorYellow();
+        return FoodView();
       default:
         return colorGreen();
     }
