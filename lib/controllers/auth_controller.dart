@@ -25,7 +25,7 @@ class AuthController extends GetxController with CacheManager {
 
   void checkLoginStatus() {
     final token = getToken();
-    print('token: ${token}');
+    print('token: $token');
     if (token != null) {
       changeAuthState(AuthState.authenticated);
     }

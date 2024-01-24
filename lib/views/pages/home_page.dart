@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 
 import '../../controllers/home_controller.dart';
 
-class HomeView extends StatelessWidget {
-  HomeView({super.key});
+final HomeController _homeController = Get.find();
 
-  final HomeController _homeController = Get.find();
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +34,19 @@ Widget navigaView() {
   return Row(
     children: [
       NavigationRail(
+        minWidth: 64,
         // selectedIndex: widget.currentIndex,
-        selectedIndex: 1,
-        destinations: const [
-          NavigationRailDestination(
-            icon: Icon(Icons.home),
-            label: Text('Home'),
-          ),
-          NavigationRailDestination(
-            icon: Icon(Icons.settings),
-            label: Text('Settings'),
+        selectedIndex: _homeController.selectedIndex.value,
+        destinations: [
+          ..._homeController.menuItems.map(
+            (e) => NavigationRailDestination(
+              icon: Icon(e.icon),
+              label: Text(e.title),
+            ),
           ),
         ],
         onDestinationSelected: (destination) {
-          // Do something when a destination is selected.
+          _homeController.onNavigationIndexChange(destination);
         },
       ),
       VerticalDivider(
@@ -56,34 +55,38 @@ Widget navigaView() {
         color: Colors.grey[300],
       ),
       Expanded(
-        child: Container(
-          color: Colors.black,
-        ),
+        child: _homeController.selectedContent.value,
       ),
     ],
   );
 }
 
 Widget drawerView() {
-  return Row(
-    children: [
-      Drawer(
-        child: ListView(
-          children: const [
-            ListTile(
-              title: Text('Item 1'),
+  // final title = Get.arguments as String;
+  return Obx(() => Row(
+        children: [
+          Drawer(
+            width: 164,
+            child: Column(
+              children: [
+                for (int i = 0; i < _homeController.menuItems.length; i++)
+                  ListTile(
+                    leading: Icon(_homeController.menuItems[i].icon),
+                    title: Text(_homeController.menuItems[i].title),
+                    selected: _homeController.selectedIndex.value == i,
+                    onTap: () {
+                      _homeController.selectedIndex.value = i;
+                      _homeController.selectedContent.value =
+                          // _homeController.menuItems[i].
+                          _homeController.setSelectedContent(i);
+                    },
+                  ),
+              ],
             ),
-            ListTile(
-              title: Text('Item 2'),
-            ),
-          ],
-        ),
-      ),
-      Expanded(
-        child: Container(
-          color: Colors.red,
-        ),
-      ),
-    ],
-  );
+          ),
+          Expanded(
+            child: _homeController.selectedContent.value,
+          ),
+        ],
+      ));
 }
