@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:beanfast_menumanager/views/pages/dashboard_page.dart';
 import 'package:beanfast_menumanager/views/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   RxInt selectedIndex = 0.obs; // index of menuItem
-  Rx<Widget> selectedContent = colorRed().obs;
+  Rx<Widget> selectedContent = initSelectedContent().obs;
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -30,7 +31,7 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return colorYellow();
+        return DashboardSample(isShowingMainData: false,);
       case 1:
         return FoodView();
       case 2:
@@ -62,9 +63,9 @@ class HomeController extends GetxController {
   }
 }
 
-Widget colorRed() {
-  logger.i('ColorRed');
-  return Scaffold(body: Container(color: Colors.red));
+Widget initSelectedContent() {
+  logger.i('initSelectedContent');
+  return DashboardSample(isShowingMainData: false,);
 }
 
 Widget colorBlue() {

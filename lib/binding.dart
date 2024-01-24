@@ -18,9 +18,3 @@ class HomeBindingController extends Bindings {
     // Get.lazyPut<HomeController>(() => HomeController());
   }
 }
-class FoodBindingController extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<FoodController>(() => FoodController());
-  }
-}
