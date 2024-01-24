@@ -1,7 +1,8 @@
-import 'package:beanfast_menumanager/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 import 'controllers/auth_controller.dart';
+import 'controllers/food_controller.dart';
+import 'controllers/home_controller.dart';
 
 class AuthBindingController extends Bindings {
   @override
@@ -14,5 +15,11 @@ class HomeBindingController extends Bindings {
   @override
   void dependencies() {
     // Get.lazyPut<HomeController>(() => HomeController());
+  }
+}
+class FoodBindingController extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<FoodController>(() => FoodController());
   }
 }

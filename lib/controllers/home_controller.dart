@@ -25,7 +25,7 @@ class HomeController extends GetxController {
       case 0:
         return colorRed();
       case 1:
-        return const FoodView();
+        return FoodView();
       case 2:
         return colorYellow();
       default:

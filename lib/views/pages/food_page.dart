@@ -1,46 +1,53 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:beanfast_menumanager/controllers/food_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/logger.dart';
+import '../../utils/data_table.dart';
 // import 'package:beanfast_menumanager/controllers/home_controller.dart';
 
-class MyController extends GetxController {
-  final data = <String, dynamic>{};
 
-  @override
-  void onInit() {
-    super.onInit();
-    data['name'] = 'John Doe';
-    data['age'] = 30;
-    data['address'] = '123 Main Street, New York, NY 10001';
-  }
-}
 
 class FoodView extends StatelessWidget {
-  const FoodView({super.key});
+  FoodView({super.key});
+
+  FoodController _foodController = Get.find();
+  
+  final List<DataRow> _rows = dataList.map((dataMap) {
+    int stt = 0;
+    return DataRow(
+      cells: [
+        DataCell(Text(stt.toString())),
+        DataCell(Text(dataMap['Column1'].toString())),
+        DataCell(Text(dataMap['Column2'].toString())),
+        DataCell(Text(dataMap['Column3'].toString())),
+        DataCell(Text(dataMap['Column4'].toString())),
+        DataCell(Text(dataMap['Column5'].toString())),
+        DataCell(Text(dataMap['Column6'].toString())),
+        DataCell(Text('Action')),
+        // Add more DataCell widgets as needed
+      ],
+    );
+  }).toList();
   @override
   Widget build(BuildContext context) {
     logger.i('build FoodView');
-    MyController _foodController = Get.put(MyController());
-    return GetBuilder<MyController>(
-      builder: (_) {
-        return DataTable(
-          columns: const [
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('Age')),
-            DataColumn(label: Text('Address')),
-          ],
-          rows: _foodController.data.entries.map((e) {
-            return DataRow(
-              cells: [
-                DataCell(Text(e.key)),
-                DataCell(Text('e.value.toString()')),
-                DataCell(Text(e.value['address'])),
-              ],
-            );
-          }).toList(),
-        );
-      },
+    
+    return PaginatedDataTable(
+      header: Text('Data Table Header'),
+      rowsPerPage: 10, // Number of rows per page
+      columns: const [
+        DataColumn(label: Text('STT')),
+        DataColumn(label: Text('Code')),
+        DataColumn(label: Text('Hình ảnh')),
+        DataColumn(label: Text('Sản phẩm')),
+        DataColumn(label: Text('Giá')),
+        DataColumn(label: Text('Loại')),
+        DataColumn(label: Text('Trạng thái')),
+        DataColumn(label: Text(' ')),
+        // Add more DataColumn widgets as needed
+      ],
+      source: MyDataTable(rows: _rows),
     );
   }
 }
