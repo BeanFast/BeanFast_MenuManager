@@ -29,7 +29,7 @@ class FoodController extends GetxController {
 
 List<Map<String, dynamic>> dataList = [
   {
-    'Column1': 'Value1',
+    'Column1': 'Value122222222222222222222222222222222222222222222',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',
@@ -37,7 +37,15 @@ List<Map<String, dynamic>> dataList = [
     'Column6': 'Value6'
   },
   {
-    'Column1': 'Value1',
+    'Column1': 'Value12222222222222222222222222222222222222222',
+    'Column2': 'Value222222222222222222222222222',
+    'Column3': 'Valu22222222222222222222222222222e3',
+    'Column4': 'Val22222222222222222222222222222ue4',
+    'Column5': 'Val222222222222222222222222222222ue5',
+    'Column6': 'Valu222222222222222222222222222222e6'
+  },
+  {
+    'Column1': 'Valu2222222222222222222222222222e1',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',
@@ -45,7 +53,7 @@ List<Map<String, dynamic>> dataList = [
     'Column6': 'Value6'
   },
   {
-    'Column1': 'Value1',
+    'Column1': 'Value222222222222222222222221',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',
@@ -53,7 +61,7 @@ List<Map<String, dynamic>> dataList = [
     'Column6': 'Value6'
   },
   {
-    'Column1': 'Value1',
+    'Column1': 'Value1222222222222222222222222',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',
@@ -61,7 +69,7 @@ List<Map<String, dynamic>> dataList = [
     'Column6': 'Value6'
   },
   {
-    'Column1': 'Value1',
+    'Column1': 'Valu222222222222222222222222222222e1',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',
@@ -69,15 +77,7 @@ List<Map<String, dynamic>> dataList = [
     'Column6': 'Value6'
   },
   {
-    'Column1': 'Value1',
-    'Column2': 'Value2',
-    'Column3': 'Value3',
-    'Column4': 'Value4',
-    'Column5': 'Value5',
-    'Column6': 'Value6'
-  },
-  {
-    'Column1': 'Value1',
+    'Column1': 'Valu2222222222222222222222222222222e1',
     'Column2': 'Value2',
     'Column3': 'Value3',
     'Column4': 'Value4',

@@ -16,21 +16,26 @@ class FoodView extends StatelessWidget {
     logger.i('build FoodView');
 
     return Scaffold(
-      body: PaginatedDataTable(
-        header: const Text('Data Table Header'),
-        rowsPerPage: 10, // Number of rows per page
-        columns: const [
-          DataColumn(label: Text('STT')),
-          DataColumn(label: Text('Code')),
-          DataColumn(label: Text('Hình ảnh')),
-          DataColumn(label: Text('Sản phẩm')),
-          DataColumn(label: Text('Giá')),
-          DataColumn(label: Text('Loại')),
-          DataColumn(label: Text('Trạng thái')),
-          DataColumn(label: Text(' ')),
-          // Add more DataColumn widgets as needed
+      body: Column(
+        children: [
+          PaginatedDataTable(
+            header: const Text('Data Table Header'),
+            rowsPerPage: 10, // Number of rows per page
+            columns: const [
+              DataColumn(label: Text('STT')),
+              DataColumn(label: Text('Code')),
+              DataColumn(label: Text('Hình ảnh')),
+              DataColumn(label: Text('Sản phẩm')),
+              DataColumn(label: Text('Giá')),
+              DataColumn(label: Text('Loại')),
+              DataColumn(label: Text('Trạng thái')),
+              DataColumn(label: Text(' ')),
+              // Add more DataColumn widgets as needed
+            ],
+            // columnSpacing: 50,
+            source: MyDataTable(rows: rows),
+          ),
         ],
-        source: MyDataTable(rows: rows),
       ),
     );
   }
