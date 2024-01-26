@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
 class ThemeColor {
-  static Color m3BaseColor = const Color.fromRGBO(255, 225, 168, 1);
-  static Color appBarBgColor = const Color.fromRGBO(255, 219, 182, 1);
-  static Color primaryColor = const Color.fromRGBO(255, 204, 162, 1);
-  // static Color m3BaseColor = const Color.fromRGBO(255,183,151, 1);
-  // static Color m3BaseColor = const Color.fromRGBO(255,157,139, 1);
-  static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
-  static Color bgColor = const Color.fromRGBO(255, 250, 244, 1);
-  static Color bgColorPrimary = const Color.fromRGBO(38,170,145, 1);
+  // static Color m3BaseColor = const Color.fromRGBO(255, 225, 168, 1);
+  // static Color appBarBgColor = const Color.fromRGBO(255, 219, 182, 1);
+  // static Color primaryColor = const Color.fromRGBO(255, 204, 162, 1);
+  // // static Color m3BaseColor = const Color.fromRGBO(255,183,151, 1);
+  // // static Color m3BaseColor = const Color.fromRGBO(255,157,139, 1);
+  // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
+  
+  static Color bgColor = HexColor("#FFFFFF");
+  static Color bgColor2 = HexColor('#e9f6f4');
+  
+  static Color primaryColor = const Color.fromRGBO(38,170,145, 1);
   static Color textColor = const Color.fromRGBO(15, 12, 12, 1);
 }
-
+Color HexColor(String hex) {
+  final buffer = StringBuffer();
+  if (hex.length == 6 || hex.length == 7) buffer.write('ff');
+  buffer.write(hex.replaceFirst('#', ''));
+  return Color(int.parse(buffer.toString(), radix: 16));
+}
 // #ffa256
 // #ffb06f
 // #ffbe89

@@ -4,21 +4,20 @@ import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
+    scaffoldBackgroundColor: ThemeColor.bgColor, // Màu nền của scaffold
     primaryColor: ThemeColor.primaryColor, // Màu chính của ứng dụng
     primaryTextTheme: TextTheme(
       headlineSmall: TextStyle(color: ThemeColor.textColor),
       titleSmall: TextStyle(color: ThemeColor.textColor, fontSize: 16),
       bodySmall: TextStyle(color: ThemeColor.textColor, fontSize: 13),
     ),
-    appBarTheme: AppBarTheme(color: ThemeColor.bgColor),
+    appBarTheme: AppBarTheme(color: ThemeColor.bgColor2),
     snackBarTheme: SnackBarThemeData(backgroundColor: ThemeColor.bgColor),
     navigationRailTheme: NavigationRailThemeData(backgroundColor: ThemeColor.bgColor),
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: ThemeColor.bgColor),
     floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: ThemeColor.bgColor),
-    cardTheme: CardTheme(color: ThemeColor.cardBgColor),
-    scaffoldBackgroundColor: ThemeColor.bgColor, // Màu nền của scaffold
-    // backgroundColor: ThemeColor.bgColor,
+    cardTheme: CardTheme(color: ThemeColor.bgColor2),
   );
   static ThemeData lightTheme = ThemeData(
     primaryColor: Colors.indigo,
