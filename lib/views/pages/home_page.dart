@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/home_controller.dart';
+import '/controllers/home_controller.dart';
+import '/views/pages/widget/drawer_wdget.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -44,13 +45,14 @@ class HomeView extends StatelessWidget {
             ),
           ],
           onDestinationSelected: (destination) {
-            _homeController.onNavigationIndexChange(destination);
+            Get.offAllNamed(_homeController.menuItems[destination].route);
+            // _homeController.onNavigationIndexChange(destination);
           },
         ),
         VerticalDivider(
           width: 1,
           thickness: 1,
-          color: Colors.grey[300],
+          color: const Color.fromARGB(255, 211, 19, 19),
         ),
         Expanded(
           child: _homeController.selectedContent.value,
@@ -61,31 +63,15 @@ class HomeView extends StatelessWidget {
 
   Widget drawerView() {
     // final title = Get.arguments as String;
-    return Obx(() => Row(
-          children: [
-            Drawer(
-              width: 164,
-              child: Column(
-                children: [
-                  for (int i = 0; i < _homeController.menuItems.length; i++)
-                    ListTile(
-                      leading: Icon(_homeController.menuItems[i].icon),
-                      title: Text(_homeController.menuItems[i].title),
-                      selected: _homeController.selectedIndex.value == i,
-                      onTap: () {
-                        _homeController.selectedIndex.value = i;
-                        _homeController.selectedContent.value =
-                            // _homeController.menuItems[i].
-                            _homeController.setSelectedContent(i);
-                      },
-                    ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: _homeController.selectedContent.value,
-            ),
-          ],
-        ));
+    return Obx(
+      () => Row(
+        children: [
+          AppDrawer(),
+          Expanded(
+            child: _homeController.selectedContent.value,
+          ),
+        ],
+      ),
+    );
   }
 }

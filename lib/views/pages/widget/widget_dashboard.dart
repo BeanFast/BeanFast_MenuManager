@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class InfoCard extends StatelessWidget {
-  final Color color;
+  // final Color color;
   final IconData icon;
   final String label;
   final String amount;
 
   InfoCard(
-      {required this.color,
+      {
+        // required this.color,
       required this.icon,
       required this.label,
       required this.amount});
@@ -18,7 +19,7 @@ class InfoCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: color,
+        // color: color,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

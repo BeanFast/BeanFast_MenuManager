@@ -4,9 +4,14 @@ import 'package:get_storage/get_storage.dart';
 
 import 'binding.dart';
 import 'views/pages/splash_page.dart';
+import 'contrains/theme.dart';
+import 'controllers/home_controller.dart';
+import 'views/pages/dashboard_page.dart';
+import 'views/pages/food_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
+    Get.put(HomeController());
   runApp(const MyApp());
 }
 
@@ -19,12 +24,25 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BeanFast',
+      theme: AppTheme.defaulTheme,
       initialRoute: "/",
       getPages: [
         GetPage(
           name: '/',
           page: () => SplashView(),
           binding: AuthBindingController(), // create dependencie auth
+          // transition: Transition.fade,
+        ),
+        GetPage(
+          name: '/dashboard',
+          page: () => DashboardView(),
+          binding: FoodBindingController(),
+          // transition: Transition.fade,
+        ),
+        GetPage(
+          name: '/food',
+          page: () => FoodView(),
+          binding: FoodBindingController(),
           // transition: Transition.fade,
         ),
       ],

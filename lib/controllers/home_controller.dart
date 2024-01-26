@@ -1,5 +1,5 @@
 import 'package:beanfast_menumanager/utils/logger.dart';
-import 'package:beanfast_menumanager/views/pages/dashboard_page.dart';
+import '/views/pages/dashboard_page.dart';
 import 'package:beanfast_menumanager/views/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,23 +15,23 @@ class HomeController extends GetxController {
 
   // menu mặc định
   List<MenuItem> menuItems = [
-    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard),
-    const MenuItem(title: 'Thức ăn', icon: Icons.fastfood),
-    const MenuItem(title: 'Thực đơn', icon: Icons.menu),
-    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment),
-    const MenuItem(title: 'Quà', icon: Icons.card_giftcard),
-    const MenuItem(title: 'Khách hàng', icon: Icons.assignment_ind),
+    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard, route: '/dashboard'),
+    const MenuItem(title: 'Thức ăn', icon: Icons.fastfood, route: '/food'),
+    const MenuItem(title: 'Thực đơn', icon: Icons.menu, route: '/menu'),
+    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment, route: '/order'),
+    const MenuItem(title: 'Quà', icon: Icons.card_giftcard, route: '/gift'),
+    const MenuItem(title: 'Khách hàng', icon: Icons.assignment_ind, route: '/customer'),
     // const MenuItem(title: 'Khách hàng', icon: Icons.settings),// deliverer
-    const MenuItem(title: 'Bếp', icon: Icons.kitchen),
-    const MenuItem(title: 'Trường', icon: Icons.school),
-    const MenuItem(title: 'Cài đặt', icon: Icons.settings),
+    const MenuItem(title: 'Bếp', icon: Icons.kitchen, route: '/kitchen'),
+    const MenuItem(title: 'Trường', icon: Icons.school, route: '/school'),
+    const MenuItem(title: 'Cài đặt', icon: Icons.settings, route: '/settings'),
   ];
 
   // index là vị trí của menuItems
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return DashboardSample(isShowingMainData: false,);
+        return DashboardView();
       case 1:
         return FoodView();
       case 2:
@@ -65,7 +65,7 @@ class HomeController extends GetxController {
 
 Widget initSelectedContent() {
   logger.i('initSelectedContent');
-  return DashboardSample(isShowingMainData: false,);
+  return DashboardView();
 }
 
 Widget colorBlue() {

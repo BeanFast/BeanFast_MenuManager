@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class DashboardSample extends StatelessWidget {
-  DashboardSample({super.key, required this.isShowingMainData});
+class DashboardView extends StatelessWidget {
+  DashboardView({super.key});
   DashboardController _dashboardController = Get.put(DashboardController());
-  final bool isShowingMainData;
   DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class DashboardSample extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               children: [
-                Spacer(), 
+                Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: FloatingActionButton.extended(
@@ -47,7 +46,7 @@ class DashboardSample extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: FloatingActionButton.extended(
                     icon: Icon(Icons.calendar_today), // Add your icon here
                     label: Obx(
@@ -80,7 +79,6 @@ class DashboardSample extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
-                      color: Colors.grey,
                       icon: Icons.money,
                       label: 'Transafer via \nCard number',
                       amount: '1200'),
@@ -90,7 +88,6 @@ class DashboardSample extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
-                      color: Colors.grey,
                       icon: Icons.money,
                       label: 'Transafer via \nOnline Banks',
                       amount: '1200'),
@@ -100,7 +97,6 @@ class DashboardSample extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
-                      color: Colors.grey,
                       icon: Icons.chair,
                       label: 'Transafer \nSame Bank',
                       amount: '1200'),
@@ -110,7 +106,6 @@ class DashboardSample extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
-                      color: Colors.grey,
                       icon: Icons.home,
                       label: 'Transafer to \nOther Bank',
                       amount: '1200'),
@@ -121,7 +116,6 @@ class DashboardSample extends StatelessWidget {
           Row(children: [
             Expanded(
               child: Card(
-                color: Colors.red,
                 margin: const EdgeInsets.only(
                     left: 10, top: 15, right: 10, bottom: 0),
                 child: SingleChildScrollView(
@@ -145,7 +139,7 @@ class DashboardSample extends StatelessWidget {
                       height: 450,
                       child: LineChart(
                         // isShowingMainData ? sampleData1 : sampleData2,
-                        isShowingMainData ? sampleData2 : sampleData2,
+                        sampleData2,
                         duration: const Duration(milliseconds: 250),
                       ),
                     ),
@@ -155,7 +149,6 @@ class DashboardSample extends StatelessWidget {
             ),
             Expanded(
               child: Card(
-                color: Colors.red,
                 margin: const EdgeInsets.only(
                     left: 10, top: 15, right: 10, bottom: 0),
                 child: SingleChildScrollView(
@@ -179,7 +172,7 @@ class DashboardSample extends StatelessWidget {
                       height: 450,
                       child: LineChart(
                         // isShowingMainData ? sampleData1 : sampleData2,
-                        isShowingMainData ? sampleData2 : sampleData2,
+                        sampleData2,
                         duration: const Duration(milliseconds: 250),
                       ),
                     ),
@@ -191,7 +184,6 @@ class DashboardSample extends StatelessWidget {
           Row(children: [
             Expanded(
               child: Card(
-                color: Colors.red,
                 margin: const EdgeInsets.only(
                     left: 10, top: 15, right: 10, bottom: 0),
                 child: SingleChildScrollView(
@@ -215,7 +207,7 @@ class DashboardSample extends StatelessWidget {
                       height: 450,
                       child: LineChart(
                         // isShowingMainData ? sampleData1 : sampleData2,
-                        isShowingMainData ? sampleData2 : sampleData2,
+                        sampleData2,
                         duration: const Duration(milliseconds: 250),
                       ),
                     ),
@@ -225,7 +217,6 @@ class DashboardSample extends StatelessWidget {
             ),
             Expanded(
               child: Card(
-                color: Colors.red,
                 margin: const EdgeInsets.only(
                     left: 10, top: 15, right: 10, bottom: 0),
                 child: SingleChildScrollView(
@@ -249,7 +240,7 @@ class DashboardSample extends StatelessWidget {
                       height: 450,
                       child: LineChart(
                         // isShowingMainData ? sampleData1 : sampleData2,
-                        isShowingMainData ? sampleData2 : sampleData2,
+                        sampleData2,
                         duration: const Duration(milliseconds: 250),
                       ),
                     ),
