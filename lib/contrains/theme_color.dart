@@ -9,10 +9,11 @@ class ThemeColor {
   // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
   
   static Color bgColor = HexColor("#FFFFFF");
-  static Color bgColor2 = HexColor('#e9f6f4');
+  static Color bgColor2 = HexColor('#f3fbf7');
+  static Color primaryColor = HexColor('#C3EBD7');
+  static Color inputColor = HexColor('#26AA91');
+  static Color textColor = HexColor('#070908');
   
-  static Color primaryColor = const Color.fromRGBO(38,170,145, 1);
-  static Color textColor = const Color.fromRGBO(15, 12, 12, 1);
 }
 Color HexColor(String hex) {
   final buffer = StringBuffer();

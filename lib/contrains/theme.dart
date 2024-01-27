@@ -4,32 +4,63 @@ import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
-    scaffoldBackgroundColor: ThemeColor.bgColor, // Màu nền của scaffold
-    primaryColor: ThemeColor.primaryColor, // Màu chính của ứng dụng
+    scaffoldBackgroundColor: ThemeColor.bgColor,
+    primaryColor: ThemeColor.primaryColor,
     primaryTextTheme: TextTheme(
       headlineSmall: TextStyle(color: ThemeColor.textColor),
       titleSmall: TextStyle(color: ThemeColor.textColor, fontSize: 16),
-      bodySmall: TextStyle(color: ThemeColor.textColor, fontSize: 13),
+      bodySmall: TextStyle(color: ThemeColor.textColor, fontSize: 12),
     ),
-    appBarTheme: AppBarTheme(color: ThemeColor.bgColor2),
+    // textTheme: TextTheme(titleMedium: ),
+    listTileTheme: ListTileThemeData(
+      selectedColor: ThemeColor.inputColor,
+    ),
+    highlightColor: ThemeColor.primaryColor,
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: ThemeColor.inputColor,
+      ), // Màu chữ khi có label
+      // hintStyle: TextStyle(fontSize: 1), // Màu chữ hint
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ThemeColor.inputColor),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ThemeColor.inputColor),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      // border: OutlineInputBorder(
+      //   borderSide: BorderSide(
+      //     color: ThemeColor.primaryColor,
+      //     width: 2.0,
+      //   ),
+      //   borderRadius: BorderRadius.circular(10),
+      // ),
+
+      // filled: true,
+      // fillColor: Colors.grey[200],
+    ),
+    appBarTheme: AppBarTheme(color: ThemeColor.primaryColor),
     snackBarTheme: SnackBarThemeData(backgroundColor: ThemeColor.bgColor),
-    navigationRailTheme: NavigationRailThemeData(backgroundColor: ThemeColor.bgColor),
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: ThemeColor.bgColor,
+      indicatorColor: ThemeColor.primaryColor,
+    ),
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: ThemeColor.bgColor),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: ThemeColor.bgColor),
-    cardTheme: CardTheme(color: ThemeColor.bgColor2),
-  );
-  static ThemeData lightTheme = ThemeData(
-    primaryColor: Colors.indigo,
-    // accentColor: Colors.orange,
-    scaffoldBackgroundColor: ThemeColor.bgColor,
-  );
-  static ThemeData darkTheme = ThemeData(
-    primaryColor: Colors.indigo,
-    // accentColor: Colors.orange,
-    scaffoldBackgroundColor:
-        ThemeColor.bgColor, // Màu nền của scaffold trong chủ đề tối
-    // Các thuộc tính khác của chủ đề tối
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        extendedTextStyle: TextStyle(color: ThemeColor.primaryColor),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        backgroundColor: ThemeColor.primaryColor,
+        elevation: 0.8,
+        hoverElevation: 1),
+    cardTheme: CardTheme(
+      color: ThemeColor.bgColor2,
+      shadowColor: ThemeColor.bgColor,
+      elevation: 0.5,
+    ),
   );
 }
 

@@ -11,7 +11,7 @@ import 'views/pages/food_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
-    Get.put(HomeController());
+  Get.put(HomeController());
   runApp(const MyApp());
 }
 

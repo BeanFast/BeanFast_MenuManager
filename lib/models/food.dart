@@ -1,39 +1,43 @@
 class Food {
-  final String id;
-  final String categoryId;
-  final String code;
-  final String name;
-  final double price;
-  final String description;
-  final bool isCombo;
-  final String imagePath;
-  final int status;
+  String? id;
+  String? categoryId;
+  String? code;
+  String? name;
+  double? price;
+  String? description;
+  bool? isCombo;
+  String? imagePath;
+  int? status;
+  // List<String>? collectionIds;
+  // List<String>? extraCategoryIds;
 
   Food(
-      {required this.id,
-      required this.categoryId,
-      required this.code,
-      required this.name,
-      required this.price,
-      required this.description,
-      required this.isCombo,
-      required this.imagePath,
-      required this.status});
+      {this.id,
+      this.categoryId,
+      this.code,
+      this.name,
+      this.price,
+      this.description,
+      this.isCombo,
+      this.imagePath,
+      this.status});
 
   @override
   String toString() {
     return 'Food(id: $id, categoryId: $categoryId, code: $code, name: $name, price: $price, description: $description, isCombo: $isCombo, isCombo: $isCombo, imagePath: $imagePath, status: $status)';
   }
 
-  // factory Food.fromJson(dynamic json) => Food(
-  //     accessToken: json['accessToken'],
-  //     id: json["id"],
-  //     storeId: json["storeId"],
-  //     name: json['name'],
-  //     userName: json['username'] as String,
-  //     userRole: json['role'],
-  //     status: json['status'],
-  //     picUrl: json['picUrl'] ?? "");
+  factory Food.fromJson(dynamic json) => Food(
+        id: json['id'],
+        categoryId: json["categoryId"],
+        code: json["code"],
+        name: json['name'],
+        price: json['price'],
+        description: json['description'],
+        isCombo: json['isCombo'],
+        imagePath: json['imagePath'] ?? "",
+        status: json['status'],
+      );
 
   // Map<String, dynamic> toJson() {
   //   return {

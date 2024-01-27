@@ -14,8 +14,8 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Admin page'),
         automaticallyImplyLeading: false,
-        leading: ElevatedButton(
-          child: const Icon(Icons.menu),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
           onPressed: () {
             _homeController.toggleNavigation();
           },

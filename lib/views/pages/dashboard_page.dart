@@ -8,8 +8,7 @@ import 'package:intl/intl.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
-  DashboardController _dashboardController = Get.put(DashboardController());
-  DateTime selectedDate = DateTime.now();
+  final DashboardController _dashboardController = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +32,8 @@ class DashboardView extends StatelessWidget {
                     onPressed: () async {
                       final DateTime? picked = await showDatePicker(
                         context: context,
-                        initialDate: selectedDate,
+                        initialDate:
+                            _dashboardController.selectedDateStart.value,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2025),
                       );
@@ -58,7 +58,7 @@ class DashboardView extends StatelessWidget {
                     onPressed: () async {
                       final DateTime? picked = await showDatePicker(
                         context: context,
-                        initialDate: selectedDate,
+                        initialDate: _dashboardController.selectedDateEnd.value,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2025),
                       );

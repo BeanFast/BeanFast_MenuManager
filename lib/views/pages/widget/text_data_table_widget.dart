@@ -4,14 +4,13 @@ class TextDataTable extends StatelessWidget {
   final String data;
   final double width;
   final int maxLines;
-  final Color tooltipBgColor;
 
-  const TextDataTable(
-      {super.key,
-      required this.data,
-      required this.width,
-      required this.maxLines,
-      required this.tooltipBgColor});
+  const TextDataTable({
+    super.key,
+    required this.data,
+    required this.width,
+    required this.maxLines,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,6 @@ class TextDataTable extends StatelessWidget {
         showDuration: const Duration(milliseconds: 0),
         message: data,
         decoration: BoxDecoration(
-          color: tooltipBgColor,
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Text(
