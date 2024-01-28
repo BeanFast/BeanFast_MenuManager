@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyDataTable extends DataTableSource {
-  final List<DataRow> rows;
+  final RxList<DataRow> rows;
 
   MyDataTable({required this.rows});
 

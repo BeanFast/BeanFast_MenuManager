@@ -7,17 +7,37 @@ import '/utils/logger.dart';
 import '/utils/data_table.dart';
 
 class FoodController extends GetxController {
-  final searchController = TextEditingController();
-  RxList<Food> dataList = <Food>[].obs;
+  TextEditingController searchController = TextEditingController();
+  List<Food> dataList = <Food>[];
+  var string = ''.obs;
 
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
   RxList<DataRow> rows = <DataRow>[].obs;
 
-  List<Food> get filteredList => dataList
-      .where((e) =>
-          e.name!.toLowerCase().contains(searchController.text.toLowerCase()))
-      .toList();
+  // List<Food> get filteredList => dataList
+  //     .where((e) =>
+  //         e.name!.toLowerCase().contains(searchController.text.toLowerCase()))
+  //     .toList();
+
+  void searchName() {
+    dataList = dataList
+        .where((e) => e.name!
+            .toLowerCase()
+            .contains(searchController.value.text.toLowerCase()))
+        .toList();
+    setDataTable();
+    string.value = rows.length.toString();
+    // rows.map((e) => logger.i('message ${e.toString()}'));
+  }
+
+  void test() {
+    dataList.clear();
+    logger.i('${dataList.length}');
+    setDataTable();
+    string.value = rows.length.toString();
+    update();
+  }
 
   // void sortByColumn(int index) {
   //   columnIndex.value = index;
@@ -39,24 +59,31 @@ class FoodController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getFoods();
-    rows.value = setDataTable();
-    searchController.addListener(() {
-      dataList.removeLast();
-      // dataList.value = filteredList;
-      // update();
-    });
+    getData(); // init data
+    setDataTable();
+    ever(searchController.obs, (_) => searchName());
+    // searchController.addListener(() {
+    //   // string.value = searchController.text;
+    //   searchName();
+    //   //   dataList.value = searchName();
+    //   //   logger.i(dataList);
+    //   //   rows = setDataTable().obs;
+    //   // //   dataList.removeLast();
+    //   // //   dataList.value = filteredList;
+    //   // //   rows = setDataTable().obs;
+    //   update();
+    // });
   }
 
-  void getFoods() async {
+  void getData() async {
     // final apiDataList = await Api().getData();
     for (var e in apiDataList) {
       dataList.add(Food.fromJson(e));
     }
   }
 
-  List<DataRow> setDataTable() {
-    return dataList.map((dataMap) {
+  void setDataTable() {
+    rows.value = dataList.map((dataMap) {
       return DataRow(
         cells: [
           DataCell(Text((dataList.indexOf(dataMap) + 1).toString())),

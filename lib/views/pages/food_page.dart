@@ -13,7 +13,6 @@ class FoodView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<DataRow> rows = _foodController.rows;
     logger.i('build FoodView');
     return Scaffold(
       body: Padding(
@@ -53,42 +52,49 @@ class FoodView extends StatelessWidget {
                       },
                       label: const Text('Thêm'),
                     ),
+                    FloatingActionButton.extended(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        _foodController.test();
+                      },
+                      label: const Text('set'),
+                    ),
                   ],
                 ),
               ),
             ),
-            Obx(
-              () => PaginatedDataTable(
-                // header:
-                sortColumnIndex: _foodController.columnIndex.value,
-                sortAscending: _foodController.columnAscending.value,
-                rowsPerPage: 10, // Number of rows per page
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: const Text('STT'),
-                    onSort: (index, ascending) => {},
-                  ),
-                  DataColumn(
-                    label: const Text('Code'),
-                    onSort: (index, ascending) {
-                      _foodController.dataList
-                          .sort((a, b) => a.code!.compareTo(b.name!));
-                      if (!_foodController.columnAscending.value) {
-                        _foodController.dataList =
-                            _foodController.dataList.reversed.toList().obs;
-                      }
-                    },
-                  ),
-                  DataColumn(label: Text('Hình ảnh')),
-                  DataColumn(label: Text('Tên sản phẩm')),
-                  DataColumn(label: Text('Giá')),
-                  DataColumn(label: Text('Loại')),
-                  DataColumn(label: Text('Trạng thái')),
-                  DataColumn(label: Text(' ')),
-                ],
-                source: MyDataTable(rows: rows),
-              ),
-            ),
+            Obx(() => PaginatedDataTable(
+                  sortColumnIndex: _foodController.columnIndex.value,
+                  sortAscending: _foodController.columnAscending.value,
+                  rowsPerPage: 10,
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: const Text('Stt'),
+                      onSort: (index, ascending) => {},
+                    ),
+                    DataColumn(
+                      label: const Text('Code'),
+                      onSort: (index, ascending) {},
+                    ),
+                    const DataColumn(label: Text('Hình ảnh')),
+                    DataColumn(
+                      label: const Text('Tên sản phẩm'),
+                      onSort: (index, ascending) {},
+                    ),
+                    DataColumn(
+                      label: const Text('Giá'),
+                      onSort: (index, ascending) {},
+                    ),
+                    DataColumn(
+                      label: const Text('Loại'),
+                      onSort: (index, ascending) {},
+                    ),
+                    const DataColumn(label: Text('Trạng thái')),
+                    const DataColumn(label: Text(' ')),
+                  ],
+                  source: MyDataTable(rows: _foodController.rows),
+                )),
+            Obx(() => Text(_foodController.string.value)),
           ],
         ),
       ),
