@@ -34,14 +34,20 @@ class FoodView extends StatelessWidget {
                 height: 40,
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 400,
-                      child: TextField(
-                        controller: _foodController.searchController,
-                        decoration: const InputDecoration(
-                          labelText: 'Tìm kiếm',
+                    Expanded(
+                      child: SizedBox(
+                        width: 400,
+                        child: TextField(
+                          // controller: _foodController.searchController,
+                          onChanged: (value) {
+                            _foodController.searchString.value = value;
+                            _foodController.searchName();
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'Tìm kiếm',
+                          ),
+                          style: Get.theme.textTheme.bodyMedium,
                         ),
-                        style: Get.theme.textTheme.bodyMedium,
                       ),
                     ),
                     const Spacer(),
@@ -51,13 +57,6 @@ class FoodView extends StatelessWidget {
                         showCreateFoodDialog();
                       },
                       label: const Text('Thêm'),
-                    ),
-                    FloatingActionButton.extended(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        _foodController.test();
-                      },
-                      label: const Text('set'),
                     ),
                   ],
                 ),
@@ -70,7 +69,9 @@ class FoodView extends StatelessWidget {
                   columns: <DataColumn>[
                     DataColumn(
                       label: const Text('Stt'),
-                      onSort: (index, ascending) => {},
+                      onSort: (index, ascending) => {
+
+                      },
                     ),
                     DataColumn(
                       label: const Text('Code'),
@@ -92,9 +93,10 @@ class FoodView extends StatelessWidget {
                     const DataColumn(label: Text('Trạng thái')),
                     const DataColumn(label: Text(' ')),
                   ],
-                  source: MyDataTable(rows: _foodController.rows),
+                  // ignore: invalid_use_of_protected_member
+                  source: MyDataTable(rows: _foodController.rows.value),
                 )),
-            Obx(() => Text(_foodController.string.value)),
+            Obx(() => Text(_foodController.searchString.value)),
           ],
         ),
       ),
