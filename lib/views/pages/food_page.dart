@@ -67,28 +67,23 @@ class FoodView extends StatelessWidget {
                   sortAscending: _foodController.columnAscending.value,
                   rowsPerPage: 10,
                   columns: <DataColumn>[
-                    DataColumn(
-                      label: const Text('Stt'),
-                      onSort: (index, ascending) => {
-
-                      },
+                    const DataColumn(
+                      label: Text('Stt'),
                     ),
-                    DataColumn(
-                      label: const Text('Code'),
-                      onSort: (index, ascending) {},
+                    const DataColumn(
+                      label: Text('Code'),
                     ),
                     const DataColumn(label: Text('Hình ảnh')),
                     DataColumn(
-                      label: const Text('Tên sản phẩm'),
-                      onSort: (index, ascending) {},
-                    ),
+                        label: const Text('Tên sản phẩm'),
+                        onSort: (index, ascending) =>
+                            _foodController.sortByName(index)),
                     DataColumn(
-                      label: const Text('Giá'),
-                      onSort: (index, ascending) {},
-                    ),
-                    DataColumn(
-                      label: const Text('Loại'),
-                      onSort: (index, ascending) {},
+                        label: const Text('Giá'),
+                        onSort: (index, ascending) =>
+                            _foodController.sortByPrice(index)),
+                    const DataColumn(
+                      label: Text('Loại'),
                     ),
                     const DataColumn(label: Text('Trạng thái')),
                     const DataColumn(label: Text(' ')),

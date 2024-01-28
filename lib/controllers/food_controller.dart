@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 
 import '/models/food.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
-import '/utils/logger.dart';
-import '/utils/data_table.dart';
+// import '/utils/logger.dart';
 
 class FoodController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -20,35 +19,39 @@ class FoodController extends GetxController {
     if (searchString.value == '') {
       setDataTable(initData);
     } else {
-      var filteredList = initData
+      dataList = initData
           .where((e) =>
               e.name!.toLowerCase().contains(searchString.value.toLowerCase()))
           .toList();
-      setDataTable(filteredList);
+      setDataTable(dataList);
     }
   }
 
-  // void sortByColumn(int index) {
-  //   columnIndex.value = index;
-  //   columnAscending.value = !columnAscending.value;
-  //   for (var item in dataList) {
-  //     if (item[index] is! Comparable) {
-  //       // Hiển thị lỗi hoặc xử lý trường hợp không thể so sánh
-  //       Get.snackbar("Lỗi", "Cột này không thể so sánh!");
-  //       return;
-  //     }
-  //   }
-  //   dataList.sort((a, b) => a[index].compareTo(b[index]));
-  // if (!columnAscending.value) {
-  //   dataList = dataList.reversed.toList();
-  // }
-  //   rows = getData();
-  //   update(); // Thông báo giao diện cập nhật
-  // }
+  void sortByName(int index) {
+    columnIndex.value = index;
+    columnAscending.value = !columnAscending.value;
+    dataList.sort((a, b) => a.name!.compareTo(b.name!));
+    if (!columnAscending.value) {
+      dataList = dataList.reversed.toList();
+    }
+    setDataTable(dataList);
+  }
+
+  void sortByPrice(int index) {
+    columnIndex.value = index;
+    columnAscending.value = !columnAscending.value;
+    dataList.sort((a, b) => a.price!.compareTo(b.price!));
+    if (!columnAscending.value) {
+      dataList = dataList.reversed.toList();
+    }
+    setDataTable(dataList);
+  }
+
   @override
   void onInit() {
     super.onInit();
     getData(initData); // init data
+    dataList = initData;
     setDataTable(initData); // init data table
   }
 
@@ -102,7 +105,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '2',
     'code': 'Value2',
     'name': 'Value2',
-    'price': 100000,
+    'price': 1000010,
     'description': 'Value2',
     'isCombo': false,
     'imagePath': 'Value2',
@@ -113,7 +116,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '1',
     'code': 'Value3',
     'name': 'Value3',
-    'price': 100000,
+    'price': 1002000,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
@@ -124,7 +127,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '4',
     'code': 'Value4',
     'name': 'Value4',
-    'price': 100000,
+    'price': 1000300,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
@@ -135,7 +138,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '5',
     'code': 'Value5',
     'name': 'Value5',
-    'price': 100000,
+    'price': 1000040,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
@@ -146,7 +149,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '1',
     'code': 'Value6',
     'name': 'Value6',
-    'price': 100000,
+    'price': 1000005,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
@@ -168,7 +171,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '1',
     'code': 'Value8',
     'name': 'Value8',
-    'price': 100000,
+    'price': 1000100,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
@@ -190,7 +193,7 @@ List<Map<String, dynamic>> apiDataList = [
     'categoryId': '1',
     'code': 'Value10',
     'name': 'Value10',
-    'price': 100000,
+    'price': 1000030,
     'description': 'Value1',
     'isCombo': false,
     'imagePath': 'Value1',
