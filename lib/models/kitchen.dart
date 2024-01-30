@@ -1,34 +1,32 @@
-class School {
+class Kitchen {
   String? id;
   String? areaId;
-  String? kitchenId;
   String? code;
   String? name;
   String? address;
   String? imagePath;
   int? status;
-  List<String>? locationIds;
-  List<String>? profileIds;
+  List<String>? schoolIds;
+  List<String>? menuIds;
 
-  School(
+  Kitchen(
       {this.id,
       this.areaId,
-      this.kitchenId,
       this.code,
       this.name,
       this.address,
       this.imagePath,
-      this.status});
+      this.status
+      });
 
   @override
   String toString() {
-    return 'Food(id: $id, areaId: $areaId, kitchenId: $kitchenId, code: $code, name: $name, address: $address, imagePath: $imagePath, status: $status)';
+    return 'Food(id: $id, areaId: $areaId, code: $code, name: $name, address: $address, imagePath: $imagePath, status: $status)';
   }
 
-  factory School.fromJson(dynamic json) => School(
+  factory Kitchen.fromJson(dynamic json) => Kitchen(
         id: json['id'],
         areaId: json["areaId"],
-        kitchenId: json["kitchenId"],
         code: json['code'],
         name: json['name'],
         address: json['address'],

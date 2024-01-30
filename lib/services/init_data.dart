@@ -122,7 +122,7 @@ List<Map<String, dynamic>> apiDataFoodList = [
   },
 ];
 
-List<Map<String, dynamic>> apiDataShoolList = [
+List<Map<String, dynamic>> apiDataSchoolList = [
   {
     'id': '1',
     'areaId': '1',
@@ -173,4 +173,46 @@ List<Map<String, dynamic>> apiDataShoolList = [
     'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
+];
+
+List<Map<String, dynamic>> apiDataKitchenList = [
+  {
+    'id': '1',
+    'areaId': '1',
+    'code': 'Value1',
+    'name': 'Value1',
+    'address': 'Value1',
+    'imagePath': 'https://static.vecteezy.com/system/resources/thumbnails/011/743/306/small/kitchen-logo-design-illustration-vintage-menu-for-the-restaurant-vector.jpg',
+    'status': 1,
+  },
+  {
+    'id': '2',
+    'areaId': '1',
+    'code': 'Value2',
+    'name': 'Value2',
+    'address': 'Value1',
+    'imagePath': 'https://www.zarla.com/images/zarla-our-kitchen-1x1-2400x2400-20211105-h3rkb8t4qvc74kx6bjpt.png',
+    'status': 1,
+  },
+];
+
+List<Map<String, dynamic>> apiDataMenuList = [
+  {
+    'id': '1',
+    'kitchenId': '1',
+    'createrId': 'Value2',
+    'updaterId': 'Value1',
+    'createDate': '2024-01-18 16:40:00.000',
+    'updateDate': '2024-01-18 16:40:00.000',
+    'status': 1,
+  },
+  // {
+  //   'id': '2',
+  //   'areaId': '1',
+  //   'code': 'Value2',
+  //   'name': 'Value2',
+  //   'address': 'Value1',
+  //   'imagePath': '02-01-2024',
+  //   'status': 1,
+  // },
 ];

@@ -2,17 +2,17 @@ import 'package:beanfast_menumanager/views/pages/menu_management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/food.dart';
+import '/models/kitchen.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 
-class FoodDataRow {
+class KitchenDataRow {
   final int index;
-  final Food food;
+  final Kitchen kitchen;
 
-  const FoodDataRow({
+  const KitchenDataRow({
     required this.index,
-    required this.food,
+    required this.kitchen,
   });
 
   DataRow getRow() {
@@ -21,7 +21,7 @@ class FoodDataRow {
         DataCell(Text((index + 1).toString())),
         DataCell(
           TextDataTable(
-            data: food.code.toString(),
+            data: kitchen.code.toString(),
             maxLines: 2,
             width: 100,
           ),
@@ -31,21 +31,24 @@ class FoodDataRow {
             // height: ,
             width: 100,
             child: Image.network(
-              food.imagePath.toString(),
+              kitchen.imagePath.toString(),
               fit: BoxFit.fitWidth,
             ),
           ),
         ),
         DataCell(
           TextDataTable(
-            data: food.name.toString(),
+            data: kitchen.name.toString(),
             maxLines: 2,
             width: 200,
           ),
         ),
-        DataCell(Text(food.price.toString())),
-        DataCell(Text(food.categoryId.toString())),
-        DataCell(Text(food.status.toString())),
+        DataCell(Text(kitchen.address.toString())),
+        DataCell(Text(kitchen.schoolIds.toString())),
+        DataCell(Text(kitchen.schoolIds == null
+            ? '0'
+            : kitchen.schoolIds!.length.toString())),
+        DataCell(Text(kitchen.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),

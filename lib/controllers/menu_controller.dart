@@ -1,16 +1,16 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '/models/food.dart';
+import '/models/menu.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/food_row_data_table.dart';
+import '/views/pages/widget/menu_row_data_table.dart';
+import '/utils/logger.dart';
 
-class FoodController extends GetxController {
+class MenuController extends GetxController {
   TextEditingController searchController = TextEditingController();
-  List<Food> initData = <Food>[];
-  List<Food> dataList = <Food>[];
+  List<Menu> initData = <Menu>[];
+  List<Menu> dataList = <Menu>[];
   RxList<DataRow> rows = <DataRow>[].obs;
   Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
@@ -24,26 +24,16 @@ class FoodController extends GetxController {
     } else {
       dataList = initData
           .where((e) =>
-              e.name!.toLowerCase().contains(searchString.value.toLowerCase()))
+              e.code!.toLowerCase().contains(searchString.value.toLowerCase()))
           .toList();
       setDataTable(dataList);
     }
   }
 
-  void sortByName(int index) {
+  void sortByCreateDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    dataList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
-    }
-    setDataTable(dataList);
-  }
-
-  void sortByPrice(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    dataList.sort((a, b) => a.price!.compareTo(b.price!));
+    dataList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
     }
@@ -68,23 +58,22 @@ class FoodController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initData.clear;
     getData(initData); // init data
     dataList = initData;
     setDataTable(initData); // init data table
   }
 
-  void getData(List<Food> list) async {
-    logger.i('food getData');
+  void getData(List<Menu> list) async {
+    logger.i('menu getData');
     // final apiDataList = await Api().getData();
-    for (var e in apiDataFoodList) {
-      list.add(Food.fromJson(e));
+    for (var e in apiDataMenuList) {
+      list.add(Menu.fromJson(e));
     }
   }
 
-  void setDataTable(List<Food> list) {
+  void setDataTable(List<Menu> list) {
     rows.value = list.map((dataMap) {
-      return FoodDataRow(index: list.indexOf(dataMap), food: dataMap).getRow();
+      return MenuDataRow(index: list.indexOf(dataMap), menu: dataMap).getRow();
     }).toList();
   }
 }

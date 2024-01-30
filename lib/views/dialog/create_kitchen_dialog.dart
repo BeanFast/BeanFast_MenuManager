@@ -1,8 +1,10 @@
-import 'package:beanfast_menumanager/views/dialog/create_gate_dialog.dart';
+import 'package:beanfast_menumanager/controllers/kitchen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showCreateSchoolDialog() {
+import '/views/dialog/create_gate_dialog.dart';
+
+void showCreateKitchenDialog() {
   Get.dialog(
     ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 1000),
@@ -13,14 +15,16 @@ void showCreateSchoolDialog() {
             width: 990,
             child: ListBody(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                  child: Image.network(
-                    'https://picsum.photos/250?image=9',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                Obx(() => Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                      child: Get.find<KitchenController>().imagePath.isEmpty
+                          ? const Text('No image selected')
+                          : Image.network(
+                              Get.find<KitchenController>().imagePath.value,
+                              fit: BoxFit.cover,
+                            ),
+                    )),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '/models/food.dart';
+import '/models/school.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/food_row_data_table.dart';
+import '/views/pages/widget/school_row_data_table.dart';
 
-class FoodController extends GetxController {
+class SchoolController extends GetxController {
   TextEditingController searchController = TextEditingController();
-  List<Food> initData = <Food>[];
-  List<Food> dataList = <Food>[];
+  List<School> initData = <School>[];
+  List<School> dataList = <School>[];
   RxList<DataRow> rows = <DataRow>[].obs;
   Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
@@ -40,16 +40,6 @@ class FoodController extends GetxController {
     setDataTable(dataList);
   }
 
-  void sortByPrice(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    dataList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
-    }
-    setDataTable(dataList);
-  }
-
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -68,23 +58,22 @@ class FoodController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initData.clear;
     getData(initData); // init data
     dataList = initData;
     setDataTable(initData); // init data table
   }
 
-  void getData(List<Food> list) async {
-    logger.i('food getData');
+  void getData(List<School> list) async {
+    logger.i('school getData');
     // final apiDataList = await Api().getData();
-    for (var e in apiDataFoodList) {
-      list.add(Food.fromJson(e));
+    for (var e in apiDataSchoolList) {
+      list.add(School.fromJson(e));
     }
   }
 
-  void setDataTable(List<Food> list) {
+  void setDataTable(List<School> list) {
     rows.value = list.map((dataMap) {
-      return FoodDataRow(index: list.indexOf(dataMap), food: dataMap).getRow();
+      return SchoolDataRow(index: list.indexOf(dataMap), school: dataMap).getRow();
     }).toList();
   }
 }

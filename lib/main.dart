@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/views/pages/menu_create_page.dart';
+import 'package:beanfast_menumanager/views/pages/menu_management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -43,6 +45,18 @@ class MyApp extends StatelessWidget {
           name: '/food',
           page: () => FoodView(),
           binding: FoodBindingController(),
+          // transition: Transition.fade,
+        ),
+        GetPage(
+          name: '/menu-management',
+          page: () => const MenuManagementView(),
+          // binding: FoodBindingController(),
+          // transition: Transition.fade,
+        ),
+        GetPage(
+          name: '/menu-create',
+          page: () => const MenuCreateView(),
+          // binding: FoodBindingController(),
           // transition: Transition.fade,
         ),
       ],

@@ -1,18 +1,18 @@
-import 'package:beanfast_menumanager/views/pages/menu_management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/food.dart';
+import '/models/school.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
+import '/views/pages/menu_management_page.dart';
 
-class FoodDataRow {
+class SchoolDataRow {
   final int index;
-  final Food food;
+  final School school;
 
-  const FoodDataRow({
+  const SchoolDataRow({
     required this.index,
-    required this.food,
+    required this.school,
   });
 
   DataRow getRow() {
@@ -21,7 +21,7 @@ class FoodDataRow {
         DataCell(Text((index + 1).toString())),
         DataCell(
           TextDataTable(
-            data: food.code.toString(),
+            data: school.code.toString(),
             maxLines: 2,
             width: 100,
           ),
@@ -31,25 +31,30 @@ class FoodDataRow {
             // height: ,
             width: 100,
             child: Image.network(
-              food.imagePath.toString(),
+              school.imagePath.toString(),
               fit: BoxFit.fitWidth,
             ),
           ),
         ),
         DataCell(
           TextDataTable(
-            data: food.name.toString(),
+            data: school.name.toString(),
             maxLines: 2,
             width: 200,
           ),
         ),
-        DataCell(Text(food.price.toString())),
-        DataCell(Text(food.categoryId.toString())),
-        DataCell(Text(food.status.toString())),
+        DataCell(Text(school.address.toString())),
+        DataCell(Text(school.locationIds.toString())),
+        DataCell(Text(school.kitchenId.toString())),
+        DataCell(Text(school.profileIds.toString())),
+        DataCell(Text(school.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
-            // DetailButtonDataTable(goToPage: Get.to(MenuManagementView())!),
+            IconButton(
+                onPressed: () => Get.toNamed('/menu-management'),
+                icon: Icon(Icons.abc)),
+            DetailButtonDataTable(goToPage: () {}),
             EditButtonDataTable(showDialog: () {}),
             DeleteButtonDataTable(agree: () {}),
           ],

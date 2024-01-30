@@ -15,7 +15,7 @@ void showCreateFoodDialog() {
             width: 990,
             child: ListBody(
               mainAxis: Axis.vertical,
-              children: <Widget>[
+              children: [
                 Obx(() => Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
