@@ -1,5 +1,6 @@
 import 'package:beanfast_menumanager/controllers/dashboard_controller.dart';
 import 'package:beanfast_menumanager/utils/line_chart.dart';
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:beanfast_menumanager/views/pages/widget/widget_dashboard.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,8 @@ import 'package:intl/intl.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
-  final DashboardController _dashboardController = Get.put(DashboardController());
+  final DashboardController _dashboardController =
+      Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,61 +18,85 @@ class DashboardView extends StatelessWidget {
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              children: [
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: FloatingActionButton.extended(
-                    icon: Icon(Icons.calendar_today), // Add your icon here
-                    label: Obx(
-                      () => Text(
-                        'Từ Ngày: ${_dashboardController.selectedDateStrStart}',
-                        style: TextStyle(color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                height: 40,
+                child: Row(
+                  children: [
+                    Spacer(
+                      flex: 5,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            label: Obx(
+                              () => Text(
+                                ' ${_dashboardController.selectedDateStrStart}',
+                                style: TextStyle(color: Colors.black),
+                                maxLines: 1,
+                              ),
+                            ),
+                            prefixIcon: Icon(Icons.calendar_today),
+                          ),
+                          onTap: () async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate:
+                                  _dashboardController.selectedDateStart.value,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2025),
+                            );
+                            if (picked != null) {
+                              _dashboardController.selectedDateStart.value =
+                                  picked;
+                              _dashboardController.selectedDateStrStart.value =
+                                  DateFormat('dd-MM-yyyy').format(picked);
+                            }
+                          },
+                        ),
                       ),
                     ),
-                    onPressed: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate:
-                            _dashboardController.selectedDateStart.value,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                      );
-                      if (picked != null) {
-                        _dashboardController.selectedDateStart.value = picked;
-                        _dashboardController.selectedDateStrStart.value =
-                            DateFormat('dd-MM-yyyy').format(picked);
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: FloatingActionButton.extended(
-                    icon: Icon(Icons.calendar_today), // Add your icon here
-                    label: Obx(
-                      () => Text(
-                        'Đến Ngày: ${_dashboardController.selectedDateStrEnd}',
-                        style: TextStyle(color: Colors.black),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            label: Obx(
+                              () => Text(
+                                ' ${_dashboardController.selectedDateStrEnd}',
+                                style: TextStyle(color: Colors.black),
+                                maxLines: 1,
+                              ),
+                            ),
+                            prefixIcon: Icon(Icons.calendar_today),
+                          ),
+                          onTap: () async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate:
+                                  _dashboardController.selectedDateEnd.value,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2025),
+                            );
+                            if (picked != null) {
+                              _dashboardController.selectedDateEnd.value =
+                                  picked;
+                              _dashboardController.selectedDateStrEnd.value =
+                                  DateFormat('dd-MM-yyyy').format(picked);
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                    onPressed: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: _dashboardController.selectedDateEnd.value,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                      );
-                      if (picked != null) {
-                        _dashboardController.selectedDateEnd.value = picked;
-                        _dashboardController.selectedDateStrEnd.value =
-                            DateFormat('dd-MM-yyyy').format(picked);
-                      }
-                    },
-                  ),
+                    )
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           Row(
