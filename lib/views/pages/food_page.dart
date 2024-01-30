@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/widget/button_data_table.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,13 +52,8 @@ class FoodView extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    FloatingActionButton.extended(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        showCreateFoodDialog();
-                      },
-                      label: const Text('Thêm'),
-                    ),
+                    const CreateButtonDataTable(
+                        showDialog: showCreateFoodDialog),
                   ],
                 ),
               ),
@@ -66,6 +62,7 @@ class FoodView extends StatelessWidget {
                   sortColumnIndex: _foodController.columnIndex.value,
                   sortAscending: _foodController.columnAscending.value,
                   rowsPerPage: 10,
+                  columnSpacing: 10,
                   columns: <DataColumn>[
                     const DataColumn(
                       label: Text('Stt'),

@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showDeleteFoodDialog() {
-  Get.defaultDialog(
-    // title: Text('Xác nhận'),
-    // content: Text('Bạn có chắc chắn muốn xoá món ăn này?'),
-    // actions: <Widget>[
-    //   TextButton(
-    //     child: Text('Đồng ý'),
-    //     onPressed: () {
-    //       Navigator.of(context).pop();
-    //     },
-    //   ),
-    //   TextButton(
-    //     child: Text('Đóng'),
-    //     onPressed: () {
-    //       Navigator.of(context).pop();
-    //     },
-    //   ),
-    // ],
-  );
+class DeleteDialog {
+  final void Function() agree;
+
+  const DeleteDialog({required this.agree});
+
+  showDialog() {
+    Get.defaultDialog(
+      title: 'Xác nhận',
+      content: const Text('Bạn có chắc chắn muốn xoá?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: agree,
+          child: const Text('Đồng ý'),
+        ),
+        TextButton(
+          child: const Text('Đóng'),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+      ],
+    );
+  }
 }

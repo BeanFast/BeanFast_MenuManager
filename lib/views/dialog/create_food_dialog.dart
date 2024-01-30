@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/controllers/food_controller.dart';
+
 void showCreateFoodDialog() {
+  final FoodController _foodController = Get.find();
   Get.dialog(
     ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 1000),
@@ -13,13 +16,25 @@ void showCreateFoodDialog() {
             child: ListBody(
               mainAxis: Axis.vertical,
               children: <Widget>[
+                Obx(() => Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                      child: _foodController.imagePath.isEmpty
+                          ? const Text('No image selected')
+                          : Image.network(
+                              _foodController.imagePath.value,
+                              fit: BoxFit.cover,
+                            ),
+                    )),
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                   child: FloatingActionButton.extended(
                     icon: const Icon(Icons.add),
                     label: const Text('Chọn Ảnh'),
-                    onPressed: () {},
+                    onPressed: () {
+                      _foodController.pickImage();
+                    },
                   ),
                 ),
                 Padding(

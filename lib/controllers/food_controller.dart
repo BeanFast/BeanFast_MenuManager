@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '/models/food.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
-// import '/utils/logger.dart';
+import '/services/init_data.dart';
+import '/views/pages/widget/food_row_data_table.dart';
 
 class FoodController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -11,6 +12,7 @@ class FoodController extends GetxController {
   List<Food> dataList = <Food>[];
   RxList<DataRow> rows = <DataRow>[].obs;
   Rx<String> searchString = ''.obs;
+  RxString imagePath = ''.obs;
 
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
@@ -47,6 +49,14 @@ class FoodController extends GetxController {
     setDataTable(dataList);
   }
 
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imagePath.value = pickedFile.path;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -57,157 +67,14 @@ class FoodController extends GetxController {
 
   void getData(List<Food> list) async {
     // final apiDataList = await Api().getData();
-    for (var e in apiDataList) {
+    for (var e in apiDataFoodList) {
       list.add(Food.fromJson(e));
     }
   }
 
   void setDataTable(List<Food> list) {
     rows.value = list.map((dataMap) {
-      return DataRow(
-        cells: [
-          DataCell(Text((list.indexOf(dataMap) + 1).toString())),
-          DataCell(TextDataTable(
-            data: dataMap.code.toString(),
-            maxLines: 2,
-            width: 100,
-          )),
-          DataCell(TextDataTable(
-            data: dataMap.imagePath.toString(),
-            maxLines: 2,
-            width: 100,
-          )),
-          DataCell(Text(dataMap.name!)),
-          DataCell(Text(dataMap.price.toString())),
-          DataCell(Text(dataMap.categoryId.toString())),
-          DataCell(Text(dataMap.status.toString())),
-          DataCell(Text(2.toString())),
-        ],
-      );
+      return FoodDataRow(index: list.indexOf(dataMap), food: dataMap).getRow();
     }).toList();
   }
 }
-
-List<Map<String, dynamic>> apiDataList = [
-  {
-    'id': '1',
-    'categoryId': '1',
-    'code': 'Value1',
-    'name': 'Value1',
-    'price': 100000,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '2',
-    'categoryId': '2',
-    'code': 'Value2',
-    'name': 'Value2',
-    'price': 1000010,
-    'description': 'Value2',
-    'isCombo': false,
-    'imagePath': 'Value2',
-    'status': 1,
-  },
-  {
-    'id': '3',
-    'categoryId': '1',
-    'code': 'Value3',
-    'name': 'Value3',
-    'price': 1002000,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '4',
-    'categoryId': '4',
-    'code': 'Value4',
-    'name': 'Value4',
-    'price': 1000300,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '5',
-    'categoryId': '5',
-    'code': 'Value5',
-    'name': 'Value5',
-    'price': 1000040,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '6',
-    'categoryId': '1',
-    'code': 'Value6',
-    'name': 'Value6',
-    'price': 1000005,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '7',
-    'categoryId': '1',
-    'code': 'Value7',
-    'name': 'Value7',
-    'price': 100000,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '8',
-    'categoryId': '1',
-    'code': 'Value8',
-    'name': 'Value8',
-    'price': 1000100,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '9',
-    'categoryId': '1',
-    'code': 'Value9',
-    'name': 'Value9',
-    'price': 100000,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '10',
-    'categoryId': '1',
-    'code': 'Value10',
-    'name': 'Value10',
-    'price': 1000030,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-  {
-    'id': '11',
-    'categoryId': '1',
-    'code': 'Value11',
-    'name': 'Value11',
-    'price': 100000,
-    'description': 'Value1',
-    'isCombo': false,
-    'imagePath': 'Value1',
-    'status': 1,
-  },
-];
