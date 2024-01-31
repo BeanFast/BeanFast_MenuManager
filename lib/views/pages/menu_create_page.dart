@@ -6,13 +6,14 @@ import 'package:intl/intl.dart';
 class MenuCreateView extends StatelessWidget {
   const MenuCreateView({super.key});
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
-          child: Column(
+          child: ListBody(
+            mainAxis: Axis.vertical,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 30),
@@ -23,101 +24,84 @@ class MenuCreateView extends StatelessWidget {
                   ),
                 ),
               ),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 150,
-                    height: 30,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: SizedBox(
-                        width: 150,
-                        height: 30,
+              const SizedBox(
+                height: 40,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
                         child: FloatingActionButton.extended(
                           onPressed: showAddFoodToMenuDialog,
                           label: Text('Thêm sản phẩm'),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 150,
-                    height: 30,
-                    child: SizedBox(
-                      width: 150,
-                      height: 30,
-                      child: FloatingActionButton.extended(
-                        onPressed: showAddComboToMenuDialog,
-                        label: Text('Thêm Combo'),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FloatingActionButton.extended(
+                          onPressed: showAddComboToMenuDialog,
+                          label: Text('Thêm Combo'),
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  // SizedBox(
-                  //   width: 150,
-                  //   height: 30,
-                  //   child: 
-                  //   CreateButtonDataTable(
-                  //       showDialog: showMenuSelectionDialog),
-                  // ),
-                ],
+                    Spacer(flex: 8),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FloatingActionButton.extended(
+                          onPressed: showAddComboToMenuDialog,
+                          label: Text('Tạo'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               DataTable(
                 columns: const <DataColumn>[
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Mã số sản phẩm',
-                      ),
+                    label: Text(
+                      'Code',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Hình ảnh',
-                      ),
+                    label: Text(
+                      'Hình ảnh',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Tên sản phẩm',
-                      ),
+                    label: Text(
+                      'Tên sản phẩm',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Mô tả',
-                      ),
+                    label: Text(
+                      'Mô tả',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Loại',
-                      ),
+                    label: Text(
+                      'Loại',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Combo',
-                      ),
+                    label: Text(
+                      'Combo',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Giá bản mặc định',
-                      ),
+                    label: Text(
+                      'Giá',
                     ),
                   ),
                   DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        'Giá bán',
-                      ),
+                    label: Text(
+                      'Giá bán',
                     ),
                   ),
                 ],
@@ -125,19 +109,24 @@ class MenuCreateView extends StatelessWidget {
                   DataRow(
                     cells: <DataCell>[
                       DataCell(Text('#011111')),
-                      DataCell(Image.network(
-                        'https://picsum.photos/250?image=9',
-                        fit: BoxFit.fitHeight,
+                      DataCell(SizedBox(
+                        width: 80,
+                        child: Image.network(
+                          'https://picsum.photos/250?image=9',
+                          fit: BoxFit.fitHeight,
+                        ),
                       )),
-                      DataCell(Text('Tên sản phẩm 1')),
+                      DataCell(Text('Tên sản phẩm 11111111111111111111111')),
                       DataCell(Text('Mô tả sản phẩm 1')),
                       DataCell(Text('Loại 1')),
                       DataCell(Text('No')),
-                      DataCell(Text('15.000 vnd')),
+                      DataCell(Text('300.000')),
                       DataCell(
-                        Container(
-                          width: 200,
+                        SizedBox(
+                          width: 150,
+                          height: 45,
                           child: TextFormField(
+                            initialValue: '150.000',
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               CurrencyInputFormatter(),
@@ -161,20 +150,24 @@ class MenuCreateView extends StatelessWidget {
                   DataRow(
                     cells: <DataCell>[
                       DataCell(Text('#011111')),
-                      DataCell(Image.network(
-                        'https://picsum.photos/250?image=9',
-                        fit: BoxFit.fitHeight,
+                      DataCell(SizedBox(
+                        width: 80,
+                        child: Image.network(
+                          'https://picsum.photos/250?image=9',
+                          fit: BoxFit.fitHeight,
+                        ),
                       )),
-                      DataCell(
-                          Text('Tên sản phẩm 11111111111111111111111')),
+                      DataCell(Text('Tên sản phẩm 11111111111111111111111')),
                       DataCell(Text('Mô tả sản phẩm 1')),
                       DataCell(Text('Loại 1')),
                       DataCell(Text('No')),
-                      DataCell(Text('15.000 vnd')),
+                      DataCell(Text('300.000')),
                       DataCell(
-                        Container(
-                          width: 200,
+                        SizedBox(
+                          width: 150,
+                          height: 45,
                           child: TextFormField(
+                            initialValue: '150.000',
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               CurrencyInputFormatter(),
@@ -233,7 +226,7 @@ class CurrencyInputFormatter extends TextInputFormatter {
 void showAddFoodToMenuDialog() {
   Get.dialog(
     ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 1200),
+      constraints: const BoxConstraints(maxWidth: 1200),
       child: AlertDialog(
         title: const Text('Thông tin món ăn'),
         content: SingleChildScrollView(
@@ -242,129 +235,105 @@ void showAddFoodToMenuDialog() {
             child: ListBody(
               mainAxis: Axis.vertical,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Expanded(
-                    child: TextField(
-                      // onChanged: (value) {
-                      //   _foodController.searchString.value = value;
-                      //   _foodController.searchName();
-                      // },
-                      decoration: const InputDecoration(
-                        labelText: 'Tìm theo tên sản phẩm / mã sản phẩm',
-                      ),
-                      style: Get.theme.textTheme.bodyMedium,
-                    ),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Tìm kiếm',
                   ),
+                  style: Get.theme.textTheme.bodyMedium,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Align(
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: DataTable(
-                          columns: const <DataColumn>[
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Mã số sản phẩm',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Hình ảnh',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Tên sản phẩm',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Mô tả',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Loại',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Giá bán',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  ' ',
-                                ),
-                              ),
-                            ),
-                          ],
-                          rows: <DataRow>[
-                            DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text('#011111')),
-                                DataCell(Image.network(
-                                  'https://picsum.photos/250?image=9',
-                                  fit: BoxFit.fitHeight,
-                                )),
-                                DataCell(Text('Tên sản phẩm ')),
-                                DataCell(Text('Mô tả sản phẩm 1')),
-                                DataCell(Text('Loại 1')),
-                                DataCell(Text('15.000 vnd')),
-                                DataCell(
-                                  SizedBox(
-                                    width: 100,
-                                    height: 30,
-                                    child: FloatingActionButton.extended(
-                                      onPressed: () {},
-                                      label: Text('Thêm'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text('#011111')),
-                                DataCell(Image.network(
-                                  'https://picsum.photos/250?image=9',
-                                  fit: BoxFit.fitHeight,
-                                )),
-                                DataCell(Text('Tên sản phẩm ')),
-                                DataCell(Text('Mô tả sản phẩm 1')),
-                                DataCell(Text('Loại 1')),
-                                DataCell(Text('15.000 vnd')),
-                                DataCell(
-                                  SizedBox(
-                                    width: 100,
-                                    height: 30,
-                                    child: FloatingActionButton.extended(
-                                      onPressed: () {},
-                                      label: Text('Thêm'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                SingleChildScrollView(
+                  child: DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Mã số sản phẩm',
                         ),
                       ),
-                    ),
+                      DataColumn(
+                        label: Text(
+                          'Hình ảnh',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Tên sản phẩm',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Mô tả',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Loại',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Giá bán',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          ' ',
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('#011111')),
+                          DataCell(SizedBox(
+                            width: 80,
+                            child: Image.network(
+                              'https://picsum.photos/250?image=9',
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
+                          DataCell(Text('Tên sản phẩm ')),
+                          DataCell(Text('Mô tả sản phẩm 1')),
+                          DataCell(Text('Loại 1')),
+                          DataCell(Text('15.000 vnd')),
+                          DataCell(
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: FloatingActionButton.extended(
+                                onPressed: () {},
+                                label: Text('Thêm'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('#011111')),
+                          DataCell(SizedBox(
+                            width: 80,
+                            child: Image.network(
+                              'https://picsum.photos/250?image=9',
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
+                          DataCell(Text('Tên sản phẩm ')),
+                          DataCell(Text('Mô tả sản phẩm 1')),
+                          DataCell(Text('Loại 1')),
+                          DataCell(Text('15.000 vnd')),
+                          DataCell(
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: FloatingActionButton.extended(
+                                onPressed: () {},
+                                label: Text('Thêm'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -388,129 +357,105 @@ void showAddComboToMenuDialog() {
             child: ListBody(
               mainAxis: Axis.vertical,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Expanded(
-                    child: TextField(
-                      // onChanged: (value) {
-                      //   _foodController.searchString.value = value;
-                      //   _foodController.searchName();
-                      // },
-                      decoration: const InputDecoration(
-                        labelText: 'Tìm theo tên sản phẩm / mã sản phẩm',
-                      ),
-                      style: Get.theme.textTheme.bodyMedium,
-                    ),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Tìm Kiếm',
                   ),
+                  style: Get.theme.textTheme.bodyMedium,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Align(
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: DataTable(
-                          columns: const <DataColumn>[
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Mã số sản phẩm',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Hình ảnh',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Tên sản phẩm',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Mô tả',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Loại',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Giá bán',
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  ' ',
-                                ),
-                              ),
-                            ),
-                          ],
-                          rows: <DataRow>[
-                            DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text('#011111')),
-                                DataCell(Image.network(
-                                  'https://picsum.photos/250?image=9',
-                                  fit: BoxFit.fitHeight,
-                                )),
-                                DataCell(Text('Tên sản phẩm ')),
-                                DataCell(Text('Mô tả sản phẩm 1')),
-                                DataCell(Text('Loại 1')),
-                                DataCell(Text('15.000 vnd')),
-                                DataCell(
-                                  SizedBox(
-                                    width: 100,
-                                    height: 30,
-                                    child: FloatingActionButton.extended(
-                                      onPressed: () {},
-                                      label: Text('Thêm'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text('#011111')),
-                                DataCell(Image.network(
-                                  'https://picsum.photos/250?image=9',
-                                  fit: BoxFit.fitHeight,
-                                )),
-                                DataCell(Text('Tên sản phẩm ')),
-                                DataCell(Text('Mô tả sản phẩm 1')),
-                                DataCell(Text('Loại 1')),
-                                DataCell(Text('15.000 vnd')),
-                                DataCell(
-                                  SizedBox(
-                                    width: 100,
-                                    height: 30,
-                                    child: FloatingActionButton.extended(
-                                      onPressed: () {},
-                                      label: Text('Thêm'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                SingleChildScrollView(
+                  child: DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Mã số sản phẩm',
                         ),
                       ),
-                    ),
+                      DataColumn(
+                        label: Text(
+                          'Hình ảnh',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Tên sản phẩm',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Mô tả',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Loại',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Giá bán',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          ' ',
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('#011111')),
+                          DataCell(SizedBox(
+                            width: 80,
+                            child: Image.network(
+                              'https://picsum.photos/250?image=9',
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
+                          DataCell(Text('Tên sản phẩm ')),
+                          DataCell(Text('Mô tả sản phẩm 1')),
+                          DataCell(Text('Loại 1')),
+                          DataCell(Text('15.000 vnd')),
+                          DataCell(
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: FloatingActionButton.extended(
+                                onPressed: () {},
+                                label: Text('Thêm'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('#011111')),
+                          DataCell(SizedBox(
+                            width: 80,
+                            child: Image.network(
+                              'https://picsum.photos/250?image=9',
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
+                          DataCell(Text('Tên sản phẩm ')),
+                          DataCell(Text('Mô tả sản phẩm 1')),
+                          DataCell(Text('Loại 1')),
+                          DataCell(Text('15.000 vnd')),
+                          DataCell(
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: FloatingActionButton.extended(
+                                onPressed: () {},
+                                label: Text('Thêm'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
