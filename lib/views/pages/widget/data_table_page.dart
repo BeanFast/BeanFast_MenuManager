@@ -60,8 +60,8 @@ class DataTableView extends StatelessWidget {
                 height: 40,
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 400,
+                    Expanded(
+                      flex: 1,
                       child: TextField(
                         onChanged: (value) => search(value),
                         decoration: const InputDecoration(
@@ -70,7 +70,7 @@ class DataTableView extends StatelessWidget {
                         style: Get.theme.textTheme.bodyMedium,
                       ),
                     ),
-                    const Spacer(),
+                    const Spacer(flex: 3,),
                     RefreshButtonDataTable(refreshData: refreshData)
                   ],
                 ),
