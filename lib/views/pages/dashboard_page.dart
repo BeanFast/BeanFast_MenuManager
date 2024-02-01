@@ -1,11 +1,12 @@
-import 'package:beanfast_menumanager/controllers/dashboard_controller.dart';
-import 'package:beanfast_menumanager/utils/line_chart.dart';
-import 'package:beanfast_menumanager/utils/logger.dart';
-import 'package:beanfast_menumanager/views/pages/widget/widget_dashboard.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '/utils/line_chart.dart';
+import '/utils/logger.dart';
+import '/controllers/dashboard_controller.dart';
+import '/views/pages/widget/widget_dashboard.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
@@ -24,9 +25,7 @@ class DashboardView extends StatelessWidget {
                 height: 40,
                 child: Row(
                   children: [
-                    Spacer(
-                      flex: 5,
-                    ),
+                    const Spacer(flex: 5),
                     Expanded(
                       flex: 1,
                       child: Padding(
@@ -93,7 +92,7 @@ class DashboardView extends StatelessWidget {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

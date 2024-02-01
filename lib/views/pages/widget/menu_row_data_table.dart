@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/models/menu.dart';
@@ -34,14 +35,15 @@ class MenuDataRow {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(Text(menu.schoolIds == null
-            ? '0'
-            : menu.schoolIds!.length.toString())),
+        DataCell(Text(
+            menu.schoolIds == null ? '0' : menu.schoolIds!.length.toString())),
         DataCell(Text(menu.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(goToPage: () {}),
+            DetailButtonDataTable(
+                goToPage: () =>
+                    Get.toNamed('/menu-detail?code=123')),
             EditButtonDataTable(showDialog: () {}),
             DeleteButtonDataTable(agree: () {}),
           ],

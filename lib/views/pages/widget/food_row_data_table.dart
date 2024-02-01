@@ -1,6 +1,4 @@
-import 'package:beanfast_menumanager/views/pages/menu_management_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '/models/food.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
@@ -49,7 +47,7 @@ class FoodDataRow {
         DataCell(Row(
           children: [
             const Spacer(),
-            // DetailButtonDataTable(goToPage: Get.to(MenuManagementView())!),
+            DetailButtonDataTable(goToPage: () {}),
             EditButtonDataTable(showDialog: () {}),
             DeleteButtonDataTable(agree: () {}),
           ],

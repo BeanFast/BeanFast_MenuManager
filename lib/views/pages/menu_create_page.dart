@@ -9,6 +9,7 @@ class MenuCreateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(

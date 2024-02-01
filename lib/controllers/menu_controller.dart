@@ -18,6 +18,9 @@ class MenuController extends GetxController {
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
 
+  //detail
+  String currentCode = '';
+
   void searchName() {
     if (searchString.value == '') {
       setDataTable(initData);

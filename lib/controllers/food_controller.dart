@@ -1,8 +1,8 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '/utils/logger.dart';
 import '/models/food.dart';
 import '/services/init_data.dart';
 import '/views/pages/widget/food_row_data_table.dart';
