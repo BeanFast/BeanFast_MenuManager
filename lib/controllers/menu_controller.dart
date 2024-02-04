@@ -1,27 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/models/menu.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/menu_row_data_table.dart';
+import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
+import '/views/pages/menu_page.dart';
 
-class MenuController extends GetxController {
-  TextEditingController searchController = TextEditingController();
-  List<Menu> initData = <Menu>[];
-  List<Menu> dataList = <Menu>[];
-  RxList<DataRow> rows = <DataRow>[].obs;
-  Rx<String> searchString = ''.obs;
-  RxString imagePath = ''.obs;
-
-  Rx<int> columnIndex = 0.obs;
-  Rx<bool> columnAscending = true.obs;
+class MenuController extends DataTableController<Menu> {
 
   //detail
   String currentCode = '';
 
-  void searchName() {
+  @override
+  void search() {
     if (searchString.value == '') {
       setDataTable(initData);
     } else {
@@ -31,6 +22,22 @@ class MenuController extends GetxController {
           .toList();
       setDataTable(dataList);
     }
+  }
+
+  @override
+  void getData(List<Menu> list) async {
+    logger.i('menu getData');
+    // final apiDataList = await Api().getData();
+    for (var e in apiDataMenuList) {
+      list.add(Menu.fromJson(e));
+    }
+  }
+
+  @override
+  void setDataTable(List<Menu> list) {
+    rows.value = list.map((dataMap) {
+      return const MenuView().setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
   }
 
   void sortByCreateDate(int index) {
@@ -49,34 +56,5 @@ class MenuController extends GetxController {
     if (pickedFile != null) {
       imagePath.value = pickedFile.path;
     }
-  }
-
-  void refreshData() {
-    initData.clear();
-    getData(initData);
-    dataList = initData;
-    setDataTable(initData);
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    getData(initData); // init data
-    dataList = initData;
-    setDataTable(initData); // init data table
-  }
-
-  void getData(List<Menu> list) async {
-    logger.i('menu getData');
-    // final apiDataList = await Api().getData();
-    for (var e in apiDataMenuList) {
-      list.add(Menu.fromJson(e));
-    }
-  }
-
-  void setDataTable(List<Menu> list) {
-    rows.value = list.map((dataMap) {
-      return MenuDataRow(index: list.indexOf(dataMap), menu: dataMap).getRow();
-    }).toList();
   }
 }

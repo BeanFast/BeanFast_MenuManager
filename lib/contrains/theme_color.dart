@@ -9,7 +9,8 @@ class ThemeColor {
   // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
   
   static Color bgColor = HexColor("#FFFFFF");
-  static Color bgColor2 = HexColor('#f3fbf7');
+  static Color bgColor2 = HexColor('#F3FBF7');
+  static Color bgColor3 = HexColor('#F5FFF6');
   static Color primaryColor = HexColor('#C3EBD7');
   static Color inputColor = HexColor('#26AA91');
   static Color textColor = HexColor('#070908');

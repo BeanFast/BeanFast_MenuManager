@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/utils/line_chart.dart';
-import '/utils/logger.dart';
 import '/controllers/dashboard_controller.dart';
 import '/views/pages/widget/widget_dashboard.dart';
 

@@ -61,6 +61,7 @@ class AppTheme {
       shadowColor: ThemeColor.bgColor,
       elevation: 0.5,
     ),
+    dialogBackgroundColor: ThemeColor.bgColor2,
   );
 }
 

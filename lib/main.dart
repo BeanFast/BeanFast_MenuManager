@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/views/pages/menu_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,8 +8,10 @@ import 'controllers/home_controller.dart';
 import 'views/pages/splash_page.dart';
 import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
-import '/views/pages/menu_create_page.dart';
-import '/views/pages/menu_management_page.dart';
+import 'views/pages/food_detail.dart';
+import 'views/pages/menu_detail_page.dart';
+import 'views/pages/menu_create_page.dart';
+import 'views/pages/menu_management_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () => SplashView(),
-          binding: AuthBindingController(), // create dependencie auth
+          binding: AuthBindingController(),
           // transition: Transition.fade,
         ),
         GetPage(
@@ -43,13 +44,18 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/food',
-          page: () => FoodView(),
+          page: () => const FoodView(),
+          binding: FoodBindingController(),
+        ),
+        GetPage(
+          name: '/food-detail',
+          page: () => const FoodDetailView(),
           binding: FoodBindingController(),
         ),
         GetPage(
           name: '/menu-detail',
           page: () => const MenuDetailView(),
-          binding: MenuBindingController(),
+          binding: MenuDetailBindingController(),
         ),
         GetPage(
           name: '/menu-management',

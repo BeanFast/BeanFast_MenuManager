@@ -1,11 +1,11 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '/utils/logger.dart';
 import '/models/school.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/school_row_data_table.dart';
+import '/views/pages/school_page.dart';
 
 class SchoolController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -73,7 +73,7 @@ class SchoolController extends GetxController {
 
   void setDataTable(List<School> list) {
     rows.value = list.map((dataMap) {
-      return SchoolDataRow(index: list.indexOf(dataMap), school: dataMap).getRow();
+      return const SchoolView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 }

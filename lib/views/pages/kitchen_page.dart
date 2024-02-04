@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/utils/logger.dart';
+import '/models/kitchen.dart';
 import '/controllers/kitchen_controller.dart';
 import '/views/dialog/create_kitchen_dialog.dart';
 import '/views/pages/widget/data_table_page.dart';
+import '/views/pages/widget/button_data_table.dart';
+import '/views/pages/widget/text_data_table_widget.dart';
 
 class KitchenView extends StatelessWidget {
-  KitchenView({super.key});
-  final KitchenController _kitchenController = Get.find();
+  const KitchenView({super.key});
 
   @override
   Widget build(BuildContext context) {
+  final KitchenController kitchenController = Get.find();
     logger.i('build KitchenView');
     return Obx(
       () => DataTableView(
         title: 'Quản lý bếp',
+        isShowCreateDialog: true,
         showCreateDialog: showCreateKitchenDialog,
-        refreshData: _kitchenController.refreshData,
+        refreshData: kitchenController.refreshData,
         search: (value) {
-          _kitchenController.searchString.value = value;
-          _kitchenController.searchName();
+          kitchenController.searchString.value = value;
+          kitchenController.searchName();
         },
-        sortColumnIndex: _kitchenController.columnIndex.value,
-        sortAscending: _kitchenController.columnAscending.value,
+        sortColumnIndex: kitchenController.columnIndex.value,
+        sortAscending: kitchenController.columnAscending.value,
         columns: <DataColumn>[
           const DataColumn(
             label: Text('Stt'),
@@ -35,7 +39,7 @@ class KitchenView extends StatelessWidget {
           DataColumn(
               label: const Text('Tên trường'),
               onSort: (index, ascending) =>
-                  _kitchenController.sortByName(index)),
+                  kitchenController.sortByName(index)),
           const DataColumn(
             label: Text('Địa chỉ'),
           ),
@@ -49,8 +53,54 @@ class KitchenView extends StatelessWidget {
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
-        rows: _kitchenController.rows.value,
+        rows: kitchenController.rows.value,
       ),
+    );
+  }
+
+  DataRow setRow(int index, Kitchen kitchen) {
+    return DataRow(
+      cells: [
+        DataCell(Text((index + 1).toString())),
+        DataCell(
+          TextDataTable(
+            data: kitchen.code.toString(),
+            maxLines: 2,
+            width: 100,
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            // height: ,
+            width: 100,
+            child: Image.network(
+              kitchen.imagePath.toString(),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ),
+        DataCell(
+          TextDataTable(
+            data: kitchen.name.toString(),
+            maxLines: 2,
+            width: 200,
+          ),
+        ),
+        DataCell(Text(kitchen.address.toString())),
+        DataCell(Text(kitchen.schoolIds.toString())),
+        DataCell(Text(kitchen.schoolIds == null
+            ? '0'
+            : kitchen.schoolIds!.length.toString())),
+        DataCell(Text(kitchen.status.toString())),
+        DataCell(Row(
+          children: [
+            const Spacer(),
+            // DetailButtonDataTable(goToPage: Get.to(MenuManagementView())!),
+            EditButtonDataTable(showDialog: () {}),
+            DeleteButtonDataTable(agree: () {}),
+          ],
+        )),
+      ],
     );
   }
 }

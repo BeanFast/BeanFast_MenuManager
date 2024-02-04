@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/controllers/menu_detail_controller.dart';
 import 'package:get/get.dart';
 
 import 'controllers/auth_controller.dart';
@@ -35,5 +36,11 @@ class MenuBindingController extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MenuController>(() => MenuController());
+  }
+}
+class MenuDetailBindingController extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<MenuDetailController>(() => MenuDetailController());
   }
 }

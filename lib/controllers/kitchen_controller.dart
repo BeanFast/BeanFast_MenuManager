@@ -1,11 +1,11 @@
 import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:beanfast_menumanager/views/pages/kitchen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/models/kitchen.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/kitchen_row_data_table.dart';
 
 class KitchenController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -77,7 +77,7 @@ class KitchenController extends GetxController {
 
   void setDataTable(List<Kitchen> list) {
     rows.value = list.map((dataMap) {
-      return KitchenDataRow(index: list.indexOf(dataMap), kitchen: dataMap).getRow();
+      return const KitchenView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '/utils/logger.dart';
 import '/models/food.dart';
 import '/services/init_data.dart';
-import '/views/pages/widget/food_row_data_table.dart';
+import '/views/pages/food_page.dart';
 
 class FoodController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -18,7 +20,9 @@ class FoodController extends GetxController {
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
 
-  void searchName() {
+  String currentCode = '';
+
+  void search() {
     if (searchString.value == '') {
       setDataTable(initData);
     } else {
@@ -50,6 +54,10 @@ class FoodController extends GetxController {
     setDataTable(dataList);
   }
 
+  Food getByCode(String code){
+    return initData.firstWhere((e) => e.code == currentCode);
+  }
+
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -68,6 +76,7 @@ class FoodController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    logger.i('onInit');
     initData.clear;
     getData(initData); // init data
     dataList = initData;
@@ -83,8 +92,9 @@ class FoodController extends GetxController {
   }
 
   void setDataTable(List<Food> list) {
+    logger.i('setDataTable');
     rows.value = list.map((dataMap) {
-      return FoodDataRow(index: list.indexOf(dataMap), food: dataMap).getRow();
+      return const FoodView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 }

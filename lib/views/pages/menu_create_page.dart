@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/controllers/food_controller.dart';
+import 'package:beanfast_menumanager/views/pages/widget/data_table_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -225,121 +227,46 @@ class CurrencyInputFormatter extends TextInputFormatter {
 }
 
 void showAddFoodToMenuDialog() {
+  final FoodController foodController = Get.put(FoodController());
   Get.dialog(
-    ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1200),
-      child: AlertDialog(
-        title: const Text('Thông tin món ăn'),
-        content: SingleChildScrollView(
-          child: SizedBox(
-            width: 1190,
-            child: ListBody(
-              mainAxis: Axis.vertical,
-              children: <Widget>[
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Tìm kiếm',
-                  ),
-                  style: Get.theme.textTheme.bodyMedium,
-                ),
-                SingleChildScrollView(
-                  child: DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          'Mã số sản phẩm',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Hình ảnh',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Tên sản phẩm',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Mô tả',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Loại',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Giá bán',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          ' ',
-                        ),
-                      ),
-                    ],
-                    rows: <DataRow>[
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text('#011111')),
-                          DataCell(SizedBox(
-                            width: 80,
-                            child: Image.network(
-                              'https://picsum.photos/250?image=9',
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                          DataCell(Text('Tên sản phẩm ')),
-                          DataCell(Text('Mô tả sản phẩm 1')),
-                          DataCell(Text('Loại 1')),
-                          DataCell(Text('15.000 vnd')),
-                          DataCell(
-                            SizedBox(
-                              width: 100,
-                              height: 30,
-                              child: FloatingActionButton.extended(
-                                onPressed: () {},
-                                label: Text('Thêm'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text('#011111')),
-                          DataCell(SizedBox(
-                            width: 80,
-                            child: Image.network(
-                              'https://picsum.photos/250?image=9',
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                          DataCell(Text('Tên sản phẩm ')),
-                          DataCell(Text('Mô tả sản phẩm 1')),
-                          DataCell(Text('Loại 1')),
-                          DataCell(Text('15.000 vnd')),
-                          DataCell(
-                            SizedBox(
-                              width: 100,
-                              height: 30,
-                              child: FloatingActionButton.extended(
-                                onPressed: () {},
-                                label: Text('Thêm'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    AlertDialog(
+      content: SizedBox(
+        height: Get.height * 0.8,
+        width: Get.width,
+        child: DataTableView(
+          title: 'Danh sách sản phẩm',
+          isShowCreateDialog: false,
+          showCreateDialog: () {},
+          sortColumnIndex: foodController.columnIndex.value,
+          sortAscending: foodController.columnAscending.value,
+          search: (value) {
+            foodController.searchString.value = value;
+            foodController.search();
+          },
+          refreshData: foodController.refreshData,
+          columns: [
+            const DataColumn(
+              label: Text('Stt'),
             ),
-          ),
+            const DataColumn(
+              label: Text('Code'),
+            ),
+            const DataColumn(label: Text('Hình ảnh')),
+            DataColumn(
+                label: const Text('Tên sản phẩm'),
+                onSort: (index, ascending) =>
+                    foodController.sortByName(index)),
+            DataColumn(
+                label: const Text('Giá'),
+                onSort: (index, ascending) =>
+                    foodController.sortByPrice(index)),
+            const DataColumn(
+              label: Text('Loại'),
+            ),
+            const DataColumn(label: Text('Trạng thái')),
+            const DataColumn(label: Text(' ')),
+          ],
+          rows: [],
         ),
       ),
     ),
@@ -349,7 +276,7 @@ void showAddFoodToMenuDialog() {
 void showAddComboToMenuDialog() {
   Get.dialog(
     ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 1200),
+      constraints: const BoxConstraints(maxWidth: 1200),
       child: AlertDialog(
         title: const Text('Thông tin combo'),
         content: SingleChildScrollView(
