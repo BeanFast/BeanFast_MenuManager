@@ -84,3 +84,20 @@ class DeleteButtonDataTable extends StatelessWidget {
     );
   }
 }
+
+class ManageMenuButtonTable extends StatelessWidget {
+  final void Function() goTo;
+
+  const ManageMenuButtonTable({
+    super.key,
+    required this.goTo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.menu),
+      onPressed: goTo,
+    );
+  }
+}

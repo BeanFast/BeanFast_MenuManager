@@ -10,8 +10,7 @@ import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
 import 'views/pages/food_detail.dart';
 import 'views/pages/menu_detail_page.dart';
-import 'views/pages/menu_create_page.dart';
-import 'views/pages/menu_management_page.dart';
+import 'package:beanfast_menumanager/views/pages/manage_menu_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
@@ -58,14 +57,9 @@ class MyApp extends StatelessWidget {
           binding: MenuDetailBindingController(),
         ),
         GetPage(
-          name: '/menu-management',
-          page: () => const MenuManagementView(),
-          binding: MenuBindingController(),
-        ),
-        GetPage(
-          name: '/menu-create',
-          page: () => const MenuCreateView(),
-          binding: MenuBindingController(),
+          name: '/manage-menu',
+          page: () => const ManageMenuView(),
+          binding: ManageMenuViewBindingController(),
         ),
       ],
     );

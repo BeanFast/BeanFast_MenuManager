@@ -48,7 +48,7 @@ class DataTableView extends StatelessWidget {
                     style: Get.textTheme.headlineMedium,
                   ),
                   const Spacer(),
-                  if (isShowCreateDialog!)
+                  if (isShowCreateDialog)
                     CreateButtonDataTable(showDialog: showCreateDialog!),
                 ],
               ),

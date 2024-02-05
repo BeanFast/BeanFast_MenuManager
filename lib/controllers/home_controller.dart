@@ -1,5 +1,4 @@
-import 'package:beanfast_menumanager/views/pages/menu_management_page.dart';
-import 'package:beanfast_menumanager/views/pages/menu_page.dart';
+import 'package:beanfast_menumanager/views/pages/order_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +8,7 @@ import '/views/pages/food_page.dart';
 import '/views/pages/dashboard_page.dart';
 import '/views/pages/kitchen_page.dart';
 import '/views/pages/school_page.dart';
+import '/views/pages/menu_page.dart';
 
 Map<int, Widget> list = {};
 
@@ -37,19 +37,19 @@ class HomeController extends GetxController {
       case 0:
         return DashboardView();
       case 1:
-        return FoodView();
+        return const FoodView();
       case 2:
-        return MenuView();
+        return const MenuView();
       case 3:
-        return colorYellow();
+        return const OrderView();
       case 4:
         return colorGreen();
       case 5:
-        return MenuManagementView();
+        return colorYellow();
       case 6:
-        return KitchenView();
+        return const KitchenView();
       case 7:
-        return SchoolView();
+        return const SchoolView();
       case 8:
         return colorGreen();
       default:

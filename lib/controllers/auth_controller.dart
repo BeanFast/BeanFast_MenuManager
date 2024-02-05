@@ -31,9 +31,6 @@ class AuthController extends GetxController with CacheManager {
     }
   }
 
-  final _username = "".obs;
-  final _password = "".obs;
-
   // @override
   // void onReady() {
   //   super.onReady();

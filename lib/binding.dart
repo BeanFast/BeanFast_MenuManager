@@ -1,12 +1,14 @@
-import 'package:beanfast_menumanager/controllers/menu_detail_controller.dart';
 import 'package:get/get.dart';
 
-import 'controllers/auth_controller.dart';
-import 'controllers/home_controller.dart';
-import 'controllers/food_controller.dart';
+import '/controllers/auth_controller.dart';
+import '/controllers/home_controller.dart';
+import '/controllers/food_controller.dart';
 import '/controllers/kitchen_controller.dart';
 import '/controllers/menu_controller.dart';
 import '/controllers/school_controller.dart';
+import '/controllers/menu_detail_controller.dart';
+import '/controllers/manage_menu_controller.dart';
+import '/controllers/order_controller.dart';
 
 class AuthBindingController extends Bindings {
   @override
@@ -17,6 +19,7 @@ class AuthBindingController extends Bindings {
     Get.lazyPut<MenuController>(() => MenuController());
     Get.lazyPut<KitchenController>(() => KitchenController());
     Get.lazyPut<SchoolController>(() => SchoolController());
+    Get.lazyPut<OrderController>(() => OrderController());
   }
 }
 class HomeBindingController extends Bindings {
@@ -42,5 +45,11 @@ class MenuDetailBindingController extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MenuDetailController>(() => MenuDetailController());
+  }
+}
+class ManageMenuViewBindingController extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<ManageMenuController>(() => ManageMenuController());
   }
 }

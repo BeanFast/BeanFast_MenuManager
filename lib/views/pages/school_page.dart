@@ -14,7 +14,7 @@ class SchoolView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final SchoolController schoolController = Get.find();
+    final SchoolController schoolController = Get.find();
     logger.i('build SchoolView');
     return Obx(
       () => DataTableView(
@@ -38,8 +38,7 @@ class SchoolView extends StatelessWidget {
           const DataColumn(label: Text('Hình ảnh')),
           DataColumn(
               label: const Text('Tên trường'),
-              onSort: (index, ascending) =>
-                  schoolController.sortByName(index)),
+              onSort: (index, ascending) => schoolController.sortByName(index)),
           const DataColumn(
             label: Text('Địa chỉ'),
           ),
@@ -97,9 +96,7 @@ class SchoolView extends StatelessWidget {
         DataCell(Row(
           children: [
             const Spacer(),
-            IconButton(
-                onPressed: () => Get.toNamed('/menu-management'),
-                icon: Icon(Icons.abc)),
+            ManageMenuButtonTable(goTo: () => Get.toNamed('/manage-menu')),
             DetailButtonDataTable(goToPage: () {}),
             EditButtonDataTable(showDialog: () {}),
             DeleteButtonDataTable(agree: () {}),
