@@ -101,3 +101,36 @@ class ManageMenuButtonTable extends StatelessWidget {
     );
   }
 }
+class EditOrderActivityButtonTable extends StatelessWidget {
+  final void Function() showDialog;
+
+  const EditOrderActivityButtonTable({
+    super.key,
+    required this.showDialog,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.edit_calendar),
+      onPressed: showDialog,
+    );
+  }
+}
+
+class CancelOrderActivityButtonTable extends StatelessWidget {
+  final void Function() showDialog;
+
+  const CancelOrderActivityButtonTable({
+    super.key,
+    required this.showDialog,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.cancel),
+      onPressed: showDialog,
+    );
+  }
+}

@@ -10,7 +10,7 @@ import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
 import 'views/pages/food_detail.dart';
 import 'views/pages/menu_detail_page.dart';
-import 'package:beanfast_menumanager/views/pages/manage_menu_page.dart';
+import 'views/pages/manage_menu_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage

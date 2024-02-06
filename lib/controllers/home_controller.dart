@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/views/pages/order_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +8,7 @@ import '/views/pages/dashboard_page.dart';
 import '/views/pages/kitchen_page.dart';
 import '/views/pages/school_page.dart';
 import '/views/pages/menu_page.dart';
+import '/views/pages/order_page.dart';
 
 Map<int, Widget> list = {};
 

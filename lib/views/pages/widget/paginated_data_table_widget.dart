@@ -12,6 +12,7 @@ class PaginatedDataTableView extends StatelessWidget {
   final List<DataRow> rows;
   final void Function(String value) search;
   final void Function() refreshData;
+  final Widget? header;
 
   const PaginatedDataTableView({
     super.key,
@@ -21,6 +22,7 @@ class PaginatedDataTableView extends StatelessWidget {
     required this.rows,
     required this.search,
     required this.refreshData,
+    this.header,
   });
 
   @override
@@ -45,9 +47,8 @@ class PaginatedDataTableView extends StatelessWidget {
                 style: Get.theme.textTheme.bodyMedium,
               ),
             ),
-            const Spacer(
-              flex: 3,
-            ),
+            const Spacer(flex: 3),
+            header == null ? const Spacer() : header!,
             SizedBox(
               // height: 60,
               width: 60,
