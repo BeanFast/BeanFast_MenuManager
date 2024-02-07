@@ -1,33 +1,32 @@
 import 'base_model.dart';
+import 'loyaty_card.dart';
 
-class User extends BaseModel {
-  String? roleId;
+class CardType extends BaseModel {
   String? code;
-  String? fullName;
-  String? phone;
-  String? email;
-  String? avatarPath;
+  String? name;
+  double? height;
+  double? width;
+  String? backgroundImagePath;
+  List<LoyaltyCard>? loyaltyCards;
 
-  User({
+  CardType({
     id,
     status,
-    this.roleId,
     this.code,
-    this.fullName,
-    this.phone,
-    this.email,
-    this.avatarPath,
+    this.name,
+    this.height,
+    this.width,
+    this.backgroundImagePath,
   }) : super(id: id, status: status);
 
-  factory User.fromJson(dynamic json) => User(
+  factory CardType.fromJson(dynamic json) => CardType(
         id: json["id"],
         status: json['status'],
-        roleId: json["roleId"],
         code: json['code'],
-        fullName: json['fullName'],
-        phone: json['phone'],
-        email: json['email'],
-        avatarPath: json['avatarPath'],
+        name: json['name'],
+        height: json['height'],
+        width: json['width'],
+        backgroundImagePath: json['backgroundImagePath'],
       );
 
   // Map<String, dynamic> toJson() {

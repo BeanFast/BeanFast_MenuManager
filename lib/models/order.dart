@@ -1,5 +1,11 @@
-class Order {
-  String? id;
+import 'base_model.dart';
+import 'order_activity.dart';
+import 'order_detail.dart';
+import 'profile.dart';
+import 'session_detail.dart';
+import 'transaction.dart';
+
+class Order extends BaseModel {
   String? sessionDetailId;
   String? profileId;
   String? code;
@@ -8,26 +14,28 @@ class Order {
   DateTime? deliveryDate;
   int? rewardPoints;
   String? feedback;
-  int? status;
-  //SessionDetail
-  //profile
-  List<String>? orderDetailIds;
-  List<String>? orderActivitieIds;
+  SessionDetail? sessionDetail;
+  Profile? profile;
+  List<OrderDetail>? orderDetails;
+  List<Transaction>? transactions;
+  List<OrderActivity>? orderActivities;
 
-  Order(
-      {this.id,
-      this.sessionDetailId,
-      this.profileId,
-      this.code,
-      this.totalPrice,
-      this.paymentDate,
-      this.deliveryDate,
-      this.rewardPoints,
-      this.feedback,
-      this.status});
+  Order({
+    id,
+    status,
+    this.sessionDetailId,
+    this.profileId,
+    this.code,
+    this.totalPrice,
+    this.paymentDate,
+    this.deliveryDate,
+    this.rewardPoints,
+    this.feedback,
+  }) : super(id: id, status: status);
 
   factory Order.fromJson(dynamic json) => Order(
         id: json['id'],
+        status: json['status'],
         sessionDetailId: json["sessionDetailId"],
         profileId: json['profileId'],
         code: json['code'],
@@ -36,7 +44,6 @@ class Order {
         deliveryDate: DateTime.parse(json['deliveryDate']),
         rewardPoints: json['rewardPoints'],
         feedback: json['feedback'],
-        status: json['status'],
       );
 
   // Map<String, dynamic> toJson() {

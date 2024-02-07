@@ -1,5 +1,10 @@
-class Food {
-  String? id;
+import 'base_model.dart';
+import 'category.dart';
+import 'combo.dart';
+import 'menu_detail.dart';
+import 'order_detail.dart';
+
+class Food extends BaseModel {
   String? categoryId;
   String? code;
   String? name;
@@ -7,20 +12,23 @@ class Food {
   String? description;
   bool? isCombo;
   String? imagePath;
-  int? status;
-  // List<String>? collectionIds;
-  // List<String>? extraCategoryIds;
+  Category? category;
+  List<OrderDetail>? orderDetails;
+  List<Combo>? masterCombos ;
+  List<Combo>? combos ;
+  List<MenuDetail>? menuDetails;
 
-  Food(
-      {this.id,
-      this.categoryId,
-      this.code,
-      this.name,
-      this.price,
-      this.description,
-      this.isCombo,
-      this.imagePath,
-      this.status});
+  Food({
+    id,
+    status,
+    this.categoryId,
+    this.code,
+    this.name,
+    this.price,
+    this.description,
+    this.isCombo,
+    this.imagePath,
+  }) : super(id: id, status: status);
 
   @override
   String toString() {
@@ -29,6 +37,7 @@ class Food {
 
   factory Food.fromJson(dynamic json) => Food(
         id: json['id'],
+        status: json['status'],
         categoryId: json["categoryId"],
         code: json["code"],
         name: json['name'],
@@ -36,7 +45,6 @@ class Food {
         description: json['description'],
         isCombo: json['isCombo'],
         imagePath: json['imagePath'] ?? "",
-        status: json['status'],
       );
 
   // Map<String, dynamic> toJson() {

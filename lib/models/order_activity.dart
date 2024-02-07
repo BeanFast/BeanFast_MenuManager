@@ -1,41 +1,37 @@
 import 'base_model.dart';
-import 'area.dart';
-import 'kitchen.dart';
-import 'location.dart';
-import 'profile.dart';
+import 'exchange_gift.dart';
+import 'order.dart';
 
-class School extends BaseModel {
-  String? areaId;
-  String? kitchenId;
+class OrderActivity extends BaseModel {
+  String? orderId;
+  String? exchangeGiftId;
   String? code;
   String? name;
-  String? address;
+  DateTime? time;
   String? imagePath;
-  Area? area;
-  Kitchen? kitchen;
-  List<Profile>? profiles;
-  List<Location>? locations;
+  Order? order;
+  ExchangeGift? exchangeGift;
 
-  School({
+  OrderActivity({
     id,
     status,
-    this.areaId,
-    this.kitchenId,
+    this.orderId,
+    this.exchangeGiftId,
     this.code,
     this.name,
-    this.address,
+    this.time,
     this.imagePath,
-  });
+  }) : super(id: id, status: status);
 
-  factory School.fromJson(dynamic json) => School(
-        id: json['id'],
+  factory OrderActivity.fromJson(dynamic json) => OrderActivity(
+        id: json["id"],
         status: json['status'],
-        areaId: json["areaId"],
-        kitchenId: json["kitchenId"],
+        orderId: json["orderId"],
+        exchangeGiftId: json['exchangeGiftId'],
         code: json['code'],
         name: json['name'],
-        address: json['address'],
-        imagePath: json['imagePath'] ?? "",
+        time: json['time'],
+        imagePath: json['imagePath'],
       );
 
   // Map<String, dynamic> toJson() {

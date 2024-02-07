@@ -1,33 +1,30 @@
+import 'package:beanfast_menumanager/models/loyaty_card.dart';
+
 import 'base_model.dart';
 
-class User extends BaseModel {
-  String? roleId;
+class MenuDetail extends BaseModel {
+  String? foodId;
+  String? menuId;
   String? code;
-  String? fullName;
-  String? phone;
-  String? email;
-  String? avatarPath;
+  double? price;
+  List<LoyaltyCard>? loyaltyCards;
 
-  User({
+  MenuDetail({
     id,
     status,
-    this.roleId,
+    this.foodId,
+    this.menuId,
     this.code,
-    this.fullName,
-    this.phone,
-    this.email,
-    this.avatarPath,
+    this.price,
   }) : super(id: id, status: status);
 
-  factory User.fromJson(dynamic json) => User(
+  factory MenuDetail.fromJson(dynamic json) => MenuDetail(
         id: json["id"],
         status: json['status'],
-        roleId: json["roleId"],
+        foodId: json['foodId'],
+        menuId: json['menuId'],
         code: json['code'],
-        fullName: json['fullName'],
-        phone: json['phone'],
-        email: json['email'],
-        avatarPath: json['avatarPath'],
+        price: json['price'],
       );
 
   // Map<String, dynamic> toJson() {

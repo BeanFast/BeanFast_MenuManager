@@ -1,33 +1,30 @@
 import 'base_model.dart';
+import 'food.dart';
 
-class User extends BaseModel {
-  String? roleId;
+class Combo extends BaseModel {
+  String? masterFoodId;
+  String? foodId;
   String? code;
-  String? fullName;
-  String? phone;
-  String? email;
-  String? avatarPath;
+  int? quantity;
+  List<Food>? masterFoods;
+  List<Food>? foods;
 
-  User({
+  Combo({
     id,
     status,
-    this.roleId,
+    this.masterFoodId,
+    this.foodId,
     this.code,
-    this.fullName,
-    this.phone,
-    this.email,
-    this.avatarPath,
+    this.quantity,
   }) : super(id: id, status: status);
 
-  factory User.fromJson(dynamic json) => User(
-        id: json["id"],
+  factory Combo.fromJson(dynamic json) => Combo(
+        id: json['id'],
         status: json['status'],
-        roleId: json["roleId"],
-        code: json['code'],
-        fullName: json['fullName'],
-        phone: json['phone'],
-        email: json['email'],
-        avatarPath: json['avatarPath'],
+        masterFoodId: json["masterFoodId"],
+        foodId: json["foodId"],
+        code: json["code"],
+        quantity: json["quantity"],
       );
 
   // Map<String, dynamic> toJson() {

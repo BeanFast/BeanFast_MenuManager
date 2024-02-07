@@ -1,39 +1,42 @@
-class Menu {
-  String? id;
+import 'base_model.dart';
+import 'kitchen.dart';
+import 'menu_detail.dart';
+import 'session.dart';
+import 'user.dart';
+
+class Menu extends BaseModel {
   String? kitchenId;
   String? createrId;
   String? updaterId;
   String? code;
   DateTime? createDate;
   DateTime? updateDate;
-  int? status;
-  List<String>? schoolIds;
-  List<String>? menuIds;
+  User? creater;
+  User? updater;
+  Kitchen? kitchen;
+  List<Session>? schools;
+  List<MenuDetail>? menus;
 
-  Menu(
-      {this.id,
-      this.kitchenId,
-      this.createrId,
-      this.updaterId,
-      this.code,
-      this.createDate,
-      this.updateDate,
-      this.status});
-
-  @override
-  String toString() {
-    return 'Menu(id: $id, kitchenId: $kitchenId, createrId: $createrId, updaterId: $updaterId, code: $code, createDate: $createDate, updateDate: $updateDate, status: $status)';
-  }
+  Menu({
+    id,
+    status,
+    this.kitchenId,
+    this.createrId,
+    this.updaterId,
+    this.code,
+    this.createDate,
+    this.updateDate,
+  }) : super(id: id, status: status);
 
   factory Menu.fromJson(dynamic json) => Menu(
         id: json['id'],
+        status: json['status'],
         kitchenId: json["kitchenId"],
         createrId: json['createrId'],
         updaterId: json['updaterId'],
         code: json['code'],
         createDate: DateTime.parse(json['createDate']),
         updateDate: DateTime.parse(json['updateDate']),
-        status: json['status'],
       );
 
   // Map<String, dynamic> toJson() {

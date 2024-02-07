@@ -87,10 +87,10 @@ class KitchenView extends StatelessWidget {
           ),
         ),
         DataCell(Text(kitchen.address.toString())),
-        DataCell(Text(kitchen.schoolIds.toString())),
-        DataCell(Text(kitchen.schoolIds == null
+        DataCell(Text(kitchen.address.toString())),
+        DataCell(Text(kitchen.schools == null
             ? '0'
-            : kitchen.schoolIds!.length.toString())),
+            : kitchen.schools!.length.toString())),
         DataCell(Text(kitchen.status.toString())),
         DataCell(Row(
           children: [

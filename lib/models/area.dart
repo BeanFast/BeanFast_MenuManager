@@ -1,33 +1,31 @@
 import 'base_model.dart';
+import 'kitchen.dart';
+import 'school.dart';
 
-class User extends BaseModel {
-  String? roleId;
+class Area extends BaseModel {
   String? code;
-  String? fullName;
-  String? phone;
-  String? email;
-  String? avatarPath;
+  String? city;
+  String? district;
+  String? ward;
+  List<School>? schools;
+  List<Kitchen>? kitchens;
 
-  User({
+  Area({
     id,
     status,
-    this.roleId,
     this.code,
-    this.fullName,
-    this.phone,
-    this.email,
-    this.avatarPath,
+    this.city,
+    this.district,
+    this.ward,
   }) : super(id: id, status: status);
 
-  factory User.fromJson(dynamic json) => User(
-        id: json["id"],
+  factory Area.fromJson(dynamic json) => Area(
+        id: json['id'],
+        code: json["code"],
+        city: json["city"],
+        district: json['district'],
+        ward: json['ward'],
         status: json['status'],
-        roleId: json["roleId"],
-        code: json['code'],
-        fullName: json['fullName'],
-        phone: json['phone'],
-        email: json['email'],
-        avatarPath: json['avatarPath'],
       );
 
   // Map<String, dynamic> toJson() {

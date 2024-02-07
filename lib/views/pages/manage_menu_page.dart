@@ -137,7 +137,7 @@ class ManageMenuView extends StatelessWidget {
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
         DataCell(Text(
-            menu.schoolIds == null ? '0' : menu.schoolIds!.length.toString())),
+            menu.schools == null ? '0' : menu.schools!.length.toString())),
         DataCell(Text(menu.code!.toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Text((index + 1).toString())),
@@ -175,7 +175,7 @@ class ManageMenuView extends StatelessWidget {
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
         DataCell(Text(
-            menu.schoolIds == null ? '0' : menu.schoolIds!.length.toString())),
+            menu.schools == null ? '0' : menu.schools!.length.toString())),
         DataCell(Text(menu.code!.toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Text((index + 1).toString())),

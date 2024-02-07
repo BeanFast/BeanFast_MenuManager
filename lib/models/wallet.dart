@@ -1,34 +1,39 @@
 import 'base_model.dart';
-import 'menu.dart';
-import 'school.dart';
+import 'user.dart';
+import 'profile.dart';
+import 'transaction.dart';
 
-class Kitchen extends BaseModel {
-  String? areaId;
+class Wallet extends BaseModel {
+  String? userId;
+  String? profileId;
   String? code;
   String? name;
-  String? address;
-  String? imagePath;
-  List<School>? schools;
-  List<Menu>? menus;
+  String? type;
+  double? balance;
+  User? user;
+  Profile? profile;
+  List<Transaction>? transactions;
 
-  Kitchen({
+  Wallet({
     id,
     status,
-    this.areaId,
+    this.userId,
+    this.profileId,
     this.code,
     this.name,
-    this.address,
-    this.imagePath,
+    this.type,
+    this.balance,
   }) : super(id: id, status: status);
 
-  factory Kitchen.fromJson(dynamic json) => Kitchen(
-        id: json['id'],
+  factory Wallet.fromJson(dynamic json) => Wallet(
+        id: json["id"],
         status: json['status'],
-        areaId: json["areaId"],
+        userId: json["userId"],
+        profileId: json['profileId'],
         code: json['code'],
         name: json['name'],
-        address: json['address'],
-        imagePath: json['imagePath'] ?? "",
+        type: json['type'],
+        balance: json['balance'],
       );
 
   // Map<String, dynamic> toJson() {

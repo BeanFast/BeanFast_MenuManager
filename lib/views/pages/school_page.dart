@@ -89,9 +89,9 @@ class SchoolView extends StatelessWidget {
           ),
         ),
         DataCell(Text(school.address.toString())),
-        DataCell(Text(school.locationIds.toString())),
+        DataCell(Text(school.address.toString())),
         DataCell(Text(school.kitchenId.toString())),
-        DataCell(Text(school.profileIds.toString())),
+        DataCell(Text(school.address.toString())),
         DataCell(Text(school.status.toString())),
         DataCell(Row(
           children: [

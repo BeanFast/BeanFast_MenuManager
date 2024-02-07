@@ -1,41 +1,36 @@
 import 'base_model.dart';
-import 'area.dart';
-import 'kitchen.dart';
-import 'location.dart';
 import 'profile.dart';
+import 'school.dart';
+import 'session_detail.dart';
 
-class School extends BaseModel {
-  String? areaId;
-  String? kitchenId;
+class Location extends BaseModel {
+  String? schoolId;
   String? code;
   String? name;
-  String? address;
+  String? description;
   String? imagePath;
-  Area? area;
-  Kitchen? kitchen;
-  List<Profile>? profiles;
-  List<Location>? locations;
+  Profile? profile;
+  School? school;
+  List<SessionDetail>? sessionDetails;
 
-  School({
+  Location({
     id,
     status,
-    this.areaId,
-    this.kitchenId,
+    this.schoolId,
     this.code,
     this.name,
-    this.address,
+    this.description,
     this.imagePath,
-  });
+  }) : super(id: id, status: status);
 
-  factory School.fromJson(dynamic json) => School(
-        id: json['id'],
+  factory Location.fromJson(dynamic json) => Location(
+        id: json["id"],
         status: json['status'],
-        areaId: json["areaId"],
-        kitchenId: json["kitchenId"],
+        schoolId: json['schoolId'],
         code: json['code'],
         name: json['name'],
-        address: json['address'],
-        imagePath: json['imagePath'] ?? "",
+        description: json['description'],
+        imagePath: json['imagePath'],
       );
 
   // Map<String, dynamic> toJson() {
