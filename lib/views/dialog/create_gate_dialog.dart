@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 void showCreateGateDialog() {
   Get.dialog(
     ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 700),
+      constraints: const BoxConstraints(maxWidth: 700),
       child: AlertDialog(
         title: const Text('Thông tin cổng trường học'),
         content: SingleChildScrollView(

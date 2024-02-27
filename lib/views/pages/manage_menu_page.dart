@@ -72,10 +72,7 @@ class ManageMenuView extends StatelessWidget {
                                     menuController.columnIndex.value,
                                 sortAscending:
                                     menuController.columnAscending.value,
-                                search: (value) {
-                                  menuController.searchString.value = value;
-                                  menuController.search;
-                                },
+                                search: (value) => menuController.search(value),
                                 refreshData: menuController.refreshData,
                                 columns: [
                                   const DataColumn(
@@ -101,8 +98,8 @@ class ManageMenuView extends StatelessWidget {
                                 // ignore: invalid_use_of_protected_member
                                 rows: menuController.rows.value)),
                           ),
-                          Center(child: Text('Tab 2 Content')),
-                          Center(child: Text('Tab 3 Content')),
+                          const Center(child: Text('Tab 2 Content')),
+                          const Center(child: Text('Tab 3 Content')),
                         ],
                       ),
                     ),

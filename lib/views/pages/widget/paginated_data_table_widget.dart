@@ -53,8 +53,8 @@ class PaginatedDataTableView extends StatelessWidget {
               // height: 60,
               width: 60,
               child: DropdownButtonFormField<String>(
-                padding: EdgeInsets.all(9),
-                style: TextStyle(fontSize: 13),
+                padding: const EdgeInsets.all(9),
+                style: const TextStyle(fontSize: 13),
                 decoration: const InputDecoration(
                   suffixIcon: Icon(Icons.keyboard_arrow_down),
                 ),

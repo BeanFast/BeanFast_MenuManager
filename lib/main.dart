@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'binding.dart';
 import 'contrains/theme.dart';
 import 'controllers/home_controller.dart';
+import 'routes/app_routes.dart';
 import 'views/pages/splash_page.dart';
 import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
@@ -37,27 +38,27 @@ class MyApp extends StatelessWidget {
           // transition: Transition.fade,
         ),
         GetPage(
-          name: '/dashboard',
+          name: AppRoutes.dashboard,
           page: () => DashboardView(),
           binding: FoodBindingController(),
         ),
         GetPage(
-          name: '/food',
+          name: AppRoutes.food,
           page: () => const FoodView(),
           binding: FoodBindingController(),
         ),
         GetPage(
-          name: '/food-detail',
+          name: AppRoutes.foodDetail,
           page: () => const FoodDetailView(),
           binding: FoodBindingController(),
         ),
         GetPage(
-          name: '/menu-detail',
+          name: AppRoutes.menuDetail,
           page: () => const MenuDetailView(),
           binding: MenuDetailBindingController(),
         ),
         GetPage(
-          name: '/manage-menu',
+          name: AppRoutes.manageMenu,
           page: () => const ManageMenuView(),
           binding: ManageMenuViewBindingController(),
         ),

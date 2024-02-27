@@ -111,7 +111,7 @@ class MenuCreateView extends StatelessWidget {
                 rows: <DataRow>[
                   DataRow(
                     cells: <DataCell>[
-                      DataCell(Text('#011111')),
+                      const DataCell(Text('#011111')),
                       DataCell(SizedBox(
                         width: 80,
                         child: Image.network(
@@ -119,11 +119,11 @@ class MenuCreateView extends StatelessWidget {
                           fit: BoxFit.fitHeight,
                         ),
                       )),
-                      DataCell(Text('Tên sản phẩm 11111111111111111111111')),
-                      DataCell(Text('Mô tả sản phẩm 1')),
-                      DataCell(Text('Loại 1')),
-                      DataCell(Text('No')),
-                      DataCell(Text('300.000')),
+                      const DataCell(Text('Tên sản phẩm 11111111111111111111111')),
+                      const DataCell(Text('Mô tả sản phẩm 1')),
+                      const DataCell(Text('Loại 1')),
+                      const DataCell(Text('No')),
+                      const DataCell(Text('300.000')),
                       DataCell(
                         SizedBox(
                           width: 150,
@@ -152,7 +152,7 @@ class MenuCreateView extends StatelessWidget {
                   ),
                   DataRow(
                     cells: <DataCell>[
-                      DataCell(Text('#011111')),
+                      const DataCell(Text('#011111')),
                       DataCell(SizedBox(
                         width: 80,
                         child: Image.network(
@@ -160,11 +160,11 @@ class MenuCreateView extends StatelessWidget {
                           fit: BoxFit.fitHeight,
                         ),
                       )),
-                      DataCell(Text('Tên sản phẩm 11111111111111111111111')),
-                      DataCell(Text('Mô tả sản phẩm 1')),
-                      DataCell(Text('Loại 1')),
-                      DataCell(Text('No')),
-                      DataCell(Text('300.000')),
+                      const DataCell(Text('Tên sản phẩm 11111111111111111111111')),
+                      const DataCell(Text('Mô tả sản phẩm 1')),
+                      const DataCell(Text('Loại 1')),
+                      const DataCell(Text('No')),
+                      const DataCell(Text('300.000')),
                       DataCell(
                         SizedBox(
                           width: 150,
@@ -266,7 +266,7 @@ void showAddFoodToMenuDialog() {
             const DataColumn(label: Text('Trạng thái')),
             const DataColumn(label: Text(' ')),
           ],
-          rows: [],
+          rows: const [],
         ),
       ),
     ),
@@ -333,7 +333,7 @@ void showAddComboToMenuDialog() {
                     rows: <DataRow>[
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('#011111')),
+                          const DataCell(Text('#011111')),
                           DataCell(SizedBox(
                             width: 80,
                             child: Image.network(
@@ -341,17 +341,17 @@ void showAddComboToMenuDialog() {
                               fit: BoxFit.fitHeight,
                             ),
                           )),
-                          DataCell(Text('Tên sản phẩm ')),
-                          DataCell(Text('Mô tả sản phẩm 1')),
-                          DataCell(Text('Loại 1')),
-                          DataCell(Text('15.000 vnd')),
+                          const DataCell(Text('Tên sản phẩm ')),
+                          const DataCell(Text('Mô tả sản phẩm 1')),
+                          const DataCell(Text('Loại 1')),
+                          const DataCell(Text('15.000 vnd')),
                           DataCell(
                             SizedBox(
                               width: 100,
                               height: 30,
                               child: FloatingActionButton.extended(
                                 onPressed: () {},
-                                label: Text('Thêm'),
+                                label: const Text('Thêm'),
                               ),
                             ),
                           ),
@@ -359,7 +359,7 @@ void showAddComboToMenuDialog() {
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('#011111')),
+                          const DataCell(Text('#011111')),
                           DataCell(SizedBox(
                             width: 80,
                             child: Image.network(
@@ -367,17 +367,17 @@ void showAddComboToMenuDialog() {
                               fit: BoxFit.fitHeight,
                             ),
                           )),
-                          DataCell(Text('Tên sản phẩm ')),
-                          DataCell(Text('Mô tả sản phẩm 1')),
-                          DataCell(Text('Loại 1')),
-                          DataCell(Text('15.000 vnd')),
+                          const DataCell(Text('Tên sản phẩm ')),
+                          const DataCell(Text('Mô tả sản phẩm 1')),
+                          const DataCell(Text('Loại 1')),
+                          const DataCell(Text('15.000 vnd')),
                           DataCell(
                             SizedBox(
                               width: 100,
                               height: 30,
                               child: FloatingActionButton.extended(
                                 onPressed: () {},
-                                label: Text('Thêm'),
+                                label: const Text('Thêm'),
                               ),
                             ),
                           ),

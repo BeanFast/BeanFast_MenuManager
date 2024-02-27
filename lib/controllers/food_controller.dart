@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '/utils/logger.dart';
 import '/models/food.dart';
-import '/services/init_data.dart';
 import '/views/pages/food_page.dart';
+import '/services/food_service.dart';
 
 class FoodController extends GetxController {
   TextEditingController searchController = TextEditingController();
@@ -52,7 +52,7 @@ class FoodController extends GetxController {
     setDataTable(dataList);
   }
 
-  Food getByCode(String code){
+  Food getByCode(String code) {
     return initData.firstWhere((e) => e.code == currentCode);
   }
 
@@ -64,27 +64,28 @@ class FoodController extends GetxController {
     }
   }
 
-  void refreshData() {
+  Future<void> refreshData() async {
     initData.clear();
-    getData(initData);
+    await getData(initData);
     dataList = initData;
     setDataTable(initData);
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     logger.i('onInit');
     initData.clear;
-    getData(initData); // init data
+    await getData(initData); // init data
     dataList = initData;
     setDataTable(initData); // init data table
   }
 
-  void getData(List<Food> list) async {
+  Future getData(List<Food> list) async {
     logger.i('food getData');
     // final apiDataList = await Api().getData();
-    for (var e in apiDataFoodList) {
+    var data = await ApiService1().getAll();
+    for (var e in data) {
       list.add(Food.fromJson(e));
     }
   }

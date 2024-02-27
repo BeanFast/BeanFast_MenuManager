@@ -87,7 +87,7 @@ LineChartData get sampleData2 => LineChartData(
     return Text(text, style: style, textAlign: TextAlign.center);
   }
 
-  SideTitles leftTitles() => SideTitles(
+  SideTitles leftTitles() => const SideTitles(
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 1,
@@ -122,7 +122,7 @@ LineChartData get sampleData2 => LineChartData(
     );
   }
 
-  SideTitles get bottomTitles => SideTitles(
+  SideTitles get bottomTitles => const SideTitles(
         showTitles: true,
         reservedSize: 32,
         interval: 1,
@@ -133,11 +133,11 @@ LineChartData get sampleData2 => LineChartData(
 
   FlBorderData get borderData => FlBorderData(
         show: true,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(color: Colors.yellow, width: 3),
           left: BorderSide(color: Colors.yellow, width: 3),
-          right: const BorderSide(color: Colors.transparent),
-          top: const BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
         ),
       );
 

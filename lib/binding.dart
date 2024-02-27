@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:get/get.dart';
 
 import '/controllers/auth_controller.dart';
@@ -14,6 +15,7 @@ class AuthBindingController extends Bindings {
   @override
   void dependencies() {
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.lazyPut<ApiService>(() => ApiService());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<FoodController>(() => FoodController());
     Get.lazyPut<MenuController>(() => MenuController());

@@ -6,9 +6,10 @@ class ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(ErrorView);
     return Scaffold(
       body: Center(
-        child: Text('Error: $errorMessage'),
+        child: Text(errorMessage),
       ),
     );
   }

@@ -1,33 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/utils/logger.dart';
 import '/models/menu.dart';
-import '/controllers/menu_controller.dart' as controller;
+import '/controllers/menu_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/data_table_page.dart';
 
-class MenuView extends StatelessWidget {
+class MenuView extends GetView<MenuController> {
   const MenuView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller.MenuController menuController = Get.find();
+    // final controller.MenuController controller = Get.find();
     logger.i('build MenuView');
     return Obx(
       () => DataTableView(
         title: 'Quản lý bếp',
         isShowCreateDialog: true,
         showCreateDialog: () => Get.toNamed('/menu-create'),
-        refreshData: menuController.refreshData,
-        search: (value) {
-          menuController.searchString.value = value;
-          menuController.search();
-        },
-        sortColumnIndex: menuController.columnIndex.value,
-        sortAscending: menuController.columnAscending.value,
+        refreshData: controller.refreshData,
+        search: (value) => controller.search(value),
+        sortColumnIndex: controller.columnIndex.value,
+        sortAscending: controller.columnAscending.value,
         columns: <DataColumn>[
           const DataColumn(
             label: Text('Stt'),
@@ -39,7 +36,7 @@ class MenuView extends StatelessWidget {
           DataColumn(
               label: const Text('Ngày tạo'),
               onSort: (index, ascending) =>
-                  menuController.sortByCreateDate(index)),
+                  controller.sortByCreateDate(index)),
           const DataColumn(
             label: Text('Ngày cập nhật'),
           ),
@@ -50,7 +47,7 @@ class MenuView extends StatelessWidget {
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
-        rows: menuController.rows.value,
+        rows: controller.rows.value,
       ),
     );
   }

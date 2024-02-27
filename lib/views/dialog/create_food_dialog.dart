@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import '/controllers/food_controller.dart';
 
 void showCreateFoodDialog() {
-  final FoodController _foodController = Get.find();
+  final FoodController foodController = Get.find();
   Get.dialog(
     ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 1000),
+      constraints: const BoxConstraints(maxWidth: 1000),
       child: AlertDialog(
         title: const Text('Thông tin món ăn'),
         content: SingleChildScrollView(
@@ -19,10 +19,10 @@ void showCreateFoodDialog() {
                 Obx(() => Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: _foodController.imagePath.isEmpty
+                      child: foodController.imagePath.isEmpty
                           ? const Text('No image selected')
                           : Image.network(
-                              _foodController.imagePath.value,
+                              foodController.imagePath.value,
                               fit: BoxFit.cover,
                             ),
                     )),
@@ -33,7 +33,7 @@ void showCreateFoodDialog() {
                     icon: const Icon(Icons.add),
                     label: const Text('Chọn Ảnh'),
                     onPressed: () {
-                      _foodController.pickImage();
+                      foodController.pickImage();
                     },
                   ),
                 ),

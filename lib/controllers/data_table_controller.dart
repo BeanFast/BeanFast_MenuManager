@@ -7,7 +7,6 @@ abstract class DataTableController<T> extends GetxController {
   List<T> dataList = <T>[];
   Rx<int> rowSize = 10.obs;
   RxList<DataRow> rows = <DataRow>[].obs;
-  Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
@@ -29,5 +28,5 @@ abstract class DataTableController<T> extends GetxController {
 
   void getData(List<T> list);
   void setDataTable(List<T> list);
-  void search();
+  void search(String value);
 }

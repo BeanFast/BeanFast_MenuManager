@@ -23,7 +23,8 @@ class MenuDetailView extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new)),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -41,10 +42,7 @@ class MenuDetailView extends StatelessWidget {
                 child: Obx(() => PaginatedDataTableView(
                     sortColumnIndex: menuController.columnIndex.value,
                     sortAscending: menuController.columnAscending.value,
-                    search: (value) {
-                      menuController.searchString.value = value;
-                      menuController.search;
-                    },
+                    search: (value) => menuController.search(value),
                     refreshData: menuController.refreshData,
                     columns: [
                       const DataColumn(

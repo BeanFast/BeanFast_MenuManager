@@ -26,13 +26,13 @@ class MenuDetailController extends DataTableController<Food> {
   }
 
   @override
-  void search() {
-    if (searchString.value == '') {
+  void search(String value) {
+    if (value == '') {
       setDataTable(initData);
     } else {
       dataList = initData
           .where((e) =>
-              e.code!.toLowerCase().contains(searchString.value.toLowerCase()))
+              e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
       setDataTable(dataList);
     }

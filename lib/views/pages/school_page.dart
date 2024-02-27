@@ -18,7 +18,7 @@ class SchoolView extends StatelessWidget {
     logger.i('build SchoolView');
     return Obx(
       () => DataTableView(
-        title: 'Quản lý bếp',
+        title: 'Quản lý trường',
         isShowCreateDialog: true,
         showCreateDialog: showCreateSchoolDialog,
         refreshData: schoolController.refreshData,

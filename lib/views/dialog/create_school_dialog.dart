@@ -142,23 +142,23 @@ void showCreateSchoolDialog() {
                   rows: <DataRow>[
                     DataRow(
                       cells: <DataCell>[
-                        DataCell(Text('1')),
-                        DataCell(Text('Cổng A')),
-                        DataCell(Text('Some description')),
+                        const DataCell(Text('1')),
+                        const DataCell(Text('Cổng A')),
+                        const DataCell(Text('Some description')),
                         DataCell(IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             onPressed: () {
                               Get.defaultDialog(
                                 title: 'Xác nhận',
                                 content:
-                                    Text('Bạn có chắc chắn muốn xoá cổng này?'),
+                                    const Text('Bạn có chắc chắn muốn xoá cổng này?'),
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {
                                       // Đóng AlertDialog khi người dùng nhấn nút
                                       Get.back();
                                     },
-                                    child: Text('Close'),
+                                    child: const Text('Close'),
                                   ),
                                 ],
                               );

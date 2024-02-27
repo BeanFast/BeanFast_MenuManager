@@ -9,25 +9,25 @@ import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class KitchenView extends StatelessWidget {
+class KitchenView extends GetView<KitchenController> {
   const KitchenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-  final KitchenController kitchenController = Get.find();
+  // final KitchenController controller = Get.find();
     logger.i('build KitchenView');
     return Obx(
       () => DataTableView(
         title: 'Quản lý bếp',
         isShowCreateDialog: true,
         showCreateDialog: showCreateKitchenDialog,
-        refreshData: kitchenController.refreshData,
+        refreshData: controller.refreshData,
         search: (value) {
-          kitchenController.searchString.value = value;
-          kitchenController.searchName();
+          controller.searchString.value = value;
+          controller.searchName();
         },
-        sortColumnIndex: kitchenController.columnIndex.value,
-        sortAscending: kitchenController.columnAscending.value,
+        sortColumnIndex: controller.columnIndex.value,
+        sortAscending: controller.columnAscending.value,
         columns: <DataColumn>[
           const DataColumn(
             label: Text('Stt'),
@@ -39,7 +39,7 @@ class KitchenView extends StatelessWidget {
           DataColumn(
               label: const Text('Tên trường'),
               onSort: (index, ascending) =>
-                  kitchenController.sortByName(index)),
+                  controller.sortByName(index)),
           const DataColumn(
             label: Text('Địa chỉ'),
           ),
@@ -53,7 +53,7 @@ class KitchenView extends StatelessWidget {
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
-        rows: kitchenController.rows.value,
+        rows: controller.rows.value,
       ),
     );
   }

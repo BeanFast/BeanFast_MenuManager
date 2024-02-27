@@ -9,12 +9,12 @@ import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class OrderView extends StatelessWidget {
+class OrderView extends GetView<OrderController> {
   const OrderView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    OrderController orderController = Get.find();
+    // OrderController controller = Get.find();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -68,15 +68,11 @@ class OrderView extends StatelessWidget {
                                   header: EditOrderActivityButtonTable(
                                     showDialog: () {},
                                   ),
-                                  sortColumnIndex:
-                                      orderController.columnIndex.value,
+                                  sortColumnIndex: controller.columnIndex.value,
                                   sortAscending:
-                                      orderController.columnAscending.value,
-                                  search: (value) {
-                                    orderController.searchString.value = value;
-                                    orderController.search;
-                                  },
-                                  refreshData: orderController.refreshData,
+                                      controller.columnAscending.value,
+                                  search: (value) => controller.search(value),
+                                  refreshData: controller.refreshData,
                                   columns: [
                                     DataColumn(
                                       label: Checkbox(
@@ -91,9 +87,8 @@ class OrderView extends StatelessWidget {
                                     const DataColumn(label: Text('Khách hàng')),
                                     DataColumn(
                                         label: const Text('Ngày thanh toán'),
-                                        onSort: (index, ascending) =>
-                                            orderController
-                                                .sortByPaymentDate(index)),
+                                        onSort: (index, ascending) => controller
+                                            .sortByPaymentDate(index)),
                                     const DataColumn(
                                         label: Text('Ngày nhận hàng')),
                                     const DataColumn(label: Text('Địa điểm')),
@@ -104,7 +99,7 @@ class OrderView extends StatelessWidget {
                                     const DataColumn(label: Text(' ')),
                                   ],
                                   // ignore: invalid_use_of_protected_member
-                                  rows: orderController.rows.value)),
+                                  rows: controller.rows.value)),
                             ),
                           ),
                           const Center(child: Text('Tab 2 Content')),
@@ -138,11 +133,11 @@ class OrderView extends StatelessWidget {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(order.paymentDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(order.deliveryDate!))),
-        DataCell(Text(order.orderDetailIds == null
+        DataCell(Text(order.orderDetails == null
             ? '0'
-            : order.orderDetailIds!.length.toString())),
+            : order.orderDetails!.length.toString())),
         DataCell(Text(order.code!.toString())),
-        DataCell(Text(order.orderDetailIds.toString())),
+        DataCell(Text(order.orderDetails.toString())),
         DataCell(Text(order.status.toString())),
         DataCell(Row(
           children: [
@@ -170,11 +165,11 @@ class OrderView extends StatelessWidget {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(order.paymentDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(order.deliveryDate!))),
-        DataCell(Text(order.orderDetailIds == null
+        DataCell(Text(order.orderDetails == null
             ? '0'
-            : order.orderDetailIds!.length.toString())),
+            : order.orderDetails!.length.toString())),
         DataCell(Text(order.code!.toString())),
-        DataCell(Text(order.orderDetailIds.toString())),
+        DataCell(Text(order.orderDetails.toString())),
         DataCell(Text(order.status.toString())),
         DataCell(Text(order.status.toString())),
         DataCell(Row(

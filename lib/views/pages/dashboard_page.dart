@@ -35,11 +35,11 @@ class DashboardView extends StatelessWidget {
                             label: Obx(
                               () => Text(
                                 ' ${_dashboardController.selectedDateStrStart}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                                 maxLines: 1,
                               ),
                             ),
-                            prefixIcon: Icon(Icons.calendar_today),
+                            prefixIcon: const Icon(Icons.calendar_today),
                           ),
                           onTap: () async {
                             final DateTime? picked = await showDatePicker(
@@ -68,11 +68,11 @@ class DashboardView extends StatelessWidget {
                             label: Obx(
                               () => Text(
                                 ' ${_dashboardController.selectedDateStrEnd}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                                 maxLines: 1,
                               ),
                             ),
-                            prefixIcon: Icon(Icons.calendar_today),
+                            prefixIcon: const Icon(Icons.calendar_today),
                           ),
                           onTap: () async {
                             final DateTime? picked = await showDatePicker(
@@ -97,11 +97,11 @@ class DashboardView extends StatelessWidget {
               ),
             ),
           ),
-          Row(
+          const Row(
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
                       icon: Icons.money,
                       label: 'Transafer via \nCard number',
@@ -110,7 +110,7 @@ class DashboardView extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
                       icon: Icons.money,
                       label: 'Transafer via \nOnline Banks',
@@ -119,7 +119,7 @@ class DashboardView extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
                       icon: Icons.chair,
                       label: 'Transafer \nSame Bank',
@@ -128,7 +128,7 @@ class DashboardView extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10),
                   child: InfoCard(
                       icon: Icons.home,
                       label: 'Transafer to \nOther Bank',
