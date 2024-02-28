@@ -4,29 +4,26 @@ import 'package:get/get.dart';
 abstract class DataTableController<T> extends GetxController {
   TextEditingController searchController = TextEditingController();
   List<T> initData = <T>[];
-  List<T> dataList = <T>[];
   Rx<int> rowSize = 10.obs;
   RxList<DataRow> rows = <DataRow>[].obs;
-  RxString imagePath = ''.obs;
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
+  Rx<T?> model = Rx<T?>(null);
 
-  void refreshData() {
+  Future<void> refreshData() async {
     initData.clear();
-    getData(initData);
-    dataList = initData;
+    await getData();
     setDataTable(initData);
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    getData(initData); // init data
-    dataList = initData;
+    await getData(); // init data
     setDataTable(initData); // init data table
   }
 
-  void getData(List<T> list);
+  Future getData();
   void setDataTable(List<T> list);
   void search(String value);
 }

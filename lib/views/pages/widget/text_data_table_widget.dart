@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class TextDataTable extends StatelessWidget {
   final String data;
@@ -47,23 +49,19 @@ class TextFieldItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Wrap(
-            children: [
-              Text(title),
-            ],
-          ),
-          Wrap(
-            children: [
-              Text(data),
-            ],
-          ),
-          // Text(
-          //   data,
-          //   style: Get.theme.textTheme.bodyMedium,
-          // ),
-        ],
+      child: RichText(
+        textAlign: TextAlign.left,
+        text: TextSpan(
+          text: title,
+          style: Get.theme.textTheme.titleMedium,
+          children: [
+            TextSpan(
+              text: data,
+              style: Get.theme.textTheme.bodyMedium,
+              // o: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ErrorView extends StatelessWidget {
   const ErrorView({super.key, required this.errorMessage});
@@ -6,10 +7,10 @@ class ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(ErrorView);
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
-        child: Text(errorMessage),
+        child: Text(errorMessage, style: Get.theme.textTheme.headlineMedium,),
       ),
     );
   }

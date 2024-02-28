@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/models/menu.dart';
@@ -10,13 +11,15 @@ class MenuController extends DataTableController<Menu> {
 
   //detail
   String currentCode = '';
+  //popup create/update
+  RxString imagePath = ''.obs;
 
   @override
   void search(String value) {
     if (value == '') {
       setDataTable(initData);
     } else {
-      dataList = initData
+      var dataList = initData
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -25,11 +28,11 @@ class MenuController extends DataTableController<Menu> {
   }
 
   @override
-  void getData(List<Menu> list) async {
+  Future getData() async {
     logger.i('menu getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataMenuList) {
-      list.add(Menu.fromJson(e));
+      initData.add(Menu.fromJson(e));
     }
   }
 
@@ -43,6 +46,7 @@ class MenuController extends DataTableController<Menu> {
   void sortByCreateDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();

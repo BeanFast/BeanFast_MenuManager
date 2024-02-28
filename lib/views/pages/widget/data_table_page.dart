@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/utils/logger.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 
@@ -32,7 +31,6 @@ class DataTableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('build DataTableView');
     return Padding(
       padding: const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
       child: ListView(

@@ -239,10 +239,7 @@ void showAddFoodToMenuDialog() {
           showCreateDialog: () {},
           sortColumnIndex: foodController.columnIndex.value,
           sortAscending: foodController.columnAscending.value,
-          search: (value) {
-            foodController.searchString.value = value;
-            foodController.search();
-          },
+          search: (value) => foodController.search(value),
           refreshData: foodController.refreshData,
           columns: [
             const DataColumn(

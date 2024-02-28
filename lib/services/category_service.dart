@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '/services/api_service.dart';
 
-class FoodService {
+class CategoryService {
   // final String baseUrl;
 
   // ApiService1(this.baseUrl);
@@ -10,12 +10,12 @@ class FoodService {
   final ApiService _apiService = Get.put(ApiService());
 
   Future<dynamic> getAll() async {
-    final response = await _apiService.request.get('food');
+    final response = await _apiService.request.get('category');
     return response.data;
   }
 
   Future<dynamic> getById(String id) async {
-    final response = await _apiService.request.get('food/$id');
+    final response = await _apiService.request.get('category/$id');
     return response.data;
   }
 }

@@ -27,7 +27,6 @@ class PaginatedDataTableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('build DataTableView');
     return PaginatedDataTable(
       sortColumnIndex: sortColumnIndex,
       sortAscending: sortAscending,

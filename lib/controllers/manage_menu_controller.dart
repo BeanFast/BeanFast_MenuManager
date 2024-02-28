@@ -12,7 +12,7 @@ class ManageMenuController extends DataTableController<Menu> {
     if (value == '') {
       setDataTable(initData);
     } else {
-      dataList = initData
+      var dataList = initData
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -21,11 +21,11 @@ class ManageMenuController extends DataTableController<Menu> {
   }
 
   @override
-  void getData(List<Menu> list) async {
+  Future getData() async {
     logger.i('menu getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataMenuList) {
-      list.add(Menu.fromJson(e));
+      initData.add(Menu.fromJson(e));
     }
   }
 
@@ -39,6 +39,7 @@ class ManageMenuController extends DataTableController<Menu> {
   void sortByCreateDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -46,11 +47,11 @@ class ManageMenuController extends DataTableController<Menu> {
     setDataTable(dataList);
   }
 
-  Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imagePath.value = pickedFile.path;
-    }
-  }
+  // Future<void> pickImage() async {
+  //   final picker = ImagePicker();
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     imagePath.value = pickedFile.path;
+  //   }
+  // }
 }

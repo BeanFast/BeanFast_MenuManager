@@ -8,6 +8,7 @@ class MenuDetailController extends DataTableController<Food> {
   void sortFoodByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.name!.compareTo(b.name!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -18,6 +19,7 @@ class MenuDetailController extends DataTableController<Food> {
   void sortFoodByPrice(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.price!.compareTo(b.price!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -30,7 +32,7 @@ class MenuDetailController extends DataTableController<Food> {
     if (value == '') {
       setDataTable(initData);
     } else {
-      dataList = initData
+      var dataList = initData
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -39,9 +41,9 @@ class MenuDetailController extends DataTableController<Food> {
   }
 
   @override
-  void getData(List<Food> list) async {
+  Future getData() async {
     for (var e in apiDataFoodList) {
-      list.add(Food.fromJson(e));
+      initData.add(Food.fromJson(e));
     }
   }
 

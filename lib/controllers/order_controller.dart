@@ -16,7 +16,7 @@ class OrderController extends DataTableController<Order> {
     if (value == '') {
       setDataTable(initData);
     } else {
-      dataList = initData
+      var dataList = initData
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -25,11 +25,11 @@ class OrderController extends DataTableController<Order> {
   }
 
   @override
-  void getData(List<Order> list) async {
+  Future getData() async {
     logger.i('Order getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataOrderList) {
-      list.add(Order.fromJson(e));
+      initData.add(Order.fromJson(e));
     }
   }
 
@@ -43,6 +43,7 @@ class OrderController extends DataTableController<Order> {
   void sortByPaymentDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.paymentDate!.compareTo(b.paymentDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -53,18 +54,11 @@ class OrderController extends DataTableController<Order> {
   void sortByDeliveryDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
+    var dataList = initData;
     dataList.sort((a, b) => a.deliveryDate!.compareTo(b.deliveryDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
     }
     setDataTable(dataList);
-  }
-
-  Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imagePath.value = pickedFile.path;
-    }
   }
 }
