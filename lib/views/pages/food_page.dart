@@ -1,8 +1,9 @@
 import 'package:beanfast_menumanager/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-// import '/utils/logger.dart';
+import '/utils/format_data.dart';
 import '/models/food.dart';
 import '/controllers/food_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
@@ -150,10 +151,27 @@ class FoodView extends GetView<FoodController> {
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                       child: TextFormField(
+                        controller: controller.foodPrice,
+                        maxLength: 15,
                         decoration: const InputDecoration(
                           labelText: 'Giá',
                           border: OutlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            final formattedValue = Formatter.formatPrice(value);
+                            controller.foodPrice.value =
+                                controller.foodPrice.value.copyWith(
+                              text: formattedValue,
+                              selection: TextSelection.collapsed(
+                                  offset: formattedValue.length),
+                            );
+                          }
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Vui lòng nhập giá';
@@ -197,12 +215,7 @@ class FoodView extends GetView<FoodController> {
             FloatingActionButton.extended(
               icon: const Icon(Icons.add),
               label: const Text('Lưu'),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  // Handle form submission
-                  Get.back();
-                }
-              },
+              onPressed: controller.submitForm,
             ),
           ],
         ),

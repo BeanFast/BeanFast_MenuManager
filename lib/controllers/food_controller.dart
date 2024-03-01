@@ -15,7 +15,10 @@ import '/services/food_service.dart';
 class FoodController extends DataTableController<Food> {
   // String currentCode = '';
   //popup create/update
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxString imagePath = ''.obs;
+  final TextEditingController foodName = TextEditingController();
+  final TextEditingController foodPrice = TextEditingController();
   RxList<Category> listCategories = <Category>[].obs;
 
   @override
@@ -98,5 +101,19 @@ class FoodController extends DataTableController<Food> {
     if (pickedFile != null) {
       imagePath.value = pickedFile.path;
     }
+  }
+
+  void submitForm() {
+    print('object');
+    // if (formKey.currentState!.validate()) {
+    //   Food food = Food(
+    //     name: foodName.text,
+    //     price: double.parse(foodPrice.text),
+    //     // Khởi tạo các thuộc tính khác từ form
+    //   );
+
+    //   model.value = food;
+    //   Get.back(); // Đóng dialog
+    // }
   }
 }
