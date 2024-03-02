@@ -22,6 +22,7 @@ class KitchenView extends GetView<KitchenController> {
         isShowCreateDialog: true,
         showCreateDialog: showCreateKitchenDialog,
         refreshData: controller.refreshData,
+        loadPage: (page) => controller.loadPage(page),
         search: (value) {
           controller.searchString.value = value;
           controller.searchName();

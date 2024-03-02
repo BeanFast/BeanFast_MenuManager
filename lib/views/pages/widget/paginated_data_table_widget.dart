@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/utils/logger.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/utils/data_table.dart';
 
@@ -12,6 +11,7 @@ class PaginatedDataTableView extends StatelessWidget {
   final List<DataRow> rows;
   final void Function(String value) search;
   final void Function() refreshData;
+  final void Function(int page) loadPage;
   final Widget? header;
 
   const PaginatedDataTableView({
@@ -22,6 +22,7 @@ class PaginatedDataTableView extends StatelessWidget {
     required this.rows,
     required this.search,
     required this.refreshData,
+    required this.loadPage,
     this.header,
   });
 
@@ -91,6 +92,7 @@ class PaginatedDataTableView extends StatelessWidget {
           ],
         ),
       ),
+      onPageChanged: (page) => loadPage(page),
       columns: columns,
       source: MyDataTable(rows: rows),
     );

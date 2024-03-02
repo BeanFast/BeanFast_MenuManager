@@ -22,6 +22,7 @@ class MenuView extends GetView<MenuController> {
         isShowCreateDialog: true,
         showCreateDialog: () => Get.toNamed('/menu-create'),
         refreshData: controller.refreshData,
+        loadPage: (page) => controller.loadPage(page),
         search: (value) => controller.search(value),
         sortColumnIndex: controller.columnIndex.value,
         sortAscending: controller.columnAscending.value,

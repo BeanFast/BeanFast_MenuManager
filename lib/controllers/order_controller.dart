@@ -1,4 +1,4 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 import '/models/order.dart';
 import '/services/init_data.dart';
@@ -7,30 +7,35 @@ import '/utils/logger.dart';
 import '/views/pages/order_page.dart';
 
 class OrderController extends DataTableController<Order> {
-
-  //detail
-  String currentCode = '';
+  RxBool headerCheckboxValue = false.obs;
+  RxSet<String> selectedOrderIds = <String>{}.obs;
+  RxBool showButtonOnHeader = false.obs;
 
   @override
   void search(String value) {
     if (value == '') {
-      setDataTable(initData);
+      setDataTable(initModelList);
     } else {
-      var dataList = initData
-          .where((e) =>
-              e.code!.toLowerCase().contains(value.toLowerCase()))
+      currentModelList = initModelList
+          .where((e) => e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(dataList);
+      setDataTable(currentModelList);
     }
   }
 
   @override
-  Future getData() async {
+  Future getData(list) async {
     logger.i('Order getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataOrderList) {
-      initData.add(Order.fromJson(e));
+      list.add(Order.fromJson(e));
     }
+  }
+
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
   }
 
   @override
@@ -43,22 +48,56 @@ class OrderController extends DataTableController<Order> {
   void sortByPaymentDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
-    dataList.sort((a, b) => a.paymentDate!.compareTo(b.paymentDate!));
+    currentModelList.sort((a, b) => a.paymentDate!.compareTo(b.paymentDate!));
     if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
+      currentModelList = currentModelList.reversed.toList();
     }
-    setDataTable(dataList);
+    setDataTable(currentModelList);
   }
-  
+
   void sortByDeliveryDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
-    dataList.sort((a, b) => a.deliveryDate!.compareTo(b.deliveryDate!));
+    currentModelList = initModelList;
+    currentModelList.sort((a, b) => a.deliveryDate!.compareTo(b.deliveryDate!));
     if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
+      currentModelList = currentModelList.reversed.toList();
     }
-    setDataTable(dataList);
+    setDataTable(currentModelList);
   }
+
+// Order acctivity - start
+  void toggleCheckbox(String id) {
+    if (selectedOrderIds.contains(id)) {
+      selectedOrderIds.remove(id);
+    } else {
+      selectedOrderIds.add(id);
+    }
+    updateHeaderCheckbox();
+    updateShowButtonOnHeader();
+  }
+
+  void toggleHeaderCheckbox() {
+    headerCheckboxValue.value = !headerCheckboxValue.value;
+    if (headerCheckboxValue.value) {
+      selectedOrderIds.addAll(initModelList.map((e) => e.id!));
+    } else {
+      selectedOrderIds.clear();
+    }
+    updateShowButtonOnHeader();
+  }
+
+  void updateHeaderCheckbox() {
+    if (selectedOrderIds.length == initModelList.length) {
+      headerCheckboxValue.value = true;
+    } else {
+      headerCheckboxValue.value = false;
+    }
+  }
+
+  void updateShowButtonOnHeader() {
+    showButtonOnHeader.value = selectedOrderIds.isNotEmpty;
+  }
+  
+  
 }

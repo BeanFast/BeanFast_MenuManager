@@ -17,9 +17,9 @@ class MenuController extends DataTableController<Menu> {
   @override
   void search(String value) {
     if (value == '') {
-      setDataTable(initData);
+      setDataTable(initModelList);
     } else {
-      var dataList = initData
+      var dataList = initModelList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -28,12 +28,18 @@ class MenuController extends DataTableController<Menu> {
   }
 
   @override
-  Future getData() async {
+  Future getData(list) async {
     logger.i('menu getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataMenuList) {
-      initData.add(Menu.fromJson(e));
+      initModelList.add(Menu.fromJson(e));
     }
+  }
+
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
   }
 
   @override
@@ -46,7 +52,7 @@ class MenuController extends DataTableController<Menu> {
   void sortByCreateDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
+    var dataList = initModelList;
     dataList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();

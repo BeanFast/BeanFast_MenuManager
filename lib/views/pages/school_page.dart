@@ -9,25 +9,26 @@ import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class SchoolView extends StatelessWidget {
+class SchoolView extends GetView<SchoolController> {
   const SchoolView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SchoolController schoolController = Get.find();
+    final SchoolController controller = Get.find();
     logger.i('build SchoolView');
     return Obx(
       () => DataTableView(
         title: 'Quản lý trường',
         isShowCreateDialog: true,
         showCreateDialog: showCreateSchoolDialog,
-        refreshData: schoolController.refreshData,
+        refreshData: controller.refreshData,
+        loadPage: (page) => controller.loadPage(page),
         search: (value) {
-          schoolController.searchString.value = value;
-          schoolController.searchName();
+          controller.searchString.value = value;
+          controller.searchName();
         },
-        sortColumnIndex: schoolController.columnIndex.value,
-        sortAscending: schoolController.columnAscending.value,
+        sortColumnIndex: controller.columnIndex.value,
+        sortAscending: controller.columnAscending.value,
         columns: <DataColumn>[
           const DataColumn(
             label: Text('Stt'),
@@ -38,7 +39,7 @@ class SchoolView extends StatelessWidget {
           const DataColumn(label: Text('Hình ảnh')),
           DataColumn(
               label: const Text('Tên trường'),
-              onSort: (index, ascending) => schoolController.sortByName(index)),
+              onSort: (index, ascending) => controller.sortByName(index)),
           const DataColumn(
             label: Text('Địa chỉ'),
           ),
@@ -55,7 +56,7 @@ class SchoolView extends StatelessWidget {
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
-        rows: schoolController.rows.value,
+        rows: controller.rows.value,
       ),
     );
   }

@@ -3,18 +3,18 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/models/menu.dart';
-import '../../controllers/manage_menu_controller.dart';
+import '/controllers/manage_menu_controller.dart';
 import '/views/pages/widget/pickedDate_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class ManageMenuView extends StatelessWidget {
+class ManageMenuView extends GetView<ManageMenuController> {
   const ManageMenuView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ManageMenuController menuController = Get.find();
+    ManageMenuController controller = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách thực đơn'),
@@ -68,12 +68,11 @@ class ManageMenuView extends StatelessWidget {
                         children: [
                           SingleChildScrollView(
                             child: Obx(() => PaginatedDataTableView(
-                                sortColumnIndex:
-                                    menuController.columnIndex.value,
-                                sortAscending:
-                                    menuController.columnAscending.value,
-                                search: (value) => menuController.search(value),
-                                refreshData: menuController.refreshData,
+                                sortColumnIndex: controller.columnIndex.value,
+                                sortAscending: controller.columnAscending.value,
+                                search: (value) => controller.search(value),
+                                refreshData: controller.refreshData,
+                                loadPage: (page) => controller.loadPage(page),
                                 columns: [
                                   const DataColumn(
                                     label: Text('Stt'),
@@ -85,8 +84,7 @@ class ManageMenuView extends StatelessWidget {
                                   DataColumn(
                                       label: const Text('Thời gian phát hành'),
                                       onSort: (index, ascending) =>
-                                          menuController
-                                              .sortByCreateDate(index)),
+                                          controller.sortByCreateDate(index)),
                                   const DataColumn(
                                       label: Text('Thời gian giao hàng')),
                                   const DataColumn(label: Text('Cổng')),
@@ -96,7 +94,7 @@ class ManageMenuView extends StatelessWidget {
                                   const DataColumn(label: Text(' ')),
                                 ],
                                 // ignore: invalid_use_of_protected_member
-                                rows: menuController.rows.value)),
+                                rows: controller.rows.value)),
                           ),
                           const Center(child: Text('Tab 2 Content')),
                           const Center(child: Text('Tab 3 Content')),
@@ -133,8 +131,8 @@ class ManageMenuView extends StatelessWidget {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(Text(
-            menu.schools == null ? '0' : menu.schools!.length.toString())),
+        DataCell(
+            Text(menu.schools == null ? '0' : menu.schools!.length.toString())),
         DataCell(Text(menu.code!.toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Text((index + 1).toString())),
@@ -171,8 +169,8 @@ class ManageMenuView extends StatelessWidget {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(Text(
-            menu.schools == null ? '0' : menu.schools!.length.toString())),
+        DataCell(
+            Text(menu.schools == null ? '0' : menu.schools!.length.toString())),
         DataCell(Text(menu.code!.toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Text((index + 1).toString())),

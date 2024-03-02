@@ -1,10 +1,11 @@
 import 'package:beanfast_menumanager/services/category_service.dart';
-import 'package:beanfast_menumanager/views/pages/error_page.dart';
+// import 'package:beanfast_menumanager/views/pages/error_page.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '/utils/format_data.dart';
 import '/utils/logger.dart';
 import '/models/food.dart';
 import '/models/category.dart';
@@ -13,44 +14,44 @@ import '/views/pages/food_page.dart';
 import '/services/food_service.dart';
 
 class FoodController extends DataTableController<Food> {
-  // String currentCode = '';
-  //popup create/update
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
   RxString imagePath = ''.obs;
   final TextEditingController foodName = TextEditingController();
   final TextEditingController foodPrice = TextEditingController();
+  Rx<Category?> foodCategory = Rx<Category?>(null);
   RxList<Category> listCategories = <Category>[].obs;
+  RxList<String> messageErrors = <String>[].obs;
 
   @override
   void search(String value) {
     if (value.isEmpty) {
-      setDataTable(initData);
+      setDataTable(initModelList);
     } else {
-      var dataList = initData
+      currentModelList = initModelList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()) ||
               e.name!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(dataList);
+      setDataTable(currentModelList);
     }
   }
 
-  void sortByName(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    var dataList = initData;
-    dataList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) dataList = dataList.reversed.toList();
-    setDataTable(dataList);
+  @override
+  Future getData(list) async {
+    try {
+      var data = await FoodService().getAll();
+      for (var e in data) {
+        initModelList.add(Food.fromJson(e));
+      }
+    } catch (e) {
+      logger.e('FoodController: $e');
+    }
   }
 
-  void sortByPrice(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    var dataList = initData;
-    dataList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value) dataList = dataList.reversed.toList();
-    setDataTable(dataList);
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
   }
 
   @override
@@ -60,21 +61,25 @@ class FoodController extends DataTableController<Food> {
     }).toList();
   }
 
-  @override
-  Future getData() async {
-    try {
-      var data = await FoodService().getAll();
-      for (var e in data) {
-        initData.add(Food.fromJson(e));
-      }
-    } catch (e) {
-      logger.e('FoodController: $e');
-    }
+  void sortByName(int index) {
+    columnIndex.value = index;
+    columnAscending.value = !columnAscending.value;
+    currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
+    if (!columnAscending.value) currentModelList = currentModelList.reversed.toList();
+    setDataTable(currentModelList);
+  }
+
+  void sortByPrice(int index) {
+    columnIndex.value = index;
+    columnAscending.value = !columnAscending.value;
+    currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
+    if (!columnAscending.value) currentModelList = currentModelList.reversed.toList();
+    setDataTable(currentModelList);
   }
 
   Future getByCode(String code) async {
     try {
-      var value = initData.firstWhereOrNull((e) => e.code == code);
+      var value = initModelList.firstWhereOrNull((e) => e.code == code);
       if (value == null) return model.value = null;
       var data = await FoodService().getById(value.id!);
       return model.value = Food.fromJson(data);
@@ -85,6 +90,9 @@ class FoodController extends DataTableController<Food> {
 
   Future<void> initDialog() async {
     imagePath.value = '';
+    foodName.text = '';
+    foodPrice.text = '';
+
     try {
       var data = await CategoryService().getAll();
       for (var e in data) {
@@ -93,6 +101,7 @@ class FoodController extends DataTableController<Food> {
     } catch (e) {
       logger.e('FoodController: $e');
     }
+    foodCategory.value = listCategories[0];
   }
 
   Future<void> pickImage() async {
@@ -104,16 +113,21 @@ class FoodController extends DataTableController<Food> {
   }
 
   void submitForm() {
-    print('object');
-    // if (formKey.currentState!.validate()) {
-    //   Food food = Food(
-    //     name: foodName.text,
-    //     price: double.parse(foodPrice.text),
-    //     // Khởi tạo các thuộc tính khác từ form
-    //   );
-
-    //   model.value = food;
-    //   Get.back(); // Đóng dialog
-    // }
+    messageErrors.value = [];
+    if (formCreateKey.currentState!.validate() &&
+        imagePath.value.isNotEmpty &&
+        foodCategory.value != null) {
+      Food food = Food(
+          name: foodName.text,
+          price: Formatter.formatPriceToDouble(foodPrice.text),
+          categoryId: foodCategory.value!.id,
+          imagePath: imagePath.value);
+      model.value = food;
+      logger.i(foodCategory.value!.id);
+      logger.i(model);
+      Get.back();
+      return;
+    }
+    if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
   }
 }

@@ -6,8 +6,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '/models/kitchen.dart';
 import '/services/init_data.dart';
+import 'data_table_controller.dart';
 
-class KitchenController extends GetxController {
+class KitchenController extends DataTableController<Kitchen> {
   TextEditingController searchController = TextEditingController();
   List<Kitchen> initData = <Kitchen>[];
   List<Kitchen> dataList = <Kitchen>[];
@@ -51,27 +52,12 @@ class KitchenController extends GetxController {
     }
   }
 
-   void refreshData() {
-    initData.clear();
-    getData(initData);
-    dataList = initData;
-    setDataTable(initData);
-  }
-
   @override
-  void onInit() {
-    super.onInit();
-    initData.clear();
-    getData(initData); // init data
-    dataList = initData;
-    setDataTable(initData); // init data table
-  }
-
-  void getData(List<Kitchen> list) async {
+  Future getData(list) async {
     // final apiDataList = await Api().getData();
     logger.i('kitchen getData');
     for (var e in apiDataKitchenList) {
-      list.add(Kitchen.fromJson(e));
+      initModelList.add(Kitchen.fromJson(e));
     }
   }
 
@@ -79,5 +65,16 @@ class KitchenController extends GetxController {
     rows.value = list.map((dataMap) {
       return const KitchenView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
+  }
+  
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+  
+  @override
+  void search(String value) {
+    // TODO: implement search
   }
 }

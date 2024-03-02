@@ -14,6 +14,7 @@ class DataTableView extends StatelessWidget {
   bool isShowCreateDialog = false;
   final void Function(String value) search;
   final void Function() refreshData;
+  final void Function(int page) loadPage;
   final void Function()? showCreateDialog;
 
   DataTableView({
@@ -25,6 +26,7 @@ class DataTableView extends StatelessWidget {
     required this.rows,
     required this.search,
     required this.refreshData,
+    required this.loadPage,
     required this.isShowCreateDialog,
     this.showCreateDialog,
   });
@@ -53,12 +55,14 @@ class DataTableView extends StatelessWidget {
             ),
           ),
           PaginatedDataTableView(
-              sortColumnIndex: sortColumnIndex,
-              sortAscending: sortAscending,
-              columns: columns,
-              rows: rows,
-              search: search,
-              refreshData: refreshData)
+            sortColumnIndex: sortColumnIndex,
+            sortAscending: sortAscending,
+            columns: columns,
+            rows: rows,
+            search: search,
+            refreshData: refreshData,
+            loadPage: loadPage,
+          )
         ],
       ),
     );

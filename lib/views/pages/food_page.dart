@@ -21,6 +21,7 @@ class FoodView extends GetView<FoodController> {
         isShowCreateDialog: true,
         showCreateDialog: showDialog,
         refreshData: controller.refreshData,
+        loadPage: (page) => controller.loadPage(page),
         search: (value) => controller.search(value),
         sortColumnIndex: controller.columnIndex.value,
         sortAscending: controller.columnAscending.value,
@@ -94,16 +95,14 @@ class FoodView extends GetView<FoodController> {
   }
 
   Future<void> showDialog() async {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     await controller.initDialog();
-    var selected = controller.listCategories[0];
     Get.dialog(
       ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1000),
         child: AlertDialog(
           title: const Text('Thông tin món ăn'),
           content: Form(
-            key: formKey,
+            key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
                 width: 990,
@@ -135,6 +134,8 @@ class FoodView extends GetView<FoodController> {
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                       child: TextFormField(
+                        controller: controller.foodName,
+                        maxLength: 200,
                         decoration: const InputDecoration(
                           labelText: 'Tên Sản Phẩm',
                           border: OutlineInputBorder(),
@@ -163,7 +164,8 @@ class FoodView extends GetView<FoodController> {
                         ],
                         onChanged: (value) {
                           if (value.isNotEmpty) {
-                            final formattedValue = Formatter.formatPrice(value);
+                            final formattedValue =
+                                Formatter.formatPriceToString(value);
                             controller.foodPrice.value =
                                 controller.foodPrice.value.copyWith(
                               text: formattedValue,
@@ -176,8 +178,7 @@ class FoodView extends GetView<FoodController> {
                           if (value == null || value.isEmpty) {
                             return 'Vui lòng nhập giá';
                           }
-                          // Check if the value is a number
-                          if (double.tryParse(value) == null) {
+                          if (Formatter.formatPriceToDouble(value) == null) {
                             return 'Giá không hợp lệ';
                           }
                           return null;
@@ -188,7 +189,7 @@ class FoodView extends GetView<FoodController> {
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                       child: DropdownButtonFormField<Category>(
-                        value: selected,
+                        value: controller.foodCategory.value,
                         decoration: const InputDecoration(labelText: 'Loại'),
                         items: controller.listCategories.map((e) {
                           return DropdownMenuItem<Category>(
@@ -197,15 +198,24 @@ class FoodView extends GetView<FoodController> {
                           );
                         }).toList(),
                         validator: (Category? value) {
-                          return value == null
-                              ? 'Please select an object'
-                              : null;
+                          return value == null ? 'Vui lòng nhập loại' : null;
                         },
                         onChanged: (Category? value) {
                           // selected = value!;
+                          controller.foodCategory.value = value;
                         },
                       ),
                     ),
+                    Obx(() {
+                      return Column(
+                        children: controller.messageErrors.map((message) {
+                          return Text(
+                            message,
+                            style: const TextStyle(color: Colors.red),
+                          );
+                        }).toList(),
+                      );
+                    }),
                   ],
                 ),
               ),

@@ -6,8 +6,9 @@ import '/utils/logger.dart';
 import '/models/school.dart';
 import '/services/init_data.dart';
 import '/views/pages/school_page.dart';
+import 'data_table_controller.dart';
 
-class SchoolController extends GetxController {
+class SchoolController extends DataTableController<School> {
   TextEditingController searchController = TextEditingController();
   List<School> initData = <School>[];
   List<School> dataList = <School>[];
@@ -47,27 +48,12 @@ class SchoolController extends GetxController {
       imagePath.value = pickedFile.path;
     }
   }
-
-  void refreshData() {
-    initData.clear();
-    getData(initData);
-    dataList = initData;
-    setDataTable(initData);
-  }
-
   @override
-  void onInit() {
-    super.onInit();
-    getData(initData); // init data
-    dataList = initData;
-    setDataTable(initData); // init data table
-  }
-
-  void getData(List<School> list) async {
+  Future getData(list) async {
     logger.i('school getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataSchoolList) {
-      list.add(School.fromJson(e));
+      initModelList.add(School.fromJson(e));
     }
   }
 
@@ -75,5 +61,16 @@ class SchoolController extends GetxController {
     rows.value = list.map((dataMap) {
       return const SchoolView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
+  }
+  
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+  
+  @override
+  void search(String value) {
+    // TODO: implement search
   }
 }

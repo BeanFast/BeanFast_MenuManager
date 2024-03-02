@@ -241,6 +241,7 @@ void showAddFoodToMenuDialog() {
           sortAscending: foodController.columnAscending.value,
           search: (value) => foodController.search(value),
           refreshData: foodController.refreshData,
+          loadPage: (page) => foodController.loadPage(page),
           columns: [
             const DataColumn(
               label: Text('Stt'),

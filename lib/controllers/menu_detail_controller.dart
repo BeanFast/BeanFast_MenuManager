@@ -8,7 +8,7 @@ class MenuDetailController extends DataTableController<Food> {
   void sortFoodByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
+    var dataList = initModelList;
     dataList.sort((a, b) => a.name!.compareTo(b.name!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -19,7 +19,7 @@ class MenuDetailController extends DataTableController<Food> {
   void sortFoodByPrice(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
+    var dataList = initModelList;
     dataList.sort((a, b) => a.price!.compareTo(b.price!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
@@ -30,9 +30,9 @@ class MenuDetailController extends DataTableController<Food> {
   @override
   void search(String value) {
     if (value == '') {
-      setDataTable(initData);
+      setDataTable(initModelList);
     } else {
-      var dataList = initData
+      var dataList = initModelList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -41,10 +41,16 @@ class MenuDetailController extends DataTableController<Food> {
   }
 
   @override
-  Future getData() async {
+  Future getData(list) async {
     for (var e in apiDataFoodList) {
-      initData.add(Food.fromJson(e));
+      initModelList.add(Food.fromJson(e));
     }
+  }
+
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
   }
 
   @override

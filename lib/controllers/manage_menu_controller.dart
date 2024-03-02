@@ -1,5 +1,3 @@
-import 'package:image_picker/image_picker.dart';
-
 import '/models/menu.dart';
 import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
@@ -10,23 +8,29 @@ class ManageMenuController extends DataTableController<Menu> {
   @override
   void search(String value) {
     if (value == '') {
-      setDataTable(initData);
+      setDataTable(initModelList);
     } else {
-      var dataList = initData
+      currentModelList = initModelList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(dataList);
+      setDataTable(currentModelList);
     }
   }
 
   @override
-  Future getData() async {
+  Future getData(list) async {
     logger.i('menu getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataMenuList) {
-      initData.add(Menu.fromJson(e));
+      initModelList.add(Menu.fromJson(e));
     }
+  }
+
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
   }
 
   @override
@@ -39,19 +43,10 @@ class ManageMenuController extends DataTableController<Menu> {
   void sortByCreateDate(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    var dataList = initData;
-    dataList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
+    currentModelList.sort((a, b) => a.createDate!.compareTo(b.createDate!));
     if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
+      currentModelList = currentModelList.reversed.toList();
     }
-    setDataTable(dataList);
+    setDataTable(currentModelList);
   }
-
-  // Future<void> pickImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //   if (pickedFile != null) {
-  //     imagePath.value = pickedFile.path;
-  //   }
-  // }
 }

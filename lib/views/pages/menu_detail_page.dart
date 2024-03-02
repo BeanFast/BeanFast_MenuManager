@@ -7,13 +7,13 @@ import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 
-class MenuDetailView extends StatelessWidget {
+class MenuDetailView extends GetView<MenuDetailController> {
   const MenuDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final MenuDetailController menuController = Get.find();
-    // menuController.currentCode = Get.parameters['code']!;
+    // final MenuDetailController controller = Get.find();
+    // controller.currentCode = Get.parameters['code']!;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,10 +40,11 @@ class MenuDetailView extends StatelessWidget {
               SizedBox(
                 width: Get.width,
                 child: Obx(() => PaginatedDataTableView(
-                    sortColumnIndex: menuController.columnIndex.value,
-                    sortAscending: menuController.columnAscending.value,
-                    search: (value) => menuController.search(value),
-                    refreshData: menuController.refreshData,
+                    sortColumnIndex: controller.columnIndex.value,
+                    sortAscending: controller.columnAscending.value,
+                    search: (value) => controller.search(value),
+                    refreshData: controller.refreshData,
+                    loadPage: (page) => controller.loadPage(page),
                     columns: [
                       const DataColumn(
                         label: Text('Stt'),
@@ -55,11 +56,11 @@ class MenuDetailView extends StatelessWidget {
                       DataColumn(
                           label: const Text('Tên sản phẩm'),
                           onSort: (index, ascending) =>
-                              menuController.sortFoodByName(index)),
+                              controller.sortFoodByName(index)),
                       DataColumn(
                           label: const Text('Giá'),
                           onSort: (index, ascending) =>
-                              menuController.sortFoodByPrice(index)),
+                              controller.sortFoodByPrice(index)),
                       const DataColumn(
                         label: Text('Loại'),
                       ),
@@ -67,7 +68,7 @@ class MenuDetailView extends StatelessWidget {
                       const DataColumn(label: Text(' ')),
                     ],
                     // ignore: invalid_use_of_protected_member
-                    rows: menuController.rows.value)),
+                    rows: controller.rows.value)),
               ),
             ],
           ),

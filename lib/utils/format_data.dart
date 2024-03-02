@@ -1,12 +1,16 @@
 class Formatter {
-  static String formatPrice(String value) {
+  static String formatPriceToString(String value) {
     final formattedValue = StringBuffer();
-    for (int i = 0; i < value.length; i++) {
-      if (i % 3 == 0 && i != 0) {
+    for (int i = value.length - 1; i >= 0; i--) {
+      if ((value.length - 1 - i) % 3 == 0 && i != value.length - 1) {
         formattedValue.write('.');
       }
       formattedValue.write(value[i]);
     }
-    return formattedValue.toString();
+    return formattedValue.toString().split('').reversed.join();
+  }
+
+  static double? formatPriceToDouble(String value) {
+    return double.tryParse(value.replaceAll(RegExp(r'[^0-9]'), ''));
   }
 }

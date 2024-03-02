@@ -39,9 +39,6 @@ class OrderView extends GetView<OrderController> {
                     ),
                   ),
                   const Spacer(flex: 3),
-                  CreateButtonDataTable(
-                    showDialog: () {},
-                  ),
                 ],
               ),
               DefaultTabController(
@@ -65,18 +62,28 @@ class OrderView extends GetView<OrderController> {
                             child: SizedBox(
                               width: Get.width,
                               child: Obx(() => PaginatedDataTableView(
-                                  header: EditOrderActivityButtonTable(
-                                    showDialog: () {},
-                                  ),
+                                  header: Obx(() {
+                                    return Visibility(
+                                      visible: controller.showButtonOnHeader.value,
+                                      child: EditOrderActivityButtonTable(
+                                        showDialog: () {},
+                                      ),
+                                    );
+                                  }),
                                   sortColumnIndex: controller.columnIndex.value,
                                   sortAscending:
                                       controller.columnAscending.value,
                                   search: (value) => controller.search(value),
                                   refreshData: controller.refreshData,
+                                  loadPage: (page) => controller.loadPage(page),
                                   columns: [
                                     DataColumn(
                                       label: Checkbox(
-                                          value: false, onChanged: (value) {}),
+                                        value: controller.headerCheckboxValue.value,
+                                        onChanged: (value) {
+                                          controller.toggleHeaderCheckbox();
+                                        },
+                                      ),
                                     ),
                                     const DataColumn(
                                       label: Text('Stt'),
@@ -121,7 +128,14 @@ class OrderView extends GetView<OrderController> {
   DataRow setRow(int index, Order order) {
     return DataRow(
       cells: [
-        DataCell(Checkbox(value: false, onChanged: (value) {})),
+        DataCell(
+          Obx(() => Checkbox(
+                value: controller.selectedOrderIds.contains(order.id!),
+                onChanged: (value) {
+                  controller.toggleCheckbox(order.id!);
+                },
+              )),
+        ),
         DataCell(Text((index + 1).toString())),
         DataCell(Text(order.code.toString())),
         DataCell(
