@@ -40,7 +40,7 @@ class FoodController extends DataTableController<Food> {
   Future getData(list) async {
     try {
       var data = await FoodService().getAll();
-      for (var e in data) {
+      for (var e in data['data']) {
         initModelList.add(Food.fromJson(e));
       }
     } catch (e) {

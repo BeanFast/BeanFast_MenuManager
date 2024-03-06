@@ -5,14 +5,14 @@ import '/models/food.dart';
 import '/services/api_service.dart';
 
 class FoodService {
-  final String baseUrl = 'food';
+  final String baseUrl = 'foods';
 
   // ApiService1(this.baseUrl);
   // final ApiService _apiService = Get.find();
   final ApiService _apiService = getx.Get.put(ApiService());
 
   Future<dynamic> getAll() async {
-    final response = await _apiService.request.get(baseUrl);
+    final response = await _apiService.request.get('foods');
     return response.data;
   }
 
@@ -25,10 +25,12 @@ class FoodService {
     try {
       // Tạo FormData để chứa file
       FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(food.imagePath!, filename: "file.txt"),
+        "file":
+            await MultipartFile.fromFile(food.imagePath!, filename: "file.txt"),
       });
 
-      Response response = await _apiService.request.post(baseUrl, data: formData);
+      Response response =
+          await _apiService.request.post(baseUrl, data: formData);
 
       print("Response: ${response.data}");
     } catch (e) {

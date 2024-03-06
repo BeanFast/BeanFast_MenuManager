@@ -21,7 +21,7 @@ class AuthBindingController extends Bindings {
     Get.lazyPut<MenuController>(() => MenuController());
     Get.lazyPut<KitchenController>(() => KitchenController());
     Get.lazyPut<SchoolController>(() => SchoolController());
-    Get.lazyPut<OrderController>(() => OrderController());
+    // Get.lazyPut<OrderController>(() => OrderController());
   }
 }
 class HomeBindingController extends Bindings {

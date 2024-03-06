@@ -1,15 +1,18 @@
 import 'package:get/get.dart';
 
+import '../enums/status_enum.dart';
+import '../views/pages/widget/order_cancelled_tabview.dart';
+import '../views/pages/widget/order_completed_tabview.dart';
+import '../views/pages/widget/order_delivering_tabview.dart';
+import '../views/pages/widget/order_preparing_tabview.dart';
 import '/models/order.dart';
 import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 import '/views/pages/order_page.dart';
 
-class OrderController extends DataTableController<Order> {
-  RxBool headerCheckboxValue = false.obs;
-  RxSet<String> selectedOrderIds = <String>{}.obs;
-  RxBool showButtonOnHeader = false.obs;
+abstract class OrderController extends DataTableController<Order> {
+  OrderStatus status = OrderStatus.preparing;
 
   @override
   void search(String value) {
@@ -25,25 +28,29 @@ class OrderController extends DataTableController<Order> {
 
   @override
   Future getData(list) async {
-    logger.i('Order getData');
     // final apiDataList = await Api().getData();
     for (var e in apiDataOrderList) {
       list.add(Order.fromJson(e));
     }
   }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
-  }
-
-  @override
-  void setDataTable(List<Order> list) {
-    rows.value = list.map((dataMap) {
-      return const OrderView().setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
-  }
+  // void loadDataTable(OrderStatus status) {
+  //   print('loadDataTable');
+  //   switch (status) {
+  //     case OrderStatus.preparing:
+  //       setDataTablePreparing(initModelList);
+  //       break;
+  //     case OrderStatus.delivering:
+  //       setDataTableDelivering(initModelList);
+  //       break;
+  //     case OrderStatus.completed:
+  //       setDataTableCompleted(initModelList);
+  //       break;
+  //     case OrderStatus.cancelled:
+  //       setDataTableCancelled(initModelList);
+  //       break;
+  //     default:
+  //   }
+  // }
 
   void sortByPaymentDate(int index) {
     columnIndex.value = index;
@@ -64,6 +71,28 @@ class OrderController extends DataTableController<Order> {
       currentModelList = currentModelList.reversed.toList();
     }
     setDataTable(currentModelList);
+  }
+}
+
+class OrderPreparingController extends OrderController {
+  RxBool headerCheckboxValue = false.obs;
+  RxSet<String> selectedOrderIds = <String>{}.obs;
+  RxBool showButtonOnHeader = false.obs;
+
+  // @override
+  // Future<void> onInit() async {
+  //   super.onInit();
+  //   await getData(initModelList);
+  //   currentModelList = initModelList;
+  //   setDataTablePreparing(initModelList);
+  // }
+
+  @override
+  void setDataTable(List<Order> list) {
+    rows.value = list.map((dataMap) {
+      return const OrderPreparingTabView()
+          .setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
   }
 
 // Order acctivity - start
@@ -99,5 +128,57 @@ class OrderController extends DataTableController<Order> {
     showButtonOnHeader.value = selectedOrderIds.isNotEmpty;
   }
   
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+}
+
+class OrderDeliveringController extends OrderController {
+  @override
+  void setDataTable(List<Order> list) {
+    rows.value = list.map((dataMap) {
+      return const OrderDeliveringTabView()
+          .setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
+  }
   
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+}
+
+class OrderCompletedController extends OrderController {
+  @override
+  void setDataTable(List<Order> list) {
+    rows.value = list.map((dataMap) {
+      return const OrderCompletedTabView()
+          .setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
+  }
+  
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+}
+
+class OrderCancelledController extends OrderController {
+  @override
+  void setDataTable(List<Order> list) {
+    rows.value = list.map((dataMap) {
+      return const OrderCancelledTabView()
+          .setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
+  }
+  
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
 }

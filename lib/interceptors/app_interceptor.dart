@@ -7,7 +7,6 @@ import '/utils/logger.dart';
 class AppInterceptor extends Interceptor {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Xử lý trước khi gửi yêu cầu
     logger.i('Custom Interceptor - onRequest');
     return super.onRequest(options, handler);
   }
@@ -23,7 +22,7 @@ class AppInterceptor extends Interceptor {
   onError(DioException err, ErrorInterceptorHandler handler) {
     // Xử lý khi có lỗi
     logger.i('Custom Interceptor - onError');
-
+    
     Get.offAll(const ErrorView(errorMessage: 'Đã xảy ra lỗi'));
     // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
     //   // Xử lý lỗi 400 hoặc 500 ở đây

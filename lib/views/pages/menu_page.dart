@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/utils/logger.dart';
 import '/models/menu.dart';
 import '/controllers/menu_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
@@ -14,11 +13,9 @@ class MenuView extends GetView<MenuController> {
 
   @override
   Widget build(BuildContext context) {
-    // final controller.MenuController controller = Get.find();
-    logger.i('build MenuView');
     return Obx(
       () => DataTableView(
-        title: 'Quản lý bếp',
+        title: 'Quản thực đơn',
         isShowCreateDialog: true,
         showCreateDialog: () => Get.toNamed('/menu-create'),
         refreshData: controller.refreshData,

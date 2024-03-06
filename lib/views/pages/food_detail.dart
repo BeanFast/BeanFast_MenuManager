@@ -41,7 +41,7 @@ class FoodDetailView extends GetView<FoodController> {
                           data: food.value!.description.toString()),
                       TextFieldItem(
                           title: 'Trạng thái  hoạt động: ',
-                          data: Status.active.message),
+                          data: FooodStatus.active.message),
                     ],
                   )),
             ),
