@@ -97,8 +97,8 @@ class KitchenView extends GetView<KitchenController> {
           children: [
             const Spacer(),
             // DetailButtonDataTable(goToPage: Get.to(MenuManagementView())!),
-            EditButtonDataTable(showDialog: () {}),
-            DeleteButtonDataTable(agree: () {}),
+            EditButtonDataTable(onPressed: () {}),
+            DeleteButtonDataTable(onPressed: () {}),
           ],
         )),
       ],

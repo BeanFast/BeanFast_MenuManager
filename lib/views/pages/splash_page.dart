@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/auth_controller.dart';
-import '../../enums/auth_state_enum.dart';
+import '/controllers/auth_controller.dart';
+import '/enums/auth_state_enum.dart';
 import 'home_page.dart';
-import 'error_page.dart';
 import 'login_page.dart';
+import '/utils/logger.dart';
 
 class SplashView extends StatelessWidget {
   SplashView({super.key});
@@ -29,17 +29,23 @@ class SplashView extends StatelessWidget {
           return waitingView();
         } else {
           if (snapshot.hasError) {
-            return ErrorView(errorMessage: snapshot.error.toString());
+            // return ErrorView(errorMessage: snapshot.error.toString());
+            logger.e('snapshot.hasError: ${snapshot.error.toString()}');
+            return LoginView();
           } else {
             return Obx(() {
               switch (_authController.authState.value) {
                 case AuthState.authenticated:
                   return HomeView(); // get token -> get User
-                  // return const HomeView(); // get token -> get User
+                // return const HomeView(); // get token -> get User
                 case AuthState.unauthenticated:
                   return LoginView();
                 default:
-                  return const ErrorView(errorMessage: 'Lỗi xác thực đăng nhập');// 
+                  logger.e(
+                      'Lỗi xác thực đăng nhập: ${snapshot.error.toString()}');
+                  return LoginView();
+                // return const ErrorView(
+                //     errorMessage: 'Lỗi xác thực đăng nhập'); //
               }
             });
           }
@@ -57,11 +63,11 @@ class SplashView extends StatelessWidget {
         //   children: [
         //     Padding(
         //       padding: EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
-            ),
-            // Text('Loading...'),
-        //   ],
-        // ),
+        child: CircularProgressIndicator(),
+      ),
+      // Text('Loading...'),
+      //   ],
+      // ),
       // ),
     );
   }

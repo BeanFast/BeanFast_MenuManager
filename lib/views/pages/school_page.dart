@@ -97,10 +97,10 @@ class SchoolView extends GetView<SchoolController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            ManageMenuButtonTable(goTo: () => Get.toNamed('/manage-menu')),
-            DetailButtonDataTable(goToPage: () {}),
-            EditButtonDataTable(showDialog: () {}),
-            DeleteButtonDataTable(agree: () {}),
+            ManageMenuButtonTable(onPressed: () => Get.toNamed('/manage-menu')),
+            DetailButtonDataTable(onPressed: () {}),
+            EditButtonDataTable(onPressed: () {}),
+            DeleteButtonDataTable(onPressed: () {}),
           ],
         )),
       ],

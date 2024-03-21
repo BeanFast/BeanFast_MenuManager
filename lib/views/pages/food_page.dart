@@ -1,16 +1,16 @@
-import 'package:beanfast_menumanager/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
+import '../dialog/delete_dialog.dart';
 import '/utils/format_data.dart';
+import '/models/category.dart';
 import '/models/food.dart';
 import '/controllers/food_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/data_table_page.dart';
+import 'error_page.dart';
 
 class FoodView extends GetView<FoodController> {
   const FoodView({super.key});
@@ -18,38 +18,44 @@ class FoodView extends GetView<FoodController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => DataTableView(
-        title: 'Quản lý sản phẩm',
-        isShowCreateDialog: true,
-        showCreateDialog: showDialog,
-        refreshData: controller.refreshData,
-        loadPage: (page) => controller.loadPage(page),
-        search: (value) => controller.search(value),
-        sortColumnIndex: controller.columnIndex.value,
-        sortAscending: controller.columnAscending.value,
-        columns: <DataColumn>[
-          const DataColumn(
-            label: Text('Stt'),
-          ),
-          const DataColumn(
-            label: Text('Code'),
-          ),
-          const DataColumn(label: Text('Hình ảnh')),
-          DataColumn(
-              label: const Text('Tên sản phẩm'),
-              onSort: (index, ascending) => controller.sortByName(index)),
-          DataColumn(
-              label: const Text('Giá'),
-              onSort: (index, ascending) => controller.sortByPrice(index)),
-          const DataColumn(
-            label: Text('Loại'),
-          ),
-          const DataColumn(label: Text('Trạng thái')),
-          const DataColumn(label: Text(' ')),
-        ],
-        // ignore: invalid_use_of_protected_member
-        rows: controller.rows.value,
-      ),
+      () => controller.isError == true
+          ? ErrorView(
+              errorMessage: 'Đã xảy ra lỗi',
+              tryAgain: controller.refreshData,
+            )
+          : DataTableView(
+              title: 'Quản lý sản phẩm',
+              isShowCreateDialog: true,
+              showCreateDialog: showDialog,
+              refreshData: controller.refreshData,
+              loadPage: (page) => controller.loadPage(page),
+              search: (value) => controller.search(value),
+              sortColumnIndex: controller.columnIndex.value,
+              sortAscending: controller.columnAscending.value,
+              columns: <DataColumn>[
+                const DataColumn(
+                  label: Text('Stt'),
+                ),
+                const DataColumn(
+                  label: Text('Code'),
+                ),
+                const DataColumn(label: Text('Hình ảnh')),
+                DataColumn(
+                    label: const Text('Tên sản phẩm'),
+                    onSort: (index, ascending) => controller.sortByName(index)),
+                DataColumn(
+                    label: const Text('Giá'),
+                    onSort: (index, ascending) =>
+                        controller.sortByPrice(index)),
+                const DataColumn(
+                  label: Text('Loại'),
+                ),
+                const DataColumn(label: Text('Trạng thái')),
+                const DataColumn(label: Text(' ')),
+              ],
+              // ignore: invalid_use_of_protected_member
+              rows: controller.rows.value,
+            ),
     );
   }
 
@@ -87,9 +93,10 @@ class FoodView extends GetView<FoodController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                goToPage: () => Get.toNamed('/food-detail?code=${food.code}')),
-            EditButtonDataTable(showDialog: () {}),
-            DeleteButtonDataTable(agree: () {}),
+                onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
+            EditButtonDataTable(onPressed: () {}),
+            DeleteButtonDataTable(
+                onPressed: DeleteDialog(onPressed: () {}).showDialog),
           ],
         )),
       ],

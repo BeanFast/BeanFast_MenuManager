@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../dialog/delete_dialog.dart';
 import '/models/menu.dart';
-import '/controllers/manage_menu_controller.dart';
+import '../../controllers/session_controller.dart';
 import '/views/pages/widget/pickedDate_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class ManageMenuView extends GetView<ManageMenuController> {
-  const ManageMenuView({super.key});
+class SessionView extends GetView<ManageMenuController> {
+  const SessionView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class ManageMenuView extends GetView<ManageMenuController> {
                   ),
                   const Spacer(flex: 3),
                   CreateButtonDataTable(
-                    showDialog: () {},
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -140,9 +141,10 @@ class ManageMenuView extends GetView<ManageMenuController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                goToPage: () => Get.toNamed('/menu-detail?code=123')),
-            EditButtonDataTable(showDialog: () {}),
-            DeleteButtonDataTable(agree: () {}),
+                onPressed: () => Get.toNamed('/menu-detail?code=123')),
+            EditButtonDataTable(onPressed: () {}),
+            DeleteButtonDataTable(
+                onPressed: DeleteDialog(onPressed: () {}).showDialogSession()),
           ],
         )),
       ],
@@ -178,7 +180,7 @@ class ManageMenuView extends GetView<ManageMenuController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                goToPage: () => Get.toNamed('/menu-detail?code=123')),
+                onPressed: () => Get.toNamed('/menu-detail?code=123')),
           ],
         )),
       ],

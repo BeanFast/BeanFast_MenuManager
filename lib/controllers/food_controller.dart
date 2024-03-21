@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/services/category_service.dart';
 // import 'package:beanfast_menumanager/views/pages/error_page.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import '/models/category.dart';
 import '/controllers/data_table_controller.dart';
 import '/views/pages/food_page.dart';
 import '/services/food_service.dart';
+import '/services/category_service.dart';
 
 class FoodController extends DataTableController<Food> {
   final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
@@ -38,12 +38,14 @@ class FoodController extends DataTableController<Food> {
 
   @override
   Future getData(list) async {
+    isError.value = false;
     try {
       var data = await FoodService().getAll();
       for (var e in data['data']) {
         initModelList.add(Food.fromJson(e));
       }
     } catch (e) {
+      isError.value = true;
       logger.e('FoodController: $e');
     }
   }

@@ -2,7 +2,7 @@ import '/models/menu.dart';
 import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
-import '/views/pages/manage_menu_page.dart';
+import '../views/pages/session_page.dart';
 
 class ManageMenuController extends DataTableController<Menu> {
   @override
@@ -36,7 +36,7 @@ class ManageMenuController extends DataTableController<Menu> {
   @override
   void setDataTable(List<Menu> list) {
     rows.value = list.map((dataMap) {
-      return const ManageMenuView().setRow(list.indexOf(dataMap), dataMap);
+      return const SessionView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 

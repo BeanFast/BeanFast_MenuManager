@@ -88,7 +88,7 @@ class PaginatedDataTableView extends StatelessWidget {
                 onChanged: (String? newValue) {},
               ),
             ),
-            RefreshButtonDataTable(refreshData: refreshData)
+            RefreshButtonDataTable(onPressed: refreshData)
           ],
         ),
       ),

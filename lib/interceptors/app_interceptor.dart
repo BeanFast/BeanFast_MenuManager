@@ -1,6 +1,5 @@
-import 'package:beanfast_menumanager/views/pages/error_page.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
+// import 'package:get/get.dart' hide Response;
 
 import '/utils/logger.dart';
 
@@ -22,8 +21,12 @@ class AppInterceptor extends Interceptor {
   onError(DioException err, ErrorInterceptorHandler handler) {
     // Xử lý khi có lỗi
     logger.i('Custom Interceptor - onError');
-    
-    Get.offAll(const ErrorView(errorMessage: 'Đã xảy ra lỗi'));
+
+    // Get.to(ErrorView(
+    //   errorMessage: 'Đã xảy ra lỗi',
+    //   tryAgain: () {},
+    // ));
+
     // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
     //   // Xử lý lỗi 400 hoặc 500 ở đây
     //   print('Error ${err.response?.statusCode}: ${err.message}');

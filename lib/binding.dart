@@ -8,7 +8,7 @@ import '/controllers/kitchen_controller.dart';
 import '/controllers/menu_controller.dart';
 import '/controllers/school_controller.dart';
 import '/controllers/menu_detail_controller.dart';
-import '/controllers/manage_menu_controller.dart';
+import 'controllers/session_controller.dart';
 import '/controllers/order_controller.dart';
 
 class AuthBindingController extends Bindings {

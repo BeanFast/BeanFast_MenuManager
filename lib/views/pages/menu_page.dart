@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../dialog/delete_dialog.dart';
 import '/models/menu.dart';
 import '/controllers/menu_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
@@ -33,8 +34,7 @@ class MenuView extends GetView<MenuController> {
           const DataColumn(label: Text('Bếp')),
           DataColumn(
               label: const Text('Ngày tạo'),
-              onSort: (index, ascending) =>
-                  controller.sortByCreateDate(index)),
+              onSort: (index, ascending) => controller.sortByCreateDate(index)),
           const DataColumn(
             label: Text('Ngày cập nhật'),
           ),
@@ -70,17 +70,17 @@ class MenuView extends GetView<MenuController> {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(Text(
-            menu.schools == null ? '0' : menu.schools!.length.toString())),
+        DataCell(
+            Text(menu.schools == null ? '0' : menu.schools!.length.toString())),
         DataCell(Text(menu.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                goToPage: () =>
-                    Get.toNamed('/menu-detail?code=123')),
-            EditButtonDataTable(showDialog: () {}),
-            DeleteButtonDataTable(agree: () {}),
+                onPressed: () => Get.toNamed('/menu-detail?code=123')),
+            EditButtonDataTable(onPressed: () {}),
+            DeleteButtonDataTable(
+                onPressed: DeleteDialog(onPressed: () {}).showDialogMenu()),
           ],
         )),
       ],
