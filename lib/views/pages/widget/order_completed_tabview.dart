@@ -71,9 +71,9 @@ class OrderCompletedTabView extends GetView<OrderCompletedController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
-            EditOrderActivityButtonTable(onPressed: () {}),
-            CancelOrderActivityButtonTable(onPressed: () {}),
+            DetailButtonDataTable(goToPage: () {}),
+            EditOrderActivityButtonTable(showDialog: () {}),
+            CancelOrderActivityButtonTable(showDialog: () {}),
           ],
         )),
       ],

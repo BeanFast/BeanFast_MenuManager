@@ -72,9 +72,9 @@ class OrderDeliveringTabView extends GetView<OrderDeliveringController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
-            EditOrderActivityButtonTable(onPressed: () {}),
-            CancelOrderActivityButtonTable(onPressed: () {}),
+            DetailButtonDataTable(goToPage: () {}),
+            EditOrderActivityButtonTable(showDialog: () {}),
+            CancelOrderActivityButtonTable(showDialog: () {}),
           ],
         )),
       ],

@@ -72,7 +72,7 @@ class OrderCancelledTabView extends GetView<OrderCancelledController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/order-detail?code=123')),
+                goToPage: () => Get.toNamed('/order-detail?code=123')),
           ],
         )),
       ],

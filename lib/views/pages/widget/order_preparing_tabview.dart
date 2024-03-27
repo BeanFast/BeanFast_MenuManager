@@ -22,7 +22,7 @@ class OrderPreparingTabView extends GetView<OrderPreparingController> {
               return Visibility(
                 visible: controller.showButtonOnHeader.value,
                 child: EditOrderActivityButtonTable(
-                  onPressed: () {},
+                  showDialog: () {},
                 ),
               );
             }),
@@ -95,9 +95,9 @@ class OrderPreparingTabView extends GetView<OrderPreparingController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
-            EditOrderActivityButtonTable(onPressed: () {}),
-            CancelOrderActivityButtonTable(onPressed: () {}),
+            DetailButtonDataTable(goToPage: () {}),
+            EditOrderActivityButtonTable(showDialog: () {}),
+            CancelOrderActivityButtonTable(showDialog: () {}),
           ],
         )),
       ],

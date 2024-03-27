@@ -111,9 +111,9 @@ class MenuDetailView extends GetView<MenuDetailController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
-            EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(onPressed: () {}),
+                goToPage: () => Get.toNamed('/food-detail?code=${food.code}')),
+            EditButtonDataTable(showDialog: () {}),
+            DeleteButtonDataTable(agree: () {}),
           ],
         )),
       ],

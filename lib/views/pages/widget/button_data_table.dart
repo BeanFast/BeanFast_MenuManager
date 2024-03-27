@@ -1,136 +1,136 @@
-import 'package:beanfast_menumanager/views/dialog/delete_dialog.dart';
+import 'package:beanfast_menumanager/views/dialog/delete_food_dialog.dart';
 import 'package:flutter/material.dart';
 
 class CreateButtonDataTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() showDialog;
 
   const CreateButtonDataTable({
     super.key,
-    required this.onPressed,
+    required this.showDialog,
   });
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
       icon: const Icon(Icons.add),
-      onPressed: onPressed,
+      onPressed: showDialog,
       label: const Text('Thêm'),
     );
   }
 }
 
 class RefreshButtonDataTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() refreshData;
 
   const RefreshButtonDataTable({
     super.key,
-    required this.onPressed,
+    required this.refreshData,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed, icon: const Icon(Icons.refresh_outlined));
+        onPressed: refreshData, icon: const Icon(Icons.refresh_outlined));
   }
 }
 
 class DetailButtonDataTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() goToPage;
 
   const DetailButtonDataTable({
     super.key,
-    required this.onPressed,
+    required this.goToPage,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.remove_red_eye),
-      onPressed: onPressed,
+      onPressed: goToPage,
     );
   }
 }
 
 class EditButtonDataTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() showDialog;
 
   const EditButtonDataTable({
     super.key,
-    required this.onPressed,
+    required this.showDialog,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.mode_edit_outline),
-      onPressed: onPressed,
+      onPressed: showDialog,
     );
   }
 }
 
 class DeleteButtonDataTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() agree;
 
   const DeleteButtonDataTable({
     super.key,
-    required this.onPressed,
+    required this.agree,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.delete_rounded),
-      onPressed: onPressed,
+      onPressed: DeleteDialog(agree: agree).showDialog,
     );
   }
 }
 
 class ManageMenuButtonTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() goTo;
 
   const ManageMenuButtonTable({
     super.key,
-    required this.onPressed,
+    required this.goTo,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.menu),
-      onPressed: onPressed,
+      onPressed: goTo,
     );
   }
 }
 class EditOrderActivityButtonTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() showDialog;
 
   const EditOrderActivityButtonTable({
     super.key,
-    required this.onPressed,
+    required this.showDialog,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.edit_calendar),
-      onPressed: onPressed,
+      onPressed: showDialog,
     );
   }
 }
 
 class CancelOrderActivityButtonTable extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function() showDialog;
 
   const CancelOrderActivityButtonTable({
     super.key,
-    required this.onPressed,
+    required this.showDialog,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.cancel),
-      onPressed: onPressed,
+      onPressed: showDialog,
     );
   }
 }

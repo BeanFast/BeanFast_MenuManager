@@ -49,7 +49,7 @@ class DataTableView extends StatelessWidget {
                   ),
                   const Spacer(),
                   if (isShowCreateDialog)
-                    CreateButtonDataTable(onPressed: showCreateDialog!),
+                    CreateButtonDataTable(showDialog: showCreateDialog!),
                 ],
               ),
             ),
