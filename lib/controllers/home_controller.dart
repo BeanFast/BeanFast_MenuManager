@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/views/pages/tmp1.dart';
+import 'package:beanfast_menumanager/views/pages/tmp2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,13 +47,13 @@ class HomeController extends GetxController {
       case 4:
         return colorGreen();
       case 5:
-        return colorYellow();
+        return  const tmpPage2();
       case 6:
         return const KitchenView();
       case 7:
         return const SchoolView();
       case 8:
-        return colorGreen();
+        return const tmpPage();
       default:
         return colorGreen();
     }
