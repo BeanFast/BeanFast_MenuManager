@@ -38,7 +38,20 @@ class Order extends BaseModel {
     this.orderActivities,
   }) : super(id: id, status: status);
 
-  factory Order.fromJson(dynamic json) => Order(
+  factory Order.fromJson(dynamic json) {
+    List<OrderDetail> orderDetails = [];
+    List<OrderActivity> orderActivities = [];
+    if (json['orderDetails'] != null) {
+      orderDetails = json['orderDetails']?.map<OrderDetail>((item) {
+          return OrderDetail.fromJson(item);
+        }).toList();
+    }
+    if (json['orderActivities'] != null) {
+      orderActivities = json['orderActivities']?.map<OrderActivity>((item) {
+          return OrderActivity.fromJson(item);
+        }).toList();
+    }
+    return Order(
         id: json['id'],
         status: json['status'],
         sessionDetailId: json["sessionDetailId"],
@@ -50,13 +63,10 @@ class Order extends BaseModel {
         rewardPoints: json['rewardPoints'],
         feedback: json['feedback'] ?? '',
         profile: Profile.fromJson(json['profile']),
-        orderDetails: json['orderDetails']?.map<OrderDetail>((item) {
-          return OrderDetail.fromJson(item);
-        }).toList(),
-        orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
-          return OrderActivity.fromJson(item);
-        }).toList(),
+        orderDetails: orderDetails,
+        orderActivities: orderActivities,
       );
+  } 
 
   // Map<String, dynamic> toJson() {
   //   return {

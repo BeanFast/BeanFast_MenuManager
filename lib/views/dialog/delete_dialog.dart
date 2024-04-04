@@ -32,9 +32,7 @@ class DeleteDialog {
       actions: <Widget>[
         TextButton(
           child: const Text('Đóng'),
-          onPressed: () {
-            Get.back();
-          },
+          onPressed: onPressed,
         ),
       ],
     );
