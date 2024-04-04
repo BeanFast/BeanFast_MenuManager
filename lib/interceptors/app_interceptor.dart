@@ -14,6 +14,7 @@ class AppInterceptor extends Interceptor {
   onResponse(Response response, ResponseInterceptorHandler handler) {
     // Xử lý sau khi nhận được phản hồi
     logger.i('Custom Interceptor - onResponse');
+    logger.i(response.toString());
     return super.onResponse(response, handler);
   }
 

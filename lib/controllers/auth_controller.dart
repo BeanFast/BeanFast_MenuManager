@@ -85,7 +85,7 @@ class AuthController extends GetxController with CacheManager {
   void login() async {
     changeAuthState(AuthState.authenticated);
     String token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+        'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNjFmNmUwYi0yYjFlLTRkM2QtOGU4Zi0wYTViOWMwZDFlMmYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUXXhuqNuIGzDvSBi4bq_cCAxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTUFOQUdFUiIsImV4cCI6MTcxMjY5MzU2MX0.VEY2JDGn-tuxUUONAwazHCLlgBi2JlDyGGEJBLFEHbk';
     //Token is cached
     await saveToken(token);
   }

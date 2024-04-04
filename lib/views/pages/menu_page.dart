@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -79,8 +81,8 @@ class MenuView extends GetView<MenuController> {
             DetailButtonDataTable(
                 onPressed: () => Get.toNamed('/menu-detail?code=123')),
             EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(
-                onPressed: DeleteDialog(onPressed: () {}).showDialogMenu()),
+            // DeleteButtonDataTable(
+            //     onPressed: DeleteDialog(onPressed: () {}).showDialogMenu()),
           ],
         )),
       ],

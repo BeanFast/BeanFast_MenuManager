@@ -50,7 +50,7 @@ class FoodView extends GetView<FoodController> {
                 const DataColumn(
                   label: Text('Loại'),
                 ),
-                const DataColumn(label: Text('Trạng thái')),
+                // const DataColumn(label: Text('Trạng thái')),
                 const DataColumn(label: Text(' ')),
               ],
               // ignore: invalid_use_of_protected_member
@@ -87,8 +87,8 @@ class FoodView extends GetView<FoodController> {
           ),
         ),
         DataCell(Text(food.price.toString())),
-        DataCell(Text(food.categoryId.toString())),
-        DataCell(Text(food.status.toString())),
+        DataCell(Text(food.category!.name.toString())),
+        // DataCell(Text(food.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
