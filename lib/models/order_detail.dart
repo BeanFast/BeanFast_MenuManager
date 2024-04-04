@@ -27,7 +27,7 @@ class OrderDetail extends BaseModel {
         orderId: json["orderId"],
         foodId: json["foodId"],
         quantity: json['quantity'],
-        price: json['price'],
+        price: double.parse(json['price'].toString()),
         note: json['note'],
       );
 

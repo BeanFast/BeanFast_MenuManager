@@ -15,7 +15,7 @@ class Menu extends BaseModel {
   User? updater;
   Kitchen? kitchen;
   List<Session>? schools;
-  List<MenuDetail>? menus;
+  List<MenuDetail>? menuDetails;
 
   Menu({
     id,
@@ -26,18 +26,24 @@ class Menu extends BaseModel {
     this.code,
     this.createDate,
     this.updateDate,
+    this.menuDetails,
   }) : super(id: id, status: status);
 
-  factory Menu.fromJson(dynamic json) => Menu(
-        id: json['id'],
-        status: json['status'],
-        kitchenId: json["kitchenId"],
-        createrId: json['createrId'],
-        updaterId: json['updaterId'],
-        code: json['code'],
-        createDate: DateTime.parse(json['createDate']),
-        updateDate: DateTime.parse(json['updateDate']),
-      );
+  factory Menu.fromJson(dynamic json) {
+    return Menu(
+      id: json['id'],
+      status: json['status'],
+      kitchenId: json["kitchenId"],
+      createrId: json['createrId'],
+      updaterId: json['updaterId'],
+      code: json['code'],
+      createDate: DateTime.parse(json['createDate']),
+      updateDate: DateTime.parse(json['updateDate']),
+      menuDetails: json['menuDetails']?.map<MenuDetail>((item) {
+        return MenuDetail.fromJson(item);
+      }).toList(),
+    );
+  }
 
   // Map<String, dynamic> toJson() {
   //   return {

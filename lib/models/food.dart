@@ -14,8 +14,8 @@ class Food extends BaseModel {
   String? imagePath;
   Category? category;
   List<OrderDetail>? orderDetails;
-  List<Combo>? masterCombos ;
-  List<Combo>? combos ;
+  List<Combo>? masterCombos;
+  List<Combo>? combos;
   List<MenuDetail>? menuDetails;
 
   Food({
@@ -28,6 +28,7 @@ class Food extends BaseModel {
     this.description,
     this.isCombo,
     this.imagePath,
+    this.category,
   }) : super(id: id, status: status);
 
   @override
@@ -36,16 +37,17 @@ class Food extends BaseModel {
   }
 
   factory Food.fromJson(dynamic json) => Food(
-        id: json['id'],
-        status: json['status'],
-        categoryId: json["categoryId"],
-        code: json["code"],
-        name: json['name'],
-        price: json['price'],
-        description: json['description'],
-        isCombo: json['isCombo'],
-        imagePath: json['imagePath'] ?? "",
-      );
+      id: json['id'],
+      status: json['status'],
+      categoryId: json["categoryId"],
+      code: json["code"],
+      name: json['name'],
+      price: double.parse(json['price'].toString()),
+      description: json['description'],
+      isCombo: json['isCombo'],
+      imagePath: json['imagePath'] ??
+          'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+      category: Category.fromJson(json['category']));
 
   // Map<String, dynamic> toJson() {
   //   return {

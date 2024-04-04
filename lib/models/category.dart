@@ -18,8 +18,8 @@ class Category extends BaseModel {
   factory Category.fromJson(dynamic json) => Category(
         id: json['id'],
         status: json['status'],
-        code: json['code'],
-        name: json['name'],
+        code: json["code"],
+        name: json["name"],
         imagePath: json['imagePath'],
       );
 

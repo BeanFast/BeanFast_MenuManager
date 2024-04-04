@@ -30,7 +30,7 @@ class OrderActivity extends BaseModel {
         exchangeGiftId: json['exchangeGiftId'],
         code: json['code'],
         name: json['name'],
-        time: json['time'],
+        time: DateTime.parse(json['time']),
         imagePath: json['imagePath'],
       );
 

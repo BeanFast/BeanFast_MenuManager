@@ -7,6 +7,8 @@ class User extends BaseModel {
   String? phone;
   String? email;
   String? avatarPath;
+  String? deviceToken;
+  double? balance;
 
   User({
     id,
@@ -17,18 +19,26 @@ class User extends BaseModel {
     this.phone,
     this.email,
     this.avatarPath,
+    this.balance,
   }) : super(id: id, status: status);
 
-  factory User.fromJson(dynamic json) => User(
-        id: json["id"],
-        status: json['status'],
-        roleId: json["roleId"],
-        code: json['code'],
-        fullName: json['fullName'],
-        phone: json['phone'],
-        email: json['email'],
-        avatarPath: json['avatarPath'],
-      );
+  factory User.fromJson(dynamic json) {
+    double balance = 0;
+    if (json['balance'] != null) {
+      balance = double.parse(json['balance'].toString());
+    }
+    return User(
+      id: json["id"],
+      status: json['status'],
+      roleId: json["roleId"],
+      code: json['code'],
+      fullName: json['fullName'],
+      phone: json['phone'],
+      email: json['email'],
+      avatarPath: json['avatarPath'],
+      balance: balance,
+    );
+  }
 
   // Map<String, dynamic> toJson() {
   //   return {
