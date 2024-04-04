@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,15 +45,11 @@ class SchoolView extends GetView<SchoolController> {
             label: Text('Địa chỉ'),
           ),
           const DataColumn(
-            label: Text('Các cổng'),
-          ),
-          const DataColumn(
-            label: Text('Bếp phụ trách'),
+            label: Text('Số cổng'),
           ),
           const DataColumn(
             label: Text('Số học sinh'),
           ),
-          const DataColumn(label: Text('Trạng thái')),
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
@@ -62,6 +59,7 @@ class SchoolView extends GetView<SchoolController> {
   }
 
   DataRow setRow(int index, School school) {
+    print(school.locations);
     return DataRow(
       cells: [
         DataCell(Text((index + 1).toString())),
@@ -90,14 +88,14 @@ class SchoolView extends GetView<SchoolController> {
           ),
         ),
         DataCell(Text(school.address.toString())),
-        DataCell(Text(school.address.toString())),
-        DataCell(Text(school.kitchenId.toString())),
-        DataCell(Text(school.address.toString())),
-        DataCell(Text(school.status.toString())),
+        DataCell(Text(school.locations!.length.toString())),
+        DataCell(Text(school.studentCount.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
-            ManageMenuButtonTable(onPressed: () => Get.toNamed('/manage-menu')),
+            ManageMenuButtonTable(
+                onPressed: () => Get.toNamed(AppRoutes.manageMenu,
+                    parameters: {"schoolId": school.id!})),
             DetailButtonDataTable(onPressed: () {}),
             EditButtonDataTable(onPressed: () {}),
             DeleteButtonDataTable(onPressed: () {}),

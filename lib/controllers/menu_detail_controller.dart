@@ -4,7 +4,6 @@ import '/controllers/data_table_controller.dart';
 import '/views/pages/menu_detail_page.dart';
 
 class MenuDetailController extends DataTableController<Food> {
-
   void sortFoodByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
@@ -33,8 +32,7 @@ class MenuDetailController extends DataTableController<Food> {
       setDataTable(initModelList);
     } else {
       var dataList = initModelList
-          .where((e) =>
-              e.code!.toLowerCase().contains(value.toLowerCase()))
+          .where((e) => e.code!.toLowerCase().contains(value.toLowerCase()))
           .toList();
       setDataTable(dataList);
     }

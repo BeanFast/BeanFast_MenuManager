@@ -13,6 +13,7 @@ class School extends BaseModel {
   String? name;
   String? address;
   String? imagePath;
+  int? studentCount;
   Area? area;
   Kitchen? kitchen;
   List<Profile>? profiles;
@@ -26,7 +27,9 @@ class School extends BaseModel {
     this.code,
     this.name,
     this.address,
+    this.locations,
     this.imagePath,
+    this.studentCount,
   }) : super(id: id, status: status);
 
   factory School.fromJson(dynamic json) {
@@ -38,7 +41,13 @@ class School extends BaseModel {
       code: json['code'],
       name: json['name'],
       address: json['address'],
+      locations: json['locations'] != null
+          ? List<Location>.from(
+              json['locations'].map((x) => Location.fromJson(x)),
+            )
+          : [],
       imagePath: json['imagePath'] ?? "",
+      studentCount: json['studentCount'],
     );
   }
 

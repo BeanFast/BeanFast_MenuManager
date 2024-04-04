@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/services/order_service.dart';
 import 'package:get/get.dart';
 
 import '../enums/status_enum.dart';
@@ -29,7 +30,8 @@ abstract class OrderController extends DataTableController<Order> {
   @override
   Future getData(list) async {
     // final apiDataList = await Api().getData();
-    for (var e in apiDataOrderList) {
+    final apiOrderList = await OrderService().getByStatus(status);
+    for (var e in apiOrderList) {
       list.add(Order.fromJson(e));
     }
   }
@@ -127,7 +129,7 @@ class OrderPreparingController extends OrderController {
   void updateShowButtonOnHeader() {
     showButtonOnHeader.value = selectedOrderIds.isNotEmpty;
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage
@@ -143,7 +145,7 @@ class OrderDeliveringController extends OrderController {
           .setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage
@@ -159,7 +161,7 @@ class OrderCompletedController extends OrderController {
           .setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage
@@ -175,7 +177,7 @@ class OrderCancelledController extends OrderController {
           .setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage

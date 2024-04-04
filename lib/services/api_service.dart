@@ -11,6 +11,7 @@ class ApiService extends GetxService {
     headers: {
       Headers.contentTypeHeader: "application/json",
       Headers.acceptHeader: "text/plain"
+      // Headers.
     },
     sendTimeout: const Duration(seconds: 15),
     receiveTimeout: const Duration(seconds: 15),

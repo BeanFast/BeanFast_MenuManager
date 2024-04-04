@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/services/kitchen_service.dart';
 import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:beanfast_menumanager/views/pages/kitchen_page.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +55,10 @@ class KitchenController extends DataTableController<Kitchen> {
 
   @override
   Future getData(list) async {
-    // final apiDataList = await Api().getData();
+    final apiDataList = await KitchenService().getAll();
     logger.i('kitchen getData');
-    for (var e in apiDataKitchenList) {
-      initModelList.add(Kitchen.fromJson(e));
+    for (var e in apiDataList) {
+      initModelList.add(e);
     }
   }
 
@@ -66,13 +67,13 @@ class KitchenController extends DataTableController<Kitchen> {
       return const KitchenView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage
     throw UnimplementedError();
   }
-  
+
   @override
   void search(String value) {
     // TODO: implement search

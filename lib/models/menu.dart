@@ -20,6 +20,7 @@ class Menu extends BaseModel {
   Menu({
     id,
     status,
+    this.kitchen,
     this.kitchenId,
     this.createrId,
     this.updaterId,
@@ -34,6 +35,8 @@ class Menu extends BaseModel {
       id: json['id'],
       status: json['status'],
       kitchenId: json["kitchenId"],
+      kitchen:
+          json["kitchen"] != null ? Kitchen.fromJson(json["kitchen"]) : null,
       createrId: json['createrId'],
       updaterId: json['updaterId'],
       code: json['code'],

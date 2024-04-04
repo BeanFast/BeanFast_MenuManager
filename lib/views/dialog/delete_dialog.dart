@@ -1,10 +1,12 @@
+import 'package:beanfast_menumanager/services/menu_serivce.dart';
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DeleteDialog {
-  final void Function() onPressed;
+  void Function() onPressed = () {};
 
-  const DeleteDialog({required this.onPressed});
+  DeleteDialog({required this.onPressed});
 
   showDialog() {
     Get.defaultDialog(
@@ -25,14 +27,17 @@ class DeleteDialog {
     );
   }
 
-  showDialogMenu() {
+  showDialogMenu(String id) {
+    logger.i(id);
     Get.defaultDialog(
       title: 'Thông báo',
       content: const Text('Bạn không thể xóa khi thực đơn đang hoạt động.'),
       actions: <Widget>[
         TextButton(
           child: const Text('Đóng'),
-          onPressed: onPressed,
+          onPressed: () async {
+            print(await MenuService().delete(id));
+          },
         ),
       ],
     );

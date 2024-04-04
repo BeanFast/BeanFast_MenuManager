@@ -10,6 +10,7 @@ class Kitchen extends BaseModel {
   String? imagePath;
   List<School>? schools;
   List<Menu>? menus;
+  int? schoolCount;
 
   Kitchen({
     id,
@@ -17,6 +18,7 @@ class Kitchen extends BaseModel {
     this.areaId,
     this.code,
     this.name,
+    this.schoolCount,
     this.address,
     this.imagePath,
   }) : super(id: id, status: status);
@@ -27,6 +29,7 @@ class Kitchen extends BaseModel {
         areaId: json["areaId"],
         code: json['code'],
         name: json['name'],
+        schoolCount: json['schoolCount'],
         address: json['address'],
         imagePath: json['imagePath'] ?? "",
       );

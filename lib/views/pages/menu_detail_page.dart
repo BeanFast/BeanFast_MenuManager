@@ -14,7 +14,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
   Widget build(BuildContext context) {
     // final MenuDetailController controller = Get.find();
     // controller.currentCode = Get.parameters['code']!;
-
+    var menuId = Get.parameters['menuId'];
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Chi tiết thực đơn')),

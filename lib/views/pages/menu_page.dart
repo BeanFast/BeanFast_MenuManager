@@ -43,7 +43,6 @@ class MenuView extends GetView<MenuController> {
           const DataColumn(
             label: Text('Số sản phẩm'),
           ),
-          const DataColumn(label: Text('Trạng thái')),
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
@@ -65,24 +64,23 @@ class MenuView extends GetView<MenuController> {
         ),
         DataCell(
           TextDataTable(
-            data: menu.kitchenId.toString(),
+            data: menu.kitchen!.name!,
             maxLines: 2,
             width: 200,
           ),
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(
-            Text(menu.schools == null ? '0' : menu.schools!.length.toString())),
-        DataCell(Text(menu.status.toString())),
+        DataCell(Text(menu.menuDetails!.length.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(
                 onPressed: () => Get.toNamed('/menu-detail?code=123')),
             EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(
-                onPressed: DeleteDialog(onPressed: () {}).showDialogMenu()),
+            DeleteButtonDataTable(onPressed: () {
+              DeleteDialog(onPressed: () {}).showDialogMenu(menu.id!);
+            }),
           ],
         )),
       ],

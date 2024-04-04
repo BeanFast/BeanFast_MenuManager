@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/models/session.dart';
+import 'package:beanfast_menumanager/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -10,12 +12,11 @@ import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
-class SessionView extends GetView<ManageMenuController> {
+class SessionView extends GetView<SessionController> {
   const SessionView({super.key});
-
   @override
   Widget build(BuildContext context) {
-    ManageMenuController controller = Get.find();
+    SessionController controller = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách thực đơn'),
@@ -112,7 +113,8 @@ class SessionView extends GetView<ManageMenuController> {
     );
   }
 
-  DataRow setRow(int index, Menu menu) {
+  DataRow setRow(int index, Session session) {
+    var menu = session.menu!;
     return DataRow(
       cells: [
         DataCell(Text((index + 1).toString())),
@@ -132,19 +134,20 @@ class SessionView extends GetView<ManageMenuController> {
         ),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
         DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
-        DataCell(
-            Text(menu.schools == null ? '0' : menu.schools!.length.toString())),
-        DataCell(Text(menu.code!.toString())),
+        DataCell(Text(session.sessionDetails!.length.toString())),
+        DataCell(Text(menu.menuDetails!.length.toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Text((index + 1).toString())),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/menu-detail?code=123')),
+                onPressed: () => Get.toNamed(AppRoutes.menuDetail,
+                    parameters: {"menuId": menu.id!})),
             EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(
-                onPressed: DeleteDialog(onPressed: () {}).showDialogSession()),
+            DeleteButtonDataTable(onPressed: () {
+              DeleteDialog(onPressed: () {}).showDialogSession();
+            }),
           ],
         )),
       ],

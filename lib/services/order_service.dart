@@ -12,6 +12,19 @@ class OrderService {
   final String baseUrl = 'orders';
   final ApiService _apiService = getx.Get.put(ApiService());
 
+  Future<List<Order>> getAll() async {
+    final response = await _apiService.request.get('$baseUrl');
+    List<Order> list = [];
+    for (var e in response.data['data']) {
+      list.add(Order.fromJson(e));
+      var order = list.last;
+      var responseFood =
+          await FoodService().getById(order.orderDetails![0].foodId!);
+      order.orderDetails![0].food = Food.fromJson(responseFood.data['data']);
+    }
+    return list;
+  }
+
   Future<List<Order>> getByStatus(OrderStatus status) async {
     final response =
         await _apiService.request.get('$baseUrl?status=${status.code}');
@@ -31,7 +44,10 @@ class OrderService {
     return Order.fromJson(response.data['data']);
   }
 
-  Future<Response> createOrder(String sessionDetailId, String profileId, ) async {
+  Future<Response> createOrder(
+    String sessionDetailId,
+    String profileId,
+  ) async {
     try {
       List<Map<String, dynamic>> orderDetails = [];
 

@@ -14,7 +14,7 @@ class KitchenView extends GetView<KitchenController> {
 
   @override
   Widget build(BuildContext context) {
-  // final KitchenController controller = Get.find();
+    // final KitchenController controller = Get.find();
     logger.i('build KitchenView');
     return Obx(
       () => DataTableView(
@@ -39,8 +39,7 @@ class KitchenView extends GetView<KitchenController> {
           const DataColumn(label: Text('Hình ảnh')),
           DataColumn(
               label: const Text('Tên trường'),
-              onSort: (index, ascending) =>
-                  controller.sortByName(index)),
+              onSort: (index, ascending) => controller.sortByName(index)),
           const DataColumn(
             label: Text('Địa chỉ'),
           ),
@@ -50,7 +49,6 @@ class KitchenView extends GetView<KitchenController> {
           const DataColumn(
             label: Text('Số trường'),
           ),
-          const DataColumn(label: Text('Trạng thái')),
           const DataColumn(label: Text(' ')),
         ],
         // ignore: invalid_use_of_protected_member
@@ -89,10 +87,7 @@ class KitchenView extends GetView<KitchenController> {
         ),
         DataCell(Text(kitchen.address.toString())),
         DataCell(Text(kitchen.address.toString())),
-        DataCell(Text(kitchen.schools == null
-            ? '0'
-            : kitchen.schools!.length.toString())),
-        DataCell(Text(kitchen.status.toString())),
+        DataCell(Text(kitchen.schoolCount!.toString())),
         DataCell(Row(
           children: [
             const Spacer(),

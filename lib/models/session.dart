@@ -10,19 +10,20 @@ class Session extends BaseModel {
   DateTime? deliveryStartTime;
   DateTime? deliveryEndTime;
   Menu? menu;
-  List<SessionDetail>? sessionDetail;
+  List<SessionDetail>? sessionDetails;
 
-  Session({
-    id,
-    status,
-    this.menuId,
-    this.code,
-    this.orderStartTime,
-    this.orderEndTime,
-    this.deliveryStartTime,
-    this.deliveryEndTime,
-    this.menu
-  }) : super(id: id, status: status);
+  Session(
+      {id,
+      status,
+      this.menuId,
+      this.code,
+      this.orderStartTime,
+      this.orderEndTime,
+      this.deliveryStartTime,
+      this.deliveryEndTime,
+      this.sessionDetails,
+      this.menu})
+      : super(id: id, status: status);
 
   factory Session.fromJson(dynamic json) => Session(
         id: json["id"],
@@ -33,6 +34,8 @@ class Session extends BaseModel {
         orderEndTime: DateTime.parse(json['orderEndTime']),
         deliveryStartTime: DateTime.parse(json['deliveryStartTime']),
         deliveryEndTime: DateTime.parse(json['deliveryEndTime']),
+        sessionDetails: List<SessionDetail>.from(
+            json['sessionDetails'].map((x) => SessionDetail.fromJson(x))),
         menu: Menu.fromJson(json['menu']),
       );
 

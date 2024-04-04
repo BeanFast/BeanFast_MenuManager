@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/services/school_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -48,12 +49,13 @@ class SchoolController extends DataTableController<School> {
       imagePath.value = pickedFile.path;
     }
   }
+
   @override
   Future getData(list) async {
     logger.i('school getData');
-    // final apiDataList = await Api().getData();
-    for (var e in apiDataSchoolList) {
-      initModelList.add(School.fromJson(e));
+    final apiDataList = await SchoolService().getAll();
+    for (var e in apiDataList) {
+      initModelList.add(e);
     }
   }
 
@@ -62,13 +64,13 @@ class SchoolController extends DataTableController<School> {
       return const SchoolView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-  
+
   @override
   Future loadPage(int page) {
     // TODO: implement loadPage
     throw UnimplementedError();
   }
-  
+
   @override
   void search(String value) {
     // TODO: implement search

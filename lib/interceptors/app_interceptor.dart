@@ -1,12 +1,17 @@
+import 'package:beanfast_menumanager/controllers/auth_controller.dart';
 import 'package:dio/dio.dart';
 // import 'package:get/get.dart' hide Response;
 
 import '/utils/logger.dart';
 
-class AppInterceptor extends Interceptor {
+class AppInterceptor extends Interceptor with CacheManager {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     logger.i('Custom Interceptor - onRequest');
+    var token = getToken();
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer ' + token;
+    } else {}
     return super.onRequest(options, handler);
   }
 
@@ -15,6 +20,15 @@ class AppInterceptor extends Interceptor {
     // Xử lý sau khi nhận được phản hồi
     logger.i('Custom Interceptor - onResponse');
     logger.i(response.toString());
+    final status = response.statusCode;
+    final isValid = status != null && status >= 200 && status < 300;
+    if (!isValid) {
+      // throw DioException.badResponse(
+      //   statusCode: status!,
+      //   requestOptions: response.requestOptions,
+      //   response: response,
+      // );
+    }
     return super.onResponse(response, handler);
   }
 
@@ -22,26 +36,11 @@ class AppInterceptor extends Interceptor {
   onError(DioException err, ErrorInterceptorHandler handler) {
     // Xử lý khi có lỗi
     logger.i('Custom Interceptor - onError');
-
-    // Get.to(ErrorView(
-    //   errorMessage: 'Đã xảy ra lỗi',
-    //   tryAgain: () {},
-    // ));
-
-    // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
-    //   // Xử lý lỗi 400 hoặc 500 ở đây
-    //   print('Error ${err.response?.statusCode}: ${err.message}');
-
-    //   // Điều hướng đến trang cụ thể trong GetX
-
-    //   Get.off('/error_page');
-
-    //   // Để ngăn chặn xử lý lỗi tiếp theo, không gọi handler.next(error);
-    //   return;
+    logger.i(err.message);
+    handler.next(err);
+    // if (err.response!.statusCode! >= 500) {
+    //   logger.e('Server error');
+    //   return super.onError(err, handler);
     // }
-
-    // Nếu không phải là lỗi mong muốn, chuyển tiếp xử lý đến interceptor khác (nếu có)
-
-    return super.onError(err, handler);
   }
 }

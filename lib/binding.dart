@@ -9,7 +9,6 @@ import '/controllers/menu_controller.dart';
 import '/controllers/school_controller.dart';
 import '/controllers/menu_detail_controller.dart';
 import 'controllers/session_controller.dart';
-import '/controllers/order_controller.dart';
 
 class AuthBindingController extends Bindings {
   @override
@@ -24,12 +23,14 @@ class AuthBindingController extends Bindings {
     // Get.lazyPut<OrderController>(() => OrderController());
   }
 }
+
 class HomeBindingController extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(() => HomeController());
   }
 }
+
 class FoodBindingController extends Bindings {
   @override
   void dependencies() {
@@ -37,21 +38,24 @@ class FoodBindingController extends Bindings {
     Get.lazyPut<FoodController>(() => FoodController());
   }
 }
+
 class MenuBindingController extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MenuController>(() => MenuController());
   }
 }
+
 class MenuDetailBindingController extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<MenuDetailController>(() => MenuDetailController());
   }
 }
+
 class ManageMenuViewBindingController extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ManageMenuController>(() => ManageMenuController());
+    Get.lazyPut<SessionController>(() => SessionController());
   }
 }
