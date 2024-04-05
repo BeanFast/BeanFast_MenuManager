@@ -26,7 +26,7 @@ class SchoolView extends GetView<SchoolController> {
         loadPage: (page) => controller.loadPage(page),
         search: (value) {
           controller.searchString.value = value;
-          controller.searchName();
+          controller.searchNameOrCode();
         },
         sortColumnIndex: controller.columnIndex.value,
         sortAscending: controller.columnAscending.value,

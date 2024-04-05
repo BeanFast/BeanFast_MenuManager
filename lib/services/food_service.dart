@@ -16,6 +16,15 @@ class FoodService {
     return response.data;
   }
 
+  Future<Food?> getByCode(String code) async {
+    final response = await _apiService.request.get('foods?code=$code');
+    List<Food> list = response.data["data"] as List<Food>;
+    if (list.isNotEmpty && list != null) {
+      return Food.fromJson(list[0]);
+    }
+    return null;
+  }
+
   Future<dynamic> getById(String id) async {
     final response = await _apiService.request.get('$baseUrl/$id');
     return response.data;

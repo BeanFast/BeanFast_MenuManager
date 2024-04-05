@@ -67,7 +67,8 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) currentModelList = currentModelList.reversed.toList();
+    if (!columnAscending.value)
+      currentModelList = currentModelList.reversed.toList();
     setDataTable(currentModelList);
   }
 
@@ -75,16 +76,23 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value) currentModelList = currentModelList.reversed.toList();
+    if (!columnAscending.value)
+      currentModelList = currentModelList.reversed.toList();
     setDataTable(currentModelList);
   }
 
   Future getByCode(String code) async {
     try {
       var value = initModelList.firstWhereOrNull((e) => e.code == code);
-      if (value == null) return model.value = null;
-      var data = await FoodService().getById(value.id!);
-      return model.value = Food.fromJson(data);
+      // if (value == null) {
+      //   var food = await FoodService().getByCode(code);
+      //   if (food != null) {
+      //     model.value = food;
+      //     return;
+      //   }
+      // }
+      var data = await FoodService().getById(value!.id!);
+      model.value = Food.fromJson(data);
     } catch (e) {
       logger.e('FoodController: $e');
     }

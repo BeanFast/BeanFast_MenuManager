@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/models/menu_detail.dart';
+import 'package:beanfast_menumanager/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
   @override
   Widget build(BuildContext context) {
     Get.put(MenuDetailController());
-    print(menuDetails.toString());
+    // print(menuDetails.toString());
     if (menuDetails != null && menuDetails!.length > 0) {
       for (var i = 0; i < menuDetails!.length; i++) {
         var menuDetail = menuDetails![i];
@@ -114,12 +115,13 @@ class MenuDetailView extends GetView<MenuDetailController> {
           ),
         ),
         DataCell(Text(food.price.toString())),
-        DataCell(Text(food.categoryId.toString())),
+        DataCell(Text(food.category!.name!)),
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
+            // DetailButtonDataTable(
+            //     onPressed: () =>
+            //         Get.toNamed('${AppRoutes.foodDetail}?code=${food.code}')),
             EditButtonDataTable(onPressed: () {}),
             DeleteButtonDataTable(onPressed: () {}),
           ],

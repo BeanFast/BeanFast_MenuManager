@@ -1,4 +1,6 @@
 import 'package:beanfast_menumanager/models/menu_detail.dart';
+import 'package:beanfast_menumanager/services/menu_serivce.dart';
+import 'package:get/get.dart';
 
 import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
@@ -41,8 +43,10 @@ class MenuDetailController extends DataTableController<MenuDetail> {
 
   @override
   Future getData(list) async {
-    for (var e in apiDataFoodList) {
-      // initModelList.add(e);
+    var menuCode = Get.parameters['menuCode'];
+    var menu = await MenuService().getByCode(menuCode!);
+    for (var e in menu.menuDetails!) {
+      initModelList.add(e);
     }
   }
 

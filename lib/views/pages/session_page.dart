@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/models/session.dart';
+import 'package:beanfast_menumanager/routes/app_routes.dart';
 import 'package:beanfast_menumanager/views/pages/menu_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -142,9 +143,8 @@ class SessionView extends GetView<SessionController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                onPressed: () => Get.to(
-                      MenuDetailView(menuDetails: menu.menuDetails!),
-                    )),
+                onPressed: () => Get.toNamed(AppRoutes.menuDetail,
+                    parameters: {"menuCode": menu.code!})),
             EditButtonDataTable(onPressed: () {}),
             DeleteButtonDataTable(onPressed: () {
               DeleteDialog(onPressed: () {}).showDialogSession();
@@ -184,7 +184,7 @@ class SessionView extends GetView<SessionController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/menu-detail?code=123')),
+                onPressed: () => Get.toNamed(AppRoutes.menuDetail)),
           ],
         )),
       ],

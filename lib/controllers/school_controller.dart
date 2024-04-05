@@ -23,13 +23,16 @@ class SchoolController extends DataTableController<School> {
   @override
   Rx<bool> columnAscending = true.obs;
 
-  void searchName() {
+  void searchNameOrCode() {
     if (searchString.value == '') {
       setDataTable(initData);
     } else {
       dataList = initData
           .where((e) =>
-              e.name!.toLowerCase().contains(searchString.value.toLowerCase()))
+              e.name!
+                  .toLowerCase()
+                  .contains(searchString.value.toLowerCase()) ||
+              e.code!.toLowerCase().contains(searchString.value.toLowerCase()))
           .toList();
       setDataTable(dataList);
     }
@@ -57,6 +60,7 @@ class SchoolController extends DataTableController<School> {
   Future getData(list) async {
     logger.i('school getData');
     final apiDataList = await SchoolService().getAll();
+    initData = apiDataList;
     for (var e in apiDataList) {
       initModelList.add(e);
     }
