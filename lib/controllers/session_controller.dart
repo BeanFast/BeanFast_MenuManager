@@ -2,7 +2,6 @@ import 'package:beanfast_menumanager/models/session.dart';
 import 'package:beanfast_menumanager/services/session_service.dart';
 import 'package:get/get.dart';
 
-import '/models/menu.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 import '../views/pages/session_page.dart';

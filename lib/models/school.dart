@@ -1,4 +1,3 @@
-import '/utils/logger.dart';
 
 import 'base_model.dart';
 import 'area.dart';

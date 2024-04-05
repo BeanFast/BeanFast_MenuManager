@@ -1,20 +1,28 @@
+import 'package:beanfast_menumanager/models/menu_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/food.dart';
 import '/controllers/menu_detail_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 
 class MenuDetailView extends GetView<MenuDetailController> {
-  const MenuDetailView({super.key});
+  List<MenuDetail>? menuDetails = [];
+  MenuDetailView({this.menuDetails, super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final MenuDetailController controller = Get.find();
-    // controller.currentCode = Get.parameters['code']!;
-    var menuId = Get.parameters['menuId'];
+    Get.put(MenuDetailController());
+    print(menuDetails.toString());
+    if (menuDetails != null && menuDetails!.length > 0) {
+      for (var i = 0; i < menuDetails!.length; i++) {
+        var menuDetail = menuDetails![i];
+        print(menuDetail.toString());
+        controller.rows.add(setMenuDetailRow(i, menuDetail));
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Chi tiết thực đơn')),
@@ -64,7 +72,6 @@ class MenuDetailView extends GetView<MenuDetailController> {
                       const DataColumn(
                         label: Text('Loại'),
                       ),
-                      const DataColumn(label: Text('Trạng thái')),
                       const DataColumn(label: Text(' ')),
                     ],
                     // ignore: invalid_use_of_protected_member
@@ -77,7 +84,9 @@ class MenuDetailView extends GetView<MenuDetailController> {
     );
   }
 
-  DataRow setFoodRow(int index, Food food) {
+  DataRow setMenuDetailRow(int index, MenuDetail menuDetail) {
+    print(menuDetail);
+    var food = menuDetail.food!;
     return DataRow(
       cells: [
         DataCell(Text((index + 1).toString())),
@@ -106,7 +115,6 @@ class MenuDetailView extends GetView<MenuDetailController> {
         ),
         DataCell(Text(food.price.toString())),
         DataCell(Text(food.categoryId.toString())),
-        DataCell(Text(food.status.toString())),
         DataCell(Row(
           children: [
             const Spacer(),

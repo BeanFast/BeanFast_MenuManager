@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: AppRoutes.menuDetail,
-          page: () => const MenuDetailView(),
+          page: () => MenuDetailView(),
           binding: MenuDetailBindingController(),
         ),
         GetPage(

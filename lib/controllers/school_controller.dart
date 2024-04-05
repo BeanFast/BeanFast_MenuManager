@@ -5,19 +5,22 @@ import 'package:image_picker/image_picker.dart';
 
 import '/utils/logger.dart';
 import '/models/school.dart';
-import '/services/init_data.dart';
 import '/views/pages/school_page.dart';
 import 'data_table_controller.dart';
 
 class SchoolController extends DataTableController<School> {
+  @override
   TextEditingController searchController = TextEditingController();
   List<School> initData = <School>[];
   List<School> dataList = <School>[];
+  @override
   RxList<DataRow> rows = <DataRow>[].obs;
   Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
 
+  @override
   Rx<int> columnIndex = 0.obs;
+  @override
   Rx<bool> columnAscending = true.obs;
 
   void searchName() {
@@ -59,6 +62,7 @@ class SchoolController extends DataTableController<School> {
     }
   }
 
+  @override
   void setDataTable(List<School> list) {
     rows.value = list.map((dataMap) {
       return const SchoolView().setRow(list.indexOf(dataMap), dataMap);

@@ -10,7 +10,7 @@ class AppInterceptor extends Interceptor with CacheManager {
     logger.i('Custom Interceptor - onRequest');
     var token = getToken();
     if (token != null) {
-      options.headers['Authorization'] = 'Bearer ' + token;
+      options.headers['Authorization'] = 'Bearer $token';
     } else {}
     return super.onRequest(options, handler);
   }

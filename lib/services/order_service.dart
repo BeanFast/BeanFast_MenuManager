@@ -13,7 +13,7 @@ class OrderService {
   final ApiService _apiService = getx.Get.put(ApiService());
 
   Future<List<Order>> getAll() async {
-    final response = await _apiService.request.get('$baseUrl');
+    final response = await _apiService.request.get(baseUrl);
     List<Order> list = [];
     for (var e in response.data['data']) {
       list.add(Order.fromJson(e));

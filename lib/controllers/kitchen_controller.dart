@@ -6,20 +6,23 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/models/kitchen.dart';
-import '/services/init_data.dart';
 import 'data_table_controller.dart';
 
 class KitchenController extends DataTableController<Kitchen> {
+  @override
   TextEditingController searchController = TextEditingController();
   List<Kitchen> initData = <Kitchen>[];
   List<Kitchen> dataList = <Kitchen>[];
+  @override
   RxList<DataRow> rows = <DataRow>[].obs;
   Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
 
   Rx<String> a = 'a'.obs;
 
+  @override
   Rx<int> columnIndex = 0.obs;
+  @override
   Rx<bool> columnAscending = true.obs;
 
   void searchName() {
@@ -62,6 +65,7 @@ class KitchenController extends DataTableController<Kitchen> {
     }
   }
 
+  @override
   void setDataTable(List<Kitchen> list) {
     rows.value = list.map((dataMap) {
       return const KitchenView().setRow(list.indexOf(dataMap), dataMap);

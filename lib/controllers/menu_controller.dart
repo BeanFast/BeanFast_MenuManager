@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/models/menu.dart';
-import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 import '/views/pages/menu_page.dart';

@@ -1,14 +1,15 @@
+import 'package:beanfast_menumanager/models/menu_detail.dart';
+
 import '/services/init_data.dart';
-import '/models/food.dart';
 import '/controllers/data_table_controller.dart';
 import '/views/pages/menu_detail_page.dart';
 
-class MenuDetailController extends DataTableController<Food> {
+class MenuDetailController extends DataTableController<MenuDetail> {
   void sortFoodByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     var dataList = initModelList;
-    dataList.sort((a, b) => a.name!.compareTo(b.name!));
+    dataList.sort((a, b) => a.food!.name!.compareTo(b.food!.name!));
     if (!columnAscending.value) {
       dataList = dataList.reversed.toList();
     }
@@ -41,7 +42,7 @@ class MenuDetailController extends DataTableController<Food> {
   @override
   Future getData(list) async {
     for (var e in apiDataFoodList) {
-      initModelList.add(Food.fromJson(e));
+      // initModelList.add(e);
     }
   }
 
@@ -52,9 +53,9 @@ class MenuDetailController extends DataTableController<Food> {
   }
 
   @override
-  void setDataTable(List<Food> list) {
+  void setDataTable(List<MenuDetail> list) {
     rows.value = list.map((dataMap) {
-      return const MenuDetailView().setFoodRow(list.indexOf(dataMap), dataMap);
+      return MenuDetailView().setMenuDetailRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 }

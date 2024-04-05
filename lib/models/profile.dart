@@ -1,5 +1,4 @@
 import '/models/bmi.dart';
-import '/utils/logger.dart';
 
 import 'base_model.dart';
 import 'exchange_gift.dart';

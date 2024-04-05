@@ -2,7 +2,6 @@ import 'package:beanfast_menumanager/views/pages/widget/order_cancelled_tabview.
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/order.dart';
 import '/controllers/order_controller.dart';
 import '/views/pages/widget/pickedDate_widget.dart';
 import 'widget/order_completed_tabview.dart';
