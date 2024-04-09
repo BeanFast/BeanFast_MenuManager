@@ -10,10 +10,10 @@ enum FooodStatus {
 }
 
 enum OrderStatus {
-  preparing(1, 'Đang chuẩn bị'),
-  delivering(2, 'Đang giao'),
-  completed(3, 'Đã hoàn thành'),
-  cancelled(-1, 'Đã hủy');
+  preparing(3, 'Đang chuẩn bị'),
+  delivering(4, 'Đang giao'),
+  completed(5, 'Đã hoàn thành'),
+  cancelled(6, 'Đã hủy');
 
   const OrderStatus(this.code, this.message);
 

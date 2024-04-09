@@ -1,10 +1,10 @@
-import 'package:beanfast_menumanager/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/utils/logger.dart';
 import '/models/school.dart';
 import '/controllers/school_controller.dart';
+import '/routes/app_routes.dart';
+import '/views/pages/loading_page.dart';
 import '/views/dialog/create_school_dialog.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
@@ -16,44 +16,46 @@ class SchoolView extends GetView<SchoolController> {
   @override
   Widget build(BuildContext context) {
     final SchoolController controller = Get.find();
-    logger.i('build SchoolView');
-    return Obx(
-      () => DataTableView(
-        title: 'Quản lý trường',
-        isShowCreateDialog: true,
-        showCreateDialog: showCreateSchoolDialog,
-        refreshData: controller.refreshData,
-        loadPage: (page) => controller.loadPage(page),
-        search: (value) {
-          controller.searchString.value = value;
-          controller.searchNameOrCode();
-        },
-        sortColumnIndex: controller.columnIndex.value,
-        sortAscending: controller.columnAscending.value,
-        columns: <DataColumn>[
-          const DataColumn(
-            label: Text('Stt'),
-          ),
-          const DataColumn(
-            label: Text('Code'),
-          ),
-          const DataColumn(label: Text('Hình ảnh')),
-          DataColumn(
-              label: const Text('Tên trường'),
-              onSort: (index, ascending) => controller.sortByName(index)),
-          const DataColumn(
-            label: Text('Địa chỉ'),
-          ),
-          const DataColumn(
-            label: Text('Số cổng'),
-          ),
-          const DataColumn(
-            label: Text('Số học sinh'),
-          ),
-          const DataColumn(label: Text(' ')),
-        ],
-        // ignore: invalid_use_of_protected_member
-        rows: controller.rows.value,
+    return LoadingView(
+      future: controller.refreshData,
+      child: Obx(
+        () => DataTableView(
+          title: 'Quản lý trường',
+          isShowCreateDialog: true,
+          showCreateDialog: showCreateSchoolDialog,
+          refreshData: controller.refreshData,
+          loadPage: (page) => controller.loadPage(page),
+          search: (value) {
+            controller.searchString.value = value;
+            controller.searchNameOrCode();
+          },
+          sortColumnIndex: controller.columnIndex.value,
+          sortAscending: controller.columnAscending.value,
+          columns: <DataColumn>[
+            const DataColumn(
+              label: Text('Stt'),
+            ),
+            const DataColumn(
+              label: Text('Code'),
+            ),
+            const DataColumn(label: Text('Hình ảnh')),
+            DataColumn(
+                label: const Text('Tên trường'),
+                onSort: (index, ascending) => controller.sortByName(index)),
+            const DataColumn(
+              label: Text('Địa chỉ'),
+            ),
+            const DataColumn(
+              label: Text('Số cổng'),
+            ),
+            const DataColumn(
+              label: Text('Số học sinh'),
+            ),
+            const DataColumn(label: Text(' ')),
+          ],
+          // ignore: invalid_use_of_protected_member
+          rows: controller.rows.value,
+        ),
       ),
     );
   }

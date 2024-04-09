@@ -1,21 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../services/auth_service.dart';
+import '/utils/logger.dart';
 import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
-
-
 class AuthController extends GetxController with CacheManager {
-
   late Rx<Account?> account;
   Rx<AuthState> authState = AuthState.unauthenticated.obs;
   // final RxBool logged = false.obs;
 
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  RxString errorMessage = ''.obs;
   // final _authState = Rx<AuthState>(AuthState.unknown);
 
   // Stream<AuthState> get authStateChanges => _authState.stream;
@@ -24,83 +25,42 @@ class AuthController extends GetxController with CacheManager {
   }
 
   void checkLoginStatus() {
-    final token = getToken();
-    print('token: $token');
+    final String? token = getToken();
+    logger.e('token - ${token != null}');
     if (token != null) {
-      changeAuthState(AuthState.authenticated);
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      final expiryTimestamp = decodedToken["exp"];
+      final currentTime = DateTime.now().millisecondsSinceEpoch;
+      if (expiryTimestamp < currentTime) {
+        changeAuthState(AuthState.authenticated);
+        return;
+      }
     }
+    logOut();
   }
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  //   firebaseUser = Rx<User?>(auth.currentUser);
-  //   firebaseUser.bindStream(auth.userChanges());
-
-  //   ever(firebaseUser, _setInitialScreen);
-  // }
-
-  // _setInitialScreen(User? user) {
-  //   if (user != null) {
-  //     // user is logged in
-  //     Get.offAll(() => const Home());
-  //   } else {
-  //     // user is null as in user is not available or not logged in
-  //     Get.offAll(() => Login());
-  //   }
-  // }
-
-  // void register(String email, String password) async {
-  //   try {
-  //     await auth.createUserWithEmailAndPassword(
-  //         email: email, password: password);
-  //   } on FirebaseAuthException catch (e) {
-  //     // this is solely for the Firebase Auth Exception
-  //     // for example : password did not match
-  //     print(e.message);
-  //     // Get.snackbar("Error", e.message!);
-  //     Get.snackbar(
-  //       "Error",
-  //       e.message!,
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //   } catch (e) {
-  //     // this is temporary. you can handle different kinds of activities
-  //     //such as dialogue to indicate what's wrong
-  //     print(e.toString());
-  //   }
-  // }
-
-  // void login(String email, String password) async {
-  //   try {
-  //     await auth.signInWithEmailAndPassword(email: email, password: password);
-  //   } on FirebaseAuthException catch (e) {
-  //     // this is solely for the Firebase Auth Exception
-  //     // for example : password did not match
-  //     print(e.message);
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
   void login() async {
-    changeAuthState(AuthState.authenticated);
-    String token =
-        'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNjFmNmUwYi0yYjFlLTRkM2QtOGU4Zi0wYTViOWMwZDFlMmYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUXXhuqNuIGzDvSBi4bq_cCAxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiTUFOQUdFUiIsImV4cCI6MTcxMjY5MzU2MX0.VEY2JDGn-tuxUUONAwazHCLlgBi2JlDyGGEJBLFEHbk';
-    //Token is cached
-    await saveToken(token);
+    emailController.text = 'kitchen.manager01.beanfast@gmail.com';
+    passwordController.text = '12345678';
+    try {
+      logger.e('login');
+      var response = await AuthService()
+          .login(emailController.text, passwordController.text);
+      if (response.statusCode == 200) {
+        changeAuthState(AuthState.authenticated);
+        await saveToken(response.data['data']['accessToken']); //Token is cached
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 400) {
+        errorMessage.value = 'Tài khoản hoặc mật khẩu không đúng';
+      }
+    }
   }
 
   void logOut() {
     changeAuthState(AuthState.unauthenticated);
     removeToken();
   }
-  // void signOut() {
-  //   try {
-  //     auth.signOut();
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 }
 
 mixin CacheManager {

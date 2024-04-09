@@ -1,5 +1,3 @@
-import '/models/bmi.dart';
-
 import 'base_model.dart';
 import 'exchange_gift.dart';
 import 'order.dart';
@@ -7,6 +5,7 @@ import 'school.dart';
 import 'user.dart';
 import 'wallet.dart';
 import 'loyaty_card.dart';
+import 'bmi.dart';
 
 class Profile extends BaseModel {
   String? userId;
@@ -64,7 +63,9 @@ class Profile extends BaseModel {
       avatarPath: json['avatarPath'],
       dob: DateTime.parse(json['dob']),
       className: json['class'],
-      currentBMI: double.parse(json['currentBMI'].toString()),
+      currentBMI: json['currentBMI'] == null
+          ? 0
+          : double.parse(json['currentBMI'].toString()),
       school: school,
       // wallets: wallets.add(value) Wallet.fromJson(json['wallet']).toList(),
       loyaltyCards: json['loyaltyCards']?.map<LoyaltyCard>((item) {

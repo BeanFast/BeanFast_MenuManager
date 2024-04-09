@@ -46,7 +46,7 @@ class Food extends BaseModel {
       description: json['description'],
       isCombo: json['isCombo'],
       imagePath: json['imagePath'] ??
-          'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+          'https://firebasestorage.googleapis.com/v0/b/framemates-9999.appspot.com/o/Food%2Fh%E1%BB%A7%20ti%E1%BA%BFu%20b%C3%B2%20kho.jpeg?alt=media&token=8ec2a2c9-826a-456e-9bdc-3cc49cbb2f8b',
       category: Category.fromJson(json['category']));
 
   // Map<String, dynamic> toJson() {

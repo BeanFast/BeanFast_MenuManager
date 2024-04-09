@@ -15,15 +15,8 @@ abstract class DataTableController<T> extends GetxController {
   Future<void> refreshData() async {
     initModelList.clear();
     await getData(initModelList);
-    currentModelList = initModelList;
-    setDataTable(initModelList);
-  }
-
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    await getData(initModelList);
-    currentModelList = initModelList;
+    currentModelList.clear();
+    currentModelList.addAll(initModelList);
     setDataTable(initModelList);
   }
 

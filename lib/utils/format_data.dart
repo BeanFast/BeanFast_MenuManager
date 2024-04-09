@@ -1,4 +1,14 @@
+import 'package:intl/intl.dart';
+
 class Formatter {
+  static String formatMoney(String value) {
+    String result = value.split('.')[0];
+    final f = NumberFormat("#,###", "vi_VN");
+    int num = int.parse(result.replaceAll(f.symbols.GROUP_SEP, ''));
+    final newString = '${f.format(num)}đ';
+    return newString;
+  }
+
   static String formatPriceToString(String value) {
     final formattedValue = StringBuffer();
     for (int i = value.length - 1; i >= 0; i--) {

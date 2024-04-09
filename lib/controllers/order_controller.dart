@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/services/order_service.dart';
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../enums/status_enum.dart';
@@ -26,30 +27,13 @@ abstract class OrderController extends DataTableController<Order> {
 
   @override
   Future getData(list) async {
-    // final apiDataList = await Api().getData();
-    final apiOrderList = await OrderService().getByStatus(status);
-    for (var e in apiOrderList) {
-      list.add(Order.fromJson(e));
+    try {
+      final data = await OrderService().getByStatus(status);
+      list.addAll(data);
+    } catch (e) {
+      throw Exception(e);
     }
   }
-  // void loadDataTable(OrderStatus status) {
-  //   print('loadDataTable');
-  //   switch (status) {
-  //     case OrderStatus.preparing:
-  //       setDataTablePreparing(initModelList);
-  //       break;
-  //     case OrderStatus.delivering:
-  //       setDataTableDelivering(initModelList);
-  //       break;
-  //     case OrderStatus.completed:
-  //       setDataTableCompleted(initModelList);
-  //       break;
-  //     case OrderStatus.cancelled:
-  //       setDataTableCancelled(initModelList);
-  //       break;
-  //     default:
-  //   }
-  // }
 
   void sortByPaymentDate(int index) {
     columnIndex.value = index;
@@ -71,20 +55,16 @@ abstract class OrderController extends DataTableController<Order> {
     }
     setDataTable(currentModelList);
   }
+
+  void cancelOrder(String orderId) {
+    logger.e('cancelOrder');
+  }
 }
 
 class OrderPreparingController extends OrderController {
   RxBool headerCheckboxValue = false.obs;
   RxSet<String> selectedOrderIds = <String>{}.obs;
   RxBool showButtonOnHeader = false.obs;
-
-  // @override
-  // Future<void> onInit() async {
-  //   super.onInit();
-  //   await getData(initModelList);
-  //   currentModelList = initModelList;
-  //   setDataTablePreparing(initModelList);
-  // }
 
   @override
   void setDataTable(List<Order> list) {

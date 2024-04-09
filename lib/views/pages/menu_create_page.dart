@@ -1,15 +1,21 @@
-import 'package:beanfast_menumanager/controllers/food_controller.dart';
-import 'package:beanfast_menumanager/views/pages/widget/data_table_page.dart';
+import 'package:beanfast_menumanager/models/menu_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-class MenuCreateView extends StatelessWidget {
+import '/utils/data_table.dart';
+import '/models/food.dart';
+import '/utils/format_data.dart';
+import '/controllers/menu_create_update_controller.dart';
+import '/views/pages/loading_page.dart';
+import '/views/pages/widget/data_table_page.dart';
+import 'widget/text_data_table_widget.dart';
+
+class MenuCreateView extends GetView<MenuCreateController> {
   const MenuCreateView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(MenuCreateController());
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -27,171 +33,63 @@ class MenuCreateView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 40,
                 child: Row(
                   children: [
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 20),
                         child: FloatingActionButton.extended(
                           onPressed: showAddFoodToMenuDialog,
-                          label: Text('Thêm sản phẩm'),
+                          label: const Text('Thêm sản phẩm'),
                         ),
                       ),
                     ),
+                    const Spacer(flex: 8),
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 20),
                         child: FloatingActionButton.extended(
-                          onPressed: showAddComboToMenuDialog,
-                          label: Text('Thêm Combo'),
-                        ),
-                      ),
-                    ),
-                    Spacer(flex: 8),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: FloatingActionButton.extended(
-                          onPressed: showAddComboToMenuDialog,
-                          label: Text('Tạo'),
+                          onPressed: controller.createMenu,
+                          label: const Text('Tạo'),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              DataTable(
-                columns: const <DataColumn>[
-                  DataColumn(
-                    label: Text(
-                      'Code',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Hình ảnh',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Tên sản phẩm',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Mô tả',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Loại',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Combo',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Giá',
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Giá bán',
-                    ),
-                  ),
-                ],
-                rows: <DataRow>[
-                  DataRow(
-                    cells: <DataCell>[
-                      const DataCell(Text('#011111')),
-                      DataCell(SizedBox(
-                        width: 80,
-                        child: Image.network(
-                          'https://picsum.photos/250?image=9',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      )),
-                      const DataCell(Text('Tên sản phẩm 11111111111111111111111')),
-                      const DataCell(Text('Mô tả sản phẩm 1')),
-                      const DataCell(Text('Loại 1')),
-                      const DataCell(Text('No')),
-                      const DataCell(Text('300.000')),
-                      DataCell(
-                        SizedBox(
-                          width: 150,
-                          height: 45,
-                          child: TextFormField(
-                            initialValue: '150.000',
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              CurrencyInputFormatter(),
-                            ],
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a number';
-                              }
-                              return null;
-                            },
-                            onSaved: (String? value) {
-                              // Save the value
-                            },
+              SizedBox(
+                width: Get.width,
+                child: Obx(() => PaginatedDataTable(
+                        // sortColumnIndex: controller.columnIndex.value,
+                        // sortAscending: controller.columnAscending.value,
+                        columns: [
+                          const DataColumn(
+                            label: Text('Stt'),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  DataRow(
-                    cells: <DataCell>[
-                      const DataCell(Text('#011111')),
-                      DataCell(SizedBox(
-                        width: 80,
-                        child: Image.network(
-                          'https://picsum.photos/250?image=9',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      )),
-                      const DataCell(Text('Tên sản phẩm 11111111111111111111111')),
-                      const DataCell(Text('Mô tả sản phẩm 1')),
-                      const DataCell(Text('Loại 1')),
-                      const DataCell(Text('No')),
-                      const DataCell(Text('300.000')),
-                      DataCell(
-                        SizedBox(
-                          width: 150,
-                          height: 45,
-                          child: TextFormField(
-                            initialValue: '150.000',
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              CurrencyInputFormatter(),
-                            ],
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a number';
-                              }
-                              return null;
-                            },
-                            onSaved: (String? value) {
-                              // Save the value
-                            },
+                          const DataColumn(
+                            label: Text('Code'),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                          const DataColumn(label: Text('Hình ảnh')),
+                          DataColumn(
+                              label: const Text('Tên sản phẩm'),
+                              onSort: (index, ascending) =>
+                                  (index, ascending) {}),
+                          const DataColumn(label: Text('Loại')),
+                          const DataColumn(label: Text('Combo')),
+                          const DataColumn(label: Text('Giá bán')),
+                          DataColumn(
+                              label: const Text('Giá'),
+                              onSort: (index, ascending) =>
+                                  (index, ascending) {}),
+                          const DataColumn(label: Text('')),
+                        ],
+                        source: MyDataTable(
+                            // ignore: invalid_use_of_protected_member
+                            rows: controller.menuDetailRows.value))),
               ),
             ],
           ),
@@ -199,196 +97,173 @@ class MenuCreateView extends StatelessWidget {
       ),
     );
   }
-}
 
-class CurrencyInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    if (newValue.text.isEmpty) {
-      return newValue.copyWith(text: '');
-    } else if (newValue.text.compareTo(oldValue.text) != 0) {
-      int selectionIndexFromTheRight =
-          newValue.text.length - newValue.selection.end;
-      final f = NumberFormat("#,###", "vi_VN");
-      int num = int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
-      final newString = f.format(num);
-      return TextEditingValue(
-        text: newString,
-        selection: TextSelection.collapsed(
-            offset: newString.length - selectionIndexFromTheRight),
-      );
-    } else {
-      return newValue;
-    }
-  }
-}
-
-void showAddFoodToMenuDialog() {
-  final FoodController foodController = Get.put(FoodController());
-  Get.dialog(
-    AlertDialog(
-      content: SizedBox(
-        height: Get.height * 0.8,
-        width: Get.width,
-        child: DataTableView(
-          title: 'Danh sách sản phẩm',
-          isShowCreateDialog: false,
-          showCreateDialog: () {},
-          sortColumnIndex: foodController.columnIndex.value,
-          sortAscending: foodController.columnAscending.value,
-          search: (value) => foodController.search(value),
-          refreshData: foodController.refreshData,
-          loadPage: (page) => foodController.loadPage(page),
-          columns: [
-            const DataColumn(
-              label: Text('Stt'),
-            ),
-            const DataColumn(
-              label: Text('Code'),
-            ),
-            const DataColumn(label: Text('Hình ảnh')),
-            DataColumn(
-                label: const Text('Tên sản phẩm'),
-                onSort: (index, ascending) =>
-                    foodController.sortByName(index)),
-            DataColumn(
-                label: const Text('Giá'),
-                onSort: (index, ascending) =>
-                    foodController.sortByPrice(index)),
-            const DataColumn(
-              label: Text('Loại'),
-            ),
-            const DataColumn(label: Text('Trạng thái')),
-            const DataColumn(label: Text(' ')),
-          ],
-          rows: const [],
+  DataRow setMenuDetailRow(int index, MenuDetail menuDetail) {
+    return DataRow(
+      cells: [
+        DataCell(Text((index + 1).toString())),
+        DataCell(
+          TextDataTable(
+            data: menuDetail.food!.code.toString(),
+            maxLines: 2,
+            width: 100,
+          ),
         ),
-      ),
-    ),
-  );
-}
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Image.network(
+              menuDetail.food!.imagePath.toString(),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ),
+        DataCell(
+          TextDataTable(
+            data: menuDetail.food!.name.toString(),
+            maxLines: 2,
+            width: 200,
+          ),
+        ),
+        DataCell(Text(menuDetail.food!.category!.name.toString())),
+        DataCell(Text(menuDetail.food!.isCombo! ? 'Combo' : 'Thức ăn')),
+        DataCell(Text(Formatter.formatMoney(
+            controller.mapMenuDetails[menuDetail.food!.id!].toString()))),
+        DataCell(
+            Text(Formatter.formatMoney(menuDetail.food!.price.toString()))),
+        DataCell(Row(
+          children: [
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () {
+                showChangeMenuDetailPrice(menuDetail.food!.id!);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.remove_circle_outline),
+              onPressed: () => controller.removeItemMenuDetails(menuDetail),
+            ),
+          ],
+        )),
+      ],
+    );
+  }
 
-void showAddComboToMenuDialog() {
-  Get.dialog(
-    ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1200),
-      child: AlertDialog(
-        title: const Text('Thông tin combo'),
-        content: SingleChildScrollView(
-          child: SizedBox(
-            width: 1190,
-            child: ListBody(
-              mainAxis: Axis.vertical,
-              children: <Widget>[
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Tìm Kiếm',
+  void showChangeMenuDetailPrice(String foodId) {
+    controller.priceController.text =
+        controller.mapMenuDetails[foodId].toString();
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Cập nhật giá bán'),
+        content: TextField(
+          controller: controller.priceController,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(labelText: 'Giá bán'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              double newPrice =
+                  double.tryParse(controller.priceController.text) ?? 0.0;
+              controller.addItemMenuDetails(foodId, newPrice);
+              Get.back(); // Đóng dialog
+            },
+            child: const Text('Cập nhật'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showAddFoodToMenuDialog() {
+    // final MenuFoodController controller = Get.find<MenuFoodController>();
+    Get.dialog(
+      AlertDialog(
+        content: SizedBox(
+          height: Get.height * 0.8,
+          width: Get.width,
+          child: LoadingView(
+            future: controller.refreshData,
+            child: Obx(
+              () => DataTableView(
+                title: 'Danh sách sản phẩm',
+                isShowCreateDialog: false,
+                showCreateDialog: () {},
+                sortColumnIndex: controller.columnIndex.value,
+                sortAscending: controller.columnAscending.value,
+                search: (value) => controller.search(value),
+                refreshData: controller.refreshData,
+                loadPage: (page) => controller.loadPage(page),
+                columns: [
+                  const DataColumn(
+                    label: Text('Stt'),
                   ),
-                  style: Get.theme.textTheme.bodyMedium,
-                ),
-                SingleChildScrollView(
-                  child: DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          'Mã số sản phẩm',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Hình ảnh',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Tên sản phẩm',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Mô tả',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Loại',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Giá bán',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          ' ',
-                        ),
-                      ),
-                    ],
-                    rows: <DataRow>[
-                      DataRow(
-                        cells: <DataCell>[
-                          const DataCell(Text('#011111')),
-                          DataCell(SizedBox(
-                            width: 80,
-                            child: Image.network(
-                              'https://picsum.photos/250?image=9',
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                          const DataCell(Text('Tên sản phẩm ')),
-                          const DataCell(Text('Mô tả sản phẩm 1')),
-                          const DataCell(Text('Loại 1')),
-                          const DataCell(Text('15.000 vnd')),
-                          DataCell(
-                            SizedBox(
-                              width: 100,
-                              height: 30,
-                              child: FloatingActionButton.extended(
-                                onPressed: () {},
-                                label: const Text('Thêm'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      DataRow(
-                        cells: <DataCell>[
-                          const DataCell(Text('#011111')),
-                          DataCell(SizedBox(
-                            width: 80,
-                            child: Image.network(
-                              'https://picsum.photos/250?image=9',
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                          const DataCell(Text('Tên sản phẩm ')),
-                          const DataCell(Text('Mô tả sản phẩm 1')),
-                          const DataCell(Text('Loại 1')),
-                          const DataCell(Text('15.000 vnd')),
-                          DataCell(
-                            SizedBox(
-                              width: 100,
-                              height: 30,
-                              child: FloatingActionButton.extended(
-                                onPressed: () {},
-                                label: const Text('Thêm'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  const DataColumn(
+                    label: Text('Code'),
                   ),
-                ),
-              ],
+                  const DataColumn(label: Text('Hình ảnh')),
+                  DataColumn(
+                      label: const Text('Tên sản phẩm'),
+                      onSort: (index, ascending) => (index, ascending) {}),
+                  const DataColumn(label: Text('Loại')),
+                  const DataColumn(label: Text('Combo')),
+                  DataColumn(
+                      label: const Text('Giá'),
+                      onSort: (index, ascending) => (index, ascending) {}),
+                  const DataColumn(label: Text(' ')),
+                ],
+                // ignore: invalid_use_of_protected_member
+                rows: controller.rows.value,
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  DataRow setRow(int index, Food food) {
+    return DataRow(
+      cells: [
+        DataCell(Text((index + 1).toString())),
+        DataCell(
+          TextDataTable(
+            data: food.code.toString(),
+            maxLines: 2,
+            width: 100,
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Image.network(
+              food.imagePath.toString(),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ),
+        DataCell(
+          TextDataTable(
+            data: food.name.toString(),
+            maxLines: 2,
+            width: 200,
+          ),
+        ),
+        DataCell(Text(food.category!.name.toString())),
+        DataCell(Text(food.isCombo! ? 'Combo' : 'Thức ăn')),
+        DataCell(Text(Formatter.formatMoney(food.price.toString()))),
+        DataCell(Row(
+          children: [
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.add_circle_outline),
+              onPressed: () =>
+                  controller.addItemMenuDetails(food.id!, food.price!),
+            ),
+          ],
+        )),
+      ],
+    );
+  }
 }

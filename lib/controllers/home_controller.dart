@@ -1,6 +1,8 @@
+import 'package:beanfast_menumanager/views/pages/delivery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../contrains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
 import '/views/pages/food_page.dart';
@@ -14,21 +16,21 @@ Map<int, Widget> list = {};
 
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
-  RxInt selectedIndex = 0.obs; // index of menuItem
+ // index of menuItem
   Rx<Widget> selectedContent = initSelectedContent().obs;
 
   // menu mặc định
   List<MenuItem> menuItems = [
-    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard),
-    const MenuItem(title: 'Thức ăn', icon: Icons.fastfood),
-    const MenuItem(title: 'Thực đơn', icon: Icons.menu),
-    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment),
-    const MenuItem(title: 'Quà', icon: Icons.card_giftcard),
-    const MenuItem(title: 'Khách hàng', icon: Icons.assignment_ind),
-    // const MenuItem(title: 'Khách hàng', icon: Icons.settings),// deliverer
-    const MenuItem(title: 'Bếp', icon: Icons.kitchen),
-    const MenuItem(title: 'Trường', icon: Icons.school),
-    const MenuItem(title: 'Cài đặt', icon: Icons.settings),
+    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard_outlined),
+    const MenuItem(title: 'Thức ăn', icon: Icons.fastfood_outlined),
+    const MenuItem(title: 'Thực đơn', icon: Icons.menu_outlined),
+    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment_outlined),
+    const MenuItem(title: 'Quà', icon: Icons.card_giftcard_outlined),
+    const MenuItem(title: 'Giao hàng', icon: Icons.local_shipping_outlined),
+    // const MenuItem(title: 'Giao hàng', icon: Icons.assignment_ind),
+    const MenuItem(title: 'Bếp', icon: Icons.kitchen_outlined),
+    const MenuItem(title: 'Trường', icon: Icons.school_outlined),
+    const MenuItem(title: 'Cài đặt', icon: Icons.settings_outlined),
   ];
 
   // index là vị trí của menuItems
@@ -45,7 +47,7 @@ class HomeController extends GetxController {
       case 4:
         return colorGreen();
       case 5:
-        return colorYellow();
+        return const DeliveryView();
       case 6:
         return const KitchenView();
       case 7:
@@ -57,9 +59,9 @@ class HomeController extends GetxController {
     }
   }
 
-  void onNavigationIndexChange(int destination) {
-    selectedIndex.value = destination;
-    selectedContent.value = setSelectedContent(destination);
+  void changePage(int index) {
+    selectedMenuIndex.value = index;
+    selectedContent.value = setSelectedContent(index);
   }
 
   void toggleNavigation() {

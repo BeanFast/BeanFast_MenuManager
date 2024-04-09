@@ -31,10 +31,10 @@ class OrderService {
     List<Order> list = [];
     for (var e in response.data['data']) {
       list.add(Order.fromJson(e));
-      var order = list.last;
-      var responseFood =
-          await FoodService().getById(order.orderDetails![0].foodId!);
-      order.orderDetails![0].food = Food.fromJson(responseFood.data['data']);
+      // var order = list.last;
+      // var responseFood =
+      //     await FoodService().getById(order.orderDetails![0].foodId!);
+      // order.orderDetails![0].food = Food.fromJson(responseFood.data['data']);
     }
     return list;
   }

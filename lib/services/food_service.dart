@@ -11,9 +11,13 @@ class FoodService {
   // final ApiService _apiService = Get.find();
   final ApiService _apiService = getx.Get.put(ApiService());
 
-  Future<dynamic> getAll() async {
+  Future<List<Food>> getAll() async {
     final response = await _apiService.request.get('foods');
-    return response.data;
+    List<Food> list = [];
+    for (var e in response.data['data']) {
+      list.add(Food.fromJson(e));
+    }
+    return list;
   }
 
   Future<Food?> getByCode(String code) async {

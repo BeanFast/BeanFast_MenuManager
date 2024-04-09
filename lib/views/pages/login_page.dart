@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/auth_controller.dart';
+import '/controllers/auth_controller.dart';
 
-class LoginView extends StatelessWidget {
-  final AuthController _authController = Get.find();
-
+class LoginView extends GetView<AuthController> {
   final _formKey = GlobalKey<FormState>();
 
   final _isPasswordHidden = true.obs;
@@ -55,7 +53,7 @@ class LoginView extends StatelessWidget {
                   ),
                   const SizedBox(height: 35),
                   TextFormField(
-                    controller: _authController.usernameController,
+                    controller: controller.emailController,
                     decoration: const InputDecoration(
                       labelText: 'Tên đăng nhập',
                       border: OutlineInputBorder(),
@@ -72,7 +70,7 @@ class LoginView extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
-                    controller: _authController.passwordController,
+                    controller: controller.passwordController,
                     decoration: InputDecoration(
                       labelText: 'Mật khẩu',
                       border: const OutlineInputBorder(),
@@ -118,6 +116,10 @@ class LoginView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  SizedBox(
+                    height: 20,
+                    child: Text(controller.errorMessage.value),
+                  ),
                   Container(
                     height: 50.0,
                     width: double.infinity,
@@ -147,7 +149,7 @@ class LoginView extends StatelessWidget {
                         //   );
                         //   // Get.to(ImageSlider());
                         // }
-                        _authController.login();
+                        controller.login();
                       },
                       child: const Text('Đăng nhập'),
                     ),

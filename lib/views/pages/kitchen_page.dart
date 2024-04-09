@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/utils/logger.dart';
 import '/models/kitchen.dart';
 import '/controllers/kitchen_controller.dart';
+import '/views/pages/loading_page.dart';
 import '/views/dialog/create_kitchen_dialog.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
@@ -14,45 +14,46 @@ class KitchenView extends GetView<KitchenController> {
 
   @override
   Widget build(BuildContext context) {
-    // final KitchenController controller = Get.find();
-    logger.i('build KitchenView');
-    return Obx(
-      () => DataTableView(
-        title: 'Quản lý bếp',
-        isShowCreateDialog: true,
-        showCreateDialog: showCreateKitchenDialog,
-        refreshData: controller.refreshData,
-        loadPage: (page) => controller.loadPage(page),
-        search: (value) {
-          controller.searchString.value = value;
-          controller.searchName();
-        },
-        sortColumnIndex: controller.columnIndex.value,
-        sortAscending: controller.columnAscending.value,
-        columns: <DataColumn>[
-          const DataColumn(
-            label: Text('Stt'),
-          ),
-          const DataColumn(
-            label: Text('Code'),
-          ),
-          const DataColumn(label: Text('Hình ảnh')),
-          DataColumn(
-              label: const Text('Tên trường'),
-              onSort: (index, ascending) => controller.sortByName(index)),
-          const DataColumn(
-            label: Text('Địa chỉ'),
-          ),
-          const DataColumn(
-            label: Text('Trường phụ trách'),
-          ),
-          const DataColumn(
-            label: Text('Số trường'),
-          ),
-          const DataColumn(label: Text(' ')),
-        ],
-        // ignore: invalid_use_of_protected_member
-        rows: controller.rows.value,
+    return LoadingView(
+      future: controller.refreshData,
+      child: Obx(
+        () => DataTableView(
+          title: 'Quản lý bếp',
+          isShowCreateDialog: true,
+          showCreateDialog: showCreateKitchenDialog,
+          refreshData: controller.refreshData,
+          loadPage: (page) => controller.loadPage(page),
+          search: (value) {
+            controller.searchString.value = value;
+            controller.searchName();
+          },
+          sortColumnIndex: controller.columnIndex.value,
+          sortAscending: controller.columnAscending.value,
+          columns: <DataColumn>[
+            const DataColumn(
+              label: Text('Stt'),
+            ),
+            const DataColumn(
+              label: Text('Code'),
+            ),
+            const DataColumn(label: Text('Hình ảnh')),
+            DataColumn(
+                label: const Text('Tên trường'),
+                onSort: (index, ascending) => controller.sortByName(index)),
+            const DataColumn(
+              label: Text('Địa chỉ'),
+            ),
+            const DataColumn(
+              label: Text('Trường phụ trách'),
+            ),
+            const DataColumn(
+              label: Text('Số trường'),
+            ),
+            const DataColumn(label: Text(' ')),
+          ],
+          // ignore: invalid_use_of_protected_member
+          rows: controller.rows.value,
+        ),
       ),
     );
   }

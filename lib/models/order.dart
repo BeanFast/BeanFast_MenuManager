@@ -38,20 +38,7 @@ class Order extends BaseModel {
     this.orderActivities,
   }) : super(id: id, status: status);
 
-  factory Order.fromJson(dynamic json) {
-    List<OrderDetail> orderDetails = [];
-    List<OrderActivity> orderActivities = [];
-    if (json['orderDetails'] != null) {
-      orderDetails = json['orderDetails']?.map<OrderDetail>((item) {
-          return OrderDetail.fromJson(item);
-        }).toList();
-    }
-    if (json['orderActivities'] != null) {
-      orderActivities = json['orderActivities']?.map<OrderActivity>((item) {
-          return OrderActivity.fromJson(item);
-        }).toList();
-    }
-    return Order(
+  factory Order.fromJson(dynamic json) => Order(
         id: json['id'],
         status: json['status'],
         sessionDetailId: json["sessionDetailId"],
@@ -59,14 +46,22 @@ class Order extends BaseModel {
         code: json['code'],
         totalPrice: double.parse(json['totalPrice'].toString()),
         paymentDate: DateTime.parse(json['paymentDate']),
-        deliveryDate: null,
-        rewardPoints: json['rewardPoints'],
+        deliveryDate: json['deliveryDate'] != null
+            ? DateTime.parse(json['deliveryDate'])
+            : null,
+        rewardPoints: int.parse(json['rewardPoints'].toString()),
         feedback: json['feedback'] ?? '',
         profile: Profile.fromJson(json['profile']),
-        orderDetails: orderDetails,
-        orderActivities: orderActivities,
+        orderDetails: json['orderDetails']?.map<OrderDetail>((item) {
+          return OrderDetail.fromJson(item);
+        }).toList(),
+        orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
+          return OrderActivity.fromJson(item);
+        }).toList(),
+        sessionDetail: json['sessionDetail'] == null
+            ? SessionDetail()
+            : SessionDetail.fromJson(json['sessionDetail']),
       );
-  } 
 
   // Map<String, dynamic> toJson() {
   //   return {

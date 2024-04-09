@@ -1,12 +1,17 @@
 import 'package:beanfast_menumanager/models/menu_detail.dart';
 import 'package:beanfast_menumanager/services/menu_serivce.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
+import '/models/menu.dart';
+import '/utils/logger.dart';
 import '/services/init_data.dart';
 import '/controllers/data_table_controller.dart';
 import '/views/pages/menu_detail_page.dart';
 
 class MenuDetailController extends DataTableController<MenuDetail> {
+  Rx<Menu> menu = Menu().obs;
+
   void sortFoodByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
@@ -43,10 +48,10 @@ class MenuDetailController extends DataTableController<MenuDetail> {
 
   @override
   Future getData(list) async {
-    var menuCode = Get.parameters['menuCode'];
-    var menu = await MenuService().getByCode(menuCode!);
-    for (var e in menu.menuDetails!) {
-      initModelList.add(e);
+    var menuCode = Get.parameters['code'];
+    menu.value = await MenuService().getByCode(menuCode!);
+    for (var e in menu.value.menuDetails!) {
+      list.add(e);
     }
   }
 
@@ -59,7 +64,8 @@ class MenuDetailController extends DataTableController<MenuDetail> {
   @override
   void setDataTable(List<MenuDetail> list) {
     rows.value = list.map((dataMap) {
-      return MenuDetailView().setMenuDetailRow(list.indexOf(dataMap), dataMap);
+      return const MenuDetailView()
+          .setMenuDetailRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/contrains/contrain.dart';
 import '/controllers/home_controller.dart';
 // import '/views/pages/widget/drawer_wdget.dart';
 
@@ -35,7 +36,7 @@ class HomeView extends StatelessWidget {
         NavigationRail(
           minWidth: 64,
           // selectedIndex: widget.currentIndex,
-          selectedIndex: _homeController.selectedIndex.value,
+          selectedIndex: selectedMenuIndex.value,
           destinations: [
             ..._homeController.menuItems.map(
               (e) => NavigationRailDestination(
@@ -45,7 +46,7 @@ class HomeView extends StatelessWidget {
             ),
           ],
           onDestinationSelected: (destination) {
-            _homeController.onNavigationIndexChange(destination);
+            _homeController.changePage(destination);
           },
         ),
         VerticalDivider(
@@ -78,11 +79,12 @@ class HomeView extends StatelessWidget {
                     ListTile(
                       leading: Icon(_homeController.menuItems[i].icon),
                       title: Text(_homeController.menuItems[i].title),
-                      selected: _homeController.selectedIndex.value == i,
+                      selected: selectedMenuIndex.value == i,
                       onTap: () {
-                        _homeController.selectedIndex.value = i;
-                        _homeController.selectedContent.value =
-                            _homeController.setSelectedContent(i);
+                        selectedMenuIndex.value = i;
+                        _homeController.changePage(i);
+                        // _homeController.selectedContent.value =
+                        //     _homeController.setSelectedContent(i);
                       },
                     ),
                 ],

@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/menu_create_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -54,8 +55,12 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: AppRoutes.menuDetail,
-          page: () => MenuDetailView(),
+          page: () =>const MenuDetailView(),
           binding: MenuDetailBindingController(),
+        ),
+        GetPage(
+          name: AppRoutes.menuCreate,
+          page: () =>const MenuCreateView(),
         ),
         GetPage(
           name: AppRoutes.manageMenu,

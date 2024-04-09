@@ -41,9 +41,7 @@ class FoodController extends DataTableController<Food> {
     isError.value = false;
     try {
       var data = await FoodService().getAll();
-      for (var e in data['data']) {
-        initModelList.add(Food.fromJson(e));
-      }
+      initModelList.addAll(data);
     } catch (e) {
       isError.value = true;
       logger.e('FoodController: $e');
