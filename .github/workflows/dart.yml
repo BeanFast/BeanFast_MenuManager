@@ -1,0 +1,26 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: executing remote ssh commands using ssh key
+          uses: fifsky/ssh-action@master
+          with:
+            command: |
+              cd BeanFast_MenuManager
+              git pull
+              sudo systemctl restart manager
+            host: ${{ secrets.HOST }}
+            user: ${{ secrets.USERNAME }}
+            pass: ${{ secrets.PASSWORD }}
