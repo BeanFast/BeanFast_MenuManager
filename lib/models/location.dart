@@ -21,6 +21,7 @@ class Location extends BaseModel {
     this.name,
     this.description,
     this.imagePath,
+    this.school,
   }) : super(id: id, status: status);
 
   factory Location.fromJson(dynamic json) => Location(
@@ -31,6 +32,8 @@ class Location extends BaseModel {
         name: json['name'],
         description: json['description'],
         imagePath: json['imagePath'],
+        school:
+            json['school'] == null ? School() : School.fromJson(json['school']),
       );
 
   // Map<String, dynamic> toJson() {

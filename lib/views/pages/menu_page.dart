@@ -1,9 +1,10 @@
-import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../routes/app_routes.dart';
+import '/controllers/menu_create_update_controller.dart';
+import '/views/pages/loading_page.dart';
+import '/routes/app_routes.dart';
 import '/controllers/menu_controller.dart';
 import '/models/menu.dart';
 import '/views/dialog/delete_dialog.dart';
@@ -22,10 +23,11 @@ class MenuView extends GetView<MenuController> {
         child: Obx(
           () => DataTableView(
             title: 'Quản thực đơn',
-
             isShowCreateDialog: true,
-            showCreateDialog: () =>
-                showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)}),
+            showCreateDialog: () async {
+              await controller.getKitchens();
+              showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)});
+            },
             refreshData: controller.refreshData,
             loadPage: (page) => controller.loadPage(page),
             search: (value) => controller.search(value),
@@ -92,45 +94,53 @@ class MenuView extends GetView<MenuController> {
       ],
     );
   }
-}
 
-void showKichenDialog(Function() onPressed) {
-  Get.dialog(AlertDialog(
-    title: const Text('Chọn bếp'),
-    content: SizedBox(
-      width: Get.width,
-      height: Get.height * 0.5,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: TextField(
-              onChanged: (value) => (value),
-              decoration: const InputDecoration(
-                labelText: 'Tìm kiếm',
+  void showKichenDialog(Function() onPressed) {
+    Get.dialog(AlertDialog(
+      title: const Text('Chọn bếp'),
+      content: SizedBox(
+        width: Get.width,
+        height: Get.height * 0.5,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: TextField(
+                onChanged: (value) => (value),
+                decoration: const InputDecoration(
+                  labelText: 'Tìm kiếm',
+                ),
+                style: Get.theme.textTheme.bodyMedium,
               ),
-              style: Get.theme.textTheme.bodyMedium,
             ),
-          ),
-          SizedBox(
-            height: Get.height * 0.44,
-            child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(
-                  10,
-                  (index) => Card(
-                    child: ListTile(
-                      title: Text('Tên bếp $index'),
-                      subtitle: Text('Mô tả bếp $index'),
-                      onTap: onPressed,
-                    ),
+            SizedBox(
+              height: Get.height * 0.44,
+              child: SingleChildScrollView(
+                child: Obx(
+                  () => Column(
+                    children: controller.listKitchen.map(
+                      (kitchen) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(kitchen.name.toString()),
+                            subtitle: Text(
+                                '${kitchen.address}, ${kitchen.area!.ward}, ${kitchen.area!.district}, ${kitchen.area!.city}'),
+                            onTap: () {
+                              kitchenId = kitchen.id!;
+                              Get.back();
+                              onPressed();
+                            },
+                          ),
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  ));
+    ));
+  }
 }

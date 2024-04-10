@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/models/area.dart';
+
 import 'base_model.dart';
 import 'menu.dart';
 import 'school.dart';
@@ -10,6 +12,7 @@ class Kitchen extends BaseModel {
   String? imagePath;
   List<School>? schools;
   List<Menu>? menus;
+  Area? area;
   int? schoolCount;
 
   Kitchen({
@@ -21,6 +24,7 @@ class Kitchen extends BaseModel {
     this.schoolCount,
     this.address,
     this.imagePath,
+    this.area,
   }) : super(id: id, status: status);
 
   factory Kitchen.fromJson(dynamic json) => Kitchen(
@@ -32,6 +36,7 @@ class Kitchen extends BaseModel {
         schoolCount: json['schoolCount'],
         address: json['address'],
         imagePath: json['imagePath'] ?? "",
+        area: json['area'] == null ? Area() : Area.fromJson(json['area']),
       );
 
   // Map<String, dynamic> toJson() {

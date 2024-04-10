@@ -8,8 +8,7 @@ class SessionDetailService {
   final String baseUrl = 'SessionDetails';
 
   Future<List<SessionDetail>> deliverySchedule() async {
-    final response =
-        await _apiService.request.get(baseUrl);
+    final response = await _apiService.request.get('$baseUrl/deliveryschedule');
     List<SessionDetail> list = [];
     for (var e in response.data['data']) {
       list.add(SessionDetail.fromJson(e));

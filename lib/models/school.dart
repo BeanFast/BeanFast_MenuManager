@@ -1,4 +1,3 @@
-
 import 'base_model.dart';
 import 'area.dart';
 import 'kitchen.dart';
@@ -29,6 +28,7 @@ class School extends BaseModel {
     this.locations,
     this.imagePath,
     this.studentCount,
+    this.area,
   }) : super(id: id, status: status);
 
   factory School.fromJson(dynamic json) {
@@ -47,6 +47,7 @@ class School extends BaseModel {
           : [],
       imagePath: json['imagePath'] ?? "",
       studentCount: json['studentCount'],
+      area: json['area'] == null ? Area() : Area.fromJson(json['area']),
     );
   }
 

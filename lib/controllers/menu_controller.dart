@@ -1,7 +1,9 @@
+import 'package:beanfast_menumanager/services/kitchen_service.dart';
 import 'package:beanfast_menumanager/services/menu_serivce.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/kitchen.dart';
 import '/models/menu.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
@@ -12,6 +14,16 @@ class MenuController extends DataTableController<Menu> {
   String currentCode = '';
   //popup create/update
   RxString imagePath = ''.obs;
+  RxList<Kitchen> listKitchen = <Kitchen>[].obs;
+
+  Future<void> getKitchens() async {
+    // listKitchen.clear();
+    try {
+      listKitchen.value = await KitchenService().getAll();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   void search(String value) {

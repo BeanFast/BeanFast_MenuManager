@@ -66,7 +66,7 @@ class DeliveryView extends GetView<DeliveryController> {
                     ),
                     SizedBox(
                       height: Get.height * 0.8,
-                      child:  TabBarView(
+                      child: TabBarView(
                         children: [
                           DeliveryTabView(), // Đang chuẩn bị
                           DeliveryTabView(), // Đang giao
@@ -86,7 +86,7 @@ class DeliveryView extends GetView<DeliveryController> {
 
 // ignore: must_be_immutable
 class DeliveryTabView extends GetView<DeliveryController> {
-   DeliveryTabView({super.key});
+  DeliveryTabView({super.key});
 
   String? sessionDetailId;
 

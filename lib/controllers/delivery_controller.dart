@@ -1,3 +1,4 @@
+import '../services/session_detail_service.dart';
 import '/models/session_detail.dart';
 import '/views/pages/delivery_page.dart';
 import '/controllers/data_table_controller.dart';
@@ -22,10 +23,11 @@ class DeliveryController extends DataTableController<SessionDetail> {
 
   @override
   Future getData(list) async {
-    final apiDataList = [];
-    // = await SessionDetailService().deliverySchedule();
-    for (var e in apiDataList) {
-      initModelList.add(e);
+    try {
+      final data = await SessionDetailService().deliverySchedule();
+      list.addAll(data);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

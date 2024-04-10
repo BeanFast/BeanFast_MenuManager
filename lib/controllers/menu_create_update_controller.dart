@@ -9,6 +9,8 @@ import '/views/pages/menu_create_page.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 
+String kitchenId = '';
+
 class MenuCreateController extends DataTableController<Food> {
   //detail
   String currentCode = '';
@@ -54,9 +56,9 @@ class MenuCreateController extends DataTableController<Food> {
   }
 
   Future<void> createMenu() async {
+    if (kitchenId.isEmpty) return;
     try {
-      var response = await MenuService()
-          .create('09F8BDB7-91B7-4F9B-3336-08DC28B4EA73', mapMenuDetails);
+      var response = await MenuService().create(kitchenId, mapMenuDetails);
       if (response.statusCode == 200) {
         //show dialog success
         Get.back();
