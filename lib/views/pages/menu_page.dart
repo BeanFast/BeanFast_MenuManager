@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../routes/app_routes.dart';
-import '/views/dialog/delete_dialog.dart';
-import '/models/menu.dart';
 import '/controllers/menu_controller.dart';
+import '/models/menu.dart';
+import '/views/dialog/delete_dialog.dart';
 import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/data_table_page.dart';
-import 'menu_create_page.dart';
+import '/views/pages/widget/text_data_table_widget.dart';
 
 class MenuView extends GetView<MenuController> {
   const MenuView({super.key});
@@ -23,8 +22,10 @@ class MenuView extends GetView<MenuController> {
         child: Obx(
           () => DataTableView(
             title: 'Quản thực đơn',
+
             isShowCreateDialog: true,
-            showCreateDialog: () => Get.toNamed(AppRoutes.menuCreate),
+            showCreateDialog: () =>
+                showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)}),
             refreshData: controller.refreshData,
             loadPage: (page) => controller.loadPage(page),
             search: (value) => controller.search(value),
@@ -91,4 +92,45 @@ class MenuView extends GetView<MenuController> {
       ],
     );
   }
+}
+
+void showKichenDialog(Function() onPressed) {
+  Get.dialog(AlertDialog(
+    title: const Text('Chọn bếp'),
+    content: SizedBox(
+      width: Get.width,
+      height: Get.height * 0.5,
+      child: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: TextField(
+              onChanged: (value) => (value),
+              decoration: const InputDecoration(
+                labelText: 'Tìm kiếm',
+              ),
+              style: Get.theme.textTheme.bodyMedium,
+            ),
+          ),
+          SizedBox(
+            height: Get.height * 0.44,
+            child: SingleChildScrollView(
+              child: Column(
+                children: List.generate(
+                  10,
+                  (index) => Card(
+                    child: ListTile(
+                      title: Text('Tên bếp $index'),
+                      subtitle: Text('Mô tả bếp $index'),
+                      onTap: onPressed,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ));
 }

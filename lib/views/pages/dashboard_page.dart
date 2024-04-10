@@ -23,73 +23,72 @@ class DashboardView extends StatelessWidget {
               child: SizedBox(
                 height: 40,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Spacer(flex: 5),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: TextFormField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            label: Obx(
-                              () => Text(
-                                ' ${_dashboardController.selectedDateStrStart}',
-                                style: const TextStyle(color: Colors.black),
-                                maxLines: 1,
-                              ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      width: 170,
+                      height: 70,
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          label: Obx(
+                            () => Text(
+                              ' ${_dashboardController.selectedDateStrStart}',
+                              style: const TextStyle(color: Colors.black),
+                              maxLines: 1,
                             ),
-                            prefixIcon: const Icon(Icons.calendar_today),
                           ),
-                          onTap: () async {
-                            final DateTime? picked = await showDatePicker(
-                              context: context,
-                              initialDate:
-                                  _dashboardController.selectedDateStart.value,
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2025),
-                            );
-                            if (picked != null) {
-                              _dashboardController.selectedDateStart.value =
-                                  picked;
-                              _dashboardController.selectedDateStrStart.value =
-                                  DateFormat('dd-MM-yyyy').format(picked);
-                            }
-                          },
+                          prefixIcon: const Icon(Icons.calendar_today),
                         ),
+                        onTap: () async {
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate:
+                                _dashboardController.selectedDateStart.value,
+                            firstDate:  DateTime.now().subtract(const Duration(days: 365)),
+                            lastDate:  DateTime.now(),
+                          );
+                          if (picked != null) {
+                            _dashboardController.selectedDateStart.value =
+                                picked;
+                            _dashboardController.selectedDateStrStart.value =
+                                DateFormat('dd-MM-yyyy').format(picked);
+                          }
+                        },
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            label: Obx(
-                              () => Text(
-                                ' ${_dashboardController.selectedDateStrEnd}',
-                                style: const TextStyle(color: Colors.black),
-                                maxLines: 1,
-                              ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      width: 170,
+                      height: 70,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          label: Obx(
+                            () => Text(
+                              ' ${_dashboardController.selectedDateStrEnd}',
+                              style: const TextStyle(color: Colors.black),
+                              maxLines: 1,
                             ),
-                            prefixIcon: const Icon(Icons.calendar_today),
                           ),
-                          onTap: () async {
-                            final DateTime? picked = await showDatePicker(
-                              context: context,
-                              initialDate:
-                                  _dashboardController.selectedDateEnd.value,
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2025),
-                            );
-                            if (picked != null) {
-                              _dashboardController.selectedDateEnd.value =
-                                  picked;
-                              _dashboardController.selectedDateStrEnd.value =
-                                  DateFormat('dd-MM-yyyy').format(picked);
-                            }
-                          },
+                          prefixIcon: const Icon(Icons.calendar_today),
                         ),
+                        onTap: () async {
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate:
+                                _dashboardController.selectedDateEnd.value,
+                            firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                            lastDate:  DateTime.now(),
+                          );
+                          if (picked != null) {
+                            _dashboardController.selectedDateEnd.value = picked;
+                            _dashboardController.selectedDateStrEnd.value =
+                                DateFormat('dd-MM-yyyy').format(picked);
+                          }
+                        },
                       ),
                     ),
                   ],
