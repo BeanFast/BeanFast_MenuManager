@@ -1,5 +1,6 @@
 import 'package:beanfast_menumanager/models/session.dart';
 import 'package:beanfast_menumanager/routes/app_routes.dart';
+import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:beanfast_menumanager/views/pages/menu_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,12 +13,13 @@ import '/views/pages/widget/pickedDate_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
+import 'create_session_page.dart';
 
 class SessionView extends GetView<SessionController> {
   const SessionView({super.key});
   @override
   Widget build(BuildContext context) {
-    SessionController controller = Get.find();
+    Get.put(SessionController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách thực đơn'),
@@ -49,7 +51,9 @@ class SessionView extends GetView<SessionController> {
                   ),
                   const Spacer(flex: 3),
                   CreateButtonDataTable(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(const TmpPage());
+                    },
                   ),
                 ],
               ),
@@ -69,38 +73,44 @@ class SessionView extends GetView<SessionController> {
                       height: Get.height * 0.8,
                       child: TabBarView(
                         children: [
-                          SingleChildScrollView(
-                            child: Obx(() => PaginatedDataTableView(
-                                sortColumnIndex: controller.columnIndex.value,
-                                sortAscending: controller.columnAscending.value,
-                                search: (value) => controller.search(value),
-                                refreshData: controller.refreshData,
-                                loadPage: (page) => controller.loadPage(page),
-                                columns: [
-                                  const DataColumn(
-                                    label: Text('Stt'),
-                                  ),
-                                  const DataColumn(
-                                    label: Text('Code'),
-                                  ),
-                                  const DataColumn(label: Text('Bếp')),
-                                  DataColumn(
-                                      label: const Text('Thời gian phát hành'),
-                                      onSort: (index, ascending) =>
-                                          controller.sortByCreateDate(index)),
-                                  const DataColumn(
-                                      label: Text('Thời gian giao hàng')),
-                                  const DataColumn(label: Text('Cổng')),
-                                  const DataColumn(label: Text('Số sản phẩm')),
-                                  const DataColumn(label: Text('Đã bán')),
-                                  const DataColumn(label: Text('Trạng thái')),
-                                  const DataColumn(label: Text(' ')),
-                                ],
-                                // ignore: invalid_use_of_protected_member
-                                rows: controller.rows.value)),
+                          LoadingView(
+                            future: controller.refreshData,
+                            child: SingleChildScrollView(
+                              child: Obx(() => PaginatedDataTableView(
+                                  sortColumnIndex: controller.columnIndex.value,
+                                  sortAscending:
+                                      controller.columnAscending.value,
+                                  search: (value) => controller.search(value),
+                                  refreshData: controller.refreshData,
+                                  loadPage: (page) => controller.loadPage(page),
+                                  columns: [
+                                    const DataColumn(
+                                      label: Text('Stt'),
+                                    ),
+                                    const DataColumn(
+                                      label: Text('Code'),
+                                    ),
+                                    const DataColumn(label: Text('Bếp')),
+                                    DataColumn(
+                                        label:
+                                            const Text('Thời gian phát hành'),
+                                        onSort: (index, ascending) =>
+                                            controller.sortByCreateDate(index)),
+                                    const DataColumn(
+                                        label: Text('Thời gian giao hàng')),
+                                    const DataColumn(label: Text('Cổng')),
+                                    const DataColumn(
+                                        label: Text('Số sản phẩm')),
+                                    const DataColumn(label: Text('Đã bán')),
+                                    const DataColumn(label: Text('Trạng thái')),
+                                    const DataColumn(label: Text(' ')),
+                                  ],
+                                  // ignore: invalid_use_of_protected_member
+                                  rows: controller.rows.value)),
+                            ),
                           ),
+                          const Center(child: Text('Tab 1 Content')),
                           const Center(child: Text('Tab 2 Content')),
-                          const Center(child: Text('Tab 3 Content')),
                         ],
                       ),
                     ),

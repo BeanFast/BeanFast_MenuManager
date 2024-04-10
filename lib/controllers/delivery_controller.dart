@@ -1,6 +1,5 @@
-import 'package:beanfast_menumanager/models/session_detail.dart';
-import 'package:beanfast_menumanager/views/pages/delivery_page.dart';
-
+import '/models/session_detail.dart';
+import '/views/pages/delivery_page.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 

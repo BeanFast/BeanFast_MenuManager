@@ -1,10 +1,12 @@
-import 'package:beanfast_menumanager/models/session_detail.dart';
-import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:get/get.dart';
+
+import '/models/session_detail.dart';
+import '/services/api_service.dart';
 
 class SessionDetailService {
   final ApiService _apiService = Get.put(ApiService());
   final String baseUrl = 'SessionDetails';
+
   Future<List<SessionDetail>> deliverySchedule() async {
     final response =
         await _apiService.request.get(baseUrl);

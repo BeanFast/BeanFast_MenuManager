@@ -23,11 +23,11 @@ class SessionController extends DataTableController<Session> {
   Future getData(list) async {
     logger.i('menu getData');
     var schoolId = Get.parameters['schoolId'];
-    print(schoolId);
     final apiDataList = await SessionService().getSessionsBySchoolId(schoolId!);
     for (var e in apiDataList) {
       initModelList.add(e);
     }
+    logger.e(initModelList.length);
   }
 
   @override
