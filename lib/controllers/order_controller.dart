@@ -7,11 +7,14 @@ import '../views/pages/widget/order_cancelled_tabview.dart';
 import '../views/pages/widget/order_completed_tabview.dart';
 import '../views/pages/widget/order_delivering_tabview.dart';
 import '../views/pages/widget/order_preparing_tabview.dart';
-import '/models/order.dart';
 import '/controllers/data_table_controller.dart';
+import '/models/order.dart';
 
 abstract class OrderController extends DataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
+
+
+
 
   @override
   void search(String value) {
@@ -160,4 +163,6 @@ class OrderCancelledController extends OrderController {
     // TODO: implement loadPage
     throw UnimplementedError();
   }
+
+
 }

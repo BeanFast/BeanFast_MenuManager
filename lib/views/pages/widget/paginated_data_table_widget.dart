@@ -42,6 +42,7 @@ class PaginatedDataTableView extends StatelessWidget {
               child: TextField(
                 onChanged: (value) => search(value),
                 decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
                   labelText: 'Tìm kiếm',
                 ),
                 style: Get.theme.textTheme.bodyMedium,

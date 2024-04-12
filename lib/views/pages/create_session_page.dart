@@ -21,6 +21,17 @@ class TmpPage extends StatelessWidget {
                 children: List.generate(
                   3,
                   (index) => ListTile(
+                    leading: Obx(
+                      () => Radio<int>(
+                        value: index,
+                        groupValue: c.selectedValue.value,
+                        onChanged: (int? value) {
+                          if (value != null) {
+                            c.updateSelectedValue(value);
+                          }
+                        },
+                      ),
+                    ),
                     title: Text('Mã menu $index'),
                     subtitle: Text('Số sản phẩm $index'),
                   ),
@@ -277,6 +288,12 @@ class TmpPage extends StatelessWidget {
 }
 
 class Controller extends GetxController {
+  var selectedValue = 0.obs;
+
+  void updateSelectedValue(int value) {
+    selectedValue.value = value;
+  }
+
   // final int numberOfGate = 10;
   var isChecked = List<bool>.filled(10, false).obs;
 

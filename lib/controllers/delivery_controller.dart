@@ -1,3 +1,6 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:intl/intl.dart';
+
 import '../services/session_detail_service.dart';
 import '/models/session_detail.dart';
 import '/views/pages/delivery_page.dart';
@@ -5,6 +8,14 @@ import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 
 class DeliveryController extends DataTableController<SessionDetail> {
+    Rx<DateTime> selectedDateStart = DateTime.now().obs;
+  Rx<String> selectedDateStrStart =
+      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+
+  Rx<DateTime> selectedDateEnd = DateTime.now().obs;
+  Rx<String> selectedDateStrEnd =
+      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+      
   void selectDeliverer(String sessionDetailId, String delivererId) {
     logger.e(selectDeliverer);
   }

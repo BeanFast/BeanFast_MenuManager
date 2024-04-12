@@ -1,5 +1,6 @@
 import 'package:beanfast_menumanager/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -34,24 +35,56 @@ class DeliveryView extends GetView<DeliveryController> {
                   style: Get.textTheme.headlineMedium,
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: PickedDateView(
-                      label: 'Từ ngày',
-                      onTap: () {},
+              Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () async {
+                    final DateTimeRange? picked = await showDateRangePicker(
+                      context: context,
+                      initialDateRange: DateTimeRange(
+                        start: controller.selectedDateStart.value,
+                        end: controller.selectedDateEnd.value,
+                      ),
+                      firstDate:
+                          DateTime.now().subtract(const Duration(days: 365)),
+                      lastDate: DateTime.now(),
+                    );
+                
+                    if (picked != null) {
+                      controller.selectedDateStart.value = picked.start;
+                      controller.selectedDateEnd.value = picked.end;
+                      controller.selectedDateStrStart.value =
+                          DateFormat('dd-MM-yyyy').format(picked.start);
+                      controller.selectedDateStrEnd.value =
+                          DateFormat('dd-MM-yyyy').format(picked.end);
+                    }
+                  },
+                  child: Container(
+                    width: 250,
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 5, bottom: 5),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.calendar_today,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
+                            style: Get.textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: PickedDateView(
-                      label: 'Đến ngày',
-                      onTap: () {},
-                    ),
-                  ),
-                  const Spacer(flex: 3),
-                ],
+                ),
               ),
               DefaultTabController(
                 length: 2,
