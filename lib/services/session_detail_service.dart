@@ -1,10 +1,12 @@
-import 'package:get/get.dart';
+import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' as getx;
 
 import '/models/session_detail.dart';
 import '/services/api_service.dart';
 
 class SessionDetailService {
-  final ApiService _apiService = Get.put(ApiService());
+  final ApiService _apiService = getx.Get.put(ApiService());
   final String baseUrl = 'SessionDetails';
 
   Future<List<SessionDetail>> deliverySchedule() async {
@@ -14,5 +16,18 @@ class SessionDetailService {
       list.add(SessionDetail.fromJson(e));
     }
     return list;
+  }
+
+  Future<Response> updateDeliverySchedule(
+      String sessionDetailId, String delivererId) async {
+    Map<String, dynamic> data = {
+      'delivererId': delivererId,
+    };
+
+    final response =
+        await _apiService.request.put('$baseUrl/$sessionDetailId', data: data);
+    logger.i(response.statusCode);
+    logger.i(response.data);
+    return response;
   }
 }

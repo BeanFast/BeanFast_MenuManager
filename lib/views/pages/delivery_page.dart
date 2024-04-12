@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/models/user.dart';
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -68,8 +69,12 @@ class DeliveryView extends GetView<DeliveryController> {
                       height: Get.height * 0.8,
                       child: TabBarView(
                         children: [
-                          DeliveryTabView(), // Đang chuẩn bị
-                          DeliveryTabView(), // Đang giao
+                          DeliveryTabView(
+                            isHasDeliverer: false,
+                          ), // Chưa xếp lịch
+                          DeliveryTabView(
+                            isHasDeliverer: true,
+                          ), // Đã xếp lịch
                         ],
                       ),
                     ),
@@ -86,12 +91,16 @@ class DeliveryView extends GetView<DeliveryController> {
 
 // ignore: must_be_immutable
 class DeliveryTabView extends GetView<DeliveryController> {
-  DeliveryTabView({super.key});
-
+  final bool? isHasDeliverer;
+  DeliveryTabView({
+    super.key,
+    this.isHasDeliverer,
+  });
   String? sessionDetailId;
 
   @override
   Widget build(BuildContext context) {
+    controller.isHasDeliverer = isHasDeliverer!;
     return LoadingView(
       future: controller.refreshData,
       child: SingleChildScrollView(
@@ -164,7 +173,7 @@ class DeliveryTabView extends GetView<DeliveryController> {
             const Spacer(),
             DetailButtonDataTable(onPressed: () {}),
             EditButtonDataTable(onPressed: () {
-              showDeliverersDialog(sessionDetail.id!);
+              showDelivererDialog(sessionDetail.id!);
             }),
           ],
         )),
@@ -172,86 +181,139 @@ class DeliveryTabView extends GetView<DeliveryController> {
     );
   }
 
-  void showDeliverersDialog(String id) {
-    sessionDetailId = id;
-    Get.dialog(
-      AlertDialog(
-        content: SizedBox(
-          height: Get.height * 0.8,
+  // void showDeliverersDialog(String id) {
+  //   sessionDetailId = id;
+  //   Get.dialog(
+  //     AlertDialog(
+  //       content: SizedBox(
+  //         height: Get.height * 0.8,
+  //         width: Get.width,
+  //         child: LoadingView(
+  //           future: controller.refreshData,
+  //           child: Obx(
+  //             () => DataTableView(
+  //               title: 'Danh sách người giao hàng',
+  //               isShowCreateDialog: false,
+  //               showCreateDialog: () {},
+  //               sortColumnIndex: controller.columnIndex.value,
+  //               sortAscending: controller.columnAscending.value,
+  //               search: (value) => controller.search(value),
+  //               refreshData: controller.refreshData,
+  //               loadPage: (page) => controller.loadPage(page),
+  //               columns: [
+  //                 const DataColumn(
+  //                   label: Text('Stt'),
+  //                 ),
+  //                 const DataColumn(
+  //                   label: Text('Code'),
+  //                 ),
+  //                 const DataColumn(label: Text('Hình ảnh')),
+  //                 const DataColumn(label: Text('Email')),
+  //                 DataColumn(
+  //                     label: const Text('Tên'),
+  //                     onSort: (index, ascending) => (index, ascending) {}),
+  //                 const DataColumn(label: Text('Số điện thoại')),
+  //                 const DataColumn(label: Text(' ')),
+  //               ],
+  //               // ignore: invalid_use_of_protected_member
+  //               rows: controller.rows.value,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // DataRow setDelivererRow(int index, User user) {
+  //   return DataRow(
+  //     cells: [
+  //       DataCell(Text((index + 1).toString())),
+  //       DataCell(
+  //         Text(
+  //           user.code.toString(),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         SizedBox(
+  //           width: 100,
+  //           child: Image.network(
+  //             user.avatarPath.toString(),
+  //             fit: BoxFit.fitWidth,
+  //           ),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Text(
+  //           user.email.toString(),
+  //         ),
+  //       ),
+  //       DataCell(Text(user.fullName.toString())),
+  //       DataCell(Text(user.phone.toString())),
+  //       DataCell(Row(
+  //         children: [
+  //           const Spacer(),
+  //           IconButton(
+  //             icon: const Icon(Icons.add_circle_outline),
+  //             onPressed: () =>
+  //                 controller.selectDeliverer(sessionDetailId!, user.id!),
+  //           ),
+  //         ],
+  //       )),
+  //     ],
+  //   );
+  // }
+
+  void showDelivererDialog(String sessionDetailId) {
+    Get.dialog(AlertDialog(
+      title: const Text('Chọn người giao hàng'),
+      content: LoadingView(
+        future: () async {
+          await controller.getListDeliverer(sessionDetailId);
+        },
+        child: SizedBox(
           width: Get.width,
-          child: LoadingView(
-            future: controller.refreshData,
-            child: Obx(
-              () => DataTableView(
-                title: 'Danh sách người giao hàng',
-                isShowCreateDialog: false,
-                showCreateDialog: () {},
-                sortColumnIndex: controller.columnIndex.value,
-                sortAscending: controller.columnAscending.value,
-                search: (value) => controller.search(value),
-                refreshData: controller.refreshData,
-                loadPage: (page) => controller.loadPage(page),
-                columns: [
-                  const DataColumn(
-                    label: Text('Stt'),
+          height: Get.height * 0.5,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  onChanged: (value) => (value),
+                  decoration: const InputDecoration(
+                    labelText: 'Tìm kiếm',
                   ),
-                  const DataColumn(
-                    label: Text('Code'),
-                  ),
-                  const DataColumn(label: Text('Hình ảnh')),
-                  const DataColumn(label: Text('Email')),
-                  DataColumn(
-                      label: const Text('Tên'),
-                      onSort: (index, ascending) => (index, ascending) {}),
-                  const DataColumn(label: Text('Số điện thoại')),
-                  const DataColumn(label: Text(' ')),
-                ],
-                // ignore: invalid_use_of_protected_member
-                rows: controller.rows.value,
+                  style: Get.theme.textTheme.bodyMedium,
+                ),
               ),
-            ),
+              SizedBox(
+                height: Get.height * 0.44,
+                child: SingleChildScrollView(
+                  child: Obx(
+                    () => Column(
+                      children: controller.listDeliverer.map(
+                        (deliverer) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(deliverer.fullName.toString()),
+                              subtitle: Text(deliverer.phone.toString()),
+                              onTap: () {
+                                Get.back();
+                                controller.selectDeliverer(
+                                    sessionDetailId, deliverer.id!);
+                              },
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  DataRow setDelivererRow(int index, User user) {
-    return DataRow(
-      cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          Text(
-            user.code.toString(),
-          ),
-        ),
-        DataCell(
-          SizedBox(
-            width: 100,
-            child: Image.network(
-              user.avatarPath.toString(),
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-        ),
-        DataCell(
-          Text(
-            user.email.toString(),
-          ),
-        ),
-        DataCell(Text(user.fullName.toString())),
-        DataCell(Text(user.phone.toString())),
-        DataCell(Row(
-          children: [
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline),
-              onPressed: () =>
-                  controller.selectDeliverer(sessionDetailId!, user.id!),
-            ),
-          ],
-        )),
-      ],
-    );
+    ));
   }
 }

@@ -18,6 +18,16 @@ class MenuService {
     return list;
   }
 
+  Future<List<Menu>> getBySchoolId(String schoolId) async {
+    List<Menu> list = [];
+    final response =
+        await _apiService.request.get('$baseUrl?schoolId=$schoolId');
+    for (var e in response.data['data']) {
+      list.add(Menu.fromJson(e));
+    }
+    return list;
+  }
+
   Future<Menu> getById(String id) async {
     try {
       final response = await _apiService.request.get('$baseUrl/$id');

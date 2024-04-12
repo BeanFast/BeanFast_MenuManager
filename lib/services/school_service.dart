@@ -13,4 +13,9 @@ class SchoolService {
     }
     return list;
   }
+
+  Future<School> getById(String id) async {
+    var response = await _apiService.request.get('$baseUrl/$id');
+    return School.fromJson(response.data['data']);
+  }
 }
