@@ -7,8 +7,8 @@ class InfoCard extends StatelessWidget {
   final String amount;
 
   const InfoCard(
-      {super.key, 
-        // required this.color,
+      {super.key,
+      // required this.color,
       required this.icon,
       required this.label,
       required this.amount});
@@ -20,6 +20,7 @@ class InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         // color: color,
+        border: Border.all(color: Colors.grey),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

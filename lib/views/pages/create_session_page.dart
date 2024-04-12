@@ -38,6 +38,17 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           (menu) => ListTile(
                             title: Text(menu.code.toString()),
                             subtitle: Text(menu.menuDetails!.length.toString()),
+                            leading: Obx(
+                              () => Radio<int>(
+                                value: controller.listMenu.length,
+                                groupValue: controller.selectedValue.value,
+                                onChanged: (int? value) {
+                                  if (value != null) {
+                                    controller.updateSelectedValue(value);
+                                  }
+                                },
+                              ),
+                            ),
                           ),
                         )
                         .toList(),
@@ -297,6 +308,12 @@ class CreateSessionPage extends GetView<CreateSessionController> {
 }
 
 class CreateSessionController extends GetxController {
+  var selectedValue = 0.obs;
+
+  void updateSelectedValue(int value) {
+    selectedValue.value = value;
+  }
+
   // final int numberOfGate = 10;
   var isChecked = List<bool>.filled(10, false).obs;
   RxList<Menu> listMenu = <Menu>[].obs;

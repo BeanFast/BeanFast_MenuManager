@@ -1,12 +1,20 @@
 import 'package:beanfast_menumanager/models/session.dart';
 import 'package:beanfast_menumanager/services/session_service.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
 import '../views/pages/session_page.dart';
 
 class SessionController extends DataTableController<Session> {
+   Rx<DateTime> selectedDateStart = DateTime.now().obs;
+  Rx<String> selectedDateStrStart =
+      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+
+  Rx<DateTime> selectedDateEnd = DateTime.now().obs;
+  Rx<String> selectedDateStrEnd =
+      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
   @override
   void search(String value) {
     if (value == '') {

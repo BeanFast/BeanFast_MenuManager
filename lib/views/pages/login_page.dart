@@ -32,7 +32,8 @@ class LoginView extends GetView<AuthController> {
       flex: 1,
       child: Align(
         alignment: Alignment.center,
-        child: SizedBox(
+        child: Container(
+          alignment: Alignment.center,
           width: 500,
           height: 900,
           child: Form(
@@ -167,10 +168,12 @@ class LoginView extends GetView<AuthController> {
     return Expanded(
       flex: 1,
       child: Align(
-        alignment: Alignment.center,
-        child: Image.asset(
-          "images/login.png",
-          width: Get.size.width * 0.4,
+        alignment: Alignment.centerRight,
+        child: SizedBox(
+          width: Get.size.width * 0.3,
+          child: Image.asset(
+            "images/login.png",
+          ),
         ),
       ),
     );
