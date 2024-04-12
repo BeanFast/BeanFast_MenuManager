@@ -1,5 +1,7 @@
 import 'package:beanfast_menumanager/models/menu.dart';
 import 'package:beanfast_menumanager/models/school.dart';
+import 'package:beanfast_menumanager/models/session.dart';
+import 'package:beanfast_menumanager/models/session_detail.dart';
 import 'package:beanfast_menumanager/services/menu_serivce.dart';
 import 'package:beanfast_menumanager/services/school_service.dart';
 import 'package:beanfast_menumanager/utils/logger.dart';
@@ -33,25 +35,23 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                 flex: 3,
                 child: Obx(
                   () => Column(
-                    children: controller.listMenu
-                        .map(
-                          (menu) => ListTile(
-                            title: Text(menu.code.toString()),
-                            subtitle: Text(menu.menuDetails!.length.toString()),
-                            leading: Obx(
-                              () => Radio<int>(
-                                value: controller.listMenu.length,
-                                groupValue: controller.selectedValue.value,
-                                onChanged: (int? value) {
-                                  if (value != null) {
-                                    controller.updateSelectedValue(value);
-                                  }
-                                },
-                              ),
-                            ),
+                    children: controller.listMenu.map((menu) {
+                      return ListTile(
+                        title: Text(menu.code.toString()),
+                        subtitle: Text(menu.menuDetails!.length.toString()),
+                        leading: Obx(
+                          () => Radio<String>(
+                            value: menu.id!,
+                            groupValue: controller.selectedMenuId.value,
+                            onChanged: (String? value) {
+                              if (value != null) {
+                                controller.updateSelectedValue(value);
+                              }
+                            },
                           ),
-                        )
-                        .toList(),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
@@ -248,34 +248,36 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                       const SizedBox(height: 20),
                       const Text('Cổng', style: TextStyle(fontSize: 16)),
                       const SizedBox(height: 10),
-                      // SizedBox(
-                      //   height: 200,
-                      //   child: SingleChildScrollView(
-                      //     child: Column(
-                      //       children: controller.school.value.locations!
-                      //           .map(
-                      //             (location) => Container(
-                      //               margin: const EdgeInsets.only(
-                      //                   bottom: 2.5, top: 2.5),
-                      //               child: Row(
-                      //                 children: <Widget>[
-                      //                   // Obx(
-                      //                   //   () => Checkbox(
-                      //                   //     value: controller.isChecked[index],
-                      //                   //     onChanged: (bool? value) {
-                      //                   //       controller.toggle(index);
-                      //                   //     },
-                      //                   //   ),
-                      //                   // ),
-                      //                   Text('${location.name}'),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           )
-                      //           .toList(),
-                      //     ),
-                      //   ),
-                      // ),
+                      SizedBox(
+                        height: 200,
+                        child: SingleChildScrollView(
+                          child: Obx(() => Column(
+                                children: controller.school.value.locations!
+                                    .map(
+                                      (location) => Container(
+                                        margin: const EdgeInsets.only(
+                                            bottom: 2.5, top: 2.5),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Obx(
+                                              () => Checkbox(
+                                                value: controller.listString
+                                                    .contains(location.id!),
+                                                onChanged: (bool? value) {
+                                                  controller.toggleCheckbox(
+                                                      location.id!);
+                                                },
+                                              ),
+                                            ),
+                                            Text('${location.code}'),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              )),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerRight,
@@ -291,6 +293,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             if (controller.deliveryStartTime
                                 .isBefore(controller.orderEndTime)) {
                             } else {}
+                           controller.createSession();
                           },
                           label: const Text('Tạo'),
                         ),
@@ -308,34 +311,58 @@ class CreateSessionPage extends GetView<CreateSessionController> {
 }
 
 class CreateSessionController extends GetxController {
-  var selectedValue = 0.obs;
+  var selectedMenuId = ''.obs;
 
-  void updateSelectedValue(int value) {
-    selectedValue.value = value;
+  void updateSelectedValue(String value) {
+    selectedMenuId.value = value;
+  }
+
+  void toggleCheckbox(String id) {
+    if (listString.contains(id)) {
+      listString.remove(id);
+    } else {
+      listString.add(id);
+    }
   }
 
   // final int numberOfGate = 10;
-  var isChecked = List<bool>.filled(10, false).obs;
+  RxSet<String> listString = <String>{}.obs;
+  // var isChecked = List<bool>.filled(10, false).obs;
   RxList<Menu> listMenu = <Menu>[].obs;
   Rx<School> school = School().obs;
   Future refreshData(String schoolId) async {
     try {
       listMenu.value = await MenuService().getBySchoolId(schoolId);
       school.value = await SchoolService().getById(schoolId);
+      school.value.locations?.forEach((e) {
+        listString.add(e.id!);
+      });
     } catch (e) {
       throw Exception(e);
     }
   }
 
   Future<void> createSession() async {
+    List<SessionDetail> sessionDetails = [];
+    for (var e in listString) {
+      sessionDetails.add(SessionDetail(locationId: e));
+    }
+    Session session = Session(
+      menuId: selectedMenuId.value,
+      orderStartTime: orderStartTime,
+      orderEndTime: orderEndTime,
+      deliveryStartTime: deliveryStartTime,
+      deliveryEndTime: deliveryEndTime,
+      sessionDetails: sessionDetails,
+    );
     try {
-      // await SessionService().createSession();
+      await SessionService().createSession(session);
     } on DioException catch (e) {
       logger.e(e.response!.data);
     }
   }
 
-  void toggle(int index) => isChecked[index] = !isChecked[index];
+  // void toggle(int index) => isChecked[index] = !isChecked[index];
   DateTime orderStartTime = DateTime.now();
   DateTime orderEndTime = DateTime.now();
   DateTime deliveryStartTime = DateTime.now();

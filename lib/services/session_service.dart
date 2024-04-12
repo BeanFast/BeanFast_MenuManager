@@ -5,6 +5,7 @@ import 'package:beanfast_menumanager/models/user.dart';
 import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:get/get.dart' as getx;
+import 'package:intl/intl.dart';
 
 class SessionService {
   final ApiService _apiService = getx.Get.put(ApiService());
@@ -32,17 +33,21 @@ class SessionService {
   Future createSession(Session session) async {
     List<Map<String, dynamic>> sessionDetails = [];
     session.sessionDetails?.forEach((e) {
-      Map<String, dynamic> orderDetail = {
+      Map<String, dynamic> location = {
         "LocationId": e.locationId,
       };
-      sessionDetails.add(orderDetail);
+      sessionDetails.add(location);
     });
     Map<String, dynamic> data = {
       'menuId': session.menuId,
-      'orderStartTime': session.orderStartTime,
-      'orderEndTime': session.orderEndTime,
-      'deliveryStartTime': session.deliveryStartTime,
-      'deliveryEndTime': session.deliveryEndTime,
+      'orderStartTime':
+          DateFormat('yyyy-MM-ddTHH:mm:ss').format(session.orderStartTime!),
+      'orderEndTime':
+          DateFormat('yyyy-MM-ddTHH:mm:ss').format(session.orderEndTime!),
+      'deliveryStartTime':
+          DateFormat('yyyy-MM-ddTHH:mm:ss').format(session.deliveryStartTime!),
+      'deliveryEndTime':
+          DateFormat('yyyy-MM-ddTHH:mm:ss').format(session.deliveryEndTime!),
       'sessionDetails': sessionDetails,
     };
     try {

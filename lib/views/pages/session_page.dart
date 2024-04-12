@@ -35,7 +35,7 @@ class SessionView extends GetView<SessionController> {
               const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
           child: Column(
             children: [
-            Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () async {
@@ -49,7 +49,7 @@ class SessionView extends GetView<SessionController> {
                           DateTime.now().subtract(const Duration(days: 365)),
                       lastDate: DateTime.now(),
                     );
-                
+
                     if (picked != null) {
                       controller.selectedDateStart.value = picked.start;
                       controller.selectedDateEnd.value = picked.end;
@@ -85,6 +85,13 @@ class SessionView extends GetView<SessionController> {
                     ),
                   ),
                 ),
+              ),
+              CreateButtonDataTable(
+                onPressed: () {
+                  Get.to(CreateSessionPage(
+                    schoolId: schoolId!,
+                  ));
+                },
               ),
               DefaultTabController(
                 length: 3,

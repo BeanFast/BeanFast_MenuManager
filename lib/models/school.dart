@@ -40,11 +40,9 @@ class School extends BaseModel {
       code: json['code'],
       name: json['name'],
       address: json['address'],
-      locations: json['locations'] != null
-          ? List<Location>.from(
-              json['locations'].map((x) => Location.fromJson(x)),
-            )
-          : [],
+      locations: List<Location>.from(
+        json['locations']?.map((x) => Location.fromJson(x)),
+      ),
       imagePath: json['imagePath'] ?? "",
       studentCount: json['studentCount'],
       area: json['area'] == null ? Area() : Area.fromJson(json['area']),
