@@ -8,6 +8,7 @@ import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../services/session_service.dart';
@@ -22,7 +23,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
     // var menuCode = Get.parameters['code'];
     return LoadingView(
       future: () async {
-        controller.refreshData(schoolId);
+        await controller.refreshData(schoolId);
       },
       child: Scaffold(
         body: Container(
@@ -56,7 +57,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Container(
                   padding: const EdgeInsets.only(left: 40, right: 40),
                   child: Column(
@@ -269,7 +270,11 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                                 },
                                               ),
                                             ),
-                                            Text('${location.code}'),
+                                            Expanded(
+                                                child: Text(
+                                              '${location.name}',
+                                              overflow: TextOverflow.ellipsis,
+                                            )),
                                           ],
                                         ),
                                       ),
@@ -293,7 +298,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             if (controller.deliveryStartTime
                                 .isBefore(controller.orderEndTime)) {
                             } else {}
-                           controller.createSession();
+                            controller.createSession();
                           },
                           label: const Text('Tạo'),
                         ),
