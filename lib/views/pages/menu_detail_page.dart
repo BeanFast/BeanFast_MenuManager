@@ -65,8 +65,8 @@ class MenuDetailView extends GetView<MenuDetailController> {
                                     data:
                                         controller.menu.value.code.toString()),
                                 RowInfoItemWidget(
-                                    title: 'createrId: ',
-                                    data: controller.menu.value.createrId
+                                    title: 'creatorId: ',
+                                    data: controller.menu.value.creatorId
                                         .toString()),
                                 RowInfoItemWidget(
                                     title: 'updaterId: ',

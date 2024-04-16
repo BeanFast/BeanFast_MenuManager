@@ -3,11 +3,13 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'id': '1',
     'categoryId': '1',
     'code': 'Value1',
-    'name': 'Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1',
+    'name':
+        'Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1Value1',
     'price': 100000,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://classroomclipart.com/image/static7/preview2/plate-of-sushi-clip-art-59346.jpg',
+    'imagePath':
+        'https://classroomclipart.com/image/static7/preview2/plate-of-sushi-clip-art-59346.jpg',
     'status': 1,
   },
   {
@@ -18,7 +20,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000010,
     'description': 'Value2',
     'isCombo': false,
-    'imagePath': 'https://classroomclipart.com/image/static7/preview2/plate-of-sushi-clip-art-59346.jpg',
+    'imagePath':
+        'https://classroomclipart.com/image/static7/preview2/plate-of-sushi-clip-art-59346.jpg',
     'status': 1,
   },
   {
@@ -29,7 +32,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1002000,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
+    'imagePath':
+        'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
     'status': 1,
   },
   {
@@ -40,7 +44,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000300,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
+    'imagePath':
+        'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
     'status': 1,
   },
   {
@@ -51,7 +56,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000040,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
+    'imagePath':
+        'https://classroomclipart.com/image/static7/preview2/taco-with-tomato-lettuce-meat-clip-art-59423.jpg',
     'status': 1,
   },
   {
@@ -62,7 +68,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000005,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://www.freepnglogos.com/uploads/food-png/food-png-transparent-images-png-only-22.png',
+    'imagePath':
+        'https://www.freepnglogos.com/uploads/food-png/food-png-transparent-images-png-only-22.png',
     'status': 1,
   },
   {
@@ -73,7 +80,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 100000,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://www.freepnglogos.com/uploads/food-png/food-png-transparent-images-png-only-22.png',
+    'imagePath':
+        'https://www.freepnglogos.com/uploads/food-png/food-png-transparent-images-png-only-22.png',
     'status': 1,
   },
   {
@@ -84,7 +92,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000100,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
+    'imagePath':
+        'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
     'status': 1,
   },
   {
@@ -95,7 +104,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 100000,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
+    'imagePath':
+        'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
     'status': 1,
   },
   {
@@ -106,7 +116,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 1000030,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
+    'imagePath':
+        'https://www.pngkey.com/png/full/907-9070330_food-clipart-png-healthy-foods-clipart-png.png',
     'status': 1,
   },
   {
@@ -117,7 +128,8 @@ List<Map<String, dynamic>> apiDataFoodList = [
     'price': 100000,
     'description': 'Value1',
     'isCombo': false,
-    'imagePath': 'https://i.pinimg.com/originals/ee/28/89/ee288996db69afeb8ec5cbf84f8c0d10.jpg',
+    'imagePath':
+        'https://i.pinimg.com/originals/ee/28/89/ee288996db69afeb8ec5cbf84f8c0d10.jpg',
     'status': 1,
   },
 ];
@@ -130,7 +142,8 @@ List<Map<String, dynamic>> apiDataSchoolList = [
     'code': 'Value1',
     'name': 'Value1',
     'address': 'Value1',
-    'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
   {
@@ -140,7 +153,8 @@ List<Map<String, dynamic>> apiDataSchoolList = [
     'code': 'Value2',
     'name': 'Value2',
     'address': 'Value1',
-    'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
   {
@@ -150,7 +164,8 @@ List<Map<String, dynamic>> apiDataSchoolList = [
     'code': 'Value1',
     'name': 'Value1',
     'address': 'Value1',
-    'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
   {
@@ -160,7 +175,8 @@ List<Map<String, dynamic>> apiDataSchoolList = [
     'code': 'Value4',
     'name': 'Value4',
     'address': 'Value1',
-    'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
   {
@@ -170,7 +186,8 @@ List<Map<String, dynamic>> apiDataSchoolList = [
     'code': 'Value5',
     'name': 'Value5',
     'address': 'Value5',
-    'imagePath': 'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/previews/015/529/452/non_2x/100th-day-of-school-cartoon-colored-clipart-free-vector.jpg',
     'status': 1,
   },
 ];
@@ -182,7 +199,8 @@ List<Map<String, dynamic>> apiDataKitchenList = [
     'code': 'Value1',
     'name': 'Value1',
     'address': 'Value1',
-    'imagePath': 'https://static.vecteezy.com/system/resources/thumbnails/011/743/306/small/kitchen-logo-design-illustration-vintage-menu-for-the-restaurant-vector.jpg',
+    'imagePath':
+        'https://static.vecteezy.com/system/resources/thumbnails/011/743/306/small/kitchen-logo-design-illustration-vintage-menu-for-the-restaurant-vector.jpg',
     'status': 1,
   },
   {
@@ -191,7 +209,8 @@ List<Map<String, dynamic>> apiDataKitchenList = [
     'code': 'Value2',
     'name': 'Value2',
     'address': 'Value1',
-    'imagePath': 'https://www.zarla.com/images/zarla-our-kitchen-1x1-2400x2400-20211105-h3rkb8t4qvc74kx6bjpt.png',
+    'imagePath':
+        'https://www.zarla.com/images/zarla-our-kitchen-1x1-2400x2400-20211105-h3rkb8t4qvc74kx6bjpt.png',
     'status': 1,
   },
 ];
@@ -200,7 +219,7 @@ List<Map<String, dynamic>> apiDataMenuList = [
   {
     'id': '1',
     'kitchenId': '1',
-    'createrId': 'Value2',
+    'creatorId': 'Value2',
     'updaterId': 'Value1',
     'code': 'Value1',
     'createDate': '2024-01-18 16:40:00.000',
@@ -210,7 +229,7 @@ List<Map<String, dynamic>> apiDataMenuList = [
   {
     'id': '2',
     'kitchenId': '1',
-    'createrId': 'Value2',
+    'creatorId': 'Value2',
     'updaterId': 'Value1',
     'code': 'Value2',
     'createDate': '2024-01-18 16:40:00.000',
