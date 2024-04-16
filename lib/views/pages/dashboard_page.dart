@@ -1,12 +1,13 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/utils/line_chart.dart';
 import '/controllers/dashboard_controller.dart';
 import '/views/pages/widget/widget_dashboard.dart';
+import 'widget/dashboard_1.dart';
+import 'widget/dashboard_2.dart';
+import 'widget/dashboard_3.dart';
+import 'widget/dashboard_4.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
@@ -117,140 +118,47 @@ class DashboardView extends StatelessWidget {
               ),
             ],
           ),
-          Row(children: [
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    left: 10, top: 10, right: 10, bottom: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Your Chart Title',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 450,
-                      child: LineChart(
-                        // isShowingMainData ? sampleData1 : sampleData2,
-                        sampleData2,
-                        duration: const Duration(milliseconds: 250),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    left: 10, top: 10, right: 10, bottom: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Your Chart Title',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 450,
-                      child: LineChart(
-                        // isShowingMainData ? sampleData1 : sampleData2,
-                        sampleData2,
-                        duration: const Duration(milliseconds: 250),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
+          const Row(children: [
+            Expanded(child: PointDashboard1()),
+            Expanded(child: PointDashboard2()),
           ]),
-          Row(children: [
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    left: 10, top: 10, right: 10, bottom: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Your Chart Title',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 450,
-                      child: LineChart(
-                        // isShowingMainData ? sampleData1 : sampleData2,
-                        sampleData2,
-                        duration: const Duration(milliseconds: 250),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Card(
-                margin: const EdgeInsets.only(
-                    left: 10, top: 10, right: 10, bottom: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Your Chart Title',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 450,
-                      child: LineChart(
-                        // isShowingMainData ? sampleData1 : sampleData2,
-                        sampleData2,
-                        duration: const Duration(milliseconds: 250),
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
+          const Row(children: [
+            Expanded(child: PointDashboard3()),
+            Expanded(child: PointDashboard4()),
           ]),
         ]),
       ),
     );
   }
 }
+
+// child: Card(
+//                 margin: const EdgeInsets.only(
+//                     left: 10, top: 10, right: 10, bottom: 10),
+//                 child: Container(
+//                   padding: const EdgeInsets.all(10),
+//                   child: Column(children: [
+//                     const Padding(
+//                       padding: EdgeInsets.only(bottom: 10),
+//                       child: Align(
+//                         alignment: Alignment.centerLeft,
+//                         child: Text(
+//                           'Your Chart Title',
+//                           style: TextStyle(
+//                             fontSize: 24,
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 450,
+//                       child: LineChart(
+//                         // isShowingMainData ? sampleData1 : sampleData2,
+//                         sampleData2,
+//                         duration: const Duration(milliseconds: 250),
+//                       ),
+//                     ),
+//                   ]),
+//                 ),
+//               ),

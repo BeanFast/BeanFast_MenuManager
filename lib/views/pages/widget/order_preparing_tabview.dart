@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/models/order_activity.dart';
 import 'package:beanfast_menumanager/utils/format_data.dart';
 import 'package:beanfast_menumanager/views/dialog/order_activity_dialog.dart';
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
@@ -7,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../enums/status_enum.dart';
-import '/models/order.dart';
 import '/controllers/order_controller.dart';
+import '/models/order.dart';
 import 'button_data_table.dart';
 import 'paginated_data_table_widget.dart';
 import 'text_data_table_widget.dart';
