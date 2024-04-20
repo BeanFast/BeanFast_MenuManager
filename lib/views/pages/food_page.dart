@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../dialog/delete_dialog.dart';
+import '/views/dialog/delete_dialog.dart';
+import '/views/pages/loading_page.dart';
 import '/utils/format_data.dart';
 import '/models/category.dart';
 import '/models/food.dart';
@@ -17,45 +18,49 @@ class FoodView extends GetView<FoodController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => controller.isError == true
-          ? ErrorView(
-              errorMessage: 'Đã xảy ra lỗi',
-              tryAgain: controller.refreshData,
-            )
-          : DataTableView(
-              title: 'Quản lý sản phẩm',
-              isShowCreateDialog: true,
-              showCreateDialog: showDialog,
-              refreshData: controller.refreshData,
-              loadPage: (page) => controller.loadPage(page),
-              search: (value) => controller.search(value),
-              sortColumnIndex: controller.columnIndex.value,
-              sortAscending: controller.columnAscending.value,
-              columns: <DataColumn>[
-                const DataColumn(
-                  label: Text('Stt'),
-                ),
-                const DataColumn(
-                  label: Text('Code'),
-                ),
-                const DataColumn(label: Text('Hình ảnh')),
-                DataColumn(
-                    label: const Text('Tên sản phẩm'),
-                    onSort: (index, ascending) => controller.sortByName(index)),
-                DataColumn(
-                    label: const Text('Giá'),
-                    onSort: (index, ascending) =>
-                        controller.sortByPrice(index)),
-                const DataColumn(
-                  label: Text('Loại'),
-                ),
-                // const DataColumn(label: Text('Trạng thái')),
-                const DataColumn(label: Text(' ')),
-              ],
-              // ignore: invalid_use_of_protected_member
-              rows: controller.rows.value,
-            ),
+    return LoadingView(
+      future: controller.refreshData,
+      child: Obx(
+        () => controller.isError == true
+            ? ErrorView(
+                errorMessage: 'Đã xảy ra lỗi',
+                tryAgain: controller.refreshData,
+              )
+            : DataTableView(
+                title: 'Quản lý sản phẩm',
+                isShowCreateDialog: true,
+                showCreateDialog: showDialog,
+                refreshData: controller.refreshData,
+                loadPage: (page) => controller.loadPage(page),
+                search: (value) => controller.search(value),
+                sortColumnIndex: controller.columnIndex.value,
+                sortAscending: controller.columnAscending.value,
+                columns: <DataColumn>[
+                  const DataColumn(
+                    label: Text('Stt'),
+                  ),
+                  const DataColumn(
+                    label: Text('Code'),
+                  ),
+                  const DataColumn(label: Text('Hình ảnh')),
+                  DataColumn(
+                      label: const Text('Tên sản phẩm'),
+                      onSort: (index, ascending) =>
+                          controller.sortByName(index)),
+                  DataColumn(
+                      label: const Text('Giá'),
+                      onSort: (index, ascending) =>
+                          controller.sortByPrice(index)),
+                  const DataColumn(
+                    label: Text('Loại'),
+                  ),
+                  // const DataColumn(label: Text('Trạng thái')),
+                  const DataColumn(label: Text(' ')),
+                ],
+                // ignore: invalid_use_of_protected_member
+                rows: controller.rows.value,
+              ),
+      ),
     );
   }
 
