@@ -50,6 +50,7 @@ class FoodController extends DataTableController<Food> {
 
   @override
   Future loadPage(int page) {
+    print(page);
     // TODO: implement loadPage
     throw UnimplementedError();
   }
@@ -65,8 +66,9 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value)
+    if (!columnAscending.value) {
       currentModelList = currentModelList.reversed.toList();
+    }
     setDataTable(currentModelList);
   }
 
@@ -74,8 +76,9 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value)
+    if (!columnAscending.value) {
       currentModelList = currentModelList.reversed.toList();
+    }
     setDataTable(currentModelList);
   }
 

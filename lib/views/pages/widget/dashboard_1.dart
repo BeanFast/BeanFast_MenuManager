@@ -1,45 +1,65 @@
+import 'dart:math';
+
+import 'package:beanfast_menumanager/services/dashboard_service.dart';
+import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PointDashboard1 extends StatelessWidget {
-  const PointDashboard1({super.key});
-
+  PointDashboard1({super.key, required this.bestSellerFoods});
+  RxList<BestSellerFood> bestSellerFoods = <BestSellerFood>[].obs;
+  late double maxSoldCount;
+  late double step;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        // color: Colors.red,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const Text(
-              'Tổng kết giao dịch điểm (6 tháng)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 50),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: BarChart(
-                BarChartData(
-                  barTouchData: barTouchData,
-                  titlesData: titlesData,
-                  borderData: borderData,
-                  barGroups: barGroups,
-                  gridData: const FlGridData(show: false),
-                  alignment: BarChartAlignment.spaceAround,
-                  maxY: 100,
-                ),
+    if (bestSellerFoods.isNotEmpty) {
+      maxSoldCount =
+          bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
+      step = (maxSoldCount / 5).ceil().toDouble();
+      return Card(
+        child: Container(
+          // color: Colors.red,
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const Text(
+                'Top 10 thức ăn bán chạy nhất',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+              const SizedBox(height: 50),
+              Obx(
+                () => SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: BarChart(
+                    BarChartData(
+                      barTouchData: barTouchData,
+                      titlesData: titlesData,
+                      borderData: borderData,
+                      barGroups: barGroups,
+                      gridData: const FlGridData(show: false),
+                      alignment: BarChartAlignment.spaceAround,
+                      maxY: step * 5,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return const Column(
+        children: [
+          Text('Chưa có dữ liệu'),
+        ],
+      );
+    }
   }
 
   BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
+        enabled: true,
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.transparent,
           tooltipPadding: EdgeInsets.zero,
@@ -67,33 +87,8 @@ class PointDashboard1 extends StatelessWidget {
       // fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Mn';
-        break;
-      case 1:
-        text = 'Te';
-        break;
-      case 2:
-        text = 'Wd';
-        break;
-      case 3:
-        text = 'Tu';
-        break;
-      case 4:
-        text = 'Fr';
-        break;
-      case 5:
-        text = 'St';
-        break;
-      case 6:
-        text = 'Sn';
-        break;
-      default:
-        text = '';
-        break;
-    }
+    String text = bestSellerFoods[value.toInt()].name;
+
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 4,
@@ -110,10 +105,10 @@ class PointDashboard1 extends StatelessWidget {
             getTitlesWidget: getTitles,
           ),
         ),
-        leftTitles: const AxisTitles(
+        leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 20,
+            interval: step.toDouble(),
             reservedSize: 35,
           ),
         ),
@@ -138,76 +133,23 @@ class PointDashboard1 extends StatelessWidget {
         end: Alignment.topCenter,
       );
 
-  List<BarChartGroupData> get barGroups => [
+  List<BarChartGroupData> get barGroups {
+    final List<BarChartGroupData> barGroups = [];
+    for (int i = 0; i < bestSellerFoods.length; i++) {
+      var element = bestSellerFoods[i];
+      barGroups.add(
         BarChartGroupData(
-          x: 0,
+          x: i,
           barRods: [
             BarChartRodData(
-              toY: 7,
+              toY: element.soldCount as double,
               gradient: _barsGradient,
             )
           ],
           showingTooltipIndicators: [0],
         ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: 100,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-              toY: 14,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              toY: 15,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-              toY: 13,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-              toY: 16,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
+      );
+    }
+    return barGroups;
+  }
 }

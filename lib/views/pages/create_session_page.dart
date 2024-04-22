@@ -8,7 +8,6 @@ import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../services/session_service.dart';

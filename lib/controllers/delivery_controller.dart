@@ -61,11 +61,11 @@ class DeliveryController extends DataTableController<SessionDetail> {
     try {
       List<SessionDetail> data =
           await SessionDetailService().deliverySchedule();
-      data.forEach((e) {
+      for (var e in data) {
         if (isHasDeliverer == true && e.deliverer != null) {
           list.add(e);
         }
-      });
+      }
       // list.addAll(data);
     } catch (e) {
       throw Exception(e);

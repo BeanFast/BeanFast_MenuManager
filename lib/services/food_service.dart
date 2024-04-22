@@ -23,7 +23,7 @@ class FoodService {
   Future<Food?> getByCode(String code) async {
     final response = await _apiService.request.get('foods?code=$code');
     List<Food> list = response.data["data"] as List<Food>;
-    if (list.isNotEmpty && list != null) {
+    if (list.isNotEmpty) {
       return Food.fromJson(list[0]);
     }
     return null;
