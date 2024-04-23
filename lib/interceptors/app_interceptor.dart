@@ -15,19 +15,25 @@ class AppInterceptor extends Interceptor with CacheManager {
     return super.onRequest(options, handler);
   }
 
+  // @override
+  // onResponse(Response response, ResponseInterceptorHandler handler) {
+  //   logger.i('nResponse');
+  //   // logger.i(response.toString());
+  //   final status = response.statusCode;
+  //   final isValid = status != null && status >= 200 && status < 300;
+  //   if (!isValid) {
+  //     // throw DioException.badResponse(
+  //     //   statusCode: status!,
+  //     //   requestOptions: response.requestOptions,
+  //     //   response: response,
+  //     // );
+  //   }
+  //   return super.onResponse(response, handler);
+  // }
+
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.i('nResponse');
-    // logger.i(response.toString());
-    final status = response.statusCode;
-    final isValid = status != null && status >= 200 && status < 300;
-    if (!isValid) {
-      // throw DioException.badResponse(
-      //   statusCode: status!,
-      //   requestOptions: response.requestOptions,
-      //   response: response,
-      // );
-    }
+    logger.i('onResponse');
     return super.onResponse(response, handler);
   }
 

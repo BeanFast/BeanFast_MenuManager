@@ -42,7 +42,7 @@ class School extends BaseModel {
       address: json['address'],
       locations: json['locations']?.map<Location>((item) {
         return Location.fromJson(item);
-      }),
+      }).toList(),
       imagePath: json['imagePath'] ?? "",
       studentCount: json['studentCount'] ?? 0,
       area: json['area'] == null ? Area() : Area.fromJson(json['area']),

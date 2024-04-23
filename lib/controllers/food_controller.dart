@@ -1,5 +1,6 @@
 // import 'package:beanfast_menumanager/views/pages/error_page.dart';
 // import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +19,7 @@ class FoodController extends DataTableController<Food> {
   RxString imagePath = ''.obs;
   final TextEditingController foodName = TextEditingController();
   final TextEditingController foodPrice = TextEditingController();
-  Rx<Category?> foodCategory = Rx<Category?>(null);
+  Rx<Category> categorySelected = Category().obs;
   RxList<Category> listCategories = <Category>[].obs;
   RxList<String> messageErrors = <String>[].obs;
 
@@ -38,13 +39,11 @@ class FoodController extends DataTableController<Food> {
 
   @override
   Future getData(list) async {
-    isError.value = false;
     try {
       var data = await FoodService().getAll();
       initModelList.addAll(data);
-    } catch (e) {
-      isError.value = true;
-      logger.e('FoodController: $e');
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
     }
   }
 
@@ -65,8 +64,9 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value)
+    if (!columnAscending.value) {
       currentModelList = currentModelList.reversed.toList();
+    }
     setDataTable(currentModelList);
   }
 
@@ -74,23 +74,25 @@ class FoodController extends DataTableController<Food> {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
     currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value)
+    if (!columnAscending.value) {
       currentModelList = currentModelList.reversed.toList();
+    }
     setDataTable(currentModelList);
   }
 
-  Future getByCode(String code) async {
+  // Future getById(String id) async {
+  //   try {
+  //     var data = await FoodService().getById(id);
+  //     model.value = Food.fromJson(data);
+  //   } catch (e) {
+  //     logger.e('FoodController: $e');
+  //   }
+  // }
+
+  Future getByCode() async {
     try {
-      var value = initModelList.firstWhereOrNull((e) => e.code == code);
-      // if (value == null) {
-      //   var food = await FoodService().getByCode(code);
-      //   if (food != null) {
-      //     model.value = food;
-      //     return;
-      //   }
-      // }
-      var data = await FoodService().getById(value!.id!);
-      model.value = Food.fromJson(data);
+      var foodCode = Get.parameters['code'];
+      model.value = await FoodService().getByCode(foodCode!);
     } catch (e) {
       logger.e('FoodController: $e');
     }
@@ -100,16 +102,14 @@ class FoodController extends DataTableController<Food> {
     imagePath.value = '';
     foodName.text = '';
     foodPrice.text = '';
-
+    listCategories.clear();
     try {
       var data = await CategoryService().getAll();
-      for (var e in data) {
-        listCategories.add(Category.fromJson(e));
-      }
+      listCategories.addAll(data);
+      categorySelected.value = listCategories[0];
     } catch (e) {
       logger.e('FoodController: $e');
     }
-    foodCategory.value = listCategories[0];
   }
 
   Future<void> pickImage() async {
@@ -120,21 +120,41 @@ class FoodController extends DataTableController<Food> {
     }
   }
 
+  // void submitForm() {
+  //   messageErrors.value = [];
+  //   if (formCreateKey.currentState!.validate() &&
+  //       imagePath.value.isNotEmpty &&
+  //       foodCategory.value != null) {
+  //     Food food = Food(
+  //         name: foodName.text,
+  //         price: Formatter.formatPriceToDouble(foodPrice.text),
+  //         categoryId: foodCategory.value!.id,
+  //         imagePath: imagePath.value);
+  //     model.value = food;
+  //     logger.i(foodCategory.value!.id);
+  //     logger.i(model);
+  //     Get.back();
+  //     return;
+  //   }
+  //   if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
+  // }
+
   void submitForm() {
     messageErrors.value = [];
-    if (formCreateKey.currentState!.validate() &&
-        imagePath.value.isNotEmpty &&
-        foodCategory.value != null) {
-      Food food = Food(
-          name: foodName.text,
-          price: Formatter.formatPriceToDouble(foodPrice.text),
-          categoryId: foodCategory.value!.id,
-          imagePath: imagePath.value);
-      model.value = food;
-      logger.i(foodCategory.value!.id);
-      logger.i(model);
-      Get.back();
-      return;
+    model.value!.name = foodName.text;
+    model.value!.price = Formatter.formatPriceToDouble(foodPrice.text);
+    model.value!.categoryId = categorySelected.value.id;
+    model.value!.imagePath = imagePath.value;
+    model.value!.description = '';
+    if (formCreateKey.currentState!.validate() && imagePath.value.isNotEmpty) {
+      try {
+        // FoodService().create(food);
+        Get.back();
+      } catch (e) {
+        throw Exception(e);
+      }
+    } else {
+      messageErrors.add('Thông tin chưa chính xác');
     }
     if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
   }

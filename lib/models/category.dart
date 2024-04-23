@@ -13,11 +13,11 @@ class Category extends BaseModel {
     this.code,
     this.name,
     this.imagePath,
-  });
+  }) : super(id: id, status: status);
 
   factory Category.fromJson(dynamic json) => Category(
-        id: json['id'],
         status: json['status'],
+        id: json['id'],
         code: json["code"],
         name: json["name"],
         imagePath: json['imagePath'],

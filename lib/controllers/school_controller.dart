@@ -1,51 +1,42 @@
+import 'package:beanfast_menumanager/services/area_service.dart';
 import 'package:beanfast_menumanager/services/school_service.dart';
-import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '/utils/logger.dart';
+import '../models/area.dart';
 import '/models/school.dart';
 import '/views/pages/school_page.dart';
 import 'data_table_controller.dart';
 
 class SchoolController extends DataTableController<School> {
-  @override
-  TextEditingController searchController = TextEditingController();
-  List<School> initData = <School>[];
-  List<School> dataList = <School>[];
-  @override
-  RxList<DataRow> rows = <DataRow>[].obs;
-  Rx<String> searchString = ''.obs;
   RxString imagePath = ''.obs;
-
+  RxList<Area> listArea = <Area>[].obs;
+  List<Area> listInitArea = [];
+  Rx<Area?> selectedArea = Rx<Area?>(null);
+  
   @override
-  Rx<int> columnIndex = 0.obs;
-  @override
-  Rx<bool> columnAscending = true.obs;
-
-  void searchNameOrCode() {
-    if (searchString.value == '') {
-      setDataTable(initData);
+  void search(String value) {
+    if (value.isEmpty) {
+      setDataTable(initModelList);
     } else {
-      dataList = initData
+      currentModelList = initModelList
           .where((e) =>
-              e.name!
-                  .toLowerCase()
-                  .contains(searchString.value.toLowerCase()) ||
-              e.code!.toLowerCase().contains(searchString.value.toLowerCase()))
+              e.code!.toLowerCase().contains(value.toLowerCase()) ||
+              e.name!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(dataList);
+      setDataTable(currentModelList);
     }
   }
 
   void sortByName(int index) {
     columnIndex.value = index;
     columnAscending.value = !columnAscending.value;
-    dataList.sort((a, b) => a.name!.compareTo(b.name!));
+    currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
     if (!columnAscending.value) {
-      dataList = dataList.reversed.toList();
+      currentModelList = currentModelList.reversed.toList();
     }
-    setDataTable(dataList);
+    setDataTable(currentModelList);
   }
 
   Future<void> pickImage() async {
@@ -56,13 +47,28 @@ class SchoolController extends DataTableController<School> {
     }
   }
 
+  void selectArea(Area area) {
+    selectedArea.value = area;
+  }
+
   @override
   Future getData(list) async {
-    logger.i('school getData');
-    final apiDataList = await SchoolService().getAll();
-    initData = apiDataList;
-    for (var e in apiDataList) {
-      initModelList.add(e);
+    try {
+      var data = await SchoolService().getAll();
+      initModelList.addAll(data);
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
+    }
+  }
+
+  Future getAllArea() async {
+    listArea.clear();
+    try {
+      var data = await AreaService().getAll();
+      listInitArea = data;
+      listArea.addAll(listInitArea);
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
     }
   }
 
@@ -77,10 +83,5 @@ class SchoolController extends DataTableController<School> {
   Future loadPage(int page) {
     // TODO: implement loadPage
     throw UnimplementedError();
-  }
-
-  @override
-  void search(String value) {
-    // TODO: implement search
   }
 }

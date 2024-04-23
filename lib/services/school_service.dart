@@ -1,6 +1,8 @@
-import 'package:beanfast_menumanager/models/school.dart';
-import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:get/get.dart';
+
+import '/models/school.dart';
+import '/services/api_service.dart';
+import '/utils/logger.dart';
 
 class SchoolService {
   final String baseUrl = 'schools';
@@ -11,6 +13,7 @@ class SchoolService {
     for (var e in response.data['data']) {
       list.add(School.fromJson(e));
     }
+    logger.e(list.length);
     return list;
   }
 

@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/utils/format_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,10 +8,10 @@ import '/models/menu_detail.dart';
 import '/views/pages/home_page.dart';
 import '/views/pages/loading_page.dart';
 import '/controllers/menu_detail_controller.dart';
-import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import 'widget/row_info_item_widget.dart';
+import '/utils/format_data.dart';
 
 class MenuDetailView extends GetView<MenuDetailController> {
   // List<MenuDetail>? menuDetails = [];

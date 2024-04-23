@@ -10,9 +10,10 @@ abstract class DataTableController<T> extends GetxController {
   Rx<int> columnIndex = 0.obs;
   Rx<bool> columnAscending = true.obs;
   Rx<T?> model = Rx<T?>(null);
-  RxBool isError = false.obs;
+  RxString message = ''.obs;
 
   Future<void> refreshData() async {
+    message.value = '';
     initModelList.clear();
     await getData(initModelList);
     currentModelList.clear();
