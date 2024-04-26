@@ -90,9 +90,6 @@ class MenuView extends GetView<MenuController> {
             DetailButtonDataTable(
                 onPressed: () => Get.toNamed('/menu-detail?code=${menu.code}')),
             EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(onPressed: () {
-              DeleteDialog(onPressed: () {}).showDialogMenu(menu.id!);
-            }),
           ],
         )),
       ],

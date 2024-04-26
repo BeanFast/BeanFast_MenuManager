@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+
 import 'base_model.dart';
 import 'profile.dart';
 import 'school.dart';
@@ -12,6 +14,8 @@ class Location extends BaseModel {
   Profile? profile;
   School? school;
   List<SessionDetail>? sessionDetails;
+  //image file
+  FilePickerResult? imageFile;
 
   Location({
     id,
@@ -22,6 +26,7 @@ class Location extends BaseModel {
     this.description,
     this.imagePath,
     this.school,
+    this.imageFile,
   }) : super(id: id, status: status);
 
   factory Location.fromJson(dynamic json) => Location(

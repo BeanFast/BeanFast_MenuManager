@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../views/pages/demo_upload_file.dart';
 import '/contrains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
@@ -48,7 +49,7 @@ class HomeController extends GetxController {
       case 3:
         return const OrderView();
       case 4:
-        return colorGreen();
+        return const FileSelectionScreen();
       case 5:
         return const DeliveryView();
       case 6:

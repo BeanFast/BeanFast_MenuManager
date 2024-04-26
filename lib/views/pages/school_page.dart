@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 import '/models/school.dart';
+import '/models/location.dart';
 import '/controllers/school_controller.dart';
 import '/routes/app_routes.dart';
 import '/views/pages/loading_page.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
+import '/contrains/theme_color.dart';
 
 class SchoolView extends GetView<SchoolController> {
   const SchoolView({super.key});
@@ -107,158 +110,160 @@ class SchoolView extends GetView<SchoolController> {
         constraints: BoxConstraints(maxWidth: Get.width),
         child: AlertDialog(
           title: const Text('Thông trường học'),
-          content: SingleChildScrollView(
-            child: SizedBox(
-              width: 990,
-              child: ListBody(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                    child: controller.imagePath.isEmpty
-                        ? const Text('No image selected')
-                        : Image.network(
-                            controller.imagePath.value,
-                            fit: BoxFit.cover,
+          content: Form(
+            key: controller.formCreateKey,
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: Get.width,
+                child: ListBody(
+                  children: [
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child: controller.selectedImageFile.value == null
+                            ? const Text('Chưa có ảnh')
+                            : Image.memory(
+                                controller.selectedImageFile.value!.files.single
+                                    .bytes!,
+                                width: 200,
+                                height: 200,
+                              ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child: SizedBox(
+                          width: 140,
+                          height: 40,
+                          child: FloatingActionButton.extended(
+                            icon: const Icon(Icons.add),
+                            label: const Text('Thay đổi ảnh'),
+                            onPressed: () {
+                              controller.pickImage();
+                            },
                           ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
+                        ),
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                       child: SizedBox(
-                        width: 140,
-                        height: 40,
-                        child: FloatingActionButton.extended(
-                          icon: const Icon(Icons.add),
-                          label: const Text('Thay đổi ảnh'),
-                          onPressed: () {},
+                        child: TextFormField(
+                          controller: controller.nameText,
+                          decoration: const InputDecoration(
+                            labelText: 'Tên trường',
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLength: 200,
+                          validator: (value) {
+                            int minLenght = 10;
+                            if (value == null ||
+                                value.trim().isEmpty ||
+                                value.length < minLenght) {
+                              return 'Vui lòng nhập tên trường có độ dài tối thiểu là $minLenght ký tự';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                    child: SizedBox(
-                      child: TextFormField(
-                        // initialValue: 'Tên sản phẩm',
-                        decoration: const InputDecoration(
-                          labelText: 'Tên trường',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập tên trường';
-                          }
-                          return null;
+                    ListTile(
+                      leading: const Icon(Iconsax.location),
+                      title: const Text('Khu vực'),
+                      subtitle: Obx(
+                        () => Text(controller.selectedArea.value == null
+                            ? 'Chưa chọn khu vực'
+                            : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}'),
+                      ),
+                      trailing: IconButton(
+                        iconSize: 24,
+                        onPressed: () {
+                          showAreaDialog();
                         },
+                        icon: const Icon(Iconsax.arrow_circle_right),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Iconsax.location),
-                    title: const Text('Khu vực'),
-                    subtitle: Obx(
-                      () => Text(controller.selectedArea.value == null
-                          ? 'Chưa chọn khu vực'
-                          : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}'),
-                    ),
-                    trailing: IconButton(
-                      iconSize: 24,
-                      onPressed: () {
-                        showAreaDialog();
-                      },
-                      icon: const Icon(Iconsax.arrow_circle_right),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                    child: SizedBox(
-                      child: TextFormField(
-                        // initialValue: 'Tên sản phẩm',
-                        decoration: const InputDecoration(
-                          labelText: 'Địa chỉ',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập địa chỉ';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
+                    Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                       child: SizedBox(
-                        height: 40,
-                        child: FloatingActionButton.extended(
-                          icon: const Icon(Icons.add),
-                          label: const Text('Thêm cổng trường học'),
-                          onPressed: () => showCreateGateDialog(),
+                        child: TextFormField(
+                          controller: controller.addressText,
+                          decoration: const InputDecoration(
+                            labelText: 'Địa chỉ',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Vui lòng nhập địa chỉ';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          'STT',
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child: SizedBox(
+                          height: 40,
+                          child: FloatingActionButton.extended(
+                            icon: const Icon(Icons.add),
+                            label: const Text('Thêm cổng trường học'),
+                            onPressed: () {
+                              if (controller.listLocation.length < 2) {
+                                showCreateLocationDialog();
+                              } else {
+                                Get.snackbar(
+                                    'Thông báo', 'Chỉ có thể thêm 2 cổng');
+                              }
+                            },
+                          ),
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'Tên cổng',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Mô tả',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          ' ',
-                        ),
-                      ),
-                    ],
-                    rows: <DataRow>[
-                      DataRow(
-                        cells: <DataCell>[
-                          const DataCell(Text('1')),
-                          const DataCell(Text('Cổng A')),
-                          const DataCell(Text('Some description')),
-                          DataCell(IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                Get.defaultDialog(
-                                  title: 'Xác nhận',
-                                  content: const Text(
-                                      'Bạn có chắc chắn muốn xoá cổng này?'),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // Đóng AlertDialog khi người dùng nhấn nút
-                                        Get.back();
-                                      },
-                                      child: const Text('Close'),
-                                    ),
-                                  ],
-                                );
-                              }))
+                    ),
+                    Obx(
+                      () => DataTable(
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text(
+                              'STT',
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Hình ảnh',
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Tên cổng',
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Mô tả',
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              ' ',
+                            ),
+                          ),
                         ],
+                        // ignore: invalid_use_of_protected_member
+                        rows: controller.locationRows.value,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -266,11 +271,68 @@ class SchoolView extends GetView<SchoolController> {
             FloatingActionButton.extended(
               icon: const Icon(Icons.add),
               label: const Text('Lưu'),
-              onPressed: () {},
+              onPressed: () async {
+                await controller.submitForm();
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  DataRow setLocationRow(int index, Location location) {
+    return DataRow(
+      cells: [
+        DataCell(Text((index + 1).toString())),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Image.memory(
+              location.imageFile!.files.single.bytes!,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ),
+        DataCell(
+          Text(
+            location.name.toString(),
+          ),
+        ),
+        DataCell(
+          TextDataTable(
+            data: location.description.toString(),
+            maxLines: 2,
+            width: 200,
+          ),
+        ),
+        DataCell(
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              Get.defaultDialog(
+                title: 'Xác nhận',
+                content: const Text('Bạn có chắc chắn muốn xoá cổng này?'),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.removeLocation(index);
+                      Get.back();
+                    },
+                    child: const Text('Đồng ý'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text('Đóng'),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -326,58 +388,96 @@ class SchoolView extends GetView<SchoolController> {
     ));
   }
 
-  void showCreateGateDialog() {
+  void showCreateLocationDialog() {
     Get.dialog(
       ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 700),
         child: AlertDialog(
-          title: const Text('Thông tin cổng trường học'),
-          content: SingleChildScrollView(
-            child: SizedBox(
-              width: 690,
-              child: ListBody(
-                mainAxis: Axis.vertical,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Tên cổng trường học',
-                        border: OutlineInputBorder(),
+          title: const Text('Thông tin cổng'),
+          content: Form(
+            key: controller.formCreateLocationKey,
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: Get.width,
+                child: ListBody(
+                  mainAxis: Axis.vertical,
+                  children: <Widget>[
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child:
+                            controller.selectedLocationImageImageFile.value ==
+                                    null
+                                ? const Text('Chưa có ảnh')
+                                : Image.memory(
+                                    controller.selectedLocationImageImageFile
+                                        .value!.files.single.bytes!,
+                                    width: 200,
+                                    height: 200,
+                                  ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập tên cổng trường';
-                        }
-                        return null;
-                      },
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Mô tả',
-                        border: OutlineInputBorder(),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child: SizedBox(
+                          width: 140,
+                          height: 40,
+                          child: FloatingActionButton.extended(
+                            icon: const Icon(Icons.add),
+                            label: const Text('Thay đổi ảnh'),
+                            onPressed: () async {
+                              await controller.pickLocationImage();
+                            },
+                          ),
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập mô tả';
-                        }
-                        return null;
-                      },
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                      child: TextFormField(
+                        controller: controller.locationNameText,
+                        decoration: const InputDecoration(
+                          labelText: 'Tên cổng',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Vui lòng nhập tên cổng trường';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      height: 150,
+                      width: Get.width - 20,
+                      decoration: BoxDecoration(
+                        color: ThemeColor.primaryColor,
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: QuillEditor.basic(
+                        configurations: QuillEditorConfigurations(
+                            controller: controller.locationDescriptionText),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           actions: <Widget>[
             FloatingActionButton.extended(
               label: const Text('Lưu'),
-              onPressed: () {},
+              onPressed: () {
+                controller.addLocation();
+              },
             ),
           ],
         ),

@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+
 import 'base_model.dart';
 import 'area.dart';
 import 'kitchen.dart';
@@ -16,6 +18,8 @@ class School extends BaseModel {
   Kitchen? kitchen;
   List<Profile>? profiles;
   List<Location>? locations;
+  //image file
+  FilePickerResult? imageFile;
 
   School({
     id,
@@ -29,6 +33,7 @@ class School extends BaseModel {
     this.imagePath,
     this.studentCount,
     this.area,
+    this.imageFile,
   }) : super(id: id, status: status);
 
   factory School.fromJson(dynamic json) {
