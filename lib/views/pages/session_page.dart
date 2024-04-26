@@ -1,17 +1,14 @@
-import 'package:beanfast_menumanager/models/session.dart';
-import 'package:beanfast_menumanager/routes/app_routes.dart';
-import 'package:beanfast_menumanager/utils/logger.dart';
-import 'package:beanfast_menumanager/views/pages/loading_page.dart';
-import 'package:beanfast_menumanager/views/pages/menu_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '/models/session.dart';
+import '/routes/app_routes.dart';
+import '/views/pages/loading_page.dart';
 import '/views/dialog/delete_dialog.dart';
 import '/models/menu.dart';
 import '/controllers/session_controller.dart';
-import '/views/pages/widget/pickedDate_widget.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';

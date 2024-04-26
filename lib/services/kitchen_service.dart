@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
 import '/models/kitchen.dart';
 import '/services/api_service.dart';
 
