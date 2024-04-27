@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/views/pages/widget/paginated_data_table_widget.dart';
-import '/views/pages/widget/button_data_table.dart';
 
 // ignore: must_be_immutable
 class DataTableView extends StatelessWidget {
@@ -11,7 +10,6 @@ class DataTableView extends StatelessWidget {
   final bool sortAscending;
   final List<DataColumn> columns;
   final List<DataRow> rows;
-  // bool isShowCreateDialog = false;
   final void Function(String value) search;
   final void Function() refreshData;
   final void Function(int page) loadPage;

@@ -17,7 +17,7 @@ class SchoolView extends GetView<SchoolController> {
 
   @override
   Widget build(BuildContext context) {
-    final SchoolController controller = Get.find();
+    Get.put(SchoolController());
     return LoadingView(
       future: controller.refreshData,
       child: Obx(
