@@ -7,7 +7,6 @@ import '/views/pages/loading_page.dart';
 import '/routes/app_routes.dart';
 import '/controllers/menu_controller.dart';
 import '/models/menu.dart';
-import '/views/dialog/delete_dialog.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
@@ -23,11 +22,12 @@ class MenuView extends GetView<MenuController> {
         child: Obx(
           () => DataTableView(
             title: 'Quản thực đơn',
-            isShowCreateDialog: true,
-            showCreateDialog: () async {
-              await controller.getKitchens();
-              showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)});
-            },
+            header: CreateButtonDataTable(
+              onPressed: () async {
+                await controller.getKitchens();
+                showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)});
+              },
+            ),
             refreshData: controller.refreshData,
             loadPage: (page) => controller.loadPage(page),
             search: (value) => controller.search(value),

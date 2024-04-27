@@ -188,8 +188,6 @@ class MenuCreateView extends GetView<MenuCreateController> {
             child: Obx(
               () => DataTableView(
                 title: 'Danh sách sản phẩm',
-                isShowCreateDialog: false,
-                showCreateDialog: () {},
                 sortColumnIndex: controller.columnIndex.value,
                 sortAscending: controller.columnAscending.value,
                 search: (value) => controller.search(value),

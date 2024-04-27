@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '/controllers/category_controller.dart';
 import '/views/pages/loading_page.dart';
-import '/utils/format_data.dart';
 import '/models/category.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
@@ -21,10 +19,6 @@ class CategoryView extends GetView<CategoryController> {
       child: Obx(
         () => DataTableView(
           title: 'Quản lý loại sản phẩm',
-          isShowCreateDialog: true,
-          showCreateDialog: () async {
-            await showDialog();
-          },
           refreshData: controller.refreshData,
           loadPage: (page) => controller.loadPage(page),
           search: (value) => controller.search(value),
@@ -84,145 +78,6 @@ class CategoryView extends GetView<CategoryController> {
           ],
         )),
       ],
-    );
-  }
-
-  Future<void> showDialog() async {
-    await controller.initDialog();
-    Get.dialog(
-      ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1000),
-        child: AlertDialog(
-          title: const Text('Thông tin món ăn'),
-          content: Form(
-            key: controller.formCreateKey,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: 990,
-                child: ListBody(
-                  mainAxis: Axis.vertical,
-                  children: [
-                    Obx(() => Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                          child: controller.imagePath.isEmpty
-                              ? const Text('No image selected')
-                              : Image.network(
-                                  controller.imagePath.value,
-                                  fit: BoxFit.cover,
-                                ),
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: FloatingActionButton.extended(
-                        icon: const Icon(Icons.add),
-                        label: const Text('Chọn Ảnh'),
-                        onPressed: () {
-                          controller.pickImage();
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: TextFormField(
-                        controller: controller.foodName,
-                        maxLength: 200,
-                        decoration: const InputDecoration(
-                          labelText: 'Tên Sản Phẩm',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập tên sản phẩm';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: TextFormField(
-                        controller: controller.foodPrice,
-                        maxLength: 15,
-                        decoration: const InputDecoration(
-                          labelText: 'Giá',
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            final formattedValue =
-                                Formatter.formatPriceToString(value);
-                            controller.foodPrice.value =
-                                controller.foodPrice.value.copyWith(
-                              text: formattedValue,
-                              selection: TextSelection.collapsed(
-                                  offset: formattedValue.length),
-                            );
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập giá';
-                          }
-                          if (Formatter.formatPriceToDouble(value) == null) {
-                            return 'Giá không hợp lệ';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: DropdownButtonFormField<Category>(
-                        value: controller.categorySelected.value,
-                        decoration: const InputDecoration(labelText: 'Loại'),
-                        items: controller.listCategories.map((e) {
-                          return DropdownMenuItem<Category>(
-                            value: e,
-                            child: Text(e.name!),
-                          );
-                        }).toList(),
-                        validator: (Category? value) {
-                          return value == null ? 'Vui lòng nhập loại' : null;
-                        },
-                        onChanged: (Category? value) {
-                          // selected = value!;f
-                          controller.categorySelected.value = value!;
-                        },
-                      ),
-                    ),
-                    Obx(() {
-                      return Column(
-                        children: controller.messageErrors.map((message) {
-                          return Text(
-                            message,
-                            style: const TextStyle(color: Colors.red),
-                          );
-                        }).toList(),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            FloatingActionButton.extended(
-              icon: const Icon(Icons.add),
-              label: const Text('Lưu'),
-              onPressed: controller.submitForm,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

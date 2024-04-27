@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../enums/menu_index_enum.dart';
+import '/enums/menu_index_enum.dart';
 import '/enums/auth_state_enum.dart';
 import '/models/user.dart';
 

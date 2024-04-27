@@ -19,8 +19,9 @@ class KitchenView extends GetView<KitchenController> {
       child: Obx(
         () => DataTableView(
           title: 'Quản lý bếp',
-          isShowCreateDialog: true,
-          showCreateDialog: showCreateKitchenDialog,
+          header: CreateButtonDataTable(
+            onPressed: showCreateKitchenDialog,
+          ),
           refreshData: controller.refreshData,
           loadPage: (page) => controller.loadPage(page),
           search: (value) => controller.search(value),

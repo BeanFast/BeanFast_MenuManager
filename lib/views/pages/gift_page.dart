@@ -21,10 +21,11 @@ class GiftView extends GetView<GiftController> {
       child: Obx(
         () => DataTableView(
           title: 'Quản lý quà',
-          isShowCreateDialog: true,
-          showCreateDialog: () async {
-            await showDialog();
-          },
+          header: CreateButtonDataTable(
+            onPressed: () async {
+              await showDialog();
+            },
+          ),
           refreshData: controller.refreshData,
           loadPage: (page) => controller.loadPage(page),
           search: (value) => controller.search(value),

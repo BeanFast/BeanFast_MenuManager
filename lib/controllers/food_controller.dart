@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
+import '/models/combo.dart';
 import '/utils/format_data.dart';
-import '/utils/logger.dart';
 import '/models/food.dart';
 import '/models/category.dart';
 import '/controllers/data_table_controller.dart';
@@ -13,13 +14,30 @@ import '/services/food_service.dart';
 import '/services/category_service.dart';
 
 class FoodController extends DataTableController<Food> {
+  //Form
   final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
-  RxString imagePath = ''.obs;
-  final TextEditingController foodName = TextEditingController();
-  final TextEditingController foodPrice = TextEditingController();
-  Rx<Category> categorySelected = Category().obs;
-  RxList<Category> listCategories = <Category>[].obs;
-  RxList<String> messageErrors = <String>[].obs;
+  var selectedImageFile = Rxn<FilePickerResult>();
+  RxList<DataRow> foodRows = <DataRow>[].obs;
+  final TextEditingController nameText = TextEditingController();
+  final TextEditingController priceText = TextEditingController();
+  final TextEditingController quantiyText = TextEditingController();
+  final QuillController descriptionText = QuillController.basic();
+  RxList<Category> listCategory = <Category>[].obs;
+  List<Category> listInitCategory = [];
+  List<Food> listFood = [];
+  List<Food> listInitFood = [];
+  RxList<Food> listCombo = <Food>[].obs;
+  Rx<Category?> selectedCategory = Rx<Category?>(null);
+  RxMap<String, int> combos = <String, int>{}.obs;
+
+  void clearForm() {
+    nameText.clear();
+    priceText.clear();
+    descriptionText.clear();
+    selectedCategory.value = null;
+    combos.clear();
+    listCategory.clear();
+  }
 
   @override
   void search(String value) {
@@ -38,24 +56,11 @@ class FoodController extends DataTableController<Food> {
   @override
   Future getData(list) async {
     try {
-      var data = await FoodService().getAll();
+      var data = await FoodService().getAll(null);
       initModelList.addAll(data);
     } on DioException catch (e) {
       message = e.response!.data['message'];
     }
-  }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
-  }
-
-  @override
-  void setDataTable(List<Food> list) {
-    rows.value = list.map((dataMap) {
-      return const FoodView().setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
   }
 
   void sortByName(int index) {
@@ -78,82 +83,160 @@ class FoodController extends DataTableController<Food> {
     setDataTable(currentModelList);
   }
 
-  // Future getById(String id) async {
-  //   try {
-  //     var data = await FoodService().getById(id);
-  //     model.value = Food.fromJson(data);
-  //   } catch (e) {
-  //     logger.e('FoodController: $e');
-  //   }
-  // }
-
   Future getByCode() async {
     try {
       var foodCode = Get.parameters['code'];
       model.value = await FoodService().getByCode(foodCode!);
-    } catch (e) {
-      logger.e('FoodController: $e');
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
     }
   }
 
-  Future<void> initDialog() async {
-    imagePath.value = '';
-    foodName.text = '';
-    foodPrice.text = '';
-    listCategories.clear();
+  Future getAllCategory() async {
+    listCategory.clear();
     try {
       var data = await CategoryService().getAll();
-      listCategories.addAll(data);
-      categorySelected.value = listCategories[0];
-    } catch (e) {
-      logger.e('FoodController: $e');
+      listInitCategory = data;
+      listCategory.addAll(listInitCategory);
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
     }
   }
 
-  Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imagePath.value = pickedFile.path;
+  void searchCategory(String value) {
+    listCategory.clear();
+    if (value.isEmpty) {
+      listCategory.addAll(listInitCategory);
+    } else {
+      listCategory.value = listInitCategory
+          .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
     }
   }
 
-  // void submitForm() {
-  //   messageErrors.value = [];
-  //   if (formCreateKey.currentState!.validate() &&
-  //       imagePath.value.isNotEmpty &&
-  //       foodCategory.value != null) {
-  //     Food food = Food(
-  //         name: foodName.text,
-  //         price: Formatter.formatPriceToDouble(foodPrice.text),
-  //         categoryId: foodCategory.value!.id,
-  //         imagePath: imagePath.value);
-  //     model.value = food;
-  //     logger.i(foodCategory.value!.id);
-  //     logger.i(model);
-  //     Get.back();
-  //     return;
-  //   }
-  //   if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
-  // }
+  Future getAllFood() async {
+    listFood.clear();
+    try {
+      var data = await FoodService().getAll(false);
+      listInitFood = data;
+      listFood.addAll(listInitFood);
+      for (var c in combos.entries) {
+        listFood.removeWhere((e) => e.id! == c.key);
+      }
+      setFoodDataTable(listFood);
+    } on DioException catch (e) {
+      message = e.response!.data['message'];
+    }
+  }
 
-  void submitForm() {
-    messageErrors.value = [];
-    model.value!.name = foodName.text;
-    model.value!.price = Formatter.formatPriceToDouble(foodPrice.text);
-    model.value!.categoryId = categorySelected.value.id;
-    model.value!.imagePath = imagePath.value;
-    model.value!.description = '';
-    if (formCreateKey.currentState!.validate() && imagePath.value.isNotEmpty) {
+  void searchFood(String value) {
+    listFood.clear();
+    if (value.isEmpty) {
+      listFood.addAll(listInitFood);
+    } else {
+      listFood = listInitFood
+          .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+      setFoodDataTable(listFood);
+    }
+  }
+
+  void addFood(String id) {
+    combos.putIfAbsent(id, () => 1);
+    Food food = listInitFood.firstWhere((e) => e.id! == id);
+    listCombo.add(food);
+    listFood.remove(food);
+    setFoodDataTable(listFood);
+  }
+
+  void updateFood(String id, int quantity) {
+    if (quantity < 1) {
+      return;
+    }
+    combos.update(id, (value) => quantity);
+  }
+
+  void removeFood(String id) {
+    if (combos.containsKey(id)) {
+      combos.remove(id);
+      listCombo.removeWhere((e) => e.id == id);
+    }
+  }
+
+  Future pickImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      selectedImageFile.value = result;
+    }
+  }
+
+  Future submitForm(bool isCombo) async {
+    if (selectedImageFile.value == null) {
+      Get.snackbar('Thất bại', 'Ảnh trống');
+      return;
+    }
+    if (selectedCategory.value == null) {
+      Get.snackbar('Thất bại', 'Chưa có thông tin loại');
+      return;
+    }
+    if (isCombo && combos.isEmpty) {
+      Get.snackbar('Thất bại', 'Combo chưa có thức ăn');
+      return;
+    }
+    if (formCreateKey.currentState!.validate()) {
       try {
-        // FoodService().create(food);
+        Food model = Food(
+          name: nameText.text.trim(),
+          price: Formatter.formatPriceToDouble(priceText.text.trim()),
+          categoryId: selectedCategory.value!.id,
+          description: descriptionText.document.toPlainText().trim(),
+          imageFile: selectedImageFile.value!,
+        );
+        if (isCombo) {
+          List<Combo>? listCombo = [];
+          for (var e in combos.entries) {
+            Combo combo = Combo();
+            combo.foodId = e.key;
+            combo.quantity = e.value;
+            listCombo.add(combo);
+          }
+          model.combos = listCombo;
+        }
+        await FoodService().create(model, isCombo);
         Get.back();
-      } catch (e) {
-        throw Exception(e);
+        Get.snackbar('Thành công', '');
+        refreshData();
+      } on DioException catch (e) {
+        if (e.response != null) {
+          if (e.response!.data['message'] != null) {
+            Get.snackbar('Lỗi', e.response!.data['message']);
+            return;
+          }
+        }
+        Get.snackbar('Lỗi', 'Tạo thất bại');
       }
     } else {
-      messageErrors.add('Thông tin chưa chính xác');
+      Get.snackbar('Thát bại', 'Thông tin chưa chính xác');
     }
-    if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
+  }
+
+  @override
+  Future loadPage(int page) {
+    // TODO: implement loadPage
+    throw UnimplementedError();
+  }
+
+  @override
+  void setDataTable(List<Food> list) {
+    rows.value = list.map((dataMap) {
+      return const FoodView().setRow(list.indexOf(dataMap), dataMap);
+    }).toList();
+  }
+
+  void setFoodDataTable(List<Food> list) {
+    foodRows.value = list.map((dataMap) {
+      return const FoodView().setFoodRow(list.indexOf(dataMap), dataMap);
+    }).toList();
   }
 }

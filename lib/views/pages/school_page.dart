@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 
 import '/models/school.dart';
 import '/models/location.dart';
@@ -11,7 +10,7 @@ import '/views/pages/loading_page.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
-import '/contrains/theme_color.dart';
+import 'widget/description_input_widget.dart';
 
 class SchoolView extends GetView<SchoolController> {
   const SchoolView({super.key});
@@ -24,8 +23,9 @@ class SchoolView extends GetView<SchoolController> {
       child: Obx(
         () => DataTableView(
           title: 'Quản lý trường',
-          isShowCreateDialog: true,
-          showCreateDialog: showCreateSchoolDialog,
+          header: CreateButtonDataTable(
+            onPressed: showCreateSchoolDialog,
+          ),
           refreshData: controller.refreshData,
           loadPage: (page) => controller.loadPage(page),
           search: (value) => controller.search(value),
@@ -217,14 +217,7 @@ class SchoolView extends GetView<SchoolController> {
                           child: FloatingActionButton.extended(
                             icon: const Icon(Icons.add),
                             label: const Text('Thêm cổng trường học'),
-                            onPressed: () {
-                              if (controller.listLocation.length < 2) {
-                                showCreateLocationDialog();
-                              } else {
-                                Get.snackbar(
-                                    'Thông báo', 'Chỉ có thể thêm 2 cổng');
-                              }
-                            },
+                            onPressed: showCreateLocationDialog,
                           ),
                         ),
                       ),
@@ -351,7 +344,7 @@ class SchoolView extends GetView<SchoolController> {
               Expanded(
                 flex: 1,
                 child: TextField(
-                  onChanged: (value) => (value),
+                  onChanged: (value) => controller.searchArea(value),
                   decoration: const InputDecoration(
                     labelText: 'Tìm kiếm',
                   ),
@@ -453,20 +446,8 @@ class SchoolView extends GetView<SchoolController> {
                         },
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      height: 150,
-                      width: Get.width - 20,
-                      decoration: BoxDecoration(
-                        color: ThemeColor.primaryColor,
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: QuillEditor.basic(
-                        configurations: QuillEditorConfigurations(
-                            controller: controller.locationDescriptionText),
-                      ),
-                    ),
+                    DescriptionInput(
+                        quillController: controller.locationDescriptionText),
                   ],
                 ),
               ),
