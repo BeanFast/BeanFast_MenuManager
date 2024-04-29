@@ -19,7 +19,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const OrderView());
+  Rx<Widget> selectedContent = Rx<Widget>(DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [

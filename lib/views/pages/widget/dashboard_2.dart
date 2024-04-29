@@ -1,9 +1,9 @@
-import 'package:beanfast_menumanager/contrains/theme_color.dart';
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
+
+import '/contains/theme_color.dart';
 
 class PointDashboard2 extends StatelessWidget {
   PointDashboard2({super.key, required this.orderStatistics});

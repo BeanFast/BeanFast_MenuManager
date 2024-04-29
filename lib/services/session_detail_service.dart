@@ -1,9 +1,9 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
 import '/models/session_detail.dart';
 import '/services/api_service.dart';
+import '/utils/logger.dart';
 
 class SessionDetailService {
   final ApiService _apiService = getx.Get.put(ApiService());

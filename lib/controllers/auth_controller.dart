@@ -70,7 +70,6 @@ mixin CacheManager {
 
   String? getToken() {
     final box = GetStorage();
-    String a = CacheManagerKey.MANAGERTOKEN.toString();
     return box.read(CacheManagerKey.MANAGERTOKEN.toString());
   }
 

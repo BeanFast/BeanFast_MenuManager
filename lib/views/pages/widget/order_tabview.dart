@@ -1,5 +1,3 @@
-import 'package:beanfast_menumanager/utils/format_data.dart';
-import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -7,11 +5,11 @@ import 'package:intl/intl.dart';
 import '/enums/status_enum.dart';
 import '/controllers/order_controller.dart';
 import '/models/order.dart';
-import '/utils/format_data.dart';
-import '/views/pages/loading_page.dart';
 import 'button_data_table.dart';
 import 'paginated_data_table_widget.dart';
 import 'text_data_table_widget.dart';
+import '/views/pages/loading_page.dart';
+import '/utils/format_data.dart';
 
 class OrderTabView extends GetView<OrderController> {
   final OrderStatus status;

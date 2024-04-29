@@ -1,11 +1,9 @@
 import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
-import 'package:dio/dio.dart';
 
 import '/models/session.dart';
 import '/models/user.dart';
 import '/services/api_service.dart';
-import '/utils/logger.dart';
 import '/enums/status_enum.dart';
 
 class SessionService {
