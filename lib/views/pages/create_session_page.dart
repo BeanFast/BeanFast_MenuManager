@@ -1,17 +1,16 @@
-import 'package:beanfast_menumanager/models/menu.dart';
-import 'package:beanfast_menumanager/models/school.dart';
-import 'package:beanfast_menumanager/models/session.dart';
-import 'package:beanfast_menumanager/models/session_detail.dart';
-import 'package:beanfast_menumanager/services/menu_serivce.dart';
-import 'package:beanfast_menumanager/services/school_service.dart';
-import 'package:beanfast_menumanager/utils/logger.dart';
-import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../../services/session_service.dart';
+import '/services/session_service.dart';
+import '/models/menu.dart';
+import '/models/school.dart';
+import '/models/session.dart';
+import '/models/session_detail.dart';
+import '/services/menu_serivce.dart';
+import '/services/school_service.dart';
+import '/utils/logger.dart';
+import '/views/pages/loading_page.dart';
 
 class CreateSessionPage extends GetView<CreateSessionController> {
   final String schoolId;

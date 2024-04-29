@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 
-import '/contrains/theme_color.dart';
+import '../../../contains/theme_color.dart';
 
 class DescriptionInput extends StatelessWidget {
   final QuillController quillController;

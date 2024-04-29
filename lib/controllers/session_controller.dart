@@ -1,20 +1,34 @@
-import 'package:beanfast_menumanager/models/session.dart';
-import 'package:beanfast_menumanager/services/session_service.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '/models/session.dart';
+import '/services/session_service.dart';
+import '/enums/status_enum.dart';
 import '/controllers/data_table_controller.dart';
 import '/utils/logger.dart';
-import '../views/pages/session_page.dart';
+import '/views/pages/session_page.dart';
 
 class SessionController extends DataTableController<Session> {
-   Rx<DateTime> selectedDateStart = DateTime.now().obs;
+  SessionStatus status = SessionStatus.orderable;
+  Rx<DateTime> selectedDateStart = DateTime.now().obs;
   Rx<String> selectedDateStrStart =
       DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
 
   Rx<DateTime> selectedDateEnd = DateTime.now().obs;
   Rx<String> selectedDateStrEnd =
       DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+
+  Future delete(String id) async {
+    try {
+      await SessionService().delete(id);
+      Get.back();
+      Get.snackbar('Thành công', 'Xóa thành công');
+    } on DioException catch (e) {
+      Get.snackbar('Thất bại', e.response!.data['message']);
+    }
+  }
+
   @override
   void search(String value) {
     if (value == '') {
@@ -29,9 +43,9 @@ class SessionController extends DataTableController<Session> {
 
   @override
   Future getData(list) async {
-    logger.i('menu getData');
     var schoolId = Get.parameters['schoolId'];
-    final apiDataList = await SessionService().getSessionsBySchoolId(schoolId!);
+    final apiDataList =
+        await SessionService().getSessionsBySchoolId(schoolId!, status);
     for (var e in apiDataList) {
       initModelList.add(e);
     }
@@ -47,7 +61,8 @@ class SessionController extends DataTableController<Session> {
   @override
   void setDataTable(List<Session> list) {
     rows.value = list.map((dataMap) {
-      return const SessionView().setRow(list.indexOf(dataMap), dataMap);
+      return SessionTabView(status: status)
+          .setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
 

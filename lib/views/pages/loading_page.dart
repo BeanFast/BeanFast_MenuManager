@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadingView extends StatelessWidget {
   final Future<dynamic> Function() future;
@@ -14,8 +15,8 @@ class LoadingView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: Image.asset(
-              'assets/images/loading.gif',
+            child: Lottie.asset(
+              '/images/loading.json',
               width: 150,
               height: 150,
               fit: BoxFit.contain,

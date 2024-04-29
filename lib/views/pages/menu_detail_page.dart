@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/contrains/contrain.dart';
+import '../../contains/contrain.dart';
 import '/enums/menu_index_enum.dart';
 import '/models/menu_detail.dart';
 import '/views/pages/home_page.dart';

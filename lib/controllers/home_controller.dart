@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/contrains/contrain.dart';
+import '../contains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
 import '/views/pages/category_page.dart';

@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../services/auth_service.dart';
+import '/services/auth_service.dart';
 import '/utils/logger.dart';
-import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
-  late Rx<Account?> account;
   Rx<AuthState> authState = AuthState.unauthenticated.obs;
   // final RxBool logged = false.obs;
 
@@ -66,19 +64,21 @@ class AuthController extends GetxController with CacheManager {
 mixin CacheManager {
   Future<bool> saveToken(String? token) async {
     final box = GetStorage();
-    await box.write(CacheManagerKey.TOKEN.toString(), token);
+    await box.write(CacheManagerKey.MANAGERTOKEN.toString(), token);
     return true;
   }
 
   String? getToken() {
     final box = GetStorage();
-    return box.read(CacheManagerKey.TOKEN.toString());
+    String a = CacheManagerKey.MANAGERTOKEN.toString();
+    return box.read(CacheManagerKey.MANAGERTOKEN.toString());
   }
 
   Future<void> removeToken() async {
     final box = GetStorage();
-    await box.remove(CacheManagerKey.TOKEN.toString());
+    await box.remove(CacheManagerKey.MANAGERTOKEN.toString());
   }
 }
 
-enum CacheManagerKey { TOKEN }
+// ignore: constant_identifier_names
+enum CacheManagerKey { MANAGERTOKEN }

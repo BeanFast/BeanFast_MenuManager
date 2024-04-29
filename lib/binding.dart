@@ -1,6 +1,6 @@
-import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:get/get.dart';
 
+import '/services/api_service.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/food_controller.dart';

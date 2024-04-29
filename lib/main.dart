@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'binding.dart';
-import 'contrains/theme.dart';
+import 'contains/theme.dart';
 import 'controllers/home_controller.dart';
 import 'routes/app_routes.dart';
 import '/views/pages/menu_create_page.dart';
