@@ -1,5 +1,4 @@
 import 'package:beanfast_menumanager/utils/format_data.dart';
-import 'package:beanfast_menumanager/views/dialog/order_activity_dialog.dart';
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -98,10 +97,37 @@ class OrderPreparingTabView extends GetView<OrderPreparingController> {
             const Spacer(),
             DetailButtonDataTable(onPressed: () {}),
             CancelOrderActivityButtonTable(onPressed: () {
-              OrderActivityDialog.showCancelDialog(order.id!);
+              showCancelDialog(order.id!);
             }),
           ],
         )),
+      ],
+    );
+  }
+
+  void showCancelDialog(String orderId) {
+    Get.defaultDialog(
+      title: 'Hủy đơn hàng',
+      content: const Column(
+        children: [
+          Text('Đơn hàng sẽ được hoàn tiền sau khi hủy.'),
+          Text('Xác nhận hủy?'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () async {
+            await controller.cancelOrder(orderId, 'Hủy đơn');
+            Get.back();
+          },
+          child: const Text('Xác nhận'),
+        ),
+        TextButton(
+          child: const Text('Đóng'),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ],
     );
   }

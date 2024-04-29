@@ -31,33 +31,35 @@ class HomeView extends StatelessWidget {
   }
 
   Widget navigaView() {
-    return Row(
-      children: [
-        NavigationRail(
-          minWidth: 64,
-          // selectedIndex: widget.currentIndex,
-          selectedIndex: selectedMenuIndex.value,
-          destinations: [
-            ..._homeController.menuItems.map(
-              (e) => NavigationRailDestination(
-                icon: Icon(e.icon),
-                label: Text(e.title),
+    return Obx(
+      () => Row(
+        children: [
+          NavigationRail(
+            minWidth: 64,
+            // selectedIndex: widget.currentIndex,
+            selectedIndex: selectedMenuIndex.value,
+            destinations: [
+              ..._homeController.menuItems.map(
+                (e) => NavigationRailDestination(
+                  icon: Icon(e.icon),
+                  label: Text(e.title),
+                ),
               ),
-            ),
-          ],
-          onDestinationSelected: (destination) {
-            _homeController.changePage(destination);
-          },
-        ),
-        VerticalDivider(
-          width: 1,
-          thickness: 1,
-          color: Colors.grey[300],
-        ),
-        Expanded(
-          child: _homeController.selectedContent.value,
-        ),
-      ],
+            ],
+            onDestinationSelected: (destination) {
+              _homeController.changePage(destination);
+            },
+          ),
+          VerticalDivider(
+            width: 1,
+            thickness: 1,
+            color: Colors.grey[300],
+          ),
+          Expanded(
+            child: _homeController.selectedContent.value,
+          ),
+        ],
+      ),
     );
   }
 

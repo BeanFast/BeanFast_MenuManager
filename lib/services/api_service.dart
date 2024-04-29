@@ -17,11 +17,6 @@ class ApiService extends GetxService {
     receiveTimeout: const Duration(seconds: 15),
   );
 
-  ApiService() {
-    _dio = Dio(options);
-    _dio.interceptors.add(AppInterceptor());
-  }
-
   Dio get request {
     return _dio;
   }

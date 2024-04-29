@@ -1,9 +1,9 @@
-import 'package:beanfast_menumanager/models/menu_detail.dart';
-import 'package:beanfast_menumanager/services/menu_serivce.dart';
 import 'package:get/get.dart';
 
 import '/models/menu.dart';
 import '/controllers/data_table_controller.dart';
+import '/models/menu_detail.dart';
+import '/services/menu_serivce.dart';
 import '/views/pages/menu_detail_page.dart';
 
 class MenuDetailController extends DataTableController<MenuDetail> {

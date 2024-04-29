@@ -2,9 +2,11 @@ import 'package:beanfast_menumanager/views/pages/delivery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../contrains/contrain.dart';
+import '/contrains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
+import '/views/pages/category_page.dart';
+import '/views/pages/gift_page.dart';
 import '/views/pages/food_page.dart';
 import '/views/pages/dashboard_page.dart';
 import '/views/pages/kitchen_page.dart';
@@ -17,7 +19,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = initSelectedContent().obs;
+  Rx<Widget> selectedContent = Rx<Widget>(DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -25,11 +27,12 @@ class HomeController extends GetxController {
     const MenuItem(title: 'Thức ăn', icon: Icons.fastfood_outlined),
     const MenuItem(title: 'Thực đơn', icon: Icons.menu_outlined),
     const MenuItem(title: 'Đơn hàng', icon: Icons.assignment_outlined),
-    const MenuItem(title: 'Quà', icon: Icons.card_giftcard_outlined),
+    const MenuItem(title: 'Đơn quà', icon: Icons.assignment_turned_in_outlined),
     const MenuItem(title: 'Giao hàng', icon: Icons.local_shipping_outlined),
-    // const MenuItem(title: 'Giao hàng', icon: Icons.assignment_ind),
     const MenuItem(title: 'Bếp', icon: Icons.kitchen_outlined),
     const MenuItem(title: 'Trường', icon: Icons.school_outlined),
+    const MenuItem(title: 'Quà', icon: Icons.card_giftcard_outlined),
+    const MenuItem(title: 'Loại', icon: Icons.category_outlined),
     const MenuItem(title: 'Cài đặt', icon: Icons.settings_outlined),
   ];
 
@@ -53,6 +56,10 @@ class HomeController extends GetxController {
       case 7:
         return const SchoolView();
       case 8:
+        return const GiftView();
+      case 9:
+        return const CategoryView();
+      case 10:
         return colorGreen();
       default:
         return colorGreen();
@@ -67,11 +74,6 @@ class HomeController extends GetxController {
   void toggleNavigation() {
     isNavigationRailSelected.toggle();
   }
-}
-
-Widget initSelectedContent() {
-  logger.i('initSelectedContent');
-  return DashboardView();
 }
 
 Widget colorBlue() {

@@ -7,15 +7,18 @@ class ThemeColor {
   // // static Color m3BaseColor = const Color.fromRGBO(255,183,151, 1);
   // // static Color m3BaseColor = const Color.fromRGBO(255,157,139, 1);
   // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
-  
+
   static Color bgColor = HexColor("#FFFFFF");
   static Color bgColor2 = HexColor('#F3FBF7');
   static Color bgColor3 = HexColor('#F5FFF6');
   static Color primaryColor = HexColor('#C3EBD7');
   static Color inputColor = HexColor('#26AA91');
   static Color textColor = HexColor('#070908');
-  
+  //
+  // dashboard_2
+  static Color borderColor = Colors.blueAccent;
 }
+
 Color HexColor(String hex) {
   final buffer = StringBuffer();
   if (hex.length == 6 || hex.length == 7) buffer.write('ff');

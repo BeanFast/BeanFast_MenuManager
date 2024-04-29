@@ -1,20 +1,17 @@
-import 'package:beanfast_menumanager/services/order_service.dart';
-import 'package:beanfast_menumanager/utils/logger.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../enums/status_enum.dart';
-import '../views/pages/widget/order_cancelled_tabview.dart';
-import '../views/pages/widget/order_completed_tabview.dart';
-import '../views/pages/widget/order_delivering_tabview.dart';
-import '../views/pages/widget/order_preparing_tabview.dart';
+import '/services/order_service.dart';
+import '/enums/status_enum.dart';
+import '/views/pages/widget/order_cancelled_tabview.dart';
+import '/views/pages/widget/order_completed_tabview.dart';
+import '/views/pages/widget/order_delivering_tabview.dart';
+import '/views/pages/widget/order_preparing_tabview.dart';
 import '/controllers/data_table_controller.dart';
 import '/models/order.dart';
 
 abstract class OrderController extends DataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
-
-
-
 
   @override
   void search(String value) {
@@ -59,8 +56,14 @@ abstract class OrderController extends DataTableController<Order> {
     setDataTable(currentModelList);
   }
 
-  void cancelOrder(String orderId) {
-    logger.e('cancelOrder');
+  Future<bool> cancelOrder(String orderId, String reason) async {
+    try {
+      bool result = await OrderService().cancelOrder(orderId, reason);
+      return result;
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+      return false;
+    }
   }
 }
 
@@ -163,6 +166,4 @@ class OrderCancelledController extends OrderController {
     // TODO: implement loadPage
     throw UnimplementedError();
   }
-
-
 }

@@ -7,7 +7,6 @@ import '/views/pages/loading_page.dart';
 import '/routes/app_routes.dart';
 import '/controllers/menu_controller.dart';
 import '/models/menu.dart';
-import '/views/dialog/delete_dialog.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
@@ -77,8 +76,12 @@ class MenuView extends GetView<MenuController> {
             width: 200,
           ),
         ),
-        DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.createDate!))),
-        DataCell(Text(DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
+        DataCell(Text(menu.createDate == null
+            ? ""
+            : DateFormat('dd-MM-yyyy').format(menu.createDate!))),
+        DataCell(Text(menu.updateDate == null
+            ? ""
+            : DateFormat('dd-MM-yyyy').format(menu.updateDate!))),
         DataCell(Text(menu.menuDetails!.length.toString())),
         DataCell(Row(
           children: [
@@ -86,9 +89,6 @@ class MenuView extends GetView<MenuController> {
             DetailButtonDataTable(
                 onPressed: () => Get.toNamed('/menu-detail?code=${menu.code}')),
             EditButtonDataTable(onPressed: () {}),
-            DeleteButtonDataTable(onPressed: () {
-              DeleteDialog(onPressed: () {}).showDialogMenu(menu.id!);
-            }),
           ],
         )),
       ],

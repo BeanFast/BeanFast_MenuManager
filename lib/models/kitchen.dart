@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/models/area.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'base_model.dart';
 import 'menu.dart';
@@ -14,6 +15,8 @@ class Kitchen extends BaseModel {
   List<Menu>? menus;
   Area? area;
   int? schoolCount;
+  //image file
+  FilePickerResult? imageFile;
 
   Kitchen({
     id,
@@ -25,6 +28,7 @@ class Kitchen extends BaseModel {
     this.address,
     this.imagePath,
     this.area,
+    this.imageFile,
   }) : super(id: id, status: status);
 
   factory Kitchen.fromJson(dynamic json) => Kitchen(

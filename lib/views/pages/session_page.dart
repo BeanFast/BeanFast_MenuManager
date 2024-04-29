@@ -4,7 +4,6 @@ import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import '/views/dialog/delete_dialog.dart';
 import '/models/menu.dart';
 import '/controllers/session_controller.dart';
@@ -83,12 +82,15 @@ class SessionView extends GetView<SessionController> {
                   ),
                 ),
               ),
-              CreateButtonDataTable(
-                onPressed: () {
-                  Get.to(CreateSessionPage(
-                    schoolId: schoolId!,
-                  ));
-                },
+              Align(
+                alignment: Alignment.centerRight,
+                child: CreateButtonDataTable(
+                  onPressed: () {
+                    Get.to(CreateSessionPage(
+                      schoolId: schoolId!,
+                    ));
+                  },
+                ),
               ),
               DefaultTabController(
                 length: 3,
