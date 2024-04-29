@@ -221,11 +221,23 @@ class FoodController extends DataTableController<Food> {
     }
   }
 
+  // @override
+  // Future loadPage(int page) {
+  //   // TODO: implement loadPage
+  //   throw UnimplementedError();
+  // }
   @override
   Future loadPage(int page) {
+    print(page);
     // TODO: implement loadPage
     throw UnimplementedError();
   }
+  // @override
+  // void setDataTable(List<Food> list) {
+  //   rows.value = list.map((dataMap) {
+  //     return const FoodView().setRow(list.indexOf(dataMap), dataMap);
+  //   }).toList();
+  // }
 
   @override
   void setDataTable(List<Food> list) {

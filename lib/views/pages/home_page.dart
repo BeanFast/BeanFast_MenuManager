@@ -13,7 +13,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin page'),
+        title: const Text('Quản lý bếp'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.menu),
@@ -72,11 +72,11 @@ class HomeView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const DrawerHeader(
-                    child: Center(
-                      child: Text('Menu'),
-                    ),
-                  ),
+                  // const DrawerHeader(
+                  //   child: Center(
+                  //     child: Text('Menu'),
+                  //   ),
+                  // ),
                   for (int i = 0; i < _homeController.menuItems.length; i++)
                     ListTile(
                       leading: Icon(_homeController.menuItems[i].icon),

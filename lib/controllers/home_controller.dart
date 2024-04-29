@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/delivery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,7 +6,6 @@ import '../contains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
 import '/views/pages/category_page.dart';
-import '/views/pages/delivery_page.dart';
 import '/views/pages/gift_page.dart';
 import '/views/pages/food_page.dart';
 import '/views/pages/dashboard_page.dart';
@@ -23,7 +23,7 @@ class HomeController extends GetxController {
 
   // menu mặc định
   List<MenuItem> menuItems = [
-    const MenuItem(title: 'Dashboard', icon: Icons.space_dashboard_outlined),
+    const MenuItem(title: 'Báo cáo', icon: Icons.space_dashboard_outlined),
     const MenuItem(title: 'Thức ăn', icon: Icons.fastfood_outlined),
     const MenuItem(title: 'Thực đơn', icon: Icons.menu_outlined),
     const MenuItem(title: 'Đơn hàng', icon: Icons.assignment_outlined),

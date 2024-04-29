@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/utils/format_data.dart';
+import 'package:beanfast_menumanager/views/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

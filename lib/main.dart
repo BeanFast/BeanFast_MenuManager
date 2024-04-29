@@ -55,12 +55,12 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: AppRoutes.menuDetail,
-          page: () =>const MenuDetailView(),
+          page: () => const MenuDetailView(),
           binding: MenuDetailBindingController(),
         ),
         GetPage(
           name: AppRoutes.menuCreate,
-          page: () =>const MenuCreateView(),
+          page: () => const MenuCreateView(),
         ),
         GetPage(
           name: AppRoutes.manageMenu,

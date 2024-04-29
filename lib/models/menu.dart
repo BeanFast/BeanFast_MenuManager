@@ -6,12 +6,12 @@ import 'user.dart';
 
 class Menu extends BaseModel {
   String? kitchenId;
-  String? createrId;
+  String? creatorId;
   String? updaterId;
   String? code;
   DateTime? createDate;
   DateTime? updateDate;
-  User? creater;
+  User? creator;
   User? updater;
   Kitchen? kitchen;
   List<Session>? schools;
@@ -22,7 +22,7 @@ class Menu extends BaseModel {
     status,
     this.kitchen,
     this.kitchenId,
-    this.createrId,
+    this.creatorId,
     this.updaterId,
     this.code,
     this.createDate,
@@ -37,7 +37,7 @@ class Menu extends BaseModel {
       kitchenId: json["kitchenId"],
       kitchen:
           json["kitchen"] != null ? Kitchen.fromJson(json["kitchen"]) : null,
-      createrId: json['createrId'],
+      creatorId: json['creatorId'],
       updaterId: json['updaterId'],
       code: json['code'],
       createDate: json['createDate'] == null
