@@ -22,11 +22,12 @@ class MenuView extends GetView<MenuController> {
         child: Obx(
           () => DataTableView(
             title: 'Quản thực đơn',
-            isShowCreateDialog: true,
-            showCreateDialog: () async {
-              await controller.getKitchens();
-              showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)});
-            },
+            header: CreateButtonDataTable(
+              onPressed: () async {
+                await controller.getKitchens();
+                showKichenDialog(() => {Get.toNamed(AppRoutes.menuCreate)});
+              },
+            ),
             refreshData: controller.refreshData,
             loadPage: (page) => controller.loadPage(page),
             search: (value) => controller.search(value),

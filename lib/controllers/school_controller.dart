@@ -80,8 +80,8 @@ class SchoolController extends DataTableController<School> {
     if (formCreateLocationKey.currentState!.validate()) {
       Location model = Location();
       model.imageFile = selectedLocationImageImageFile.value;
-      model.name = locationNameText.text;
-      model.description = locationDescriptionText.document.toPlainText();
+      model.name = locationNameText.text.trim();
+      model.description = locationDescriptionText.document.toPlainText().trim();
       listLocation.add(model);
 
       locationNameText.clear();
@@ -141,6 +141,20 @@ class SchoolController extends DataTableController<School> {
 
   void selectArea(Area area) {
     selectedArea.value = area;
+  }
+
+  void searchArea(String value) {
+    listArea.clear();
+    if (value.isEmpty) {
+      listArea.addAll(listInitArea);
+    } else {
+      listArea.value = listInitArea
+          .where((e) =>
+              e.ward!.toLowerCase().contains(value.toLowerCase()) ||
+              e.district!.toLowerCase().contains(value.toLowerCase()) ||
+              e.city!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
   }
 
   @override

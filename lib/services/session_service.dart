@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-import 'package:beanfast_menumanager/models/session.dart';
-import 'package:beanfast_menumanager/models/user.dart';
-import 'package:beanfast_menumanager/services/api_service.dart';
-import 'package:beanfast_menumanager/utils/logger.dart';
+import '/models/session.dart';
+import '/models/user.dart';
+import '/services/api_service.dart';
+import '/utils/logger.dart';
 import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
 

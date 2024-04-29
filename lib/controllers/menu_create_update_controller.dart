@@ -92,7 +92,7 @@ class MenuCreateController extends DataTableController<Food> {
   Future getData(list) async {
     logger.i('menu getData');
     try {
-      var listData = await FoodService().getAll();
+      var listData = await FoodService().getAll(null);
       list.addAll(listData);
     } catch (e) {
       throw Exception(e);

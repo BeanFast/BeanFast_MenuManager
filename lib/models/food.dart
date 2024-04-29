@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+
 import 'base_model.dart';
 import 'category.dart';
 import 'combo.dart';
@@ -17,6 +19,8 @@ class Food extends BaseModel {
   List<Combo>? masterCombos;
   List<Combo>? combos;
   List<MenuDetail>? menuDetails;
+  //image file
+  FilePickerResult? imageFile;
 
   Food({
     id,
@@ -29,6 +33,7 @@ class Food extends BaseModel {
     this.isCombo,
     this.imagePath,
     this.category,
+    this.imageFile,
   }) : super(id: id, status: status);
 
   @override
@@ -42,12 +47,14 @@ class Food extends BaseModel {
       categoryId: json["categoryId"],
       code: json["code"],
       name: json['name'],
-      price: double.parse(json['price'].toString()),
+      price: json['price'] == null ? 0 : double.parse(json['price'].toString()),
       description: json['description'],
       isCombo: json['isCombo'],
       imagePath: json['imagePath'] ??
           'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-      category: Category.fromJson(json['category']));
+      category: json['category'] == null
+          ? Category()
+          : Category.fromJson(json['category']));
 
   // Map<String, dynamic> toJson() {
   //   return {

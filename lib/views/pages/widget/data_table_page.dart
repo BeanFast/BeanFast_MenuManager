@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/views/pages/widget/paginated_data_table_widget.dart';
-import '/views/pages/widget/button_data_table.dart';
 
 // ignore: must_be_immutable
 class DataTableView extends StatelessWidget {
@@ -11,13 +10,12 @@ class DataTableView extends StatelessWidget {
   final bool sortAscending;
   final List<DataColumn> columns;
   final List<DataRow> rows;
-  bool isShowCreateDialog = false;
   final void Function(String value) search;
   final void Function() refreshData;
   final void Function(int page) loadPage;
-  final void Function()? showCreateDialog;
+  final Widget? header;
 
-  DataTableView({
+  const DataTableView({
     super.key,
     required this.title,
     required this.sortColumnIndex,
@@ -27,8 +25,7 @@ class DataTableView extends StatelessWidget {
     required this.search,
     required this.refreshData,
     required this.loadPage,
-    required this.isShowCreateDialog,
-    this.showCreateDialog,
+    this.header,
   });
 
   @override
@@ -48,8 +45,8 @@ class DataTableView extends StatelessWidget {
                     style: Get.textTheme.headlineMedium,
                   ),
                   const Spacer(),
-                  if (isShowCreateDialog)
-                    CreateButtonDataTable(onPressed: showCreateDialog!),
+                  if (header != null) header!,
+                  // CreateButtonDataTable(onPressed: showCreateDialog!),
                 ],
               ),
             ),

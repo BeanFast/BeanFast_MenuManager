@@ -1,16 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '/views/pages/widget/order_tabview.dart';
 import '/services/order_service.dart';
 import '/enums/status_enum.dart';
-import '/views/pages/widget/order_cancelled_tabview.dart';
-import '/views/pages/widget/order_completed_tabview.dart';
-import '/views/pages/widget/order_delivering_tabview.dart';
-import '/views/pages/widget/order_preparing_tabview.dart';
 import '/controllers/data_table_controller.dart';
 import '/models/order.dart';
 
-abstract class OrderController extends DataTableController<Order> {
+class OrderController extends DataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
 
   @override
@@ -56,114 +53,27 @@ abstract class OrderController extends DataTableController<Order> {
     setDataTable(currentModelList);
   }
 
-  Future<bool> cancelOrder(String orderId, String reason) async {
+  Future cancelOrder(String orderId, String reason) async {
     try {
-      bool result = await OrderService().cancelOrder(orderId, reason);
-      return result;
+      await OrderService().cancelOrder(orderId, reason);
+      Get.snackbar('Thành công', 'Hủy đơn thành công');
+      await refreshData();
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
-      return false;
     }
-  }
-}
-
-class OrderPreparingController extends OrderController {
-  RxBool headerCheckboxValue = false.obs;
-  RxSet<String> selectedOrderIds = <String>{}.obs;
-  RxBool showButtonOnHeader = false.obs;
-
-  @override
-  void setDataTable(List<Order> list) {
-    rows.value = list.map((dataMap) {
-      return const OrderPreparingTabView()
-          .setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
-  }
-
-// Order acctivity - start
-  void toggleCheckbox(String id) {
-    if (selectedOrderIds.contains(id)) {
-      selectedOrderIds.remove(id);
-    } else {
-      selectedOrderIds.add(id);
-    }
-    updateHeaderCheckbox();
-    updateShowButtonOnHeader();
-  }
-
-  void toggleHeaderCheckbox() {
-    headerCheckboxValue.value = !headerCheckboxValue.value;
-    if (headerCheckboxValue.value) {
-      selectedOrderIds.addAll(initModelList.map((e) => e.id!));
-    } else {
-      selectedOrderIds.clear();
-    }
-    updateShowButtonOnHeader();
-  }
-
-  void updateHeaderCheckbox() {
-    if (selectedOrderIds.length == initModelList.length) {
-      headerCheckboxValue.value = true;
-    } else {
-      headerCheckboxValue.value = false;
-    }
-  }
-
-  void updateShowButtonOnHeader() {
-    showButtonOnHeader.value = selectedOrderIds.isNotEmpty;
   }
 
   @override
   Future loadPage(int page) {
-    // TODO: implement loadPage
     throw UnimplementedError();
   }
-}
 
-class OrderDeliveringController extends OrderController {
   @override
   void setDataTable(List<Order> list) {
     rows.value = list.map((dataMap) {
-      return const OrderDeliveringTabView()
-          .setRow(list.indexOf(dataMap), dataMap);
+      return OrderTabView(
+        status: status,
+      ).setRow(list.indexOf(dataMap), dataMap);
     }).toList();
-  }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
-  }
-}
-
-class OrderCompletedController extends OrderController {
-  @override
-  void setDataTable(List<Order> list) {
-    rows.value = list.map((dataMap) {
-      return const OrderCompletedTabView()
-          .setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
-  }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
-  }
-}
-
-class OrderCancelledController extends OrderController {
-  @override
-  void setDataTable(List<Order> list) {
-    rows.value = list.map((dataMap) {
-      return const OrderCancelledTabView()
-          .setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
-  }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
   }
 }

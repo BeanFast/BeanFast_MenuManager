@@ -1,21 +1,14 @@
-import 'package:beanfast_menumanager/views/pages/widget/order_cancelled_tabview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/controllers/order_controller.dart';
-import 'widget/order_completed_tabview.dart';
-import 'widget/order_delivering_tabview.dart';
-import 'widget/order_preparing_tabview.dart';
+import '/enums/status_enum.dart';
+// import '/controllers/order_controller.dart';
+import 'widget/order_tabview.dart';
 
-class OrderView extends GetView<OrderController> {
+class OrderView extends StatelessWidget {
   const OrderView({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(OrderPreparingController());
-    Get.put(OrderDeliveringController());
-    Get.put(OrderCompletedController());
-    Get.put(OrderCancelledController());
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -48,10 +41,21 @@ class OrderView extends GetView<OrderController> {
                       height: Get.height * 0.8,
                       child: const TabBarView(
                         children: [
-                          OrderPreparingTabView(), // Đang chuẩn bị
-                          OrderDeliveringTabView(), // Đang giao
-                          OrderCompletedTabView(), // Hoàn thành
-                          OrderCancelledTabView(), // Đã hủy
+                          OrderTabView(
+                            status: OrderStatus.preparing,
+                          ), // Đang chuẩn bị
+                          OrderTabView(
+                            status: OrderStatus.delivering,
+                          ), // Đang giao
+                          OrderTabView(
+                            status: OrderStatus.completed,
+                          ), // Hoàn thành
+                          OrderTabView(
+                            status: OrderStatus.cancelled,
+                          ), // Đã hủy
+                          // OrderDeliveringTabView(), // Đang giao
+                          // OrderCompletedTabView(), // Hoàn thành
+                          // OrderCancelledTabView(), // Đã hủy
                         ],
                       ),
                     ),

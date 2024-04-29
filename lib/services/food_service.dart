@@ -7,12 +7,16 @@ import '/services/api_service.dart';
 class FoodService {
   final String baseUrl = 'foods';
 
-  // ApiService1(this.baseUrl);
-  // final ApiService _apiService = Get.find();
   final ApiService _apiService = getx.Get.put(ApiService());
 
-  Future<List<Food>> getAll() async {
-    final response = await _apiService.request.get(baseUrl);
+  Future<List<Food>> getAll(bool? isCombo) async {
+    Map<String, dynamic> queryParameters = {};
+
+    if (isCombo != null) {
+      queryParameters['isCombo'] = isCombo.toString();
+    }
+    final response = await _apiService.request.get(baseUrl,
+        queryParameters: queryParameters.isNotEmpty ? queryParameters : null);
     List<Food> list = [];
     for (var e in response.data['data']) {
       list.add(Food.fromJson(e));
@@ -37,16 +41,28 @@ class FoodService {
     return Food.fromJson(response.data['data']);
   }
 
-  Future create(Food model) async {
+  Future<bool> create(Food model, bool isCombo) async {
     FormData formData = FormData.fromMap({
       'name': model.name,
       'price': model.price,
       'description': model.description,
-      'IsCombo': model.isCombo,
-      'Image': await MultipartFile.fromFile(model.imagePath!,
-          filename: 'uploadFile.jpg'),
+      'IsCombo': isCombo,
       'CategoryId': model.categoryId,
+      'Image': MultipartFile.fromBytes(
+        model.imageFile!.files.single.bytes!,
+        filename: 'uploadFile.jpg',
+      ),
     });
-    await _apiService.request.post(baseUrl, data: formData);
+    if (isCombo) {
+      for (int i = 0; i < model.combos!.length; i++) {
+        formData.fields.addAll([
+          MapEntry('combos[$i][FoodId]', model.combos![i].foodId.toString()),
+          MapEntry(
+              'combos[$i][Quantity]', model.combos![i].quantity.toString()),
+        ]);
+      }
+    }
+    Response response = await _apiService.request.post(baseUrl, data: formData);
+    return response.statusCode == 201;
   }
 }

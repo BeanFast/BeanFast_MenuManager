@@ -3,8 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/area.dart';
-import '../services/area_service.dart';
+import '/models/area.dart';
+import '/services/area_service.dart';
 import '/services/kitchen_service.dart';
 import '/utils/logger.dart';
 import '/views/pages/kitchen_page.dart';

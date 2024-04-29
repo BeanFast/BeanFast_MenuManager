@@ -65,7 +65,7 @@ class PointDashboard2 extends StatelessWidget {
               child: Obx(
                 () => BarChart(
                   BarChartData(
-                    alignment: BarChartAlignment.spaceBetween,
+                    alignment: BarChartAlignment.spaceAround,
                     borderData: FlBorderData(
                       show: true,
                       border: Border.symmetric(
