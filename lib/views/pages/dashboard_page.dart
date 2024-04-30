@@ -1,5 +1,9 @@
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
+import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_1.dart';
+import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_2.dart';
+import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_3.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -11,7 +15,7 @@ import 'widget/dashboard_3.dart';
 import 'widget/dashboard_4.dart';
 
 class DashboardView extends GetView<DashboardController> {
-  DashboardView({super.key});
+  const DashboardView({super.key});
   // final DashboardController controller =
   //     Get.put(DashboardController());
   @override
@@ -58,32 +62,36 @@ class DashboardView extends GetView<DashboardController> {
                           }
                         },
                         child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 5, bottom: 5),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.green),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Obx(() => Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.calendar_today,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
-                                      style: Get.textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ))),
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 5, bottom: 5),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green),
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Obx(
+                            () => Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
+                                  style: Get.textTheme.titleSmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
                 ),
               ),
             ),
+
             const Row(
               children: [
                 Expanded(
@@ -124,20 +132,70 @@ class DashboardView extends GetView<DashboardController> {
                 ),
               ],
             ),
-            Row(children: [
-              Expanded(
-                  child: PointDashboard1(
+            const SizedBox(height: 25),
+
+            SizedBox(
+              width: Get.width * 0.9,
+              child: PointDashboard1(
                 bestSellerFoods: controller.bestSellerFoods,
-              )),
-              Expanded(
-                  child: PointDashboard2(
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              width: Get.width * 0.9,
+              child: PointDashboard2(
                 orderStatistics: controller.orderStatistics,
-              )),
-            ]),
-            const Row(children: [
-              Expanded(child: PointDashboard3()),
-              Expanded(child: PointDashboard4()),
-            ]),
+              ),
+            ),
+            const Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: PieChart1(),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: PieChart2(),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      children: [
+                        
+                        PieChart3(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 25),
+            // const Row(
+            //   children: [
+            //     Expanded(
+            //       child: Padding(
+            //         padding: EdgeInsets.only(left: 10, right: 10),
+            //         child: PieChart3(),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       child: Padding(
+            //         padding: EdgeInsets.only(left: 10, right: 10),
+            //         child: PieChart3(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // PointDashboard3(),
+            // PointDashboard4(),
           ]),
         ),
       ),
