@@ -18,7 +18,7 @@ class RowInfoItemWidget extends StatelessWidget {
             title,
             style: const TextStyle(
               fontSize: 16,
-              color: Colors.black54,
+              color: Colors.black,
             ),
           )),
           Expanded(

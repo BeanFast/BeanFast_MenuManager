@@ -4,6 +4,7 @@ import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
+    fontFamily: 'Montserrat',
     scaffoldBackgroundColor: ThemeColor.bgColor,
     primaryColor: ThemeColor.primaryColor,
     primaryTextTheme: TextTheme(

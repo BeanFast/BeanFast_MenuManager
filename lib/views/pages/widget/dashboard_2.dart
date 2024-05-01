@@ -36,35 +36,34 @@ class PointDashboard2 extends StatelessWidget {
   late int minCount = 0;
   @override
   Widget build(BuildContext context) {
-    // Iterate through the remaining elements, updating minCount if necessary
-    if (orderStatistics.isEmpty) {
-      return const Column(
-        children: [
-          Text('Chưa có dữ liệu'),
-        ],
-      );
-    } else {
-      for (var item in orderStatistics) {
-        if (item.count < minCount) {
-          minCount = item.count;
+    return Obx(() {
+      if (orderStatistics.isEmpty) {
+        return const Column(
+          children: [
+            Text('Chưa có dữ liệu'),
+          ],
+        );
+      } else {
+        for (var item in orderStatistics) {
+          if (item.count < minCount) {
+            minCount = item.count;
+          }
         }
-      }
-      return Card(
-         color: ThemeColor.bgColor2,
-        child: Container(
-          // color: Colors.red,
-          padding: const EdgeInsets.all(20),
-          child: Column(children: [
-            const Text(
-              'Tổng kết giao dịch điểm (6 tháng)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 50),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: Obx(
-                () => BarChart(
+        return Card(
+          color: ThemeColor.bgColor2,
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.all(20),
+            child: Column(children: [
+              const Text(
+                'Tổng kết giao dịch điểm (6 tháng)',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 50),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: BarChart(
                   BarChartData(
                     alignment: BarChartAlignment.spaceAround,
                     borderData: FlBorderData(
@@ -97,9 +96,9 @@ class PointDashboard2 extends StatelessWidget {
                           getTitlesWidget: (value, meta) {
                             final index = value.toInt();
                             const style = TextStyle(
-                              color: Colors.black12,
-                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                               fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
                             );
                             Widget text = Text(
                               orderStatistics[value.toInt()].month,
@@ -177,11 +176,10 @@ class PointDashboard2 extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            )
-          ]),
-        ),
-      );
-    }
-  }
-}
+              )
+            ]),
+          ),
+        );
+      }
+    });
+  }}
