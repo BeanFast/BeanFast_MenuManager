@@ -50,6 +50,7 @@ class PointDashboard2 extends StatelessWidget {
         }
       }
       return Card(
+         color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.all(20),

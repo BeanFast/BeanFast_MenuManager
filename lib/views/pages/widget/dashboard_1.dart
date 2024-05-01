@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:beanfast_menumanager/contains/theme_color.dart';
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class PointDashboard1 extends StatelessWidget {
           bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
       step = (maxSoldCount / 5).ceil().toDouble();
       return Card(
+        color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.all(20),
@@ -83,15 +85,18 @@ class PointDashboard1 extends StatelessWidget {
   Widget getTitles(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Colors.black,
-      // fontWeight: FontWeight.bold,
       fontSize: 14,
+      overflow: TextOverflow.ellipsis,
     );
     String text = bestSellerFoods[value.toInt()].name;
-
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 4,
-      child: Text(text, style: style),
+      space: 8,
+      child: Container(
+        alignment: Alignment.center,
+        width: Get.mediaQuery.size.width / 10 - 20,
+        child: Text(text, style: style),
+      ),
     );
   }
 
