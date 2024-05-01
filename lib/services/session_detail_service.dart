@@ -18,16 +18,19 @@ class SessionDetailService {
     return list;
   }
 
-  Future<Response> updateDeliverySchedule(
-      String sessionDetailId, String delivererId) async {
-    Map<String, dynamic> data = {
-      'delivererId': delivererId,
-    };
-
-    final response =
-        await _apiService.request.put('$baseUrl/$sessionDetailId', data: data);
-    logger.i(response.statusCode);
-    logger.i(response.data);
-    return response;
-  }
+  // Future<Response> updateDeliverySchedule(
+  //     String sessionDetailId, List<String> listDelivererId) async {
+  //   List<String> list = [];
+  //   for (var e in listDelivererId) {
+  //     list.add(e);
+  //   }
+  //   Map<String, dynamic> data = {
+  //     'delivererId': list,
+  //   };
+  //   final response =
+  //       await _apiService.request.put('$baseUrl/$sessionDetailId', data: data);
+  //   logger.i(response.statusCode);
+  //   logger.i(response.data);
+  //   return response;
+  // }
 }

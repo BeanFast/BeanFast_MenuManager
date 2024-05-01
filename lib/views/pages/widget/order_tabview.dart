@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
 import '/controllers/order_controller.dart';
 import '/models/order.dart';
@@ -92,29 +93,47 @@ class OrderTabView extends GetView<OrderController> {
   }
 
   void showCancelDialog(String orderId) {
-    Get.defaultDialog(
-      title: 'Hủy đơn hàng',
-      content: const Column(
-        children: [
-          Text('Đơn hàng sẽ được hoàn tiền sau khi hủy.'),
-          Text('Xác nhận hủy?'),
+    controller.reasonCancelOrderText.clear();
+    Get.dialog(
+      AlertDialog(
+        surfaceTintColor: Colors.white,
+        backgroundColor: ThemeColor.bgColor,
+        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
+        content: Form(
+          key: controller.formKey,
+          child: SizedBox(
+              // height: Get.height / 2,
+              width: Get.width,
+              child: TextFormField(
+                controller: controller.reasonCancelOrderText,
+                decoration: const InputDecoration(),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng nhập lý do';
+                  }
+                  return null;
+                },
+              )),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              if (controller.formKey.currentState!.validate()) {
+                Get.back();
+                await controller.cancelOrder(orderId);
+              }
+            },
+            child: Text('Huỷ đơn hàng',
+                style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Đóng'),
+          ),
         ],
       ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () async {
-            await controller.cancelOrder(orderId, 'Hủy đơn');
-            Get.back();
-          },
-          child: const Text('Xác nhận'),
-        ),
-        TextButton(
-          child: const Text('Đóng'),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ],
     );
   }
 }

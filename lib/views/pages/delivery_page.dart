@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/widget/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +46,7 @@ class DeliveryView extends GetView<DeliveryController> {
                           DateTime.now().subtract(const Duration(days: 365)),
                       lastDate: DateTime.now(),
                     );
-                
+
                     if (picked != null) {
                       controller.selectedDateStart.value = picked.start;
                       controller.selectedDateEnd.value = picked.end;
@@ -199,9 +200,8 @@ class DeliveryTabView extends GetView<DeliveryController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
             EditButtonDataTable(onPressed: () {
-              showDelivererDialog(sessionDetail.id!);
+              showSelectedDelivererDialog(sessionDetail.id!);
             }),
           ],
         )),
@@ -209,88 +209,73 @@ class DeliveryTabView extends GetView<DeliveryController> {
     );
   }
 
-  // void showDeliverersDialog(String id) {
-  //   sessionDetailId = id;
-  //   Get.dialog(
-  //     AlertDialog(
-  //       content: SizedBox(
-  //         height: Get.height * 0.8,
-  //         width: Get.width,
-  //         child: LoadingView(
-  //           future: controller.refreshData,
-  //           child: Obx(
-  //             () => DataTableView(
-  //               title: 'Danh sách người giao hàng',
-  //               isShowCreateDialog: false,
-  //               showCreateDialog: () {},
-  //               sortColumnIndex: controller.columnIndex.value,
-  //               sortAscending: controller.columnAscending.value,
-  //               search: (value) => controller.search(value),
-  //               refreshData: controller.refreshData,
-  //               loadPage: (page) => controller.loadPage(page),
-  //               columns: [
-  //                 const DataColumn(
-  //                   label: Text('Stt'),
-  //                 ),
-  //                 const DataColumn(
-  //                   label: Text('Code'),
-  //                 ),
-  //                 const DataColumn(label: Text('Hình ảnh')),
-  //                 const DataColumn(label: Text('Email')),
-  //                 DataColumn(
-  //                     label: const Text('Tên'),
-  //                     onSort: (index, ascending) => (index, ascending) {}),
-  //                 const DataColumn(label: Text('Số điện thoại')),
-  //                 const DataColumn(label: Text(' ')),
-  //               ],
-  //               // ignore: invalid_use_of_protected_member
-  //               rows: controller.rows.value,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // DataRow setDelivererRow(int index, User user) {
-  //   return DataRow(
-  //     cells: [
-  //       DataCell(Text((index + 1).toString())),
-  //       DataCell(
-  //         Text(
-  //           user.code.toString(),
-  //         ),
-  //       ),
-  //       DataCell(
-  //         SizedBox(
-  //           width: 100,
-  //           child: Image.network(
-  //             user.avatarPath.toString(),
-  //             fit: BoxFit.fitWidth,
-  //           ),
-  //         ),
-  //       ),
-  //       DataCell(
-  //         Text(
-  //           user.email.toString(),
-  //         ),
-  //       ),
-  //       DataCell(Text(user.fullName.toString())),
-  //       DataCell(Text(user.phone.toString())),
-  //       DataCell(Row(
-  //         children: [
-  //           const Spacer(),
-  //           IconButton(
-  //             icon: const Icon(Icons.add_circle_outline),
-  //             onPressed: () =>
-  //                 controller.selectDeliverer(sessionDetailId!, user.id!),
-  //           ),
-  //         ],
-  //       )),
-  //     ],
-  //   );
-  // }
+  void showSelectedDelivererDialog(String sessionDetailId) {
+    controller.getSelectedListDeliverer(sessionDetailId);
+    Get.dialog(AlertDialog(
+      title: const Text('Người giao hàng'),
+      content: SizedBox(
+        width: Get.width,
+        height: Get.height * 0.5,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: FloatingActionButton.extended(
+                    icon: const Icon(Icons.add_outlined),
+                    onPressed: () {
+                      showDelivererDialog(sessionDetailId);
+                    },
+                    label: const Text('Cập nhật người giao hàng'),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: FloatingActionButton.extended(
+                    icon: const Icon(Icons.add_outlined),
+                    onPressed: () async {
+                      await controller.selectDeliverer(sessionDetailId);
+                      Get.back();
+                    },
+                    label: const Text('Tạo'),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: Get.height * 0.44,
+              child: SingleChildScrollView(
+                child: Obx(
+                  () => Column(
+                    children: controller.selectedListDeliverer.map(
+                      (deliverer) {
+                        return Card(
+                          child: ListTile(
+                            leading: CustomNetworkImage(
+                              deliverer.avatarPath.toString(),
+                              height: 50,
+                              width: 50,
+                            ),
+                            title: Text(deliverer.fullName.toString()),
+                            subtitle: Text(deliverer.email.toString()),
+                            trailing: DeleteButtonDataTable(onPressed: () {
+                              controller.removeDeliverer(deliverer);
+                            }),
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
 
   void showDelivererDialog(String sessionDetailId) {
     Get.dialog(AlertDialog(
@@ -323,12 +308,16 @@ class DeliveryTabView extends GetView<DeliveryController> {
                         (deliverer) {
                           return Card(
                             child: ListTile(
+                              leading: CustomNetworkImage(
+                                deliverer.avatarPath.toString(),
+                                height: 50,
+                                width: 50,
+                              ),
                               title: Text(deliverer.fullName.toString()),
-                              subtitle: Text(deliverer.phone.toString()),
+                              subtitle: Text(deliverer.email.toString()),
                               onTap: () {
                                 Get.back();
-                                controller.selectDeliverer(
-                                    sessionDetailId, deliverer.id!);
+                                controller.addDeliverer(deliverer);
                               },
                             ),
                           );

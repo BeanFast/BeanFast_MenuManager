@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/views/pages/widget/order_tabview.dart';
@@ -9,6 +10,9 @@ import '/models/order.dart';
 
 class OrderController extends DataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController reasonCancelOrderText = TextEditingController();
 
   @override
   void search(String value) {
@@ -53,8 +57,9 @@ class OrderController extends DataTableController<Order> {
     setDataTable(currentModelList);
   }
 
-  Future cancelOrder(String orderId, String reason) async {
+  Future cancelOrder(String orderId) async {
     try {
+      String reason = reasonCancelOrderText.text.trim();
       await OrderService().cancelOrder(orderId, reason);
       Get.snackbar('Thành công', 'Hủy đơn thành công');
       await refreshData();

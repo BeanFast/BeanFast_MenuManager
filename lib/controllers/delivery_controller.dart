@@ -1,38 +1,63 @@
-import 'package:beanfast_menumanager/models/user.dart';
-import 'package:beanfast_menumanager/services/session_service.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../services/session_detail_service.dart';
+import '/models/user.dart';
+import '/services/session_service.dart';
+import '/services/session_detail_service.dart';
 import '/models/session_detail.dart';
 import '/views/pages/delivery_page.dart';
 import '/controllers/data_table_controller.dart';
-import '/utils/logger.dart';
 
 class DeliveryController extends DataTableController<SessionDetail> {
-  getx.RxList<User> listDeliverer = <User>[].obs;
+  RxList<User> listDeliverer = <User>[].obs;
   bool isHasDeliverer = true;
+  RxList<User> selectedListDeliverer = <User>[].obs;
+
+  void getSelectedListDeliverer(String sessionDetailId) {
+    if (isHasDeliverer) {
+      SessionDetail model =
+          initModelList.firstWhere((e) => e.id == sessionDetailId);
+      selectedListDeliverer.value = model.deliverers!;
+    }
+  }
+
+  void addDeliverer(User deliverer) {
+    selectedListDeliverer.add(deliverer);
+  }
+
+  void removeDeliverer(User deliverer) {
+    selectedListDeliverer.remove(deliverer);
+  }
 
   Future<void> getListDeliverer(String sessionDetailId) async {
     try {
-      listDeliverer.value =
-          await SessionService().getListDelivererBySessionId(sessionDetailId);
+      List<User> list = await SessionService()
+          .getListDelivererBySessionDetailId(sessionDetailId);
+      for (var deliverer in selectedListDeliverer) {
+        list.removeWhere((e) => e.id == deliverer.id);
+      }
+      listDeliverer.value = list;
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> selectDeliverer(
-      String sessionDetailId, String delivererId) async {
+  Future<void> selectDeliverer(String sessionDetailId) async {
+    if (selectedListDeliverer.isEmpty) {
+      Get.snackbar('Thất bại', 'Chưa chọn người giao hàng');
+      return;
+    }
     try {
-      logger.e('selectDeliverer');
-      Response response = await SessionDetailService()
-          .updateDeliverySchedule(sessionDetailId, delivererId);
-      logger.e(response.data);
-    } catch (e) {
-      throw Exception(e);
+      List<String> selectedDelivererId = [];
+      for (var e in selectedListDeliverer) {
+        selectedDelivererId.add(e.id.toString());
+      }
+      await SessionService()
+          .updateDeliverySchedule(sessionDetailId, selectedDelivererId);
+      await refreshData();
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 
@@ -62,11 +87,13 @@ class DeliveryController extends DataTableController<SessionDetail> {
       List<SessionDetail> data =
           await SessionDetailService().deliverySchedule();
       for (var e in data) {
-        if (isHasDeliverer == true && e.deliverer != null) {
+        if ((isHasDeliverer && e.deliverers!.isNotEmpty)) {
+          list.add(e);
+        }
+        if (!isHasDeliverer && e.deliverers!.isEmpty) {
           list.add(e);
         }
       }
-      // list.addAll(data);
     } catch (e) {
       throw Exception(e);
     }
