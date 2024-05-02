@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/widget/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,24 +29,31 @@ class FoodDetailView extends GetView<FoodController> {
               : Padding(
                   padding: const EdgeInsets.only(
                       top: 40, left: 10, right: 10, bottom: 10),
-                  child: Column(
-                    children: [
-                      TextFieldItem(
-                          title: 'Code: ',
-                          data: controller.model.value!.code.toString()),
-                      TextFieldItem(
-                          title: 'Tên sản phẩm: ',
-                          data: controller.model.value!.name.toString()),
-                      TextFieldItem(
-                          title: 'Giá: ',
-                          data: controller.model.value!.price.toString()),
-                      TextFieldItem(
-                          title: 'Mô tả: ',
-                          data: controller.model.value!.description.toString()),
-                      TextFieldItem(
-                          title: 'Trạng thái  hoạt động: ',
-                          data: FooodStatus.active.message),
-                    ],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        CustomNetworkImage(
+                            controller.model.value!.imagePath.toString(),
+                            height: Get.height * 0.4,
+                            width: Get.height * 0.4),
+                        TextFieldItem(
+                            title: 'Code: ',
+                            data: controller.model.value!.code.toString()),
+                        TextFieldItem(
+                            title: 'Tên sản phẩm: ',
+                            data: controller.model.value!.name.toString()),
+                        TextFieldItem(
+                            title: 'Giá: ',
+                            data: controller.model.value!.price.toString()),
+                        TextFieldItem(
+                            title: 'Mô tả: ',
+                            data:
+                                controller.model.value!.description.toString()),
+                        TextFieldItem(
+                            title: 'Trạng thái hoạt động: ',
+                            data: FooodStatus.active.message),
+                      ],
+                    ),
                   ),
                 ),
         ),

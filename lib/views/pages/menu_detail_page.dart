@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/contains/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -48,6 +49,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
                     children: [
                       const SizedBox(height: 20),
                       Card(
+            
                         child: Container(
                           padding: const EdgeInsets.only(
                             left: 15,

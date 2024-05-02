@@ -13,24 +13,24 @@ class PointDashboard1 extends StatelessWidget {
   late double step;
   @override
   Widget build(BuildContext context) {
-    if (bestSellerFoods.isNotEmpty) {
-      maxSoldCount =
-          bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
-      step = (maxSoldCount / 5).ceil().toDouble();
-      return Card(
-        color: ThemeColor.bgColor2,
-        child: Container(
-          // color: Colors.red,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const Text(
-                'Top 10 thức ăn bán chạy nhất',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 50),
-              Obx(
-                () => SizedBox(
+    return Obx(() {
+      if (bestSellerFoods.isNotEmpty) {
+        maxSoldCount =
+            bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
+        step = (maxSoldCount / 5).ceil().toDouble();
+        return Card(
+          color: ThemeColor.bgColor2,
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const Text(
+                  'Top 10 thức ăn bán chạy nhất',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 1,
                   height: MediaQuery.of(context).size.height * 0.4,
                   child: BarChart(
@@ -44,21 +44,20 @@ class PointDashboard1 extends StatelessWidget {
                       maxY: step * 5,
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    } else {
-      return const Column(
-        children: [
-          Text('Chưa có dữ liệu'),
-        ],
-      );
-    }
+        );
+      } else {
+        return const Column(
+          children: [
+            Text('Chưa có dữ liệu'),
+          ],
+        );
+      }
+    });
   }
-
   BarTouchData get barTouchData => BarTouchData(
         enabled: true,
         touchTooltipData: BarTouchTooltipData(

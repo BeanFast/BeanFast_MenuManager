@@ -66,56 +66,65 @@ class LoginView extends GetView<AuthController> {
                       if (value.length < 3) {
                         return 'Tên đăng nhập phải có ít nhất 3 ký tự';
                       }
+                      // Add this to validate email
+                      String pattern =
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp regex = RegExp(pattern);
+                      if (!regex.hasMatch(value)) {
+                        return 'Vui lòng nhập email hợp lệ';
+                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 10),
-                  TextFormField(
-                    controller: controller.passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Mật khẩu',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isPasswordHidden.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                  Obx(
+                    () => TextFormField(
+                      controller: controller.passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Mật khẩu',
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordHidden.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            _isPasswordHidden.value = !_isPasswordHidden.value;
+                          },
                         ),
-                        onPressed: () {
-                          _isPasswordHidden.value = !_isPasswordHidden.value;
-                        },
                       ),
+                      obscureText: _isPasswordHidden.value,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập mật khẩu';
+                        }
+                        if (value.length < 8) {
+                          return 'Mật khẩu phải có ít nhất 8 ký tự';
+                        }
+                        return null;
+                      },
                     ),
-                    obscureText: _isPasswordHidden.value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập mật khẩu';
-                      }
-                      if (value.length < 8) {
-                        return 'Mật khẩu phải có ít nhất 8 ký tự';
-                      }
-                      return null;
-                    },
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _isChecked.value,
-                        onChanged: (value) {
-                          _isChecked.value = value!;
-                        },
-                      ),
-                      const Text('Lưu mật khẩu'),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {
-                          // Your onPressed code for "Forgot Password" here
-                        },
-                        child: const Text('Quên mật khẩu?'),
-                      ),
-                    ],
-                  ),
+                  // const SizedBox(height: 20),
+                  // Row(
+                  //   children: [
+                  //     Checkbox(
+                  //       value: _isChecked.value,
+                  //       onChanged: (value) {
+                  //         _isChecked.value = value!;
+                  //       },
+                  //     ),
+                  //     const Text('Lưu mật khẩu'),
+                  //     const Spacer(),
+                  //     TextButton(
+                  //       onPressed: () {
+                  //         // Your onPressed code for "Forgot Password" here
+                  //       },
+                  //       child: const Text('Quên mật khẩu?'),
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 20),
                   SizedBox(
                     height: 20,
@@ -144,13 +153,9 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                       onPressed: () {
-                        // if (_formKey.currentState!.validate()) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     const SnackBar(content: Text('Đăng nhập thành công')),
-                        //   );
-                        //   // Get.to(ImageSlider());
-                        // }
-                        controller.login();
+                        if (_formKey.currentState!.validate()) {
+                          controller.login();
+                        }
                       },
                       child: const Text('Đăng nhập'),
                     ),

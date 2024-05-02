@@ -108,7 +108,7 @@ class FoodView extends GetView<FoodController> {
             width: 200,
           ),
         ),
-        DataCell(Text(food.price.toString())),
+        DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Text(food.category!.name.toString())),
         DataCell(Row(
           children: [
