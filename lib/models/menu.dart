@@ -40,12 +40,12 @@ class Menu extends BaseModel {
       creatorId: json['creatorId'],
       updaterId: json['updaterId'],
       code: json['code'],
-      createDate: json['createDate'] == null
+      createDate: json['createdDate'] == null
           ? null
-          : DateTime.parse(json['createDate']),
-      updateDate: json['updateDate'] == null
+          : DateTime.parse(json['createdDate']),
+      updateDate: json['updatedDate'] == null
           ? null
-          : DateTime.parse(json['updateDate']),
+          : DateTime.parse(json['updatedDate']),
       menuDetails: json['menuDetails']?.map<MenuDetail>((item) {
         return MenuDetail.fromJson(item);
       }).toList(),

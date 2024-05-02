@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/services/menu_serivce.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -58,13 +59,11 @@ class MenuCreateController extends DataTableController<Food> {
   Future<void> createMenu() async {
     if (kitchenId.isEmpty) return;
     try {
-      var response = await MenuService().create(kitchenId, mapMenuDetails);
-      if (response.statusCode == 200) {
-        //show dialog success
-        Get.back();
-      }
-    } catch (e) {
-      throw Exception(e);
+      await MenuService().create(kitchenId, mapMenuDetails);
+      Get.back();
+      Get.snackbar('Thông báo', 'Tạo thành công');
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 

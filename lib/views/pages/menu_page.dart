@@ -89,7 +89,7 @@ class MenuView extends GetView<MenuController> {
             const Spacer(),
             DetailButtonDataTable(
                 onPressed: () => Get.toNamed('/menu-detail?code=${menu.code}')),
-            EditButtonDataTable(onPressed: () {}),
+            // EditButtonDataTable(onPressed: () {}),
           ],
         )),
       ],

@@ -335,6 +335,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
 
 class CreateSessionController extends GetxController {
   var selectedMenuId = ''.obs;
+  String _schoolId = '';
 
   void updateSelectedValue(String value) {
     selectedMenuId.value = value;
@@ -354,14 +355,15 @@ class CreateSessionController extends GetxController {
   RxList<Menu> listMenu = <Menu>[].obs;
   Rx<School> school = School().obs;
   Future refreshData(String schoolId) async {
+    _schoolId = schoolId;
     try {
       listMenu.value = await MenuService().getBySchoolId(schoolId);
       school.value = await SchoolService().getById(schoolId);
       school.value.locations?.forEach((e) {
         listString.add(e.id!);
       });
-    } catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.message.toString());
     }
   }
 
@@ -384,6 +386,11 @@ class CreateSessionController extends GetxController {
     );
     try {
       await SessionService().createSession(session);
+      Get.back();
+      Get.snackbar('Thông báo', 'Tạo thành công');
+      if (_schoolId.isNotEmpty) {
+        await refreshData(_schoolId);
+      }
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.message.toString());
     }
