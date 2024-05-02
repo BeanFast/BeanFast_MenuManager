@@ -12,9 +12,9 @@ class FoodService {
   Future<List<Food>> getAll(bool? isCombo) async {
     Map<String, dynamic> queryParameters = {};
 
-    if (isCombo != null) {
-      queryParameters['isCombo'] = isCombo.toString();
-    }
+    // if (isCombo != null) {
+    //   queryParameters['isCombo'] = isCombo.toString();
+    // }
     final response = await _apiService.request.get(baseUrl,
         queryParameters: queryParameters.isNotEmpty ? queryParameters : null);
     List<Food> list = [];
@@ -24,17 +24,17 @@ class FoodService {
     return list;
   }
 
-  Future<Food?> getByCode(String code) async {
-    final response = await _apiService.request.get('$baseUrl?code=$code');
-    List<Food> list = [];
-    for (var e in response.data['data']) {
-      list.add(Food.fromJson(e));
-    }
-    if (list.isNotEmpty) {
-      return list[0];
-    }
-    return null;
-  }
+  // Future<Food?> getByCode(String code) async {
+  //   final response = await _apiService.request.get('$baseUrl?code=$code');
+  //   List<Food> list = [];
+  //   for (var e in response.data['data']) {
+  //     list.add(Food.fromJson(e));
+  //   }
+  //   if (list.isNotEmpty) {
+  //     return list[0];
+  //   }
+  //   return null;
+  // }
 
   Future<Food> getById(String id) async {
     final response = await _apiService.request.get('$baseUrl/$id');

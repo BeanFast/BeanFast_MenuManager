@@ -83,14 +83,14 @@ class FoodController extends DataTableController<Food> {
     setDataTable(currentModelList);
   }
 
-  Future getByCode() async {
-    try {
-      var foodCode = Get.parameters['code'];
-      model.value = await FoodService().getByCode(foodCode!);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
-    }
-  }
+  // Future getByCode() async {
+  //   try {
+  //     var foodCode = Get.parameters['code'];
+  //     model.value = await FoodService().getByCode(foodCode!);
+  //   } on DioException catch (e) {
+  //     message = e.response!.data['message'];
+  //   }
+  // }
 
   Future getAllCategory() async {
     listCategory.clear();
@@ -221,17 +221,13 @@ class FoodController extends DataTableController<Food> {
     }
   }
 
-  // @override
-  // Future loadPage(int page) {
-  //   // TODO: implement loadPage
-  //   throw UnimplementedError();
-  // }
   @override
   Future loadPage(int page) {
     print(page);
     // TODO: implement loadPage
     throw UnimplementedError();
   }
+
   // @override
   // void setDataTable(List<Food> list) {
   //   rows.value = list.map((dataMap) {
@@ -239,13 +235,13 @@ class FoodController extends DataTableController<Food> {
   //   }).toList();
   // }
 
+
   @override
   void setDataTable(List<Food> list) {
     rows.value = list.map((dataMap) {
       return const FoodView().setRow(list.indexOf(dataMap), dataMap);
     }).toList();
   }
-
   void setFoodDataTable(List<Food> list) {
     foodRows.value = list.map((dataMap) {
       return const FoodView().setFoodRow(list.indexOf(dataMap), dataMap);

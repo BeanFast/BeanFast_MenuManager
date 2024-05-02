@@ -53,9 +53,9 @@ class Food extends BaseModel {
         isCombo: json['isCombo'],
         imagePath: json['imagePath'] ??
             'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-        // category: json['category'] == null
-        //     ? Category()
-        //     : Category.fromJson(json['category']),
+        category: json['category'] == null
+            ? Category()
+            : Category.fromJson(json['category']),
       );
 
   // Map<String, dynamic> toJson() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '/views/pages/food_detail.dart';
 import '/contains/theme_color.dart';
 import '/views/pages/widget/description_input_widget.dart';
 import '/views/pages/loading_page.dart';
@@ -113,9 +114,11 @@ class FoodView extends GetView<FoodController> {
         DataCell(Row(
           children: [
             const Spacer(),
+            // DetailButtonDataTable(
+            //     onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
-            EditButtonDataTable(onPressed: () {}),
+                onPressed: () => Get.to(FoodDetailView(food))),
+            // EditButtonDataTable(onPressed: () {}),
           ],
         )),
       ],
