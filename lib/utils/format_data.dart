@@ -9,6 +9,14 @@ class Formatter {
     return newString;
   }
 
+  static String formatPoint(String value) {
+    String result = value.split('.')[0];
+    final f = NumberFormat("#,###", "vi_VN");
+    int num = int.parse(result.replaceAll(f.symbols.GROUP_SEP, ''));
+    final newString = '${f.format(num)} điểm';
+    return newString;
+  }
+
   static String formatPriceToString(String value) {
     final formattedValue = StringBuffer();
     for (int i = value.length - 1; i >= 0; i--) {

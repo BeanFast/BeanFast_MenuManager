@@ -34,24 +34,30 @@ class CreateSessionPage extends GetView<CreateSessionController> {
               Expanded(
                 flex: 3,
                 child: Obx(
-                  () => Column(
-                    children: controller.listMenu.map((menu) {
-                      return ListTile(
-                        title: Text(menu.code.toString()),
-                        subtitle: Text(menu.menuDetails!.length.toString()),
-                        leading: Obx(
-                          () => Radio<String>(
-                            value: menu.id!,
-                            groupValue: controller.selectedMenuId.value,
-                            onChanged: (String? value) {
-                              if (value != null) {
-                                controller.updateSelectedValue(value);
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                  () => SingleChildScrollView(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: controller.listMenu.map((menu) {
+                          return ListTile(
+                            title: Text(menu.code.toString()),
+                            subtitle: Text(menu.menuDetails!.length.toString()),
+                            leading: Obx(
+                              () => Radio<String>(
+                                value: menu.id!,
+                                groupValue: controller.selectedMenuId.value,
+                                onChanged: (String? value) {
+                                  if (value != null) {
+                                    controller.updateSelectedValue(value);
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -290,13 +296,26 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           onPressed: () {
                             if (controller.orderStartTime
                                 .isBefore(controller.orderEndTime)) {
-                            } else {}
+                            } else {
+                              Get.snackbar('Thất bại',
+                                  'Thời gian đặt hàng không hợp lệ');
+                              return;
+                            }
                             if (controller.deliveryStartTime
                                 .isBefore(controller.deliveryEndTime)) {
-                            } else {}
-                            if (controller.deliveryStartTime
-                                .isBefore(controller.orderEndTime)) {
-                            } else {}
+                            } else {
+                              Get.snackbar('Thất bại',
+                                  'Thời gian giao hàng không hợp lệ');
+                              return;
+                            }
+                            if (controller.orderEndTime
+                                .add(const Duration(hours: 6))
+                                .isBefore(controller.deliveryStartTime)) {
+                            } else {
+                              Get.snackbar('Thất bại',
+                                  'Thời gian đặt hàng phải sao giao hàng 6 giờ');
+                              return;
+                            }
                             controller.createSession();
                           },
                           label: const Text('Tạo'),
@@ -347,6 +366,10 @@ class CreateSessionController extends GetxController {
   }
 
   Future<void> createSession() async {
+    if (selectedMenuId.value == '') {
+      Get.snackbar('Thất bại', 'Chưa có menu');
+      return;
+    }
     List<SessionDetail> sessionDetails = [];
     for (var e in listString) {
       sessionDetails.add(SessionDetail(locationId: e));
@@ -362,7 +385,7 @@ class CreateSessionController extends GetxController {
     try {
       await SessionService().createSession(session);
     } on DioException catch (e) {
-      logger.e(e.response!.data);
+      Get.snackbar('Lỗi', e.message.toString());
     }
   }
 

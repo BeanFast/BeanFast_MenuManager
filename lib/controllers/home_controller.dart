@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../contains/contrain.dart';
+import '../views/pages/exchange_gift_page.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
 import '/views/pages/category_page.dart';
@@ -19,7 +20,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(DashboardView());
+  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -40,7 +41,7 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return DashboardView();
+        return const DashboardView();
       case 1:
         return const FoodView();
       case 2:
@@ -48,7 +49,7 @@ class HomeController extends GetxController {
       case 3:
         return const OrderView();
       case 4:
-        return colorGreen();
+        return const ExchangeGiftView();
       case 5:
         return const DeliveryView();
       case 6:
