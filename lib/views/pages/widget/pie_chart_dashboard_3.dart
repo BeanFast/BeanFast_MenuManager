@@ -1,175 +1,119 @@
+import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/app_color_dashboard.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class PieChart3 extends StatefulWidget {
-  const PieChart3({super.key});
-
-  @override
-  State<StatefulWidget> createState() => PieChartSample1State();
-}
-
-class PieChartSample1State extends State {
-  int touchedIndex = -1;
-
+class PieChart3 extends StatelessWidget {
+  PieChart3(this.topSellerSchool, {super.key});
+  RxList<TopSellerSchool> topSellerSchool;
+  RxInt touchedIndex = (-1).obs;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * 0.3 + 100,
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Indicator(
-                  color: AppColors.contentColorBlue,
-                  text: 'One',
-                  isSquare: false,
-                  size: touchedIndex == 0 ? 18 : 16,
-                  textColor: touchedIndex == 0
-                      ? Colors.black
-                      : Colors.black54,
-                ),
-                Indicator(
-                  color: AppColors.contentColorYellow,
-                  text: 'Two',
-                  isSquare: false,
-                  size: touchedIndex == 1 ? 18 : 16,
-                  textColor: touchedIndex == 1
-                      ? Colors.black
-                      : Colors.black54,
-                ),
-                Indicator(
-                  color: AppColors.contentColorPink,
-                  text: 'Three',
-                  isSquare: false,
-                  size: touchedIndex == 2 ? 18 : 16,
-                  textColor: touchedIndex == 2
-                      ? Colors.black
-                      : Colors.black54,
-                ),
-                Indicator(
-                  color: AppColors.contentColorGreen,
-                  text: 'Four',
-                  isSquare: false,
-                  size: touchedIndex == 3 ? 18 : 16,
-                  textColor: touchedIndex == 3
-                      ? Colors.black
-                      : Colors.black54,
-                ),
-                
-              ],
-            ),
-            const SizedBox(
-              height: 18,
-            ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      },
+    if (topSellerSchool.isNotEmpty) {
+      return Card(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: MediaQuery.of(context).size.width * 1,
+          height: MediaQuery.of(context).size.height * 0.3 + 100,
+          child: Column(
+            children: [
+              const Text(
+                'Top 10 tỉ lệ bếp bán chạy nhất',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: Row(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 18,
                     ),
-                    startDegreeOffset: 180,
-                    borderData: FlBorderData(
-                      show: false,
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Obx(
+                          () => PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(
+                                touchCallback:
+                                    (FlTouchEvent event, pieTouchResponse) {
+                                  // if (!event.isInterestedForInteractions ||
+                                  //     pieTouchResponse == null ||
+                                  //     pieTouchResponse.touchedSection == null) {
+                                  //   touchedIndex = RxInt(-1);
+                                  //   return;
+                                  // }
+                                  // touchedIndex = RxInt(pieTouchResponse
+                                  //     .touchedSection!.touchedSectionIndex);
+                                },
+                              ),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 0,
+                              centerSpaceRadius: 40,
+                              sections: showingSections(),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    sectionsSpace: 1,
-                    centerSpaceRadius: 0,
-                    sections: showingSections(),
-                  ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: showingIndicators(),
+                    ),
+                    const SizedBox(
+                      width: 28,
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      );
+    }
+    return Column(
+      children: [Text("Chưa có dữ liệu")],
     );
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(
-      4,
-      (i) {
-        final isTouched = i == touchedIndex;
-        const color0 = AppColors.contentColorBlue;
-        const color1 = AppColors.contentColorYellow;
-        const color2 = AppColors.contentColorPink;
-        const color3 = AppColors.contentColorGreen;
+    return topSellerSchool.asMap().entries.map((e) {
+      final index = e.key;
+      final data = e.value;
+      final isTouched = index == touchedIndex.value;
+      final fontSize = isTouched ? 20.0 : 14.0;
+      final radius = isTouched ? 80.0 : 75.0;
+      return PieChartSectionData(
+        color: data.color,
+        value: data.percentage,
+        title: "${data.percentage}%",
+        radius: radius,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          color: Colors.black,
+        ),
+      );
+    }).toList();
+  }
 
-        switch (i) {
-          case 0:
-            return PieChartSectionData(
-              color: color0,
-              value: 25,
-              title: '25%',
-              radius: 100,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 1:
-            return PieChartSectionData(
-              color: color1,
-              value: 25,
-              title: '25%',
-              radius: 100,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 2:
-            return PieChartSectionData(
-              color: color2,
-              value: 25,
-              title: '25%',
-              radius: 100,
-              titlePositionPercentageOffset: 0.6,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 3:
-            return PieChartSectionData(
-              color: color3,
-              value: 25,
-              title: '25%',
-              radius: 100,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          default:
-            throw Error();
-        }
-      },
-    );
+  List<Widget> showingIndicators() {
+    return topSellerSchool.asMap().entries.map((e) {
+      final index = e.key;
+      final data = e.value;
+      final isTouched = index == touchedIndex.value;
+      final fontSize = isTouched ? 20.0 : 14.0;
+      final radius = isTouched ? 80.0 : 75.0;
+      return Indicator(
+        color: data.color,
+        text: data.schoolName,
+        isSquare: false,
+      );
+    }).toList();
   }
 }

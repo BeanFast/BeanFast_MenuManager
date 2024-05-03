@@ -21,7 +21,7 @@ class PointDashboard1 extends StatelessWidget {
         color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               const Text(

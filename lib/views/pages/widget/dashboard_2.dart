@@ -34,9 +34,11 @@ class PointDashboard2 extends StatelessWidget {
   }
 
   late int minCount = 0;
+  late int maxCount = 0;
+  late double step = 0;
   @override
   Widget build(BuildContext context) {
-    // Iterate through the remaining elements, updating minCount if necessary
+    // Iterate through the remaining elements, updating min count if necessary
     if (orderStatistics.isEmpty) {
       return const Column(
         children: [
@@ -47,16 +49,19 @@ class PointDashboard2 extends StatelessWidget {
       for (var item in orderStatistics) {
         if (item.count < minCount) {
           minCount = item.count;
+        } else if (item.count > maxCount) {
+          maxCount = item.count;
         }
+        step = (maxCount / 5).ceil().toDouble();
       }
       return Card(
-         color: ThemeColor.bgColor2,
+        color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.all(20),
           child: Column(children: [
             const Text(
-              'Tổng kết giao dịch điểm (6 tháng)',
+              'Tổng kết số đơn và doanh thu (triệu đồng) theo tháng',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 50),
@@ -82,7 +87,9 @@ class PointDashboard2 extends StatelessWidget {
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 30,
+                          interval: step,
                           getTitlesWidget: (value, meta) {
+                            // print(value);
                             return Text(
                               value.toInt().toString(),
                               textAlign: TextAlign.left,
@@ -103,7 +110,7 @@ class PointDashboard2 extends StatelessWidget {
                             );
                             Widget text = Text(
                               orderStatistics[value.toInt()].month,
-                              style: style,
+                              // style: style,
                             );
                             return SideTitleWidget(
                               axisSide: meta.axisSide,
@@ -133,7 +140,7 @@ class PointDashboard2 extends StatelessWidget {
                         data.revenue.toDouble(),
                       );
                     }).toList(),
-                    maxY: 50,
+                    maxY: maxCount + step,
                     barTouchData: BarTouchData(
                       enabled: true,
                       handleBuiltInTouches: false,
@@ -167,7 +174,7 @@ class PointDashboard2 extends StatelessWidget {
                         if (event.isInterestedForInteractions &&
                             response != null &&
                             response.spot != null) {
-                          print(response.spot!.touchedBarGroupIndex);
+                          // print(response.spot!.touchedBarGroupIndex);
                           touchedGroupIndex.value =
                               response.spot!.touchedBarGroupIndex;
                         } else {

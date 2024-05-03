@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
+import 'package:beanfast_menumanager/views/pages/widget/order_by_date_line_chart.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_1.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_2.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_3.dart';
@@ -23,8 +24,16 @@ class DashboardView extends GetView<DashboardController> {
     Get.put(DashboardController());
     return LoadingView(
       future: () async {
-        await controller.getBestSellerFoods();
-        await controller.getOrderStatistics();
+        await Future.wait([
+          controller.getBestSellerFoods(),
+          controller.getOrderStatistics(),
+          controller.getBestSellerCategories(),
+          controller.getTotalFoodCount(),
+          controller.getTotalSchoolCount(),
+          controller.getOrderStatisticsByDays(),
+          controller.getTopSellerKitchens(),
+          controller.getTopSellerSchools(),
+        ]);
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -92,42 +101,47 @@ class DashboardView extends GetView<DashboardController> {
               ),
             ),
 
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: InfoCard(
+                    child: Obx(() => InfoCard(
                         icon: Icons.money,
-                        label: 'Transafer via \nCard number',
-                        amount: '1200'),
+                        label: 'Tổng doanh thu',
+                        amount: controller.totalRevenue.value)),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Obx(
+                        () => InfoCard(
+                            icon: Icons.shopping_cart,
+                            label: 'Tổng số đơn hàng được hoàn thành',
+                            amount: controller.totalOrder.value),
+                      )),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Obx(
+                      () => InfoCard(
+                          icon: Icons.food_bank,
+                          label: 'Tổng số lượng thức ăn được bán',
+                          amount: controller.totalFood.value),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: InfoCard(
-                        icon: Icons.money,
-                        label: 'Transafer via \nOnline Banks',
-                        amount: '1200'),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: InfoCard(
-                        icon: Icons.chair,
-                        label: 'Transafer \nSame Bank',
-                        amount: '1200'),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: InfoCard(
-                        icon: Icons.home,
-                        label: 'Transafer to \nOther Bank',
-                        amount: '1200'),
+                    child: Obx(
+                      () => InfoCard(
+                          icon: Icons.school,
+                          label: 'Tổng số trường học đang hoạt động',
+                          amount: controller.totalSchool.value),
+                    ),
                   ),
                 ),
               ],
@@ -146,21 +160,30 @@ class DashboardView extends GetView<DashboardController> {
             SizedBox(
               width: Get.width * 0.9,
               child: PointDashboard2(
-                orderStatistics: controller.orderStatistics,
+                orderStatistics: controller.completeOrderStatistics,
               ),
             ),
-            const Row(
+            const SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              width: Get.width * 0.9,
+              child: LineChartSample2(
+                list: controller.orderStatisticByDays,
+              ),
+            ),
+            Row(
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: PieChart1(),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: PieChart1(controller.bestSellerCategory),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
-                    child: PieChart2(),
+                    child: PieChart2(controller.topSellerKitchens),
                   ),
                 ),
                 Expanded(
@@ -168,8 +191,7 @@ class DashboardView extends GetView<DashboardController> {
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       children: [
-                        
-                        PieChart3(),
+                        PieChart3(controller.topSellerSchools),
                       ],
                     ),
                   ),

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,7 +28,7 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>beanfast_menumanager</title>
   <link rel="manifest" href="manifest.json">
@@ -35,25 +36,45 @@
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
+
+    function uuidv4() {
+      return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+      );
+    }
   </script>
   <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
+  <script src="flutter.js?v=1" defer></script>
 </head>
+
 <body>
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
+        entrypointUrl: "main.dart.js?v=" + uuidv4(),
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
       });
     });
   </script>
+   <!-- <script src="main.dart.js?v=1" type="application/javascript"></script> -->
+  <!-- <script>
+  // Get the script element
+      const scriptElement = document.querySelector('script[type="application/javascript"]');
+
+      // Generate a random version number (replace with your versioning logic)
+      const newVersion = Math.floor(Math.random() * 100); // Example: random between 0-99
+
+      // Update the src attribute with the new version
+      scriptElement.src = scriptElement.src + "?v=" + newVersion
+  </script> -->
 </body>
+
 </html>

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -8,7 +10,7 @@ class AppColors {
   // static const Color mainTextColor1 = Colors.white;
   // static const Color mainTextColor2 = Colors.white70;
   // static const Color mainTextColor3 = Colors.white38;
-  // static const Color mainGridLineColor = Colors.white10;
+  static const Color mainGridLineColor = Colors.white10;
   // static const Color borderColor = Colors.white54;
   // static const Color gridLinesColor = Color(0x11FFFFFF);
 
@@ -22,4 +24,22 @@ class AppColors {
   static const Color contentColorPink = Color(0xFFFF3AF2);
   static const Color contentColorRed = Color(0xFFE80054);
   static const Color contentColorCyan = Color(0xFF50E4FF);
+  static final List<Color> contentColors = [
+    contentColorBlue,
+    contentColorYellow,
+    contentColorOrange,
+    contentColorGreen,
+    contentColorPurple,
+    contentColorPink,
+    contentColorRed,
+    contentColorCyan,
+  ];
+  static Color getRandomContentColor() {
+    final randomIndex = Random().nextInt(contentColors.length);
+    return contentColors[randomIndex];
+  }
+
+  static Color getContentColor(int index) {
+    return contentColors[index];
+  }
 }
