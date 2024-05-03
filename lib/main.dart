@@ -48,11 +48,11 @@ class MyApp extends StatelessWidget {
           page: () => const FoodView(),
           binding: FoodBindingController(),
         ),
-        GetPage(
-          name: AppRoutes.foodDetail,
-          page: () => const FoodDetailView(),
-          binding: FoodBindingController(),
-        ),
+        // GetPage(
+        //   name: AppRoutes.foodDetail,
+        //   page: () => const FoodDetailView(),
+        //   binding: FoodBindingController(),
+        // ),
         GetPage(
           name: AppRoutes.menuDetail,
           page: () => const MenuDetailView(),

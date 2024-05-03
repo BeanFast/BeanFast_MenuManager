@@ -12,7 +12,7 @@ class SessionDetail extends BaseModel {
   String? code;
   Location? location;
   Session? session;
-  User? deliverer;
+  List<User>? deliverers;
   List<Order>? orders;
   List<ExchangeGift>? exchangeGifts;
 
@@ -26,7 +26,7 @@ class SessionDetail extends BaseModel {
     this.location,
     this.session,
     this.orders,
-    this.deliverer,
+    this.deliverers,
   }) : super(id: id, status: status);
 
   factory SessionDetail.fromJson(dynamic json) => SessionDetail(
@@ -45,9 +45,9 @@ class SessionDetail extends BaseModel {
         orders: json['orders']?.map<Order>((item) {
           return Order.fromJson(item);
         }).toList(),
-        deliverer: json['deliverer'] == null
-            ? User()
-            : User.fromJson(json['deliverer']),
+        deliverers: json['deliverers']?.map<User>((item) {
+          return User.fromJson(item);
+        }).toList(),
       );
 
   // Map<String, dynamic> toJson() {

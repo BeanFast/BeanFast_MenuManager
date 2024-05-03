@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '/controllers/exchange_gift_controller.dart';
+import '/models/exchange_gift.dart';
 import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
-import '/controllers/order_controller.dart';
-import '/models/order.dart';
 import 'button_data_table.dart';
 import 'paginated_data_table_widget.dart';
 import 'text_data_table_widget.dart';
 import '/views/pages/loading_page.dart';
 import '/utils/format_data.dart';
 
-class OrderTabView extends GetView<OrderController> {
-  final OrderStatus status;
-  const OrderTabView({super.key, required this.status});
+class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
+  final ExchangeGiftStatus status;
+  const ExchangeGiftTabView({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(OrderController());
+    Get.put(ExchangeGiftController());
     controller.status = status;
     return LoadingView(
       future: controller.refreshData,
@@ -45,8 +45,7 @@ class OrderTabView extends GetView<OrderController> {
                         controller.sortByPaymentDate(index)),
                 const DataColumn(label: Text('Ngày nhận hàng')),
                 const DataColumn(label: Text('Địa điểm')),
-                const DataColumn(label: Text('Số sản phẩm')),
-                const DataColumn(label: Text('Tổng giá')),
+                const DataColumn(label: Text('Tổng điểm')),
                 const DataColumn(label: Text(' ')),
               ],
               // ignore: invalid_use_of_protected_member
@@ -56,35 +55,34 @@ class OrderTabView extends GetView<OrderController> {
     );
   }
 
-  DataRow setRow(int index, Order order) {
+  DataRow setRow(int index, ExchangeGift exchangeGift) {
     return DataRow(
       cells: [
         DataCell(Text((index + 1).toString())),
-        DataCell(Text(order.code.toString())),
+        DataCell(Text(exchangeGift.code.toString())),
         DataCell(
           TextDataTable(
-            data: order.profile!.fullName.toString(),
+            data: exchangeGift.profile!.fullName.toString(),
             maxLines: 2,
             width: 200,
           ),
         ),
-        DataCell(Text(order.paymentDate == null
+        DataCell(Text(exchangeGift.paymentDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yyyy').format(order.paymentDate!))),
-        DataCell(Text(order.deliveryDate == null
+            : DateFormat('dd-MM-yy').format(exchangeGift.paymentDate!))),
+        DataCell(Text(exchangeGift.deliveryDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yyyy').format(order.deliveryDate!))),
-        DataCell(Text(order.sessionDetail!.code.toString())),
-        DataCell(Text(order.orderDetails!.length.toString())),
-        DataCell(Text(Formatter.formatMoney(order.totalPrice.toString()))),
+            : DateFormat('dd-MM-yy').format(exchangeGift.deliveryDate!))),
+        DataCell(Text(exchangeGift.sessionDetail!.code.toString())),
+        DataCell(Text(Formatter.formatPoint(exchangeGift.points.toString()))),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(onPressed: () {}),
-            if (status == OrderStatus.preparing ||
-                status == OrderStatus.delivering)
+            if (status == ExchangeGiftStatus.preparing ||
+                status == ExchangeGiftStatus.delivering)
               CancelOrderActivityButtonTable(onPressed: () {
-                showCancelDialog(order.id!);
+                showCancelDialog(exchangeGift.id!);
               }),
           ],
         )),
@@ -92,8 +90,8 @@ class OrderTabView extends GetView<OrderController> {
     );
   }
 
-  void showCancelDialog(String orderId) {
-    controller.reasonCancelOrderText.clear();
+  void showCancelDialog(String exchangeGiftId) {
+    controller.reasonCancelExchangeGiftText.clear();
     Get.dialog(
       AlertDialog(
         surfaceTintColor: Colors.white,
@@ -105,7 +103,7 @@ class OrderTabView extends GetView<OrderController> {
               // height: Get.height / 2,
               width: Get.width,
               child: TextFormField(
-                controller: controller.reasonCancelOrderText,
+                controller: controller.reasonCancelExchangeGiftText,
                 decoration: const InputDecoration(),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -120,7 +118,7 @@ class OrderTabView extends GetView<OrderController> {
             onPressed: () async {
               if (controller.formKey.currentState!.validate()) {
                 Get.back();
-                await controller.cancelOrder(orderId);
+                await controller.cancelExchangeGift(exchangeGiftId);
               }
             },
             child: Text('Huỷ đơn hàng',

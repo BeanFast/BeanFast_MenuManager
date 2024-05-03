@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:beanfast_menumanager/contains/theme_color.dart';
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:fl_chart/fl_chart.dart';

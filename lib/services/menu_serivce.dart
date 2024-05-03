@@ -37,7 +37,7 @@ class MenuService {
     }
   }
 
-  Future<Response> create(
+  Future<bool> create(
       String kitchenId, Map<String, double> mapMenuDetails) async {
     List<Map<String, dynamic>> menuDetails = [];
     mapMenuDetails.forEach((key, value) {
@@ -51,9 +51,8 @@ class MenuService {
       'kitchenId': kitchenId,
       'menuDetails': menuDetails,
     };
-    logger.e('data - $data');
     final response = await _apiService.request.post(baseUrl, data: data);
-    return response;
+    return response.statusCode == 200;
   }
 
   Future<Menu> getByCode(String code) async {

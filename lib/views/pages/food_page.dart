@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../contains/theme_color.dart';
+import '/views/pages/food_detail.dart';
+import '/contains/theme_color.dart';
 import '/views/pages/widget/description_input_widget.dart';
 import '/views/pages/loading_page.dart';
 import '/utils/format_data.dart';
@@ -11,6 +12,7 @@ import '/controllers/food_controller.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import '/views/pages/widget/data_table_page.dart';
+import 'widget/image_default.dart';
 
 class FoodView extends GetView<FoodController> {
   const FoodView({super.key});
@@ -94,7 +96,7 @@ class FoodView extends GetView<FoodController> {
         DataCell(
           SizedBox(
             width: 100,
-            child: Image.network(
+            child: CustomNetworkImage(
               food.imagePath.toString(),
               fit: BoxFit.fitWidth,
             ),
@@ -107,14 +109,16 @@ class FoodView extends GetView<FoodController> {
             width: 200,
           ),
         ),
-        DataCell(Text(food.price.toString())),
+        DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Text(food.category!.name.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
+            // DetailButtonDataTable(
+            //     onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
             DetailButtonDataTable(
-                onPressed: () => Get.toNamed('/food-detail?code=${food.code}')),
-            EditButtonDataTable(onPressed: () {}),
+                onPressed: () => Get.to(FoodDetailView(food))),
+            // EditButtonDataTable(onPressed: () {}),
           ],
         )),
       ],

@@ -1,53 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/views/pages/loading_page.dart';
-import '/controllers/food_controller.dart';
+import '/views/pages/widget/image_default.dart';
+import '/models/food.dart';
 import '/enums/status_enum.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
+import 'widget/row_info_item_widget.dart';
 
-class FoodDetailView extends GetView<FoodController> {
-  const FoodDetailView({super.key});
-
+class FoodDetailView extends StatelessWidget {
+  const FoodDetailView(this.food, {super.key});
+  final Food food;
   @override
   Widget build(BuildContext context) {
-    return LoadingView(
-      future: controller.getByCode,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Center(child: Text('Chi tiết sản phẩm')),
-        ),
-        body: Obx(
-          () => controller.model.value == null
-              ? Center(
-                  child: Text(
-                    'Không tìm thấy sản phẩm',
-                    style: Get.theme.textTheme.bodyLarge,
-                  ),
-                )
-              : Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Chi tiết sản phẩm')),
+      ),
+      body: Padding(
+        padding:
+            const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomNetworkImage(food.imagePath.toString(),
+                  height: Get.height * 0.4, width: Get.height * 0.4),
+              const SizedBox(height: 20),
+              Card(
+                child: Container(
                   padding: const EdgeInsets.only(
-                      top: 40, left: 10, right: 10, bottom: 10),
+                    left: 15,
+                    right: 15,
+                    top: 30,
+                    bottom: 30,
+                  ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextFieldItem(
-                          title: 'Code: ',
-                          data: controller.model.value!.code.toString()),
-                      TextFieldItem(
-                          title: 'Tên sản phẩm: ',
-                          data: controller.model.value!.name.toString()),
-                      TextFieldItem(
-                          title: 'Giá: ',
-                          data: controller.model.value!.price.toString()),
-                      TextFieldItem(
-                          title: 'Mô tả: ',
-                          data: controller.model.value!.description.toString()),
-                      TextFieldItem(
-                          title: 'Trạng thái  hoạt động: ',
+                      RowInfoItemWidget(
+                          title: 'Code: ', data: food.code.toString()),
+                      RowInfoItemWidget(
+                          title: 'Tên sản phẩm: ', data: food.name.toString()),
+                      RowInfoItemWidget(
+                          title: 'Giá: ', data: food.price.toString()),
+                      RowInfoItemWidget(
+                          title: 'Mô tả: ', data: food.description.toString()),
+                      RowInfoItemWidget(
+                          title: 'Trạng thái hoạt động: ',
                           data: FooodStatus.active.message),
                     ],
                   ),
                 ),
+              ),
+            ],
+          ),
         ),
       ),
     );

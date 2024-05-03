@@ -41,7 +41,8 @@ class SessionService {
     return response.statusCode == 200;
   }
 
-  Future<List<User>> getListDelivererBySessionId(String sessionDetailId) async {
+  Future<List<User>> getListDelivererBySessionDetailId(
+      String sessionDetailId) async {
     final response = await _apiService.request
         .get("$baseUrl/deliverers/available/$sessionDetailId");
     List<User> list = [];
@@ -49,6 +50,20 @@ class SessionService {
       list.add(User.fromJson(e));
     }
     return list;
+  }
+
+  Future<bool> updateDeliverySchedule(
+      String sessionDetailId, List<String> listDelivererId) async {
+    // List<String> list = [];
+    // for (var e in listDelivererId) {
+    //   list.add(e);
+    // }
+    Map<String, dynamic> data = {
+      'DelivererIds': listDelivererId,
+    };
+    final response = await _apiService.request
+        .put('$baseUrl/SessionDetails/$sessionDetailId', data: data);
+    return response.statusCode == 200;
   }
 
   Future createSession(Session session) async {
@@ -71,6 +86,6 @@ class SessionService {
           DateFormat('yyyy-MM-ddTHH:mm:ss').format(session.deliveryEndTime!),
       'sessionDetails': sessionDetails,
     };
-     await _apiService.request.post(baseUrl, data: data);
+    await _apiService.request.post(baseUrl, data: data);
   }
 }

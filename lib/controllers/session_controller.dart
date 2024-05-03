@@ -20,11 +20,14 @@ class SessionController extends DataTableController<Session> {
       DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
 
   Future delete(String id) async {
+    logger.e(id);
     try {
       await SessionService().delete(id);
       Get.back();
+      await refreshData();
       Get.snackbar('Thành công', 'Xóa thành công');
     } on DioException catch (e) {
+      Get.back();
       Get.snackbar('Thất bại', e.response!.data['message']);
     }
   }

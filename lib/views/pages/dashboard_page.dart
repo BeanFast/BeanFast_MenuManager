@@ -75,7 +75,7 @@ class DashboardView extends GetView<DashboardController> {
                               left: 20, right: 20, top: 5, bottom: 5),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.green),
+                              border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(12)),
                           child: Obx(
                             () => Row(

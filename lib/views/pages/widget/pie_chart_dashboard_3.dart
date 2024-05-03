@@ -20,7 +20,7 @@ class PieChart3 extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Top 10 tỉ lệ bếp bán chạy nhất',
+                'Top 10 tỉ lệ trường bán chạy nhất',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(

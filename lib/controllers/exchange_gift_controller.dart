@@ -1,18 +1,20 @@
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/views/pages/widget/order_tabview.dart';
-import '/services/order_service.dart';
+import '/models/exchange_gift.dart';
+import '/services/exchange_gift_service.dart';
+import '/views/pages/widget/exchange_gift_tabview.dart';
 import '/enums/status_enum.dart';
 import '/controllers/data_table_controller.dart';
-import '/models/order.dart';
 
-class OrderController extends DataTableController<Order> {
-  OrderStatus status = OrderStatus.preparing;
+class ExchangeGiftController extends DataTableController<ExchangeGift> {
+  ExchangeGiftStatus status = ExchangeGiftStatus.preparing;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController reasonCancelOrderText = TextEditingController();
+  final TextEditingController reasonCancelExchangeGiftText =
+      TextEditingController();
 
   @override
   void search(String value) {
@@ -29,7 +31,7 @@ class OrderController extends DataTableController<Order> {
   @override
   Future getData(list) async {
     try {
-      final data = await OrderService().getByStatus(status);
+      final data = await ExchangeGiftService().getByStatus(status);
       list.addAll(data);
     } catch (e) {
       throw Exception(e);
@@ -57,13 +59,15 @@ class OrderController extends DataTableController<Order> {
     setDataTable(currentModelList);
   }
 
-  Future cancelOrder(String orderId) async {
+  Future cancelExchangeGift(String exchangeGiftId) async {
     try {
-      String reason = reasonCancelOrderText.text.trim();
-      await OrderService().cancelOrder(orderId, reason);
+      String reason = reasonCancelExchangeGiftText.text.trim();
+      logger.e(reason);
+      await ExchangeGiftService().cancelExchangeGift(exchangeGiftId, reason);
       Get.snackbar('Thành công', 'Hủy đơn thành công');
       await refreshData();
     } on DioException catch (e) {
+      logger.e(e.message);
       Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
@@ -74,9 +78,9 @@ class OrderController extends DataTableController<Order> {
   }
 
   @override
-  void setDataTable(List<Order> list) {
+  void setDataTable(List<ExchangeGift> list) {
     rows.value = list.map((dataMap) {
-      return OrderTabView(
+      return ExchangeGiftTabView(
         status: status,
       ).setRow(list.indexOf(dataMap), dataMap);
     }).toList();
