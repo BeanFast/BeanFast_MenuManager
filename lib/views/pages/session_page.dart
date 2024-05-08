@@ -1,15 +1,15 @@
+import 'package:beanfast_menumanager/views/pages/session_infor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/models/session.dart';
-import '/routes/app_routes.dart';
-import '/views/pages/loading_page.dart';
 import '/controllers/session_controller.dart';
+import '/enums/status_enum.dart';
+import '/models/session.dart';
+import '/views/pages/loading_page.dart';
 import '/views/pages/widget/button_data_table.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import 'create_session_page.dart';
-import '/enums/status_enum.dart';
 
 class SessionView extends GetView<SessionController> {
   const SessionView({super.key});
@@ -29,57 +29,6 @@ class SessionView extends GetView<SessionController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: GestureDetector(
-              //     onTap: () async {
-              //       final DateTimeRange? picked = await showDateRangePicker(
-              //         context: context,
-              //         initialDateRange: DateTimeRange(
-              //           start: controller.selectedDateStart.value,
-              //           end: controller.selectedDateEnd.value,
-              //         ),
-              //         firstDate:
-              //             DateTime.now().subtract(const Duration(days: 365)),
-              //         lastDate: DateTime.now(),
-              //       );
-
-              //       if (picked != null) {
-              //         controller.selectedDateStart.value = picked.start;
-              //         controller.selectedDateEnd.value = picked.end;
-              //         controller.selectedDateStrStart.value =
-              //             DateFormat('dd-MM-yyyy').format(picked.start);
-              //         controller.selectedDateStrEnd.value =
-              //             DateFormat('dd-MM-yyyy').format(picked.end);
-              //       }
-              //     },
-              //     child: Container(
-              //       width: 250,
-              //       padding: const EdgeInsets.only(
-              //           left: 20, right: 20, top: 5, bottom: 5),
-              //       alignment: Alignment.center,
-              //       decoration: BoxDecoration(
-              //           border: Border.all(color: Colors.green),
-              //           borderRadius: BorderRadius.circular(12)),
-              //       child: Obx(
-              //         () => Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           crossAxisAlignment: CrossAxisAlignment.center,
-              //           children: [
-              //             const Icon(
-              //               Icons.calendar_today,
-              //             ),
-              //             const SizedBox(width: 10),
-              //             Text(
-              //               '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
-              //               style: Get.textTheme.titleSmall,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Align(
                 alignment: Alignment.centerRight,
                 child: CreateButtonDataTable(
@@ -177,6 +126,7 @@ class SessionTabView extends GetView<SessionController> {
             '\nđến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}')),
         DataCell(SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: session.sessionDetails!
                 .map((sessionDetail) =>
                     Text(sessionDetail.location!.name.toString()))
@@ -186,9 +136,9 @@ class SessionTabView extends GetView<SessionController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(
-                onPressed: () => Get.toNamed(AppRoutes.menuDetail,
-                    parameters: {"menuCode": menu.code!})),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(const SessionInformationPage());
+            }),
             if (status != SessionStatus.expired)
               DeleteButtonDataTable(onPressed: () {
                 Get.defaultDialog(

@@ -1,19 +1,16 @@
+import 'package:beanfast_menumanager/models/user.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/services/session_service.dart';
 import '/models/menu.dart';
 import '/models/school.dart';
 import '/models/session.dart';
 import '/models/session_detail.dart';
 import '/services/menu_serivce.dart';
 import '/services/school_service.dart';
-import '/utils/logger.dart';
+import '/services/session_service.dart';
 import '/views/pages/loading_page.dart';
 
 class CreateSessionPage extends GetView<CreateSessionController> {
@@ -121,6 +118,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
+                              initialEntryMode: DatePickerEntryMode.input,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
@@ -130,6 +128,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               TimeOfDay? pickedTime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
+                                initialEntryMode: TimePickerEntryMode.input,
                               );
                               if (pickedTime != null) {
                                 DateTime finalDateTime = DateTime(
@@ -142,7 +141,8 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                 print(finalDateTime);
                                 controller.orderStartTime = finalDateTime;
                                 controller.lbOrderStartTime.value =
-                                    finalDateTime.toString();
+                                    DateFormat('HH:mm - dd/MM/yyyy')
+                                        .format(finalDateTime);
                               }
                             }
                           },
@@ -159,7 +159,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             child: Obx(
                               () => Text(
                                 controller.lbOrderStartTime.value != 'Bắt đầu'
-                                    ? DateFormat('hh:mm - dd/MM/yyyy')
+                                    ? DateFormat('HH:mm - dd/MM/yyyy')
                                         .format(controller.orderStartTime)
                                     : controller.lbOrderStartTime.toString(),
                               ),
@@ -171,6 +171,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
+                              initialEntryMode: DatePickerEntryMode.input,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
@@ -180,6 +181,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               TimeOfDay? pickedTime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
+                                initialEntryMode: TimePickerEntryMode.input,
                               );
 
                               if (pickedTime != null) {
@@ -209,7 +211,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
                                 controller.lbOrderEndTime.value != 'Kết thúc'
-                                    ? DateFormat('hh:mm - dd/MM/yyyy')
+                                    ? DateFormat('HH:mm - dd/MM/yyyy')
                                         .format(controller.orderEndTime)
                                     : controller.lbOrderEndTime.toString())),
                           ),
@@ -222,6 +224,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
+                              initialEntryMode: DatePickerEntryMode.input,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
@@ -231,6 +234,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               TimeOfDay? pickedTime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
+                                initialEntryMode: TimePickerEntryMode.input,
                               );
 
                               if (pickedTime != null) {
@@ -241,9 +245,15 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                   pickedTime.hour,
                                   pickedTime.minute,
                                 );
-                                controller.deliveryStartTime = finalDateTime;
-                                controller.lbDeliveryStartTime.value =
-                                    finalDateTime.toString();
+                                if (isValidDeliveryStartTime(finalDateTime)) {
+                                  controller.deliveryStartTime = finalDateTime;
+                                  controller.deliveryStartTime = finalDateTime;
+                                  controller.lbDeliveryStartTime.value =
+                                      finalDateTime.toString();
+                                } else {
+                                  Get.snackbar('Hệ thống',
+                                      'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+                                }
                               }
                             }
                           },
@@ -260,7 +270,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             child: Obx(() => Text(controller
                                         .lbDeliveryStartTime.value !=
                                     'Bắt đầu'
-                                ? DateFormat('hh:mm - dd/MM/yyyy')
+                                ? DateFormat('HH:mm - dd/MM/yyyy')
                                     .format(controller.deliveryStartTime)
                                 : controller.lbDeliveryStartTime.toString())),
                           ),
@@ -270,6 +280,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
+                              initialEntryMode: DatePickerEntryMode.input,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
@@ -279,6 +290,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               TimeOfDay? pickedTime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
+                                initialEntryMode: TimePickerEntryMode.input,
                               );
 
                               if (pickedTime != null) {
@@ -289,9 +301,14 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                   pickedTime.hour,
                                   pickedTime.minute,
                                 );
-                                controller.deliveryEndTime = finalDateTime;
-                                controller.lbDeliveryEndTime.value =
-                                    finalDateTime.toString();
+                                if (isValidDeliveryStartTime(finalDateTime)) {
+                                  controller.deliveryEndTime = finalDateTime;
+                                  controller.lbDeliveryEndTime.value =
+                                      finalDateTime.toString();
+                                } else {
+                                  Get.snackbar('Hệ thống',
+                                      'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+                                }
                               }
                             }
                           },
@@ -307,14 +324,14 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
                                 controller.lbDeliveryEndTime.value != 'Kết thúc'
-                                    ? DateFormat('hh:mm - dd/MM/yyyy')
+                                    ? DateFormat('HH:mm - dd/MM/yyyy')
                                         .format(controller.deliveryEndTime)
                                     : controller.lbDeliveryEndTime.toString())),
                           ),
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'Cổng',
+                          'Địa điểm giao',
                           style: Get.textTheme.titleMedium,
                         ),
                         const SizedBox(height: 10),
@@ -326,36 +343,86 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                           ),
                           height: 200,
                           child: SingleChildScrollView(
-                            child: Obx(() => Column(
-                                  children: controller.school.value.locations!
-                                      .map(
-                                        (location) => Container(
-                                          margin: const EdgeInsets.only(
-                                              bottom: 2.5, top: 2.5),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Obx(
-                                                () => Checkbox(
-                                                  value: controller.listString
-                                                      .contains(location.id!),
+                            child: Obx(
+                              () => Column(
+                                children: controller.school.value.locations!
+                                    .map(
+                                      (location) => Container(
+                                        margin: const EdgeInsets.only(
+                                            bottom: 2.5, top: 2.5),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Obx(
+                                              () => Expanded(
+                                                child: CheckboxListTile(
+                                                  title:
+                                                      Text('${location.name}'),
+                                                  subtitle: Text(
+                                                      'Người giao hàng: ${controller.selectedDeliverers[location.id]?.name ?? 'Chưa có'}'),
+                                                  value: controller
+                                                      .selectedDeliverers
+                                                      .containsKey(location.id),
                                                   onChanged: (bool? value) {
-                                                    controller.toggleCheckbox(
-                                                        location.id!);
+                                                    if (value == true) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                              'Chọn người giao hàng',
+                                                            ),
+                                                            content:
+                                                                SingleChildScrollView(
+                                                              child: SizedBox(
+                                                                width:
+                                                                    Get.width,
+                                                                child: Column(
+                                                                  children: controller
+                                                                      .deliverers
+                                                                      .map(
+                                                                          (deliverer) {
+                                                                    return Card(
+                                                                      child:
+                                                                          ListTile(
+                                                                        title: Text(
+                                                                            'ID: ${deliverer.id}'),
+                                                                        subtitle:
+                                                                            Text(deliverer.name),
+                                                                        onTap:
+                                                                            () {
+                                                                          controller.selectedDeliverers[location.id!] =
+                                                                              deliverer;
+                                                                          print(
+                                                                              'Selected deliverer for ${location.name}: ${deliverer.name}');
+
+                                                                          Get.back();
+                                                                        },
+                                                                      ),
+                                                                    );
+                                                                  }).toList(),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      controller
+                                                          .selectedDeliverers
+                                                          .remove(location.id);
+                                                    }
                                                   },
                                                 ),
                                               ),
-                                              Expanded(
-                                                  child: Text(
-                                                '${location.name}',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              )),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      )
-                                      .toList(),
-                                )),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -435,17 +502,26 @@ class CreateSessionController extends GetxController {
     selectedMenuId.value = value;
   }
 
-  void toggleCheckbox(String id) {
-    if (listString.contains(id)) {
-      listString.remove(id);
-    } else {
-      listString.add(id);
-    }
-  }
+  // void toggleCheckbox(String id) {
+  //   if (listString.contains(id)) {
+  //     listString.remove(id);
+  //   } else {
+  //     listString.add(id);
+  //   }
+  // }
 
-  // final int numberOfGate = 10;
+  var deliverers = <Deliverer>[
+    Deliverer(name: 'Người giao hàng 1', id: '1'),
+    Deliverer(name: 'Người giao hàng 2', id: '2'),
+    Deliverer(name: 'Người giao hàng 3', id: '3'),
+    Deliverer(name: 'Người giao hàng 4', id: '4'),
+    Deliverer(name: 'Người giao hàng 5', id: '5'),
+  ].obs;
+
+  var selectedDeliverers = <String, Deliverer>{}.obs;
+
   RxSet<String> listString = <String>{}.obs;
-  // var isChecked = List<bool>.filled(10, false).obs;
+
   RxList<Menu> listMenu = <Menu>[].obs;
   Rx<School> school = School().obs;
   Future refreshData(String schoolId) async {
@@ -491,6 +567,7 @@ class CreateSessionController extends GetxController {
   }
 
   // void toggle(int index) => isChecked[index] = !isChecked[index];
+
   DateTime orderStartTime = DateTime.now();
   DateTime orderEndTime = DateTime.now();
   DateTime deliveryStartTime = DateTime.now();
@@ -500,4 +577,15 @@ class CreateSessionController extends GetxController {
   var lbOrderEndTime = 'Kết thúc'.obs;
   var lbDeliveryStartTime = 'Bắt đầu'.obs;
   var lbDeliveryEndTime = 'Kết thúc'.obs;
+}
+
+bool isValidDeliveryStartTime(DateTime deliveryStartTime) {
+  int hour = deliveryStartTime.hour;
+  return hour >= 4 && hour < 11;
+}
+
+class Deliverer {
+  String name;
+  String id;
+  Deliverer({required this.name, required this.id});
 }

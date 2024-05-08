@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/create_session_page.dart';
 import 'package:beanfast_menumanager/views/pages/delivery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
+  Rx<Widget> selectedContent = Rx<Widget>(const CreateSessionPage(schoolId: "E4994F3B-526A-4589-A4FD-099B5932C187",));
 
   // menu mặc định
   List<MenuItem> menuItems = [

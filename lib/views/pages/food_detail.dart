@@ -1,4 +1,6 @@
+import 'package:beanfast_menumanager/utils/format_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/views/pages/widget/image_default.dart';
@@ -13,45 +15,86 @@ class FoodDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Chi tiết sản phẩm')),
+        title: const Text('Chi tiết sản phẩm'),
       ),
-      body: Padding(
-        padding:
-            const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomNetworkImage(food.imagePath.toString(),
-                  height: Get.height * 0.4, width: Get.height * 0.4),
-              const SizedBox(height: 20),
-              Card(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Card(
                 child: Container(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 30,
-                    bottom: 30,
-                  ),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      RowInfoItemWidget(
-                          title: 'Code: ', data: food.code.toString()),
-                      RowInfoItemWidget(
-                          title: 'Tên sản phẩm: ', data: food.name.toString()),
-                      RowInfoItemWidget(
-                          title: 'Giá: ', data: food.price.toString()),
-                      RowInfoItemWidget(
-                          title: 'Mô tả: ', data: food.description.toString()),
-                      RowInfoItemWidget(
-                          title: 'Trạng thái hoạt động: ',
-                          data: FooodStatus.active.message),
+                      Row(
+                        children: [
+                          Text('Code: ', style: Get.textTheme.bodyMedium),
+                          const SizedBox(width: 10),
+                          Text(food.code.toString(),
+                              style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text('Tên sản phẩm: ',
+                              style: Get.textTheme.bodyMedium),
+                          const SizedBox(width: 10),
+                          Text(food.name.toString(),
+                              style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text('Giá: ', style: Get.textTheme.bodyMedium),
+                          const SizedBox(width: 10),
+                          Text(Formatter.formatMoney(food.price.toString()),
+                              style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text('Mô tả: ', style: Get.textTheme.bodyMedium),
+                          const SizedBox(width: 10),
+                          Text(food.description.toString(),
+                              style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text('Trạng thái hoạt động: ',
+                              style: Get.textTheme.bodyMedium),
+                          const SizedBox(width: 10),
+                          Text(FooodStatus.active.message,
+                              style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                           Text('Ảnh: ',
+                              style: Get.textTheme.bodyMedium),
+                               const SizedBox(width: 10),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: CustomNetworkImage(food.imagePath.toString(),
+                                height: Get.height * 0.3, width: Get.height * 0.3),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

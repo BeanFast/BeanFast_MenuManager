@@ -13,7 +13,97 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quản lý bếp'),
+        title: Row(
+          children: [
+            const Text('Quản lý bếp'),
+            const Spacer(),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.settings),
+              onSelected: (String result) {
+                if (result == 'Tài khoản') {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Thông tin tài khoản'),
+                        content: const SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Email tài khoản:'),
+                              Text('Thông tin 1:'),
+                              Text('Thông tin 2:'),
+                              Text('Thông tin 3:'),
+                              Text('Thông tin 4:'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Đóng'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if (result == 'Đăng xuất') {
+                  // Handle logout
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Xác nhận'),
+                        content: const Text('Bạn có chắc chắn muốn đăng xuất không?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Hủy'),
+                            onPressed: () {
+                              Navigator.of(context).pop(false); // Returns false when Cancel is clicked
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Đồng ý'),
+                            onPressed: () {
+                              Navigator.of(context).pop(true); // Returns true when OK is clicked
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'Tài khoản',
+                  child: Row(
+                    children: [
+                      Icon(Icons.account_circle),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('Tài khoản'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'Đăng xuất',
+                  child: Row(
+                    children: [
+                      Icon(Icons.exit_to_app),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('Đăng xuất'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.menu),
