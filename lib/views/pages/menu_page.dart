@@ -98,9 +98,10 @@ class MenuView extends GetView<MenuController> {
 
   void showKichenDialog(Function() onPressed) {
     Get.dialog(AlertDialog(
-      title: const Text('Chọn bếp'),
+      title:  Text('Chọn bếp',
+                  style: Get.textTheme.titleMedium),
       content: SizedBox(
-        width: Get.width,
+        width: Get.width * 0.8,
         height: Get.height * 0.5,
         child: Column(
           children: [
@@ -123,9 +124,11 @@ class MenuView extends GetView<MenuController> {
                       (kitchen) {
                         return Card(
                           child: ListTile(
-                            title: Text(kitchen.name.toString()),
+                            title: Text(kitchen.name.toString(),
+                  style: Get.textTheme.bodyMedium),
                             subtitle: Text(
-                                '${kitchen.address}, ${kitchen.area!.ward}, ${kitchen.area!.district}, ${kitchen.area!.city}'),
+                                '${kitchen.address}, ${kitchen.area!.ward}, ${kitchen.area!.district}, ${kitchen.area!.city}',
+                  style: Get.textTheme.bodySmall),
                             onTap: () {
                               kitchenId = kitchen.id!;
                               Get.back();

@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '/views/pages/menu_create_page.dart';
 import 'binding.dart';
 import 'contains/theme.dart';
 import 'controllers/home_controller.dart';
 import 'routes/app_routes.dart';
-import '/views/pages/menu_create_page.dart';
-import 'views/pages/splash_page.dart';
 import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
-import 'views/pages/food_detail.dart';
 import 'views/pages/menu_detail_page.dart';
 import 'views/pages/session_page.dart';
+import 'views/pages/splash_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage

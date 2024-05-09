@@ -42,7 +42,7 @@ class DataTableView extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: Get.textTheme.headlineMedium,
+                    style: Get.textTheme.titleMedium,
                   ),
                   const Spacer(),
                   if (header != null) header!,

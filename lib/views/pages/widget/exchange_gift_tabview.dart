@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -94,24 +95,21 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     controller.reasonCancelExchangeGiftText.clear();
     Get.dialog(
       AlertDialog(
-        surfaceTintColor: Colors.white,
-        backgroundColor: ThemeColor.bgColor,
-        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
+        title:  Text('Lý do bạn muốn huỷ đơn hàng?',style: Get.textTheme.titleMedium),
         content: Form(
           key: controller.formKey,
           child: SizedBox(
-              // height: Get.height / 2,
-              width: Get.width,
+         
               child: TextFormField(
-                controller: controller.reasonCancelExchangeGiftText,
-                decoration: const InputDecoration(),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Vui lòng nhập lý do';
-                  }
-                  return null;
-                },
-              )),
+            controller: controller.reasonCancelExchangeGiftText,
+            decoration: const InputDecoration(),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Vui lòng nhập lý do';
+              }
+              return null;
+            },
+          )),
         ),
         actions: [
           TextButton(
@@ -128,7 +126,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
             onPressed: () {
               Get.back();
             },
-            child: const Text('Đóng'),
+            child:  Text('Đóng', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),

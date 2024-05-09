@@ -3,6 +3,7 @@ import 'package:beanfast_menumanager/views/pages/gift_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/controllers/gift_controller.dart';
 import '/views/pages/loading_page.dart';
@@ -95,14 +96,15 @@ class GiftView extends GetView<GiftController> {
     await controller.initDialog();
     Get.dialog(
       ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1000),
+        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title: const Text('Thông tin món ăn'),
+          title:  Text('Thông tin món ăn',
+                  style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: 990,
+                width:   Get.width * 0.8,
                 child: ListBody(
                   mainAxis: Axis.vertical,
                   children: [
@@ -110,7 +112,8 @@ class GiftView extends GetView<GiftController> {
                           padding: const EdgeInsets.only(
                               left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                           child: controller.imagePath.isEmpty
-                              ? const Text('No image selected')
+                              ?  Text('No image selected' ,
+                  style: Get.textTheme.bodyMedium)
                               : Image.network(
                                   controller.imagePath.value,
                                   fit: BoxFit.cover,
@@ -119,12 +122,17 @@ class GiftView extends GetView<GiftController> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                      child: FloatingActionButton.extended(
-                        icon: const Icon(Icons.add),
-                        label: const Text('Chọn Ảnh'),
+                      child: TextButton(
                         onPressed: () {
                           controller.pickImage();
                         },
+                        child:  Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Iconsax.add, size: 20,),
+                            Text('Chọn Ảnh', style: Get.textTheme.bodyMedium),
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
@@ -187,7 +195,8 @@ class GiftView extends GetView<GiftController> {
                         children: controller.messageErrors.map((message) {
                           return Text(
                             message,
-                            style: const TextStyle(color: Colors.red),
+                            
+                  style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red),
                           );
                         }).toList(),
                       );
@@ -198,10 +207,15 @@ class GiftView extends GetView<GiftController> {
             ),
           ),
           actions: <Widget>[
-            FloatingActionButton.extended(
-              icon: const Icon(Icons.add),
-              label: const Text('Lưu'),
+            TextButton(
               onPressed: controller.submitForm,
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.add, size: 20,),
+                  Text('Lưu', style: Get.textTheme.bodyMedium),
+                ],
+              ),
             ),
           ],
         ),

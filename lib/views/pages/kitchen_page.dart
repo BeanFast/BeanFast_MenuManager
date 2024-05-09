@@ -103,14 +103,14 @@ class KitchenView extends GetView<KitchenController> {
   void showCreateKitchenDialog() {
     Get.dialog(
       ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1000),
+        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
           title: const Text('Thông tin bếp'),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: Get.width,
+                 width:   Get.width * 0.8,
                 child: ListBody(
                   children: [
                     Obx(
@@ -118,7 +118,8 @@ class KitchenView extends GetView<KitchenController> {
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                         child: controller.selectedImageFile.value == null
-                            ? const Text('Chưa có ảnh')
+                            ?  Text('Chưa có ảnh',
+                  style: Get.textTheme.bodyMedium)
                             : Image.memory(
                                 controller.selectedImageFile.value!.files.single
                                     .bytes!,
@@ -132,15 +133,16 @@ class KitchenView extends GetView<KitchenController> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                        child: SizedBox(
-                          width: 140,
-                          height: 40,
-                          child: FloatingActionButton.extended(
-                            icon: const Icon(Icons.add),
-                            label: const Text('Thay đổi ảnh'),
-                            onPressed: () async {
-                              await controller.pickImage();
-                            },
+                        child: TextButton(
+                          onPressed: () async {
+                            await controller.pickImage();
+                          },
+                          child:  Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Iconsax.add, size: 20,),
+                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                            ],
                           ),
                         ),
                       ),
@@ -168,20 +170,24 @@ class KitchenView extends GetView<KitchenController> {
                         ),
                       ),
                     ),
-                    ListTile(
-                      leading: const Icon(Iconsax.location),
-                      title: const Text('Khu vực'),
-                      subtitle: Obx(
-                        () => Text(controller.selectedArea.value == null
-                            ? 'Chưa chọn khu vực'
-                            : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}'),
-                      ),
-                      trailing: IconButton(
-                        iconSize: 24,
-                        onPressed: () {
-                          showAreaDialog();
-                        },
-                        icon: const Icon(Iconsax.arrow_circle_right),
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Iconsax.location),
+                        title:  Text('Khu vực',
+                                        style: Get.textTheme.bodyMedium),
+                        subtitle: Obx(
+                          () => Text(controller.selectedArea.value == null
+                              ? 'Chưa chọn khu vực'
+                              : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
+                                        style: Get.textTheme.bodySmall),
+                        ),
+                        trailing: IconButton(
+                          iconSize: 24,
+                          onPressed: () {
+                            showAreaDialog();
+                          },
+                          icon: const Icon(Iconsax.arrow_circle_right),
+                        ),
                       ),
                     ),
                     Padding(
@@ -213,12 +219,17 @@ class KitchenView extends GetView<KitchenController> {
             ),
           ),
           actions: <Widget>[
-            FloatingActionButton.extended(
-              icon: const Icon(Icons.add),
-              label: const Text('Lưu'),
+            TextButton(
               onPressed: () async {
                 await controller.submitForm();
               },
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.add, size: 20,),
+                  Text('Lưu', style: Get.textTheme.bodyMedium),
+                ],
+              ),
             ),
           ],
         ),
@@ -228,13 +239,14 @@ class KitchenView extends GetView<KitchenController> {
 
   void showAreaDialog() {
     Get.dialog(AlertDialog(
-      title: const Text('Chọn khu vực'),
+      title:  Text('Chọn khu vực',
+                  style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getAllArea();
         },
         child: SizedBox(
-          width: Get.width,
+            width:   Get.width * 0.8,
           height: Get.height * 0.5,
           child: Column(
             children: [

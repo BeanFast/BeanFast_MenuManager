@@ -8,14 +8,14 @@ import 'package:intl/intl.dart';
 class DashboardController extends GetxController {
   Rx<DateTime> selectedDateEnd = DateTime.now().obs;
   Rx<String> selectedDateStrEnd =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+      DateFormat('dd/MM/yyyy').format(DateTime.now()).obs;
   Rx<DateTime> selectedDateStart = DateTime(
           DateTime.now().year, DateTime.now().month - 3, DateTime.now().day)
       .obs;
   Rx<String> selectedDateStrStart = ''.obs;
   DashboardController() {
     selectedDateStrStart =
-        DateFormat('dd-MM-yyyy').format(selectedDateStart.value).obs;
+        DateFormat('dd/MM/yyyy').format(selectedDateStart.value).obs;
   }
   RxList<OrderStatistic> orderStatistics = <OrderStatistic>[].obs;
   RxList<OrderStatistic> completeOrderStatistics = <OrderStatistic>[].obs;

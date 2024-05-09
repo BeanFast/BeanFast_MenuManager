@@ -109,14 +109,15 @@ class SchoolView extends GetView<SchoolController> {
   void showCreateSchoolDialog() {
     Get.dialog(
       ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: Get.width),
+        constraints: BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title: const Text('Thông trường học'),
+          title:  Text('Thông trường học',
+                  style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: Get.width,
+                width: Get.width * 0.8,
                 child: ListBody(
                   children: [
                     Obx(
@@ -124,7 +125,8 @@ class SchoolView extends GetView<SchoolController> {
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                         child: controller.selectedImageFile.value == null
-                            ? const Text('Chưa có ảnh')
+                            ?  Text('Chưa có ảnh',
+                  style: Get.textTheme.bodyMedium)
                             : Image.memory(
                                 controller.selectedImageFile.value!.files.single
                                     .bytes!,
@@ -138,15 +140,16 @@ class SchoolView extends GetView<SchoolController> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                        child: SizedBox(
-                          width: 140,
-                          height: 40,
-                          child: FloatingActionButton.extended(
-                            icon: const Icon(Icons.add),
-                            label: const Text('Thay đổi ảnh'),
-                            onPressed: () {
-                              controller.pickImage();
-                            },
+                        child: TextButton(
+                          onPressed: () {
+                            controller.pickImage();
+                          },
+                          child:  Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Iconsax.add, size: 20,),
+                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                            ],
                           ),
                         ),
                       ),
@@ -174,20 +177,24 @@ class SchoolView extends GetView<SchoolController> {
                         ),
                       ),
                     ),
-                    ListTile(
-                      leading: const Icon(Iconsax.location),
-                      title: const Text('Khu vực'),
-                      subtitle: Obx(
-                        () => Text(controller.selectedArea.value == null
-                            ? 'Chưa chọn khu vực'
-                            : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}'),
-                      ),
-                      trailing: IconButton(
-                        iconSize: 24,
-                        onPressed: () {
-                          showAreaDialog();
-                        },
-                        icon: const Icon(Iconsax.arrow_circle_right),
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Iconsax.location),
+                        title:  Text('Khu vực',
+                                        style: Get.textTheme.bodyMedium),
+                        subtitle: Obx(
+                          () => Text(controller.selectedArea.value == null
+                              ? 'Chưa chọn khu vực'
+                              : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
+                                        style: Get.textTheme.bodyMedium),
+                        ),
+                        trailing: IconButton(
+                          iconSize: 24,
+                          onPressed: () {
+                            showAreaDialog();
+                          },
+                          icon: const Icon(Iconsax.arrow_circle_right),
+                        ),
                       ),
                     ),
                     Padding(
@@ -214,12 +221,14 @@ class SchoolView extends GetView<SchoolController> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                        child: SizedBox(
-                          height: 40,
-                          child: FloatingActionButton.extended(
-                            icon: const Icon(Icons.add),
-                            label: const Text('Thêm cổng trường học'),
-                            onPressed: showCreateLocationDialog,
+                        child: TextButton(
+                          onPressed: showCreateLocationDialog,
+                          child:  Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Iconsax.add, size: 20,),
+                              Text('Thêm cổng trường học', style: Get.textTheme.bodyMedium),
+                            ],
                           ),
                         ),
                       ),
@@ -263,12 +272,17 @@ class SchoolView extends GetView<SchoolController> {
             ),
           ),
           actions: <Widget>[
-            FloatingActionButton.extended(
-              icon: const Icon(Icons.add),
-              label: const Text('Lưu'),
+            TextButton(
               onPressed: () async {
                 await controller.submitForm();
               },
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.add, size: 20,),
+                  Text('Lưu', style: Get.textTheme.bodyMedium),
+                ],
+              ),
             ),
           ],
         ),
@@ -333,13 +347,14 @@ class SchoolView extends GetView<SchoolController> {
 
   void showAreaDialog() {
     Get.dialog(AlertDialog(
-      title: const Text('Chọn khu vực'),
+      title:  Text('Chọn khu vực',
+                  style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getAllArea();
         },
         child: SizedBox(
-          width: Get.width,
+          width: Get.width * 0.8,
           height: Get.height * 0.5,
           child: Column(
             children: [
@@ -363,7 +378,8 @@ class SchoolView extends GetView<SchoolController> {
                           return Card(
                             child: ListTile(
                               title: Text(
-                                  '${area.ward}, ${area.district}, ${area.city}'),
+                                  '${area.ward}, ${area.district}, ${area.city}',
+                  style: Get.textTheme.bodyMedium),
                               onTap: () {
                                 Get.back();
                                 controller.selectArea(area);
@@ -386,14 +402,15 @@ class SchoolView extends GetView<SchoolController> {
   void showCreateLocationDialog() {
     Get.dialog(
       ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 700),
+        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title: const Text('Thông tin cổng'),
+          title:  Text('Thông tin cổng',
+                  style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateLocationKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: Get.width,
+                width: Get.width * 0.8,
                 child: ListBody(
                   mainAxis: Axis.vertical,
                   children: <Widget>[
@@ -404,7 +421,8 @@ class SchoolView extends GetView<SchoolController> {
                         child:
                             controller.selectedLocationImageImageFile.value ==
                                     null
-                                ? const Text('Chưa có ảnh')
+                                ?  Text('Chưa có ảnh',
+                  style: Get.textTheme.bodyMedium)
                                 : Image.memory(
                                     controller.selectedLocationImageImageFile
                                         .value!.files.single.bytes!,
@@ -418,15 +436,16 @@ class SchoolView extends GetView<SchoolController> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                        child: SizedBox(
-                          width: 140,
-                          height: 40,
-                          child: FloatingActionButton.extended(
-                            icon: const Icon(Icons.add),
-                            label: const Text('Thay đổi ảnh'),
-                            onPressed: () async {
-                              await controller.pickLocationImage();
-                            },
+                        child: TextButton(
+                          onPressed: () async {
+                            await controller.pickLocationImage();
+                          },
+                          child:  Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Iconsax.add, size: 20,),
+                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                            ],
                           ),
                         ),
                       ),
@@ -456,11 +475,11 @@ class SchoolView extends GetView<SchoolController> {
             ),
           ),
           actions: <Widget>[
-            FloatingActionButton.extended(
-              label: const Text('Lưu'),
+            TextButton(
               onPressed: () {
                 controller.addLocation();
               },
+              child:  Text('Lưu', style: Get.textTheme.bodyMedium),
             ),
           ],
         ),

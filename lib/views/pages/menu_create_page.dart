@@ -1,6 +1,7 @@
 import 'package:beanfast_menumanager/models/menu_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/utils/data_table.dart';
 import '/models/food.dart';
@@ -29,37 +30,28 @@ class MenuCreateView extends GetView<MenuCreateController> {
                 child: Center(
                   child: Text(
                     'Tạo thực đơn',
-                    style: Get.textTheme.headlineMedium,
+                    style: Get.textTheme.titleMedium,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 40,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: FloatingActionButton.extended(
-                          onPressed: showAddFoodToMenuDialog,
-                          label: const Text('Thêm sản phẩm'),
-                        ),
-                      ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: TextButton(
+                      onPressed: showAddFoodToMenuDialog,
+                      child:  Text('Thêm sản phẩm', style: Get.textTheme.bodyMedium),
                     ),
-                    const Spacer(flex: 8),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: FloatingActionButton.extended(
-                          onPressed: controller.createMenu,
-                          label: const Text('Tạo'),
-                        ),
-                      ),
+                  ),
+                  const Spacer(flex: 8),
+                  Expanded(
+                    flex: 1,
+                    child: TextButton(
+                      onPressed: controller.createMenu,
+                      child:  Text('Tạo', style: Get.textTheme.bodyMedium),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(
                 width: Get.width,
@@ -155,7 +147,8 @@ class MenuCreateView extends GetView<MenuCreateController> {
         controller.mapMenuDetails[foodId].toString();
     Get.dialog(
       AlertDialog(
-        title: const Text('Cập nhật giá bán'),
+        title:  Text('Cập nhật giá bán',
+                  style: Get.textTheme.titleMedium),
         content: TextField(
           controller: controller.priceController,
           keyboardType: TextInputType.number,
@@ -169,7 +162,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
               controller.addItemMenuDetails(foodId, newPrice);
               Get.back(); // Đóng dialog
             },
-            child: const Text('Cập nhật'),
+            child:  Text('Cập nhật', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),
@@ -182,7 +175,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
       AlertDialog(
         content: SizedBox(
           height: Get.height * 0.8,
-          width: Get.width,
+          width: Get.width * 0.5,
           child: LoadingView(
             future: controller.refreshData,
             child: Obx(
@@ -255,7 +248,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
           children: [
             const Spacer(),
             IconButton(
-              icon: const Icon(Icons.add_circle_outline),
+              icon: const Icon(Iconsax.add_circle),
               onPressed: () =>
                   controller.addItemMenuDetails(food.id!, food.price!),
             ),

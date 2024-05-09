@@ -18,7 +18,7 @@ class DescriptionInput extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: ThemeColor.inputColor,
-          width: 1,
+        width: 0.5,
         ),
         borderRadius: BorderRadius.circular(10),
       ),

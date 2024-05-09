@@ -20,7 +20,7 @@ class ExchangeGiftView extends StatelessWidget {
                 child: Text(
                   'Quản lý đơn quà',
                   textAlign: TextAlign.start,
-                  style: Get.textTheme.headlineMedium,
+                  style: Get.textTheme.titleMedium,
                 ),
               ),
               DefaultTabController(
