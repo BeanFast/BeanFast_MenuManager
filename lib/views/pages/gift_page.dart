@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/models/gift.dart';
+import 'package:beanfast_menumanager/views/pages/gift_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -51,13 +52,13 @@ class GiftView extends GetView<GiftController> {
     );
   }
 
-  DataRow setRow(int index, Gift category) {
+  DataRow setRow(int index, Gift gift) {
     return DataRow(
       cells: [
         DataCell(Text((index + 1).toString())),
         DataCell(
           TextDataTable(
-            data: category.code.toString(),
+            data: gift.code.toString(),
             maxLines: 2,
             width: 100,
           ),
@@ -66,14 +67,14 @@ class GiftView extends GetView<GiftController> {
           SizedBox(
             width: 100,
             child: Image.network(
-              category.imagePath.toString(),
+              gift.imagePath.toString(),
               fit: BoxFit.fitWidth,
             ),
           ),
         ),
         DataCell(
           TextDataTable(
-            data: category.name.toString(),
+            data: gift.name.toString(),
             maxLines: 2,
             width: 200,
           ),
@@ -81,7 +82,9 @@ class GiftView extends GetView<GiftController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            EditButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(GiftDetailView(gift));
+            }),
           ],
         )),
       ],

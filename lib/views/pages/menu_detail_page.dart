@@ -1,9 +1,8 @@
-import 'package:beanfast_menumanager/contains/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../contains/contrain.dart';
+import '/contains/contrain.dart';
 import '/enums/menu_index_enum.dart';
 import '/models/menu_detail.dart';
 import '/views/pages/home_page.dart';
@@ -49,7 +48,6 @@ class MenuDetailView extends GetView<MenuDetailController> {
                     children: [
                       const SizedBox(height: 20),
                       Card(
-            
                         child: Container(
                           padding: const EdgeInsets.only(
                             left: 15,
@@ -75,12 +73,18 @@ class MenuDetailView extends GetView<MenuDetailController> {
                                         .toString()),
                                 RowInfoItemWidget(
                                     title: 'createDate: ',
-                                    data: DateFormat('dd/MM/yyyy').format(
-                                        controller.menu.value.createDate!)),
+                                    data: controller.menu.value.createDate ==
+                                            null
+                                        ? ""
+                                        : DateFormat('dd/MM/yyyy').format(
+                                            controller.menu.value.createDate!)),
                                 RowInfoItemWidget(
                                     title: 'updateDate: ',
-                                    data: DateFormat('dd/MM/yyyy').format(
-                                        controller.menu.value.updateDate!)),
+                                    data: controller.menu.value.updateDate ==
+                                            null
+                                        ? ""
+                                        : DateFormat('dd/MM/yyyy').format(
+                                            controller.menu.value.updateDate!)),
                               ],
                             ),
                           ),

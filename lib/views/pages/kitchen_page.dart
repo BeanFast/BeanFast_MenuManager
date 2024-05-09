@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/kitchen_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -90,8 +91,9 @@ class KitchenView extends GetView<KitchenController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
-            EditButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(KitchenDetailView(kitchen));
+            }),
           ],
         )),
       ],

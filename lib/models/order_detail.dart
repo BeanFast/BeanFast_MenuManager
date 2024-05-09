@@ -19,6 +19,7 @@ class OrderDetail extends BaseModel {
     this.quantity,
     this.price,
     this.note,
+    this.food,
   }) : super(id: id, status: status);
 
   factory OrderDetail.fromJson(dynamic json) => OrderDetail(
@@ -29,6 +30,7 @@ class OrderDetail extends BaseModel {
         quantity: json['quantity'],
         price: double.parse(json['price'].toString()),
         note: json['note'],
+        food: json['food'] == null ? Food() : Food.fromJson(json['food']),
       );
 
   // Map<String, dynamic> toJson() {

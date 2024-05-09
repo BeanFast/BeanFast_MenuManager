@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/category_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,7 +75,9 @@ class CategoryView extends GetView<CategoryController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            EditButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(CategoryDetailView(category));
+            }),
           ],
         )),
       ],

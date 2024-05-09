@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/school_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -96,8 +97,9 @@ class SchoolView extends GetView<SchoolController> {
             ManageMenuButtonTable(
                 onPressed: () => Get.toNamed(AppRoutes.manageMenu,
                     parameters: {"schoolId": school.id!})),
-            DetailButtonDataTable(onPressed: () {}),
-            EditButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(SchoolDetailView(school));
+            }),
           ],
         )),
       ],

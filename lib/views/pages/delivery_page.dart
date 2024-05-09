@@ -216,62 +216,64 @@ class DeliveryTabView extends GetView<DeliveryController> {
       content: SizedBox(
         width: Get.width,
         height: Get.height * 0.5,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: FloatingActionButton.extended(
-                    icon: const Icon(Icons.add_outlined),
-                    onPressed: () {
-                      showDelivererDialog(sessionDetailId);
-                    },
-                    label: const Text('Cập nhật người giao hàng'),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: FloatingActionButton.extended(
-                    icon: const Icon(Icons.add_outlined),
-                    onPressed: () async {
-                      await controller.selectDeliverer(sessionDetailId);
-                      Get.back();
-                    },
-                    label: const Text('Tạo'),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: Get.height * 0.44,
-              child: SingleChildScrollView(
-                child: Obx(
-                  () => Column(
-                    children: controller.selectedListDeliverer.map(
-                      (deliverer) {
-                        return Card(
-                          child: ListTile(
-                            leading: CustomNetworkImage(
-                              deliverer.avatarPath.toString(),
-                              height: 50,
-                              width: 50,
-                            ),
-                            title: Text(deliverer.fullName.toString()),
-                            subtitle: Text(deliverer.email.toString()),
-                            trailing: DeleteButtonDataTable(onPressed: () {
-                              controller.removeDeliverer(deliverer);
-                            }),
-                          ),
-                        );
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: FloatingActionButton.extended(
+                      icon: const Icon(Icons.add_outlined),
+                      onPressed: () {
+                        showDelivererDialog(sessionDetailId);
                       },
-                    ).toList(),
+                      label: const Text('Cập nhật người giao hàng'),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: FloatingActionButton.extended(
+                      icon: const Icon(Icons.add_outlined),
+                      onPressed: () async {
+                        await controller.selectDeliverer(sessionDetailId);
+                        Get.back();
+                      },
+                      label: const Text('Tạo'),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: Get.height * 0.44,
+                child: SingleChildScrollView(
+                  child: Obx(
+                    () => Column(
+                      children: controller.selectedListDeliverer.map(
+                        (deliverer) {
+                          return Card(
+                            child: ListTile(
+                              leading: CustomNetworkImage(
+                                deliverer.avatarPath.toString(),
+                                height: 50,
+                                width: 50,
+                              ),
+                              title: Text(deliverer.fullName.toString()),
+                              subtitle: Text(deliverer.email.toString()),
+                              trailing: DeleteButtonDataTable(onPressed: () {
+                                controller.removeDeliverer(deliverer);
+                              }),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ));

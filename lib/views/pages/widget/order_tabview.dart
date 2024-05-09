@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/order_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -80,7 +81,9 @@ class OrderTabView extends GetView<OrderController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(OrderDetailView(order));
+            }),
             if (status == OrderStatus.preparing ||
                 status == OrderStatus.delivering)
               CancelOrderActivityButtonTable(onPressed: () {

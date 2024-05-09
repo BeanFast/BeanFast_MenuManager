@@ -44,6 +44,7 @@ dependencies:
   iconsax: ^0.0.8
   flutter_quill: ^9.3.7
   lottie: ^3.1.0
+  timelines: ^0.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

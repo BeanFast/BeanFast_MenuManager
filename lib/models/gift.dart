@@ -28,7 +28,7 @@ class Gift extends BaseModel {
         id: json['id'],
         code: json["code"],
         name: json['name'],
-        point: json['point'],
+        point: json['points'],
         inStock: json['inStock'],
         imagePath: json['imagePath'] ?? "",
         status: json['status'],
