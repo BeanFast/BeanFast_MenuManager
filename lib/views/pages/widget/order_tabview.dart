@@ -70,10 +70,10 @@ class OrderTabView extends GetView<OrderController> {
         ),
         DataCell(Text(order.paymentDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yyyy').format(order.paymentDate!))),
+            : DateFormat('dd/MM/yyyy').format(order.paymentDate!))),
         DataCell(Text(order.deliveryDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yyyy').format(order.deliveryDate!))),
+            : DateFormat('dd/MM/yyyy').format(order.deliveryDate!))),
         DataCell(Text(order.sessionDetail!.code.toString())),
         DataCell(Text(order.orderDetails!.length.toString())),
         DataCell(Text(Formatter.formatMoney(order.totalPrice.toString()))),
@@ -103,7 +103,7 @@ class OrderTabView extends GetView<OrderController> {
           key: controller.formKey,
           child: SizedBox(
               // height: Get.height / 2,
-              width: Get.width,
+              width: Get.width * 0.8,
               child: TextFormField(
                 controller: controller.reasonCancelOrderText,
                 decoration: const InputDecoration(),
@@ -130,7 +130,7 @@ class OrderTabView extends GetView<OrderController> {
             onPressed: () {
               Get.back();
             },
-            child: const Text('Đóng'),
+            child:  Text('Đóng', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),

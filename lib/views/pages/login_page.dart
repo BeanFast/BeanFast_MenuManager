@@ -147,17 +147,17 @@ class LoginView extends GetView<AuthController> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(12),
                             side: const BorderSide(color: Colors.grey),
                           ),
                         ),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        // if (_formKey.currentState!.validate()) {
                           controller.login();
-                        }
+                        // }
                       },
-                      child: const Text('Đăng nhập'),
+                      child:  Text('Đăng nhập',style:  Get.textTheme.bodyMedium!.copyWith(color: Colors.white) ),
                     ),
                   ),
                 ],

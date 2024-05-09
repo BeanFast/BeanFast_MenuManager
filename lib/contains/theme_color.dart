@@ -8,13 +8,20 @@ class ThemeColor {
   // // static Color m3BaseColor = const Color.fromRGBO(255,157,139, 1);
   // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
 
-  static Color bgColor = HexColor("#FFFFFF");
-  static Color bgColor2 = HexColor('#F3FBF7');
-  static Color bgColor3 = HexColor('#F5FFF6');
-  static Color primaryColor = HexColor('#C3EBD7');
-  static Color inputColor = HexColor('#26AA91');
-  static Color textColor = HexColor('#070908');
-  //
+  // static Color bgColor = HexColor("#FFFFFF");
+  // static Color bgColor2 = HexColor('#F3FBF7');
+  // static Color bgColor3 = HexColor('#F5FFF6');
+  // static Color primaryColor = HexColor('#C3EBD7');
+  // static Color inputColor = HexColor('#26AA91');
+  // static Color textColor = HexColor('#070908');
+
+
+  static Color bgColor = HexColor("#EEEEEE");
+  static Color bgColor2 = HexColor('#FEFEFE');
+  // static Color bgColor3 = HexColor('#F5FFF6');
+  static Color primaryColor = HexColor('#EEEEEE');
+  static Color inputColor = HexColor('#000000');
+  static Color textColor = HexColor('#000000');
   // dashboard_2
   static Color borderColor = Colors.blueAccent;
 }

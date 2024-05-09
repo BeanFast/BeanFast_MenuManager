@@ -55,7 +55,6 @@ class PointDashboard2 extends StatelessWidget {
         step = (maxCount / 5).ceil().toDouble();
       }
       return Card(
-        color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.all(20),

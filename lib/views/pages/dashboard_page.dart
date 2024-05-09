@@ -65,9 +65,9 @@ class DashboardView extends GetView<DashboardController> {
                             controller.selectedDateStart.value = picked.start;
                             controller.selectedDateEnd.value = picked.end;
                             controller.selectedDateStrStart.value =
-                                DateFormat('dd-MM-yyyy').format(picked.start);
+                                DateFormat('dd/MM/yyyy').format(picked.start);
                             controller.selectedDateStrEnd.value =
-                                DateFormat('dd-MM-yyyy').format(picked.end);
+                                DateFormat('dd/MM/yyyy').format(picked.end);
                           }
                         },
                         child: Container(
@@ -88,7 +88,7 @@ class DashboardView extends GetView<DashboardController> {
                                 const SizedBox(width: 10),
                                 Text(
                                   '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
-                                  style: Get.textTheme.titleSmall,
+                                  style: Get.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -135,7 +135,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Obx(
                       () => InfoCard(
                           icon: Icons.school,

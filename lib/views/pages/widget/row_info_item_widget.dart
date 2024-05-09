@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RowInfoItemWidget extends StatelessWidget {
   const RowInfoItemWidget({super.key, required this.title, required this.data});
@@ -16,18 +17,13 @@ class RowInfoItemWidget extends StatelessWidget {
           SizedBox(
               child: Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
+           style:  Get.textTheme.bodyMedium
           )),
           Expanded(
             child: Text(
               data,
               textAlign: TextAlign.right,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+              style:  Get.textTheme.bodyMedium
             ),
           ),
           const SizedBox(height: 10),

@@ -13,11 +13,11 @@ class SessionController extends DataTableController<Session> {
   SessionStatus status = SessionStatus.orderable;
   Rx<DateTime> selectedDateStart = DateTime.now().obs;
   Rx<String> selectedDateStrStart =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+      DateFormat('dd/MM/yyyy').format(DateTime.now()).obs;
 
   Rx<DateTime> selectedDateEnd = DateTime.now().obs;
   Rx<String> selectedDateStrEnd =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+      DateFormat('dd/MM/yyyy').format(DateTime.now()).obs;
 
   Future delete(String id) async {
     logger.e(id);

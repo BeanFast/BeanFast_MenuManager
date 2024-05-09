@@ -17,7 +17,6 @@ class PointDashboard1 extends StatelessWidget {
           bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
       step = (maxSoldCount / 5).ceil().toDouble();
       return Card(
-        color: ThemeColor.bgColor2,
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.all(10),

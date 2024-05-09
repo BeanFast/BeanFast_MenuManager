@@ -21,7 +21,7 @@ class OrderView extends StatelessWidget {
                 child: Text(
                   'Quản lý đơn hàng',
                   textAlign: TextAlign.start,
-                  style: Get.textTheme.headlineMedium,
+                  style: Get.textTheme.titleMedium,
                 ),
               ),
               DefaultTabController(

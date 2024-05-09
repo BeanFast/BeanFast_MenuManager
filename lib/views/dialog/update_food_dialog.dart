@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 void showUpdateFoodDialog() {
   Get.dialog(
     ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1000),
+      constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
       child: AlertDialog(
         title: const Text('Thông tin món ăn'),
         content: SingleChildScrollView(
           child: SizedBox(
-            width: 990,
+         width:   Get.width * 0.8,
             child: ListBody(
               mainAxis: Axis.vertical,
               children: <Widget>[
@@ -24,9 +25,14 @@ void showUpdateFoodDialog() {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                  child: FloatingActionButton.extended(
-                    icon: const Icon(Icons.add),
-                    label: const Text('Chọn Ảnh'),
+                  child: TextButton(
+                    child:  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Iconsax.add, size: 20,),
+                        Text('Chọn Ảnh', style: Get.textTheme.bodyMedium),
+                      ],
+                    ),
                     onPressed: () {},
                   ),
                 ),
@@ -99,9 +105,14 @@ void showUpdateFoodDialog() {
           ),
         ),
         actions: <Widget>[
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.add),
-            label: const Text('Cập nhật'),
+          TextButton(
+            child:  Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Iconsax.add, size: 20,),
+                Text('Cập nhật', style: Get.textTheme.bodyMedium),
+              ],
+            ),
             onPressed: () {},
           ),
         ],

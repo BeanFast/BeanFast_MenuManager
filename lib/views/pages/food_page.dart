@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/views/pages/food_detail.dart';
 import '/contains/theme_color.dart';
@@ -26,27 +29,31 @@ class FoodView extends GetView<FoodController> {
           title: 'Quản lý sản phẩm',
           header: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: FloatingActionButton.extended(
-                  icon: const Icon(Icons.add_outlined),
-                  onPressed: () async {
-                    await showDialog(false);
-                  },
-                  label: const Text('Tạo thức ăn'),
+              TextButton(
+                onPressed: () async {
+                  await showDialog(false);
+                },
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.add_outlined, size: 20,),
+                    Text('Tạo thức ăn', style: Get.textTheme.bodyMedium),
+                  ],
                 ),
               ),
               const SizedBox(
                 width: 10,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: FloatingActionButton.extended(
-                  icon: const Icon(Icons.add_outlined),
-                  onPressed: () async {
-                    await showDialog(true);
-                  },
-                  label: const Text('Tạo combo'),
+              TextButton(
+                onPressed: () async {
+                  await showDialog(true);
+                },
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.add_outlined, size: 20,),
+                    Text('Tạo combo', style: Get.textTheme.bodyMedium),
+                  ],
                 ),
               ),
             ],
@@ -129,14 +136,15 @@ class FoodView extends GetView<FoodController> {
     controller.clearForm();
     Get.dialog(
       ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1000),
+        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title: const Text('Thông tin món ăn'),
+          title:  Text('Thông tin món ăn',
+                  style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width: 990,
+                width:   Get.width * 0.8,
                 child: ListBody(
                   mainAxis: Axis.vertical,
                   children: [
@@ -157,15 +165,16 @@ class FoodView extends GetView<FoodController> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                        child: SizedBox(
-                          width: 140,
-                          height: 40,
-                          child: FloatingActionButton.extended(
-                            icon: const Icon(Icons.add),
-                            label: const Text('Thay đổi ảnh'),
-                            onPressed: () {
-                              controller.pickImage();
-                            },
+                        child: TextButton(
+                          onPressed: () {
+                            controller.pickImage();
+                          },
+                          child:  Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Iconsax.add, size: 20,),
+                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                            ],
                           ),
                         ),
                       ),
@@ -230,7 +239,8 @@ class FoodView extends GetView<FoodController> {
                         },
                       ),
                     ),
-                    const Text('Loại'),
+                     Text('Loại',
+                  style: Get.textTheme.bodyMedium),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
@@ -240,7 +250,7 @@ class FoodView extends GetView<FoodController> {
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: ThemeColor.inputColor,
-                              width: 1,
+                              width: 0.5,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -270,12 +280,14 @@ class FoodView extends GetView<FoodController> {
                                   right: 5.0,
                                   bottom: 10.0,
                                   top: 10.0),
-                              child: SizedBox(
-                                height: 40,
-                                child: FloatingActionButton.extended(
-                                  icon: const Icon(Icons.add),
-                                  label: const Text('Thêm thức ăn'),
-                                  onPressed: showFoodDialog,
+                              child: TextButton(
+                                onPressed: showFoodDialog,
+                                child:  Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Iconsax.add),
+                                    Text('Thêm thức ăn', style: Get.textTheme.bodyMedium),
+                                  ],
                                 ),
                               ),
                             ),
@@ -294,9 +306,11 @@ class FoodView extends GetView<FoodController> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      title: Text('${food.name}'),
+                                      title: Text('${food.name}',
+                  style: Get.textTheme.bodyMedium),
                                       subtitle: Text(
-                                          'Số lượng: ${controller.combos[food.id!]}'),
+                                          'Số lượng: ${controller.combos[food.id!]}',
+                  style: Get.textTheme.bodySmall),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -310,8 +324,9 @@ class FoodView extends GetView<FoodController> {
                                                   Form(
                                                     key: formKey,
                                                     child: AlertDialog(
-                                                      title: const Text(
-                                                          'Cập nhật số lượng'),
+                                                      title:  Text(
+                                                          'Cập nhật số lượng',
+                  style: Get.textTheme.titleMedium),
                                                       content: TextFormField(
                                                         controller: controller
                                                             .quantiyText,
@@ -400,12 +415,17 @@ class FoodView extends GetView<FoodController> {
             ),
           ),
           actions: <Widget>[
-            FloatingActionButton.extended(
-              icon: const Icon(Icons.add),
-              label: const Text('Lưu'),
+            TextButton(
               onPressed: () async {
                 await controller.submitForm(isCombo);
               },
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.add, size: 20,),
+                  Text('Lưu', style: Get.textTheme.bodyMedium),
+                ],
+              ),
             ),
           ],
         ),
@@ -415,13 +435,14 @@ class FoodView extends GetView<FoodController> {
 
   void showCategoryDialog() {
     Get.dialog(AlertDialog(
-      title: const Text('Chọn loại'),
+      title:  Text('Chọn loại',
+                  style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getAllCategory();
         },
         child: SizedBox(
-          width: Get.width,
+          width: Get.width* 0.5,
           height: Get.height * 0.5,
           child: Column(
             children: [
@@ -469,7 +490,7 @@ class FoodView extends GetView<FoodController> {
       AlertDialog(
         content: SizedBox(
           height: Get.height * 0.8,
-          width: Get.width,
+           width:   Get.width * 0.8,
           child: LoadingView(
             future: controller.getAllFood,
             child: Obx(

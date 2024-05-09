@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreateButtonDataTable extends StatelessWidget {
   final void Function() onPressed;
@@ -10,12 +11,14 @@ class CreateButtonDataTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: FloatingActionButton.extended(
-        icon: const Icon(Icons.add_outlined),
-        onPressed: onPressed,
-        label: const Text('Thêm'),
+    return TextButton(
+      onPressed: onPressed,
+      child:  Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.add_outlined, size: 20,),
+          Text('Thêm', style: Get.textTheme.bodyMedium),
+        ],
       ),
     );
   }

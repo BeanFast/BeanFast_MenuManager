@@ -26,7 +26,7 @@ class SessionDetailPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text('Code: ', style: Get.textTheme.bodyMedium),
+                          Text('Code: ', style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('#12345678', style: Get.textTheme.bodyMedium),
                         ],
@@ -35,7 +35,7 @@ class SessionDetailPage extends StatelessWidget {
                       Row(
                         children: [
                           Text('Mã thực đơn: ',
-                              style: Get.textTheme.bodyMedium),
+                              style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('#12345678', style: Get.textTheme.bodyMedium),
                         ],
@@ -44,7 +44,7 @@ class SessionDetailPage extends StatelessWidget {
                       Row(
                         children: [
                           Text('Thời gian giao hàng: ',
-                              style: Get.textTheme.bodyMedium),
+                              style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Row(
                             children: [
@@ -60,7 +60,7 @@ class SessionDetailPage extends StatelessWidget {
                       Row(
                         children: [
                           Text('Số lượng nhân viên giao hàng: ',
-                              style: Get.textTheme.bodyMedium),
+                              style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('4', style: Get.textTheme.bodyMedium),
                           const SizedBox(width: 10),
@@ -70,7 +70,8 @@ class SessionDetailPage extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Nhân viên giao hàng'),
+                                    title:  Text('Nhân viên giao hàng',
+                  style: Get.textTheme.titleMedium),
                                     content: SizedBox(
                                       height: Get.height * 0.5,
                                       width: Get.width * 0.5,
@@ -80,9 +81,9 @@ class SessionDetailPage extends StatelessWidget {
                                             20,
                                             (index) => Card(
                                               child: ListTile(
-                                                title: Text('ID: $index'),
+                                                title: Text('ID: $index' ,style: Get.textTheme.bodyMedium),
                                                 subtitle:
-                                                    const Text('Nguyễn văn A'),
+                                                     Text('Nguyễn văn A',style: Get.textTheme.bodySmall),
                                                 trailing: IconButton(
                                                     icon: const Icon(
                                                         Icons.delete_outline),
@@ -106,8 +107,8 @@ class SessionDetailPage extends StatelessWidget {
                                           onPressed: () {
                                             // Handle add deliverer here
                                           },
-                                          child: const Text(
-                                              'Thêm nhân viên giao hàng'),
+                                          child:  Text(
+                                              'Thêm nhân viên giao hàng',style: Get.textTheme.bodyMedium),
                                         ),
                                       )
                                     ],

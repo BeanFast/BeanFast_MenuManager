@@ -18,6 +18,8 @@ class HomeView extends StatelessWidget {
             const Text('Quản lý bếp'),
             const Spacer(),
             PopupMenuButton<String>(
+              color: Colors.white,
+              surfaceTintColor: Colors.white,
               icon: const Icon(Icons.settings),
               onSelected: (String result) {
                 if (result == 'Tài khoản') {
@@ -54,19 +56,23 @@ class HomeView extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Xác nhận'),
-                        content: const Text('Bạn có chắc chắn muốn đăng xuất không?'),
+                        title:
+                            Text('Xác nhận', style: Get.textTheme.titleMedium),
+                        content: Text('Bạn có chắc chắn muốn đăng xuất không?',
+                            style: Get.textTheme.bodyMedium),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Hủy'),
                             onPressed: () {
-                              Navigator.of(context).pop(false); // Returns false when Cancel is clicked
+                              Navigator.of(context).pop(
+                                  false); // Returns false when Cancel is clicked
                             },
                           ),
                           TextButton(
                             child: const Text('Đồng ý'),
                             onPressed: () {
-                              Navigator.of(context).pop(true); // Returns true when OK is clicked
+                              Navigator.of(context)
+                                  .pop(true); // Returns true when OK is clicked
                             },
                           ),
                         ],
@@ -125,9 +131,12 @@ class HomeView extends StatelessWidget {
       () => Row(
         children: [
           NavigationRail(
+            backgroundColor: Colors.white,
+            elevation: 2,
             minWidth: 64,
             // selectedIndex: widget.currentIndex,
             selectedIndex: selectedMenuIndex.value,
+            selectedIconTheme: const IconThemeData(color: Colors.blue),
             destinations: [
               ..._homeController.menuItems.map(
                 (e) => NavigationRailDestination(
@@ -158,25 +167,23 @@ class HomeView extends StatelessWidget {
       () => Row(
         children: [
           Drawer(
+            elevation: 2,
+            surfaceTintColor: Colors.white,
+            backgroundColor: Colors.white,
             width: 200,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // const DrawerHeader(
-                  //   child: Center(
-                  //     child: Text('Menu'),
-                  //   ),
-                  // ),
                   for (int i = 0; i < _homeController.menuItems.length; i++)
                     ListTile(
                       leading: Icon(_homeController.menuItems[i].icon),
                       title: Text(_homeController.menuItems[i].title),
                       selected: selectedMenuIndex.value == i,
+                      selectedTileColor:
+                          const Color.fromARGB(255, 122, 184, 235),
                       onTap: () {
                         selectedMenuIndex.value = i;
                         _homeController.changePage(i);
-                        // _homeController.selectedContent.value =
-                        //     _homeController.setSelectedContent(i);
                       },
                     ),
                 ],

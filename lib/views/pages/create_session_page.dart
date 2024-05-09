@@ -2,6 +2,7 @@ import 'package:beanfast_menumanager/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '/models/menu.dart';
@@ -43,10 +44,10 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                       children: [
                         SizedBox(
                           height: 40,
-                          child: Text('Danh sách menu',
-                              style: Get.textTheme.titleLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500)),
+                          child: Text(
+                            'Danh sách menu',
+                            style: Get.textTheme.titleMedium,
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -101,17 +102,17 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                       children: [
                         SizedBox(
                           height: 40,
-                          child: Text('Thông tin session',
-                              style: Get.textTheme.titleLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500)),
+                          child: Text(
+                            'Thông tin session',
+                            style: Get.textTheme.titleMedium,
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
+                        Text(
                           'Thời gian đặt hàng',
-                          style: TextStyle(fontSize: 16),
+                          style: Get.textTheme.bodyMedium,
                         ),
                         const SizedBox(height: 10),
                         GestureDetector(
@@ -162,6 +163,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                     ? DateFormat('HH:mm - dd/MM/yyyy')
                                         .format(controller.orderStartTime)
                                     : controller.lbOrderStartTime.toString(),
+                                style: Get.textTheme.bodyMedium,
                               ),
                             ),
                           ),
@@ -210,15 +212,19 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
-                                controller.lbOrderEndTime.value != 'Kết thúc'
-                                    ? DateFormat('HH:mm - dd/MM/yyyy')
-                                        .format(controller.orderEndTime)
-                                    : controller.lbOrderEndTime.toString())),
+                                  controller.lbOrderEndTime.value != 'Kết thúc'
+                                      ? DateFormat('HH:mm - dd/MM/yyyy')
+                                          .format(controller.orderEndTime)
+                                      : controller.lbOrderEndTime.toString(),
+                                  style: Get.textTheme.bodyMedium,
+                                )),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text('Thời gian giao hàng',
-                            style: TextStyle(fontSize: 16)),
+                        Text(
+                          'Thời gian giao hàng',
+                          style: Get.textTheme.bodyMedium,
+                        ),
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () async {
@@ -267,12 +273,15 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             padding: const EdgeInsets.all(10),
-                            child: Obx(() => Text(controller
-                                        .lbDeliveryStartTime.value !=
-                                    'Bắt đầu'
-                                ? DateFormat('HH:mm - dd/MM/yyyy')
-                                    .format(controller.deliveryStartTime)
-                                : controller.lbDeliveryStartTime.toString())),
+                            child: Obx(() => Text(
+                                  controller.lbDeliveryStartTime.value !=
+                                          'Bắt đầu'
+                                      ? DateFormat('HH:mm - dd/MM/yyyy')
+                                          .format(controller.deliveryStartTime)
+                                      : controller.lbDeliveryStartTime
+                                          .toString(),
+                                  style: Get.textTheme.bodyMedium,
+                                )),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -323,16 +332,19 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
-                                controller.lbDeliveryEndTime.value != 'Kết thúc'
-                                    ? DateFormat('HH:mm - dd/MM/yyyy')
-                                        .format(controller.deliveryEndTime)
-                                    : controller.lbDeliveryEndTime.toString())),
+                                  controller.lbDeliveryEndTime.value !=
+                                          'Kết thúc'
+                                      ? DateFormat('HH:mm - dd/MM/yyyy')
+                                          .format(controller.deliveryEndTime)
+                                      : controller.lbDeliveryEndTime.toString(),
+                                  style: Get.textTheme.bodyMedium,
+                                )),
                           ),
                         ),
                         const SizedBox(height: 20),
                         Text(
                           'Địa điểm giao',
-                          style: Get.textTheme.titleMedium,
+                          style: Get.textTheme.bodyMedium,
                         ),
                         const SizedBox(height: 10),
                         Container(
@@ -355,10 +367,14 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                             Obx(
                                               () => Expanded(
                                                 child: CheckboxListTile(
-                                                  title:
-                                                      Text('${location.name}'),
+                                                  title: Text(
+                                                      '${location.name}',
+                                                      style: Get.textTheme
+                                                          .bodyMedium),
                                                   subtitle: Text(
-                                                      'Người giao hàng: ${controller.selectedDeliverers[location.id]?.name ?? 'Chưa có'}'),
+                                                      'Người giao hàng: ${controller.selectedDeliverers[location.id]?.name ?? 'Chưa có'}',
+                                                      style: Get
+                                                          .textTheme.bodySmall),
                                                   value: controller
                                                       .selectedDeliverers
                                                       .containsKey(location.id),
@@ -369,14 +385,18 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return AlertDialog(
-                                                            title: const Text(
+                                                            title: Text(
                                                               'Chọn người giao hàng',
+                                                              style: Get
+                                                                  .textTheme
+                                                                  .titleMedium,
                                                             ),
                                                             content:
                                                                 SingleChildScrollView(
                                                               child: SizedBox(
                                                                 width:
-                                                                    Get.width,
+                                                                    Get.width *
+                                                                        0.8,
                                                                 child: Column(
                                                                   children: controller
                                                                       .deliverers
@@ -386,9 +406,14 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                                                       child:
                                                                           ListTile(
                                                                         title: Text(
-                                                                            'ID: ${deliverer.id}'),
-                                                                        subtitle:
-                                                                            Text(deliverer.name),
+                                                                            'ID: ${deliverer.id}',
+                                                                            style:
+                                                                                Get.textTheme.bodyMedium),
+                                                                        subtitle: Text(
+                                                                            deliverer
+                                                                                .name,
+                                                                            style:
+                                                                                Get.textTheme.bodySmall!.copyWith(color: Colors.black54)),
                                                                         onTap:
                                                                             () {
                                                                           controller.selectedDeliverers[location.id!] =
@@ -455,8 +480,8 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                               controller.createSession();
                             },
                             child: Container(
-                              width: 120,
-                              padding: const EdgeInsets.all(15),
+                              width: 100,
+                              height: 40,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
@@ -464,18 +489,15 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                     Border.all(color: Colors.black, width: 0.5),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.add,
+                                  const Icon(
+                                    Iconsax.add,
                                     color: Colors.black,
                                   ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Tạo',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+                                  const SizedBox(width: 5),
+                                  Text('Tạo', style: Get.textTheme.bodyMedium),
                                 ],
                               ),
                             ),

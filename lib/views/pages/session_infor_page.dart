@@ -25,7 +25,7 @@ class SessionInformationPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text('Code: ', style: Get.textTheme.bodyMedium),
+                          Text('Code: ', style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('Phiên 1', style: Get.textTheme.bodyMedium),
                         ],
@@ -34,7 +34,7 @@ class SessionInformationPage extends StatelessWidget {
                       Row(
                         children: [
                           Text('Mã thực đơn: ',
-                              style: Get.textTheme.bodyMedium),
+                              style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('01-01-2021', style: Get.textTheme.bodyMedium),
                         ],
@@ -42,7 +42,8 @@ class SessionInformationPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       Row(
                         children: [
-                          Text('Trạng thái: ', style: Get.textTheme.bodyMedium),
+                          Text('Trạng thái: ',
+                              style: Get.textTheme.titleMedium),
                           const SizedBox(width: 10),
                           Text('Đã hoàn thành',
                               style: Get.textTheme.bodyMedium),
@@ -52,22 +53,7 @@ class SessionInformationPage extends StatelessWidget {
                       Row(
                         children: [
                           Text('Thời gian đặt hàng: ',
-                              style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Row(
-                            children: [
-                              Text('Từ 10:20 01/01/2021',
-                                  style: Get.textTheme.bodyMedium),
-                              Text(' đến 10:20 01/01/2021',
-                                  style: Get.textTheme.bodyMedium),
-                            ],
-                          ),
-                        ],
-                      ), const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text('Thời gian nhận hàng: ',
-                              style: Get.textTheme.bodyMedium),
+                              style: Get.textTheme.titleLarge),
                           const SizedBox(width: 10),
                           Row(
                             children: [
@@ -80,7 +66,23 @@ class SessionInformationPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Text('Cổng giao hàng ', style: Get.textTheme.bodyMedium),
+                      Row(
+                        children: [
+                          Text('Thời gian nhận hàng: ',
+                              style: Get.textTheme.titleMedium),
+                          const SizedBox(width: 10),
+                          Row(
+                            children: [
+                              Text('Từ 10:20 01/01/2021',
+                                  style: Get.textTheme.bodyMedium),
+                              Text(' đến 10:20 01/01/2021',
+                                  style: Get.textTheme.bodyMedium),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text('Cổng giao hàng ', style: Get.textTheme.titleMedium),
                       const SizedBox(height: 10),
                       Column(
                         children: List.generate(
