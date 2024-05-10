@@ -34,7 +34,7 @@ class PaginatedDataTableView extends StatelessWidget {
       sortColumnIndex: sortColumnIndex,
       sortAscending: sortAscending,
       rowsPerPage: 10,
-      columnSpacing: 56,
+      columnSpacing: 10,
 
       header: SizedBox(
         height: 40,

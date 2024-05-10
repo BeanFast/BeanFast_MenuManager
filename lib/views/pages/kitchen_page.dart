@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/views/pages/kitchen_detail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -170,23 +171,28 @@ class KitchenView extends GetView<KitchenController> {
                         ),
                       ),
                     ),
-                    Card(
-                      child: ListTile(
-                        leading: const Icon(Iconsax.location),
-                        title:  Text('Khu vực',
-                                        style: Get.textTheme.bodyMedium),
-                        subtitle: Obx(
-                          () => Text(controller.selectedArea.value == null
-                              ? 'Chưa chọn khu vực'
-                              : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
-                                        style: Get.textTheme.bodySmall),
-                        ),
-                        trailing: IconButton(
-                          iconSize: 24,
-                          onPressed: () {
-                            showAreaDialog();
-                          },
-                          icon: const Icon(Iconsax.arrow_circle_right),
+                    GestureDetector(
+                     onTap: () {
+                       showAreaDialog();
+                     },
+                      child: Card(
+                        child: ListTile(
+                          leading: const Icon(Iconsax.location),
+                          title:  Text('Khu vực',
+                                          style: Get.textTheme.bodyMedium),
+                          subtitle: Obx(
+                            () => Text(controller.selectedArea.value == null
+                                ? 'Chưa chọn khu vực'
+                                : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
+                                          style: Get.textTheme.bodySmall),
+                          ),
+                          trailing: IconButton(
+                            iconSize: 24,
+                            onPressed: () {
+                              showAreaDialog();
+                            },
+                            icon: const Icon(Iconsax.arrow_circle_right),
+                          ),
                         ),
                       ),
                     ),
