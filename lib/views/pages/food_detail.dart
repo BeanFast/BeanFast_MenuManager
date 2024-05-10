@@ -23,70 +23,95 @@ class FoodDetailView extends StatelessWidget {
               child: Card(
                 child: Container(
                   padding: const EdgeInsets.all(20),
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text('Code: ', style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Text(food.code.toString(),
-                              style: Get.textTheme.bodyMedium),
-                        ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: CustomNetworkImage(food.imagePath.toString(),
+                            height: Get.height * 0.3, width: Get.height * 0.3),
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text('Tên sản phẩm: ',
-                              style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Text(food.name.toString(),
-                              style: Get.textTheme.bodyMedium),
-                        ],
+                      const SizedBox(width: 40),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Code: ',
+                                    style: Get.textTheme.titleMedium),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(food.code.toString(),
+                                      style: Get.textTheme.bodyMedium),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Tên sản phẩm: ',
+                                    style: Get.textTheme.titleMedium),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(food.name.toString(),
+                                      style: Get.textTheme.bodyMedium),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Giá: ', style: Get.textTheme.titleMedium),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                      Formatter.formatMoney(
+                                          food.price.toString()),
+                                      style: Get.textTheme.bodyMedium),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Mô tả: ',
+                                    style: Get.textTheme.titleMedium),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(food.description.toString(),
+                                      style: Get.textTheme.bodyMedium),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Trạng thái hoạt động: ',
+                                    style: Get.textTheme.titleMedium),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(FooodStatus.active.message,
+                                      style: Get.textTheme.bodyMedium),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text('Giá: ', style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Text(Formatter.formatMoney(food.price.toString()),
-                              style: Get.textTheme.bodyMedium),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text('Mô tả: ', style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Text(food.description.toString(),
-                              style: Get.textTheme.bodyMedium),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Text('Trạng thái hoạt động: ',
-                              style: Get.textTheme.bodyMedium),
-                          const SizedBox(width: 10),
-                          Text(FooodStatus.active.message,
-                              style: Get.textTheme.bodyMedium),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                           Text('Ảnh: ',
-                              style: Get.textTheme.bodyMedium),
-                               const SizedBox(width: 10),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: CustomNetworkImage(food.imagePath.toString(),
-                                height: Get.height * 0.3, width: Get.height * 0.3),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

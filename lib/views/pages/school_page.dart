@@ -1,16 +1,15 @@
 import 'package:beanfast_menumanager/views/pages/school_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/models/school.dart';
-import '/models/location.dart';
 import '/controllers/school_controller.dart';
+import '/models/location.dart';
+import '/models/school.dart';
 import '/routes/app_routes.dart';
 import '/views/pages/loading_page.dart';
-import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
+import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import 'widget/description_input_widget.dart';
 
