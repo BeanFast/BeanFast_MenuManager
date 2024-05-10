@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,10 +30,12 @@ class PaginatedDataTableView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaginatedDataTable(
+      dataRowMaxHeight: 60,
       sortColumnIndex: sortColumnIndex,
       sortAscending: sortAscending,
       rowsPerPage: 10,
-      columnSpacing: 10,
+      columnSpacing: 56,
+
       header: SizedBox(
         height: 40,
         child: Row(
