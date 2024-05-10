@@ -35,7 +35,6 @@ class PaginatedDataTableView extends StatelessWidget {
       sortAscending: sortAscending,
       rowsPerPage: 10,
       columnSpacing: 10,
-
       header: SizedBox(
         height: 40,
         child: Row(
@@ -57,7 +56,6 @@ class PaginatedDataTableView extends StatelessWidget {
               // height: 60,
               width: 60,
               child: DropdownButtonFormField<String>(
-                
                 padding: const EdgeInsets.all(9),
                 style: const TextStyle(fontSize: 13),
                 decoration: const InputDecoration(
@@ -81,7 +79,7 @@ class PaginatedDataTableView extends StatelessWidget {
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value,  style:  Get.textTheme.bodySmall),
+                    child: Text(value, style: Get.textTheme.bodySmall),
                   );
                 }).toList(),
                 validator: (String? value) {

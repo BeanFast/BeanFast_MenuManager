@@ -134,7 +134,6 @@ class HomeView extends StatelessWidget {
             backgroundColor: Colors.white,
             elevation: 2,
             minWidth: 64,
-            // selectedIndex: widget.currentIndex,
             selectedIndex: selectedMenuIndex.value,
             selectedIconTheme: const IconThemeData(color: Colors.blue),
             destinations: [

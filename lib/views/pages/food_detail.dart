@@ -1,12 +1,10 @@
 import 'package:beanfast_menumanager/utils/format_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '/views/pages/widget/image_default.dart';
-import '/models/food.dart';
 import '/enums/status_enum.dart';
-import 'widget/row_info_item_widget.dart';
+import '/models/food.dart';
+import '/views/pages/widget/image_default.dart';
 
 class FoodDetailView extends StatelessWidget {
   const FoodDetailView(this.food, {super.key});
