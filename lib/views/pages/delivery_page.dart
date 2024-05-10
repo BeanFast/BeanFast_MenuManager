@@ -211,79 +211,48 @@ class DeliveryTabView extends GetView<DeliveryController> {
 
   void showSelectedDelivererDialog(String sessionDetailId) {
     controller.getSelectedListDeliverer(sessionDetailId);
-    Get.dialog(AlertDialog(
-      title:  Text('Người giao hàng', style:  Get.textTheme.titleMedium),
-      content: SizedBox(
-        width: Get.width * 0.8,
-        height: Get.height * 0.5,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    showDelivererDialog(sessionDetailId);
-                  },
-                  child:  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // ignore: prefer_const_constructors
-                      Icon(Icons.add_outlined, size: 20,),
-                      Text('Cập nhật người giao hàng', style: Get.textTheme.bodyMedium),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                TextButton(
-                  onPressed: () async {
-                    await controller.selectDeliverer(sessionDetailId);
-                    Get.back();
-                  },
-                  child:  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.add_outlined, size: 20,),
-                      Text('Tạo', style: Get.textTheme.bodyMedium),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: Get.height * 0.44,
-              child: SingleChildScrollView(
-                child: Obx(
-                  () => Column(
-                    children: controller.selectedListDeliverer.map(
-                      (deliverer) {
-                        return Card(
-                          child: ListTile(
-                            leading: CustomNetworkImage(
-                              deliverer.avatarPath.toString(),
-                              height: 50,
-                              width: 50,
-                            ),
-                            title: Text(deliverer.fullName.toString() , style:  Get.textTheme.bodyMedium),
-                            subtitle: Text(deliverer.email.toString(), style:  Get.textTheme.bodySmall),
-                            trailing: DeleteButtonDataTable(onPressed: () {
-                              controller.removeDeliverer(deliverer);
-                            }),
-                          ),
-                        );
-                      },
-                      label: const Text('Cập nhật người giao hàng'),
+    Get.dialog(
+      AlertDialog(
+        title: Text('Người giao hàng', style: Get.textTheme.titleMedium),
+        content: SizedBox(
+          width: Get.width * 0.8,
+          height: Get.height * 0.5,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showDelivererDialog(sessionDetailId);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // ignore: prefer_const_constructors
+                        Icon(
+                          Icons.add_outlined,
+                          size: 20,
+                        ),
+                        Text('Cập nhật người giao hàng',
+                            style: Get.textTheme.bodyMedium),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 20),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: FloatingActionButton.extended(
-                      icon: const Icon(Icons.add_outlined),
-                      onPressed: () async {
-                        await controller.selectDeliverer(sessionDetailId);
-                        Get.back();
-                      },
-                      label: const Text('Tạo'),
+                  TextButton(
+                    onPressed: () async {
+                      await controller.selectDeliverer(sessionDetailId);
+                      Get.back();
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.add_outlined,
+                          size: 20,
+                        ),
+                        Text('Tạo', style: Get.textTheme.bodyMedium),
+                      ],
                     ),
                   ),
                 ],
@@ -302,8 +271,10 @@ class DeliveryTabView extends GetView<DeliveryController> {
                                 height: 50,
                                 width: 50,
                               ),
-                              title: Text(deliverer.fullName.toString() , style:  Get.textTheme.bodyMedium),
-                            subtitle: Text(deliverer.email.toString(), style:  Get.textTheme.bodySmall),
+                              title: Text(deliverer.fullName.toString(),
+                                  style: Get.textTheme.bodyMedium),
+                              subtitle: Text(deliverer.email.toString(),
+                                  style: Get.textTheme.bodySmall),
                               trailing: DeleteButtonDataTable(onPressed: () {
                                 controller.removeDeliverer(deliverer);
                               }),
@@ -319,12 +290,12 @@ class DeliveryTabView extends GetView<DeliveryController> {
           ),
         ),
       ),
-    ));
+    );
   }
 
   void showDelivererDialog(String sessionDetailId) {
     Get.dialog(AlertDialog(
-      title:  Text('Chọn người giao hàng', style:  Get.textTheme.titleMedium),
+      title: Text('Chọn người giao hàng', style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getListDeliverer(sessionDetailId);
@@ -358,8 +329,10 @@ class DeliveryTabView extends GetView<DeliveryController> {
                                 height: 50,
                                 width: 50,
                               ),
-                              title: Text(deliverer.fullName.toString(), style:  Get.textTheme.bodyMedium),
-                              subtitle: Text(deliverer.email.toString(),  style:  Get.textTheme.bodySmall),
+                              title: Text(deliverer.fullName.toString(),
+                                  style: Get.textTheme.bodyMedium),
+                              subtitle: Text(deliverer.email.toString(),
+                                  style: Get.textTheme.bodySmall),
                               onTap: () {
                                 Get.back();
                                 controller.addDeliverer(deliverer);

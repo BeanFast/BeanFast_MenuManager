@@ -53,9 +53,6 @@ class OrderView extends StatelessWidget {
                           OrderTabView(
                             status: OrderStatus.cancelled,
                           ), // Đã hủy
-                          // OrderDeliveringTabView(), // Đang giao
-                          // OrderCompletedTabView(), // Hoàn thành
-                          // OrderCancelledTabView(), // Đã hủy
                         ],
                       ),
                     ),
