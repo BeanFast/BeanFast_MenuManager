@@ -1,14 +1,13 @@
 import 'package:beanfast_menumanager/views/pages/kitchen_detail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/models/kitchen.dart';
 import '/controllers/kitchen_controller.dart';
+import '/models/kitchen.dart';
 import '/views/pages/loading_page.dart';
-import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/button_data_table.dart';
+import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 
 class KitchenView extends GetView<KitchenController> {

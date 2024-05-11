@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/contains/contrain.dart';
 import '/controllers/menu_detail_controller.dart';
-import '/enums/menu_index_enum.dart';
 import '/models/menu_detail.dart';
 import '/utils/format_data.dart';
-import '/views/pages/home_page.dart';
 import '/views/pages/loading_page.dart';
 import '/views/pages/widget/paginated_data_table_widget.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
-import 'widget/row_info_item_widget.dart';
 
 class MenuDetailView extends GetView<MenuDetailController> {
   // List<MenuDetail>? menuDetails = [];
@@ -28,70 +24,143 @@ class MenuDetailView extends GetView<MenuDetailController> {
       child: Scaffold(
         appBar: AppBar(
           title: const Center(child: Text('Chi tiết thực đơn')),
-          leading: IconButton(
-            onPressed: () {
-              changePage(MenuIndexState.menu.index);
-              Get.off(HomeView());
-            },
-            icon: const Icon(Icons.arrow_back_ios_new),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     changePage(MenuIndexState.menu.index);
+          //     Get.off(HomeView());
+          //   },
+          //   icon: const Icon(Icons.arrow_back_ios_new),
+          // ),
         ),
         body: Padding(
           padding:
-              const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
+              const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Card(
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                            top: 30,
-                            bottom: 30,
-                          ),
-                          child: Obx(
-                            () => Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                RowInfoItemWidget(
-                                    title: 'Code: ',
-                                    data:
-                                        controller.menu.value.code.toString()),
-                                RowInfoItemWidget(
-                                    title: 'creatorId: ',
-                                    data: controller.menu.value.creatorId
-                                        .toString()),
-                                RowInfoItemWidget(
-                                    title: 'updaterId: ',
-                                    data: controller.menu.value.updaterId
-                                        .toString()),
-                                RowInfoItemWidget(
-                                    title: 'createDate: ',
-                                    data: controller.menu.value.createDate ==
-                                            null
-                                        ? ""
-                                        : DateFormat('dd/MM/yyyy').format(
-                                            controller.menu.value.createDate!)),
-                                RowInfoItemWidget(
-                                    title: 'updateDate: ',
-                                    data: controller.menu.value.updateDate ==
-                                            null
-                                        ? ""
-                                        : DateFormat('dd/MM/yyyy').format(
-                                            controller.menu.value.updateDate!)),
-                              ],
+                Column(
+                  children: [
+                    Card(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Obx(
+                                () => Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Code: ',
+                                            style: Get.textTheme.titleMedium),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                              controller.menu.value.code
+                                                  .toString(),
+                                              style: Get.textTheme.bodyMedium),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('creatorId: ',
+                                            style: Get.textTheme.titleMedium),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                              controller.menu.value.creatorId
+                                                  .toString(),
+                                              style: Get.textTheme.bodyMedium),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('updaterId: ',
+                                            style: Get.textTheme.titleMedium),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                              controller.menu.value.updaterId
+                                                  .toString(),
+                                              style: Get.textTheme.bodyMedium),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('createDate: ',
+                                            style: Get.textTheme.titleMedium),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                              controller.menu.value
+                                                          .createDate ==
+                                                      null
+                                                  ? ""
+                                                  : DateFormat('dd/MM/yyyy')
+                                                      .format(controller.menu
+                                                          .value.createDate!),
+                                              style: Get.textTheme.bodyMedium),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('updateDate: ',
+                                            style: Get.textTheme.titleMedium),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                              controller.menu.value
+                                                          .updateDate ==
+                                                      null
+                                                  ? ""
+                                                  : DateFormat('dd/MM/yyyy')
+                                                      .format(controller.menu
+                                                          .value.updateDate!),
+                                              style: Get.textTheme.bodyMedium),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   width: Get.width,

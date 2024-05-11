@@ -4,7 +4,6 @@ import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_1.da
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_2.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_3.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -12,8 +11,6 @@ import '/controllers/dashboard_controller.dart';
 import '/views/pages/widget/widget_dashboard.dart';
 import 'widget/dashboard_1.dart';
 import 'widget/dashboard_2.dart';
-import 'widget/dashboard_3.dart';
-import 'widget/dashboard_4.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
@@ -105,7 +102,7 @@ class DashboardView extends GetView<DashboardController> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Obx(() => InfoCard(
                         icon: Icons.money,
                         label: 'Tổng doanh thu',
@@ -114,7 +111,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 Expanded(
                   child: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Obx(
                         () => InfoCard(
                             icon: Icons.shopping_cart,
@@ -124,7 +121,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Obx(
                       () => InfoCard(
                           icon: Icons.food_bank,
@@ -182,13 +179,13 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: PieChart2(controller.topSellerKitchens),
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       children: [
                         PieChart3(controller.topSellerSchools),

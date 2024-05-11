@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/controllers/exchange_gift_controller.dart';
-import '/models/exchange_gift.dart';
-import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
+import '/models/exchange_gift.dart';
+import '/utils/format_data.dart';
+import '/views/pages/loading_page.dart';
 import 'button_data_table.dart';
 import 'paginated_data_table_widget.dart';
 import 'text_data_table_widget.dart';
-import '/views/pages/loading_page.dart';
-import '/utils/format_data.dart';
 
 class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
   final ExchangeGiftStatus status;
