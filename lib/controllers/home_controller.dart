@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../views/pages/demo_datatable.dart';
 import '/contains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/utils/logger.dart';
@@ -20,7 +21,7 @@ Map<int, Widget> list = {};
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const FoodView());
+  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [

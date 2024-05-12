@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:get/get.dart';
 
 import '/views/pages/widget/button_data_table.dart';
@@ -29,8 +30,9 @@ class PaginatedDataTableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return PaginatedDataTable(
-      dataRowMaxHeight: 60,
+      // dataRowMaxHeight: 60,
       sortColumnIndex: sortColumnIndex,
       sortAscending: sortAscending,
    
@@ -98,7 +100,7 @@ class PaginatedDataTableView extends StatelessWidget {
       ),
       onPageChanged: (page) => loadPage(page),
       columns: columns,
-      source: MyDataTable(rows: rows),
+      source: MyDataTableSource(rows: rows),
     );
   }
 }

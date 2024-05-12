@@ -79,7 +79,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
                                   (index, ascending) {}),
                           const DataColumn(label: Text('')),
                         ],
-                        source: MyDataTable(
+                        source: MyDataTableSource(
                             // ignore: invalid_use_of_protected_member
                             rows: controller.menuDetailRows.value))),
               ),
