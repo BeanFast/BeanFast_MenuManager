@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
 import '/models/session_detail.dart';
 import '/services/api_service.dart';
-import '/utils/logger.dart';
 
 class SessionDetailService {
   final ApiService _apiService = getx.Get.put(ApiService());
@@ -15,6 +13,15 @@ class SessionDetailService {
     for (var e in response.data['data']) {
       list.add(SessionDetail.fromJson(e));
     }
+    return list;
+  }
+
+  Future<List<SessionDetail>> getBySessionId(String id) async {
+    // final response = await _apiService.request.get('$baseUrl?');
+    List<SessionDetail> list = [];
+    // for (var e in response.data['data']) {
+    //   list.add(SessionDetail.fromJson(e));
+    // }
     return list;
   }
 

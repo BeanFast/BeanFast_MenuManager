@@ -7,7 +7,6 @@ class LoginView extends GetView<AuthController> {
   final _formKey = GlobalKey<FormState>();
 
   final _isPasswordHidden = true.obs;
-  final RxBool _isChecked = false.obs;
 
   LoginView({super.key});
 

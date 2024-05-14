@@ -79,7 +79,7 @@ class FoodController extends PaginatedDataTableController<Food> {
       var data = await CategoryService().getAll();
       listInitCategory = data;
       listCategory.addAll(listInitCategory);
-    }  catch (e) {
+    } catch (e) {
       throw Exception(e);
     }
   }
@@ -218,7 +218,8 @@ class FoodController extends PaginatedDataTableController<Food> {
   @override
   Future fetchData() async {
     try {
-      var data = await FoodService().getAll(null);
+      var data = await FoodService()
+          .getAll(null);
       dataList = data;
       setDataTable(dataList);
     } catch (e) {

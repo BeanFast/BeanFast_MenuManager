@@ -12,6 +12,10 @@ class FoodService {
   Future<List<Food>> getAll(bool? isCombo) async {
     Map<String, dynamic> queryParameters = {};
 
+      // if (page != null && size != null) {
+      //   queryParameters['page'] = page;
+      //   queryParameters['page'] = page;
+      // }
     // if (isCombo != null) {
     //   queryParameters['isCombo'] = isCombo.toString();
     // }

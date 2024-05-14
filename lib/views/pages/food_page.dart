@@ -101,7 +101,8 @@ class FoodView extends GetView<FoodController> {
               ),
               DataColumn2(label: Text(' ')),
             ],
-            source: MyDataTableSource(rows: controller.rows),
+            // ignore: invalid_use_of_protected_member
+            source: MyDataTableSource(rows: controller.rows.value),
           ),
         );
       }),

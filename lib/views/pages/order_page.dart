@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '/views/pages/loading_page.dart';
+import '/controllers/order_controller.dart';
 import '/enums/status_enum.dart';
-// import '/controllers/order_controller.dart';
 import 'widget/order_tabview.dart';
 
-class OrderView extends StatelessWidget {
+class OrderView extends GetView<OrderController> {
   const OrderView({super.key});
   @override
   Widget build(BuildContext context) {
-    TmpController controller = Get.put(TmpController());
+    Get.put(OrderController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  'Quản lý đơn hàng',
-                  textAlign: TextAlign.start,
-                  style: Get.textTheme.titleMedium,
-                ),
+              Text(
+                'Quản lý đơn hàng',
+                textAlign: TextAlign.start,
+                style: Get.textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
               Row(
@@ -32,7 +30,7 @@ class OrderView extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        dialog1(controller);
+                        showSelectionSchoolDialog();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -47,24 +45,11 @@ class OrderView extends StatelessWidget {
                         ),
                         // ignore: prefer_const_constructors
                         child: Obx(
-                          () => Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Text(controller.box1.value),
-                                ),
-                              ),
-                              if (controller.box1.value != '--Trống--')
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.setTextBox1('--Trống--');
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    size: 12,
-                                  ),
-                                ),
-                            ],
+                          () => Center(
+                            child: Text(controller.selectedSchool.value == null
+                                ? '--Trống--'
+                                : controller.selectedSchool.value!.name
+                                    .toString()),
                           ),
                         ),
                       ),
@@ -75,7 +60,7 @@ class OrderView extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        dialog2(context, controller);
+                        showSelectionSessionDialog();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -90,24 +75,10 @@ class OrderView extends StatelessWidget {
                         ),
                         // ignore: prefer_const_constructors
                         child: Obx(
-                          () => Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Text(controller.box2.value),
-                                ),
-                              ),
-                              if (controller.box2.value != '--Trống--')
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.setTextBox2('--Trống--');
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    size: 12,
-                                  ),
-                                ),
-                            ],
+                          () => Center(
+                            child: Text(controller.selectedSession.value == null
+                                ? '--Trống--'
+                                : '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
                           ),
                         ),
                       ),
@@ -118,7 +89,7 @@ class OrderView extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        dialog3(controller);
+                        showSelectionSessionDetailDialog();
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -133,24 +104,13 @@ class OrderView extends StatelessWidget {
                         ),
                         // ignore: prefer_const_constructors
                         child: Obx(
-                          () => Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Text(controller.box3.value),
-                                ),
-                              ),
-                              if (controller.box3.value != '--Trống--')
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.setTextBox3('--Trống--');
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    size: 12,
-                                  ),
-                                ),
-                            ],
+                          () => Center(
+                            child: Text(
+                                controller.selectedSessionDetail.value == null
+                                    ? '--Trống--'
+                                    : controller.selectedSessionDetail.value!
+                                        .location!.name
+                                        .toString()),
                           ),
                         ),
                       ),
@@ -176,7 +136,7 @@ class OrderView extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: Get.height * 0.8,
+                      height: Get.height * 0.79,
                       child: const TabBarView(
                         children: [
                           OrderTabView(
@@ -204,7 +164,7 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Future<dynamic> dialog3(TmpController controller) {
+  Future<dynamic> showSelectionSessionDetailDialog() {
     return Get.dialog(
       AlertDialog(
         title: Text('Địa điểm', style: Get.textTheme.titleMedium),
@@ -225,20 +185,22 @@ class OrderView extends StatelessWidget {
                 height: Get.height * 0.22,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: List.generate(
-                      10,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          controller.setTextBox3('Trường THPT Nguyễn Trãi');
-                          Get.back();
-                        },
-                        child: const Card(
-                          child: ListTile(
-                            title: Text('Trường THPT Nguyễn Trãi'),
+                    children: controller.sessionDetailList
+                        .map(
+                          (sessionDetail) => GestureDetector(
+                            onTap: () {
+                              controller.selectSessionDetail(sessionDetail);
+                              Get.back();
+                            },
+                            child: Card(
+                              child: ListTile(
+                                title: Text(
+                                    sessionDetail.location!.name.toString()),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
@@ -249,10 +211,10 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Future<dynamic> dialog2(BuildContext context, TmpController controller) {
+  Future<dynamic> showSelectionSessionDialog() {
     return Get.dialog(
       AlertDialog(
-        title: Text('Số sản phẩm', style: Get.textTheme.titleMedium),
+        title: Text('Khung giờ đặt hàng', style: Get.textTheme.titleMedium),
         content: SizedBox(
           width: Get.width * 0.5,
           height: Get.height * 0.8,
@@ -280,7 +242,7 @@ class OrderView extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showDatePicker(
-                        context: context,
+                        context: Get.context!,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime.now().add(
@@ -345,55 +307,69 @@ class OrderView extends StatelessWidget {
                     children: <Widget>[
                       const TabBar(
                         tabs: [
-                          Tab(text: 'Tab 1'),
-                          Tab(text: 'Tab 2'),
+                          Tab(text: 'Đang hoạt động'),
+                          Tab(text: 'Lịch sử'),
                         ],
                       ),
                       Expanded(
-                        child: TabBarView(
-                          children: [
-                            SizedBox(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: List.generate(
-                                    20,
-                                    (index) => GestureDetector(
-                                      onTap: () {
-                                        controller.setTextBox2('Code $index');
-                                        Get.back();
-                                      },
-                                      child: Card(
-                                        child: ListTile(
-                                          title: Text('Code $index'),
-                                        ),
-                                      ),
-                                    ),
+                        child: LoadingView(
+                          future: controller.fetchSessionData,
+                          child: TabBarView(
+                            children: [
+                              SizedBox(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: controller.sessionList
+                                        .where((session) =>
+                                            session.orderStartTime!
+                                                .isBefore(DateTime.now()) &&
+                                            session.orderEndTime!
+                                                .isAfter(DateTime.now()))
+                                        .map(
+                                          (session) => GestureDetector(
+                                            onTap: () {
+                                              controller.selectSession(session);
+                                              Get.back();
+                                            },
+                                            child: Card(
+                                              child: ListTile(
+                                                title: Text(
+                                                    '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
                                 ),
                               ),
-                            ),
-                            // Add the content for Tab 2 here
-                            SizedBox(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: List.generate(
-                                    10,
-                                    (index) => GestureDetector(
-                                      onTap: () {
-                                        controller.setTextBox2('Code $index');
-                                        Get.back();
-                                      },
-                                      child: Card(
-                                        child: ListTile(
-                                          title: Text('Code $index'),
-                                        ),
-                                      ),
-                                    ),
+                              SizedBox(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: controller.sessionList
+                                        .where((session) => session
+                                            .orderEndTime!
+                                            .isBefore(DateTime.now()))
+                                        .map(
+                                          (session) => GestureDetector(
+                                            onTap: () {
+                                              controller.selectSession(session);
+                                              Get.back();
+                                            },
+                                            child: Card(
+                                              child: ListTile(
+                                                title: Text(
+                                                    '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -407,13 +383,13 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Future<dynamic> dialog1(TmpController controller) {
+  Future<dynamic> showSelectionSchoolDialog() {
     return Get.dialog(
       AlertDialog(
-        title: Text('Địa điểm', style: Get.textTheme.titleMedium),
+        title: Text('Trường', style: Get.textTheme.titleMedium),
         content: SizedBox(
-          width: Get.width * 0.3,
-          height: Get.height * 0.3,
+          width: Get.width * 0.5,
+          height: Get.height * 0.5,
           child: Column(
             children: [
               TextField(
@@ -423,25 +399,27 @@ class OrderView extends StatelessWidget {
                 ),
                 style: Get.theme.textTheme.bodyMedium,
               ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: Get.height * 0.22,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      10,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          controller.setTextBox1('Trường THPT Nguyễn Trãi');
-                          Get.back();
-                        },
-                        child: const Card(
-                          child: ListTile(
-                            title: Text('Trường THPT Nguyễn Trãi'),
-                          ),
-                        ),
-                      ),
-                    ),
+              LoadingView(
+                future: controller.fetchSchoolData,
+                child: Expanded(
+                  child: SingleChildScrollView(
+                    child: Obx(() => Column(
+                      children: controller.schoolList
+                          .map(
+                            (school) => GestureDetector(
+                              onTap: () {
+                                Get.back();
+                                controller.selectSchool(school);
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(school.name.toString()),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),) ,
                   ),
                 ),
               ),
@@ -450,27 +428,5 @@ class OrderView extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class TmpController extends GetxController {
-  RxString box1 = '--Trống--'.obs;
-  void setTextBox1(String value) {
-    box1.value = value;
-  }
-
-  RxString box2 = '--Trống--'.obs;
-  void setTextBox2(String value) {
-    box2.value = value;
-  }
-
-  RxString box3 = '--Trống--'.obs;
-  void setTextBox3(String value) {
-    box3.value = value;
-  }
-
-  RxString datePicker = 'Ngày/Tháng/Năm'.obs;
-  void setDate(String value) {
-    datePicker.value = value;
   }
 }

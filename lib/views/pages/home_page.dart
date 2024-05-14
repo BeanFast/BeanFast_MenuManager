@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../contains/contrain.dart';
+import '/contains/contrain.dart';
 import '/controllers/home_controller.dart';
 // import '/views/pages/widget/drawer_wdget.dart';
 

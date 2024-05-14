@@ -6,9 +6,8 @@ abstract class PaginatedDataTableController<T> extends GetxController {
   List<T> dataList = [];
   var currentPage = 1.obs;
   var rowsPerPage = PaginatedDataTable.defaultRowsPerPage.obs;
-  Rx<int>? sortColumnIndex;
+  Rx<int?> sortColumnIndex = Rx<int?>(null);
   Rx<bool> sortAscending = true.obs;
-
 
   // Future<void> refreshData() async {
   //   await fetchData();
