@@ -31,7 +31,7 @@ class PaginatedDataTableView<T extends PaginatedDataTableController>
           sortColumnIndex: controller.sortColumnIndex.value,
           sortAscending: controller.sortAscending.value,
           availableRowsPerPage: const [2, 5, 10, 30, 100],
-          columnSpacing: 0,
+          columnSpacing: 10,
           rowsPerPage: controller.rowsPerPage.value,
           onRowsPerPageChanged: (value) {
             controller.changeRowsPerPage(value!);
