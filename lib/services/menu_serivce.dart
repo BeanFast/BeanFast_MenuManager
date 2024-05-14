@@ -1,9 +1,8 @@
-import 'package:beanfast_menumanager/models/menu.dart';
-import 'package:beanfast_menumanager/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
+import '/models/menu.dart';
+import '/services/api_service.dart';
 
 class MenuService {
   final String baseUrl = 'menus';

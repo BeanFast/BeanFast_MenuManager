@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: AppRoutes.dashboard,
-          page: () => DashboardView(),
+          page: () =>const DashboardView(),
           binding: FoodBindingController(),
         ),
         GetPage(

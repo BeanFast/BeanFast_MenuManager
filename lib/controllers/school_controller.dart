@@ -10,9 +10,9 @@ import '/models/school.dart';
 import '/views/pages/school_page.dart';
 import '/services/school_service.dart';
 import '/services/area_service.dart';
-import 'data_table_controller.dart';
+import 'paginated_data_table_controller.dart';
 
-class SchoolController extends DataTableController<School> {
+class SchoolController extends PaginatedDataTableController<School> {
   //Form
   final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
   final TextEditingController nameText = TextEditingController();
@@ -53,7 +53,7 @@ class SchoolController extends DataTableController<School> {
         await SchoolService().create(model);
         Get.back();
         Get.snackbar('Thành công', '');
-        refreshData();
+        await fetchData();
       } on DioException catch (e) {
         if (e.response != null) {
           if (e.response!.data['message'] != null) {
@@ -98,30 +98,29 @@ class SchoolController extends DataTableController<School> {
     listLocation.removeAt(index);
     setLocationDataTable(listLocation);
   }
-
-  @override
+  
   void search(String value) {
     if (value.isEmpty) {
-      setDataTable(initModelList);
+      setDataTable(dataList);
     } else {
-      currentModelList = initModelList
+      var list = dataList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()) ||
               e.name!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(currentModelList);
+      setDataTable(list);
     }
   }
 
-  void sortByName(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) {
-      currentModelList = currentModelList.reversed.toList();
-    }
-    setDataTable(currentModelList);
-  }
+  // void sortByName(int index) {
+  //   columnIndex.value = index;
+  //   columnAscending.value = !columnAscending.value;
+  //   currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
+  //   if (!columnAscending.value) {
+  //     currentModelList = currentModelList.reversed.toList();
+  //   }
+  //   setDataTable(currentModelList);
+  // }
 
   Future<void> pickImage() async {
     FilePickerResult? result =
@@ -157,32 +156,15 @@ class SchoolController extends DataTableController<School> {
     }
   }
 
-  @override
-  Future getData(list) async {
-    try {
-      var data = await SchoolService().getAll();
-      initModelList.addAll(data);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
-    }
-  }
-
   Future getAllArea() async {
     listArea.clear();
     try {
       var data = await AreaService().getAll();
       listInitArea = data;
       listArea.addAll(listInitArea);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
+    } catch (e) {
+      throw Exception(e);
     }
-  }
-
-  @override
-  void setDataTable(List<School> list) {
-    rows.value = list.map((dataMap) {
-      return const SchoolView().setRow(list.indexOf(dataMap), dataMap);
-    }).toList();
   }
 
   void setLocationDataTable(List<Location> list) {
@@ -192,8 +174,20 @@ class SchoolController extends DataTableController<School> {
   }
 
   @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
+  void setDataTable(List<School> list) {
+    rows.value = list.map((dataMap) {
+      return const SchoolView().setRow(dataMap);
+    }).toList();
+  }
+
+  @override
+  Future fetchData() async {
+    try {
+      var data = await SchoolService().getAll();
+      dataList = data;
+      setDataTable(dataList);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

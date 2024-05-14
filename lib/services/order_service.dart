@@ -22,9 +22,16 @@ class OrderService {
     return list;
   }
 
-  Future<List<Order>> getByStatus(OrderStatus status) async {
-    final response =
-        await _apiService.request.get('$baseUrl?status=${status.code}');
+  Future<List<Order>> getByStatus(
+      OrderStatus status) async {
+    Map<String, dynamic> queryParameters = {'status': status.code};
+
+    // if (page != null && size != null) {
+    //   queryParameters['page'] = page;
+    //   queryParameters['size'] = size;
+    // }
+    final response = await _apiService.request
+        .get(baseUrl, queryParameters: queryParameters);
     List<Order> list = [];
     for (var e in response.data['data']) {
       list.add(Order.fromJson(e));

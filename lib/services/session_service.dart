@@ -11,23 +11,25 @@ class SessionService {
   final String baseUrl = 'sessions';
 
   Future<List<Session>> getSessionsBySchoolId(
-      String schoolId, SessionStatus status) async {
+      String schoolId, SessionStatus? status) async {
     Map<String, dynamic> queryParameters = {};
-    switch (status) {
-      case SessionStatus.orderable:
-        queryParameters['Orderable'] = true;
-        break;
-      case SessionStatus.incomming:
-        queryParameters['Incomming'] = true;
-        break;
-      case SessionStatus.expired:
-        queryParameters['Expired'] = true;
-        break;
-      default:
-        queryParameters['Orderable'] = true;
+    queryParameters['schoolId'] = schoolId;
+    if (status != null) {
+      switch (status) {
+        case SessionStatus.orderable:
+          queryParameters['Orderable'] = true;
+          break;
+        case SessionStatus.incomming:
+          queryParameters['Incomming'] = true;
+          break;
+        case SessionStatus.expired:
+          queryParameters['Expired'] = true;
+          break;
+        default:
+          queryParameters['Orderable'] = true;
+      }
     }
-    final response = await _apiService.request.get(
-        "$baseUrl?schoolId=$schoolId",
+    final response = await _apiService.request.get(baseUrl,
         queryParameters: queryParameters.isNotEmpty ? queryParameters : null);
     List<Session> list = [];
     for (var e in response.data['data']) {

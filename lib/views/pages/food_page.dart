@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/utils/data_table.dart';
 import '/views/pages/food_detail.dart';
 import '/contains/theme_color.dart';
 import '/views/pages/widget/description_input_widget.dart';
@@ -23,76 +23,95 @@ class FoodView extends GetView<FoodController> {
   @override
   Widget build(BuildContext context) {
     return LoadingView(
-      future: controller.refreshData,
-      child: Obx(
-        () => DataTableView(
-          title: 'Quản lý sản phẩm',
-          header: Row(
-            children: [
-              TextButton(
-                onPressed: () async {
-                  await showDialog(false);
-                },
-                child:  Row(
-                  mainAxisSize: MainAxisSize.min,
+      future: controller.fetchData,
+      child: GetBuilder<FoodController>(builder: (controller) {
+        return Obx(
+          () => PaginatedDataTable2(
+            header: Column(
+              children: [
+                const SizedBox(height: 13),
+                const Text('Quản lý sản phẩm'),
+                Row(
                   children: [
-                    const Icon(Icons.add_outlined, size: 20,),
-                    Text('Tạo thức ăn', style: Get.textTheme.bodyMedium),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () async {
+                        await showDialog(false);
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.add_outlined,
+                            size: 20,
+                          ),
+                          Text('Tạo thức ăn', style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await showDialog(true);
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.add_outlined,
+                            size: 20,
+                          ),
+                          Text('Tạo combo', style: Get.textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
+              ],
+            ),
+            availableRowsPerPage: const [2, 5, 10, 30, 100],
+            rowsPerPage: controller.rowsPerPage.value,
+            columnSpacing: 0,
+            onRowsPerPageChanged: (value) {
+              controller.changeRowsPerPage(value!);
+            },
+            onPageChanged: (int value) {
+              // controller.changePage(value);
+            },
+            // refreshData: controller.fetchData,
+            // loadPage: (page) => controller.loadPage(page),
+            // search: (value) => controller.search(value),
+            // sortColumnIndex: controller.columnIndex.value,
+            // sortAscending: controller.columnAscending.value,
+            columns: const <DataColumn>[
+              DataColumn2(
+                label: Text('Code'),
               ),
-              const SizedBox(
-                width: 10,
+              DataColumn2(label: Text('Hình ảnh')),
+              DataColumn2(
+                label: Text('Tên sản phẩm'),
               ),
-              TextButton(
-                onPressed: () async {
-                  await showDialog(true);
-                },
-                child:  Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.add_outlined, size: 20,),
-                    Text('Tạo combo', style: Get.textTheme.bodyMedium),
-                  ],
-                ),
+              DataColumn2(
+                label: Text('Loại'),
               ),
+              DataColumn2(
+                label: Text('Giá'),
+              ),
+              DataColumn2(label: Text(' ')),
             ],
+            // ignore: invalid_use_of_protected_member
+            source: MyDataTableSource(rows: controller.rows.value),
           ),
-          refreshData: controller.refreshData,
-          loadPage: (page) => controller.loadPage(page),
-          search: (value) => controller.search(value),
-          sortColumnIndex: controller.columnIndex.value,
-          sortAscending: controller.columnAscending.value,
-          columns: <DataColumn>[
-            const DataColumn(
-              label: Text('Stt'),
-            ),
-            const DataColumn(
-              label: Text('Code'),
-            ),
-            const DataColumn(label: Text('Hình ảnh')),
-            DataColumn(
-                label: const Text('Tên sản phẩm'),
-                onSort: (index, ascending) => controller.sortByName(index)),
-            DataColumn(
-                label: const Text('Giá'),
-                onSort: (index, ascending) => controller.sortByPrice(index)),
-            const DataColumn(
-              label: Text('Loại'),
-            ),
-            const DataColumn(label: Text(' ')),
-          ],
-          // ignore: invalid_use_of_protected_member
-          rows: controller.rows.value,
-        ),
-      ),
+        );
+      }),
     );
   }
 
-  DataRow setRow(int index, Food food) {
+  DataRow setRow(Food food) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
         DataCell(
           TextDataTable(
             data: food.code.toString(),
@@ -116,8 +135,8 @@ class FoodView extends GetView<FoodController> {
             width: 200,
           ),
         ),
-        DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Text(food.category!.name.toString())),
+        DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Row(
           children: [
             const Spacer(),
@@ -136,15 +155,14 @@ class FoodView extends GetView<FoodController> {
     controller.clearForm();
     Get.dialog(
       ConstrainedBox(
-        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
+        constraints: BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title:  Text('Thông tin món ăn',
-                  style: Get.textTheme.titleMedium),
+          title: Text('Thông tin món ăn', style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width:   Get.width * 0.8,
+                width: Get.width * 0.8,
                 child: ListBody(
                   mainAxis: Axis.vertical,
                   children: [
@@ -169,11 +187,15 @@ class FoodView extends GetView<FoodController> {
                           onPressed: () {
                             controller.pickImage();
                           },
-                          child:  Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Iconsax.add, size: 20,),
-                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                              const Icon(
+                                Iconsax.add,
+                                size: 20,
+                              ),
+                              Text('Thay đổi ảnh',
+                                  style: Get.textTheme.bodyMedium),
                             ],
                           ),
                         ),
@@ -239,8 +261,7 @@ class FoodView extends GetView<FoodController> {
                         },
                       ),
                     ),
-                     Text('Loại',
-                  style: Get.textTheme.bodyMedium),
+                    Text('Loại', style: Get.textTheme.bodyMedium),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
@@ -282,11 +303,12 @@ class FoodView extends GetView<FoodController> {
                                   top: 10.0),
                               child: TextButton(
                                 onPressed: showFoodDialog,
-                                child:  Row(
+                                child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     const Icon(Iconsax.add),
-                                    Text('Thêm thức ăn', style: Get.textTheme.bodyMedium),
+                                    Text('Thêm thức ăn',
+                                        style: Get.textTheme.bodyMedium),
                                   ],
                                 ),
                               ),
@@ -307,10 +329,10 @@ class FoodView extends GetView<FoodController> {
                                         ),
                                       ),
                                       title: Text('${food.name}',
-                  style: Get.textTheme.bodyMedium),
+                                          style: Get.textTheme.bodyMedium),
                                       subtitle: Text(
                                           'Số lượng: ${controller.combos[food.id!]}',
-                  style: Get.textTheme.bodySmall),
+                                          style: Get.textTheme.bodySmall),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -324,9 +346,10 @@ class FoodView extends GetView<FoodController> {
                                                   Form(
                                                     key: formKey,
                                                     child: AlertDialog(
-                                                      title:  Text(
+                                                      title: Text(
                                                           'Cập nhật số lượng',
-                  style: Get.textTheme.titleMedium),
+                                                          style: Get.textTheme
+                                                              .titleMedium),
                                                       content: TextFormField(
                                                         controller: controller
                                                             .quantiyText,
@@ -419,10 +442,13 @@ class FoodView extends GetView<FoodController> {
               onPressed: () async {
                 await controller.submitForm(isCombo);
               },
-              child:  Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Iconsax.add, size: 20,),
+                  const Icon(
+                    Iconsax.add,
+                    size: 20,
+                  ),
                   Text('Lưu', style: Get.textTheme.bodyMedium),
                 ],
               ),
@@ -435,14 +461,13 @@ class FoodView extends GetView<FoodController> {
 
   void showCategoryDialog() {
     Get.dialog(AlertDialog(
-      title:  Text('Chọn loại',
-                  style: Get.textTheme.titleMedium),
+      title: Text('Chọn loại', style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getAllCategory();
         },
         child: SizedBox(
-          width: Get.width* 0.5,
+          width: Get.width * 0.5,
           height: Get.height * 0.5,
           child: Column(
             children: [
@@ -490,37 +515,35 @@ class FoodView extends GetView<FoodController> {
       AlertDialog(
         content: SizedBox(
           height: Get.height * 0.8,
-           width:   Get.width * 0.8,
+          width: Get.width * 0.8,
           child: LoadingView(
             future: controller.getAllFood,
             child: Obx(
               () => DataTableView(
                 title: 'Danh sách sản phẩm',
-                sortColumnIndex: controller.columnIndex.value,
-                sortAscending: controller.columnAscending.value,
+                sortColumnIndex: 1,
+                sortAscending: true,
                 search: (value) => controller.searchFood(value),
                 refreshData: controller.getAllFood,
                 loadPage: (page) => (page),
-                columns: [
-                  const DataColumn(
+                columns: const [
+                  DataColumn(
                     label: Text('Stt'),
                   ),
-                  const DataColumn(
+                  DataColumn(
                     label: Text('Code'),
                   ),
-                  const DataColumn(label: Text('Hình ảnh')),
+                  DataColumn(label: Text('Hình ảnh')),
                   DataColumn(
-                      label: const Text('Tên sản phẩm'),
-                      onSort: (index, ascending) =>
-                          controller.sortByName(index)),
+                    label: Text('Tên sản phẩm'),
+                  ),
                   DataColumn(
-                      label: const Text('Giá'),
-                      onSort: (index, ascending) =>
-                          controller.sortByPrice(index)),
-                  const DataColumn(
+                    label: Text('Giá'),
+                  ),
+                  DataColumn(
                     label: Text('Loại'),
                   ),
-                  const DataColumn(label: Text(' ')),
+                  DataColumn(label: Text(' ')),
                 ],
                 // ignore: invalid_use_of_protected_member
                 rows: controller.foodRows.value,

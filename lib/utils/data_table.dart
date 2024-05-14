@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MyDataTable extends DataTableSource {
+class MyDataTableSource extends DataTableSource {
   final List<DataRow> rows;
 
-  MyDataTable({required this.rows});
+  MyDataTableSource({required this.rows});
 
   @override
   DataRow? getRow(int index) {

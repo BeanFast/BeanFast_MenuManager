@@ -1,15 +1,15 @@
-import 'package:beanfast_menumanager/views/pages/school_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/views/pages/school_detail.dart';
+import '/views/pages/widget/paginated_datatable_widget.dart';
 import '/controllers/school_controller.dart';
 import '/models/location.dart';
 import '/models/school.dart';
 import '/routes/app_routes.dart';
 import '/views/pages/loading_page.dart';
 import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/data_table_page.dart';
 import '/views/pages/widget/text_data_table_widget.dart';
 import 'widget/description_input_widget.dart';
 
@@ -20,58 +20,38 @@ class SchoolView extends GetView<SchoolController> {
   Widget build(BuildContext context) {
     Get.put(SchoolController());
     return LoadingView(
-      future: controller.refreshData,
-      child: Obx(
-        () => DataTableView(
-          title: 'Quản lý trường',
-          header: CreateButtonDataTable(
-            onPressed: showCreateSchoolDialog,
+      future: controller.fetchData,
+      child: const PaginatedDataTableView<SchoolController>(
+        columns: <DataColumn>[
+          DataColumn(
+            label: Text('Code'),
           ),
-          refreshData: controller.refreshData,
-          loadPage: (page) => controller.loadPage(page),
-          search: (value) => controller.search(value),
-          sortColumnIndex: controller.columnIndex.value,
-          sortAscending: controller.columnAscending.value,
-          columns: <DataColumn>[
-            const DataColumn(
-              label: Text('Stt'),
-            ),
-            const DataColumn(
-              label: Text('Code'),
-            ),
-            const DataColumn(label: Text('Hình ảnh')),
-            DataColumn(
-                label: const Text('Tên trường'),
-                onSort: (index, ascending) => controller.sortByName(index)),
-            const DataColumn(
-              label: Text('Địa chỉ'),
-            ),
-            const DataColumn(
-              label: Text('Số cổng'),
-            ),
-            const DataColumn(
-              label: Text('Số học sinh'),
-            ),
-            const DataColumn(label: Text(' ')),
-          ],
-          // ignore: invalid_use_of_protected_member
-          rows: controller.rows.value,
-        ),
+          DataColumn(label: Text('Hình ảnh')),
+          DataColumn(
+            label: Text('Tên trường'),
+          ),
+          DataColumn(
+            label: Text('Địa chỉ'),
+          ),
+          DataColumn(
+            label: Text('Số cổng'),
+          ),
+          DataColumn(
+            label: Text('Số học sinh'),
+          ),
+          DataColumn(
+            label: Text('Trạng thái'),
+          ),
+          DataColumn(label: Text(' ')),
+        ],
       ),
     );
   }
 
-  DataRow setRow(int index, School school) {
+  DataRow setRow(School school) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: school.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(school.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -81,16 +61,14 @@ class SchoolView extends GetView<SchoolController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: school.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(school.name.toString())),
         DataCell(Text(school.address.toString())),
         DataCell(Text(school.locations!.length.toString())),
         DataCell(Text(school.studentCount.toString())),
+        const DataCell(Text(
+          'Đang hoạt động',
+          style: TextStyle(color: Colors.green),
+        )),
         DataCell(Row(
           children: [
             const Spacer(),
@@ -111,8 +89,7 @@ class SchoolView extends GetView<SchoolController> {
       ConstrainedBox(
         constraints: BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title:  Text('Thông trường học',
-                  style: Get.textTheme.titleMedium),
+          title: Text('Thông trường học', style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
@@ -125,8 +102,8 @@ class SchoolView extends GetView<SchoolController> {
                         padding: const EdgeInsets.only(
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                         child: controller.selectedImageFile.value == null
-                            ?  Text('Chưa có ảnh',
-                  style: Get.textTheme.bodyMedium)
+                            ? Text('Chưa có ảnh',
+                                style: Get.textTheme.bodyMedium)
                             : Image.memory(
                                 controller.selectedImageFile.value!.files.single
                                     .bytes!,
@@ -144,11 +121,15 @@ class SchoolView extends GetView<SchoolController> {
                           onPressed: () {
                             controller.pickImage();
                           },
-                          child:  Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Iconsax.add, size: 20,),
-                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                              const Icon(
+                                Iconsax.add,
+                                size: 20,
+                              ),
+                              Text('Thay đổi ảnh',
+                                  style: Get.textTheme.bodyMedium),
                             ],
                           ),
                         ),
@@ -184,13 +165,14 @@ class SchoolView extends GetView<SchoolController> {
                       child: Card(
                         child: ListTile(
                           leading: const Icon(Iconsax.location),
-                          title:  Text('Khu vực',
-                                          style: Get.textTheme.bodyMedium),
+                          title:
+                              Text('Khu vực', style: Get.textTheme.bodyMedium),
                           subtitle: Obx(
-                            () => Text(controller.selectedArea.value == null
-                                ? 'Chưa chọn khu vực'
-                                : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
-                                          style: Get.textTheme.bodyMedium),
+                            () => Text(
+                                controller.selectedArea.value == null
+                                    ? 'Chưa chọn khu vực'
+                                    : '${controller.selectedArea.value!.ward}, ${controller.selectedArea.value!.district}, ${controller.selectedArea.value!.city}',
+                                style: Get.textTheme.bodyMedium),
                           ),
                           trailing: IconButton(
                             iconSize: 24,
@@ -228,11 +210,15 @@ class SchoolView extends GetView<SchoolController> {
                             left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
                         child: TextButton(
                           onPressed: showCreateLocationDialog,
-                          child:  Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Iconsax.add, size: 20,),
-                              Text('Thêm cổng trường học', style: Get.textTheme.bodyMedium),
+                              const Icon(
+                                Iconsax.add,
+                                size: 20,
+                              ),
+                              Text('Thêm cổng trường học',
+                                  style: Get.textTheme.bodyMedium),
                             ],
                           ),
                         ),
@@ -281,10 +267,13 @@ class SchoolView extends GetView<SchoolController> {
               onPressed: () async {
                 await controller.submitForm();
               },
-              child:  Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Iconsax.add, size: 20,),
+                  const Icon(
+                    Iconsax.add,
+                    size: 20,
+                  ),
                   Text('Lưu', style: Get.textTheme.bodyMedium),
                 ],
               ),
@@ -352,8 +341,7 @@ class SchoolView extends GetView<SchoolController> {
 
   void showAreaDialog() {
     Get.dialog(AlertDialog(
-      title:  Text('Chọn khu vực',
-                  style: Get.textTheme.titleMedium),
+      title: Text('Chọn khu vực', style: Get.textTheme.titleMedium),
       content: LoadingView(
         future: () async {
           await controller.getAllArea();
@@ -384,7 +372,7 @@ class SchoolView extends GetView<SchoolController> {
                             child: ListTile(
                               title: Text(
                                   '${area.ward}, ${area.district}, ${area.city}',
-                  style: Get.textTheme.bodyMedium),
+                                  style: Get.textTheme.bodyMedium),
                               onTap: () {
                                 Get.back();
                                 controller.selectArea(area);
@@ -407,10 +395,9 @@ class SchoolView extends GetView<SchoolController> {
   void showCreateLocationDialog() {
     Get.dialog(
       ConstrainedBox(
-        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
+        constraints: BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title:  Text('Thông tin cổng',
-                  style: Get.textTheme.titleMedium),
+          title: Text('Thông tin cổng', style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateLocationKey,
             child: SingleChildScrollView(
@@ -426,8 +413,8 @@ class SchoolView extends GetView<SchoolController> {
                         child:
                             controller.selectedLocationImageImageFile.value ==
                                     null
-                                ?  Text('Chưa có ảnh',
-                  style: Get.textTheme.bodyMedium)
+                                ? Text('Chưa có ảnh',
+                                    style: Get.textTheme.bodyMedium)
                                 : Image.memory(
                                     controller.selectedLocationImageImageFile
                                         .value!.files.single.bytes!,
@@ -445,11 +432,15 @@ class SchoolView extends GetView<SchoolController> {
                           onPressed: () async {
                             await controller.pickLocationImage();
                           },
-                          child:  Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Iconsax.add, size: 20,),
-                              Text('Thay đổi ảnh', style: Get.textTheme.bodyMedium),
+                              const Icon(
+                                Iconsax.add,
+                                size: 20,
+                              ),
+                              Text('Thay đổi ảnh',
+                                  style: Get.textTheme.bodyMedium),
                             ],
                           ),
                         ),
@@ -484,7 +475,7 @@ class SchoolView extends GetView<SchoolController> {
               onPressed: () {
                 controller.addLocation();
               },
-              child:  Text('Lưu', style: Get.textTheme.bodyMedium),
+              child: Text('Lưu', style: Get.textTheme.bodyMedium),
             ),
           ],
         ),

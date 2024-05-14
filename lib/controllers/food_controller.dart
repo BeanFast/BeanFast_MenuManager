@@ -8,12 +8,12 @@ import '/models/combo.dart';
 import '/utils/format_data.dart';
 import '/models/food.dart';
 import '/models/category.dart';
-import '/controllers/data_table_controller.dart';
 import '/views/pages/food_page.dart';
 import '/services/food_service.dart';
 import '/services/category_service.dart';
+import 'paginated_data_table_controller.dart';
 
-class FoodController extends DataTableController<Food> {
+class FoodController extends PaginatedDataTableController<Food> {
   //Form
   final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
   var selectedImageFile = Rxn<FilePickerResult>();
@@ -39,57 +39,38 @@ class FoodController extends DataTableController<Food> {
     listCategory.clear();
   }
 
-  @override
-  void search(String value) {
-    if (value.isEmpty) {
-      setDataTable(initModelList);
-    } else {
-      currentModelList = initModelList
-          .where((e) =>
-              e.code!.toLowerCase().contains(value.toLowerCase()) ||
-              e.name!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-      setDataTable(currentModelList);
-    }
-  }
-
-  @override
-  Future getData(list) async {
-    try {
-      var data = await FoodService().getAll(null);
-      initModelList.addAll(data);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
-    }
-  }
-
-  void sortByName(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) {
-      currentModelList = currentModelList.reversed.toList();
-    }
-    setDataTable(currentModelList);
-  }
-
-  void sortByPrice(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
-    if (!columnAscending.value) {
-      currentModelList = currentModelList.reversed.toList();
-    }
-    setDataTable(currentModelList);
-  }
-
-  // Future getByCode() async {
-  //   try {
-  //     var foodCode = Get.parameters['code'];
-  //     model.value = await FoodService().getByCode(foodCode!);
-  //   } on DioException catch (e) {
-  //     message = e.response!.data['message'];
+  // @override
+  // void search(String value) {
+  //   if (value.isEmpty) {
+  //     setDataTable(initModelList);
+  //   } else {
+  //     currentModelList = initModelList
+  //         .where((e) =>
+  //             e.code!.toLowerCase().contains(value.toLowerCase()) ||
+  //             e.name!.toLowerCase().contains(value.toLowerCase()))
+  //         .toList();
+  //     setDataTable(currentModelList);
   //   }
+  // }
+
+  // void sortByName(int index) {
+  //   sortColumnIndex.value = index;
+  //   columnAscending.value = !columnAscending.value;
+  //   currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
+  //   if (!columnAscending.value) {
+  //     currentModelList = currentModelList.reversed.toList();
+  //   }
+  //   setDataTable(currentModelList);
+  // }
+
+  // void sortByPrice(int index) {
+  //   columnIndex.value = index;
+  //   columnAscending.value = !columnAscending.value;
+  //   currentModelList.sort((a, b) => a.price!.compareTo(b.price!));
+  //   if (!columnAscending.value) {
+  //     currentModelList = currentModelList.reversed.toList();
+  //   }
+  //   setDataTable(currentModelList);
   // }
 
   Future getAllCategory() async {
@@ -98,8 +79,8 @@ class FoodController extends DataTableController<Food> {
       var data = await CategoryService().getAll();
       listInitCategory = data;
       listCategory.addAll(listInitCategory);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -124,8 +105,8 @@ class FoodController extends DataTableController<Food> {
         listFood.removeWhere((e) => e.id! == c.key);
       }
       setFoodDataTable(listFood);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -206,7 +187,7 @@ class FoodController extends DataTableController<Food> {
         await FoodService().create(model, isCombo);
         Get.back();
         Get.snackbar('Thành công', '');
-        refreshData();
+        await fetchData();
       } on DioException catch (e) {
         if (e.response != null) {
           if (e.response!.data['message'] != null) {
@@ -222,29 +203,27 @@ class FoodController extends DataTableController<Food> {
   }
 
   @override
-  Future loadPage(int page) {
-    print(page);
-    // TODO: implement loadPage
-    throw UnimplementedError();
-  }
-
-  // @override
-  // void setDataTable(List<Food> list) {
-  //   rows.value = list.map((dataMap) {
-  //     return const FoodView().setRow(list.indexOf(dataMap), dataMap);
-  //   }).toList();
-  // }
-
-
-  @override
   void setDataTable(List<Food> list) {
     rows.value = list.map((dataMap) {
-      return const FoodView().setRow(list.indexOf(dataMap), dataMap);
+      return const FoodView().setRow(dataMap);
     }).toList();
   }
+
   void setFoodDataTable(List<Food> list) {
     foodRows.value = list.map((dataMap) {
       return const FoodView().setFoodRow(list.indexOf(dataMap), dataMap);
     }).toList();
+  }
+
+  @override
+  Future fetchData() async {
+    try {
+      var data = await FoodService()
+          .getAll(null);
+      dataList = data;
+      setDataTable(dataList);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }
