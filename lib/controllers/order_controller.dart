@@ -20,8 +20,11 @@ class OrderController extends PaginatedDataTableController<Order> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController reasonCancelOrderText = TextEditingController();
   RxList<School> schoolList = <School>[].obs;
+  List<School> schoolDataList = [];
   RxList<Session> sessionList = <Session>[].obs;
+  List<Session> sessionDataList = [];
   RxList<SessionDetail> sessionDetailList = <SessionDetail>[].obs;
+  List<SessionDetail> sessionDetailDataList = [];
   Rx<School?> selectedSchool = Rx<School?>(null);
   Rx<Session?> selectedSession = Rx<Session?>(null);
   Rx<SessionDetail?> selectedSessionDetail = Rx<SessionDetail?>(null);
@@ -39,7 +42,11 @@ class OrderController extends PaginatedDataTableController<Order> {
   @override
   Future fetchData() async {
     try {
-      final data = await OrderService().getByStatus(status);
+      final data = await OrderService().getByStatus(
+          status,
+          selectedSchool.value?.id,
+          selectedSession.value?.id,
+          selectedSessionDetail.value?.id);
       dataList = data;
       setDataTable(dataList);
     } catch (e) {
@@ -49,8 +56,8 @@ class OrderController extends PaginatedDataTableController<Order> {
 
   Future fetchSchoolData() async {
     try {
-      final data = await SchoolService().getAll();
-      schoolList.value = data;
+      schoolDataList = await SchoolService().getAll();
+      schoolList.value = schoolDataList;
     } catch (e) {
       throw Exception(e);
     }
@@ -59,8 +66,10 @@ class OrderController extends PaginatedDataTableController<Order> {
   Future fetchSessionData() async {
     if (selectedSchool.value != null) {
       try {
-        final data = await SessionService().getSessionsBySchoolId(selectedSchool.value!.id!, null);
-        sessionList.value = data;
+        sessionDataList = await SessionService()
+            .getSessionsBySchoolId(selectedSchool.value!.id!, null);
+            sessionDataList.sort((a, b) => b.deliveryStartTime!.compareTo(a.deliveryStartTime!));
+        sessionList.value = sessionDataList;
       } catch (e) {
         throw Exception(e);
       }
@@ -70,24 +79,42 @@ class OrderController extends PaginatedDataTableController<Order> {
   Future fetchSessionDetailData() async {
     if (selectedSession.value != null) {
       try {
-        final data = await SessionDetailService().getBySessionId(selectedSession.value!.id!);
-        sessionDetailList.value = data;
+        //api get session by School Id đã có session
+        sessionDetailDataList = sessionDataList
+            .firstWhere((e) => e.id == selectedSession.value?.id)
+            .sessionDetails!;
+        sessionDetailList.value = sessionDetailDataList;
       } catch (e) {
         throw Exception(e);
       }
     }
   }
 
-  void selectSchool(School value) {
+  Future selectSchool(School value) async {
     selectedSchool.value = value;
+    selectedSession.value = null;
+    await fetchData();
   }
 
-  void selectSession(Session value) {
+  void searchSchool(String value) {
+    if (value == '') {
+      schoolList.value = schoolDataList;
+    } else {
+      schoolList.value = schoolDataList
+          .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+  }
+
+  Future selectSession(Session value) async {
     selectedSession.value = value;
+    selectedSessionDetail.value = null;
+    await fetchData();
   }
 
-  void selectSessionDetail(SessionDetail value) {
+  Future selectSessionDetail(SessionDetail value) async {
     selectedSessionDetail.value = value;
+    await fetchData();
   }
 
   void setDate(String value) {

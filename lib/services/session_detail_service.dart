@@ -16,15 +16,6 @@ class SessionDetailService {
     return list;
   }
 
-  Future<List<SessionDetail>> getBySessionId(String id) async {
-    // final response = await _apiService.request.get('$baseUrl?');
-    List<SessionDetail> list = [];
-    // for (var e in response.data['data']) {
-    //   list.add(SessionDetail.fromJson(e));
-    // }
-    return list;
-  }
-
   // Future<Response> updateDeliverySchedule(
   //     String sessionDetailId, List<String> listDelivererId) async {
   //   List<String> list = [];

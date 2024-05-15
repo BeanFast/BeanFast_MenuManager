@@ -15,7 +15,7 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const SchoolView());
+  Rx<Widget> selectedContent = Rx<Widget>(const OrderView());
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -33,7 +33,7 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return const SchoolView();
+        return const OrderView();
         // return const DashboardView();
       case 1:
         return const FoodView();

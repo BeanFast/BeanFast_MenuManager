@@ -60,6 +60,10 @@ class OrderView extends GetView<OrderController> {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
+                        if (controller.selectedSchool.value == null) {
+                          Get.snackbar('Thông báo', 'Chưa chọn trường học');
+                          return;
+                        }
                         showSelectionSessionDialog();
                       },
                       child: Container(
@@ -89,6 +93,10 @@ class OrderView extends GetView<OrderController> {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
+                        if (controller.selectedSession.value == null) {
+                          Get.snackbar('Thông báo', 'Chưa chọn khung giờ');
+                          return;
+                        }
                         showSelectionSessionDetailDialog();
                       },
                       child: Container(
@@ -183,24 +191,28 @@ class OrderView extends GetView<OrderController> {
               const SizedBox(height: 10),
               SizedBox(
                 height: Get.height * 0.22,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: controller.sessionDetailList
-                        .map(
-                          (sessionDetail) => GestureDetector(
-                            onTap: () {
-                              controller.selectSessionDetail(sessionDetail);
-                              Get.back();
-                            },
-                            child: Card(
-                              child: ListTile(
-                                title: Text(
-                                    sessionDetail.location!.name.toString()),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
+                child: LoadingView(
+                  future: controller.fetchSessionDetailData,
+                  child: SingleChildScrollView(
+                    child: Obx(() => Column(
+                          children: controller.sessionDetailList
+                              .map(
+                                (sessionDetail) => GestureDetector(
+                                  onTap: () {
+                                    controller
+                                        .selectSessionDetail(sessionDetail);
+                                    Get.back();
+                                  },
+                                  child: Card(
+                                    child: ListTile(
+                                      title: Text(sessionDetail.location!.name
+                                          .toString()),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        )),
                   ),
                 ),
               ),
@@ -314,61 +326,65 @@ class OrderView extends GetView<OrderController> {
                       Expanded(
                         child: LoadingView(
                           future: controller.fetchSessionData,
-                          child: TabBarView(
-                            children: [
-                              SizedBox(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: controller.sessionList
-                                        .where((session) =>
-                                            session.orderStartTime!
-                                                .isBefore(DateTime.now()) &&
-                                            session.orderEndTime!
-                                                .isAfter(DateTime.now()))
-                                        .map(
-                                          (session) => GestureDetector(
-                                            onTap: () {
-                                              controller.selectSession(session);
-                                              Get.back();
-                                            },
-                                            child: Card(
-                                              child: ListTile(
-                                                title: Text(
-                                                    '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
+                          child: Obx(
+                            () => TabBarView(
+                              children: [
+                                SizedBox(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: controller.sessionList
+                                          .where((session) =>
+                                              session.orderStartTime!
+                                                  .isBefore(DateTime.now()) &&
+                                              session.orderEndTime!
+                                                  .isAfter(DateTime.now()))
+                                          .map(
+                                            (session) => GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                    .selectSession(session);
+                                                Get.back();
+                                              },
+                                              child: Card(
+                                                child: ListTile(
+                                                  title: Text(
+                                                      '${DateFormat('HH:mm dd/MM/yy').format(session.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(session.deliveryEndTime!)}'),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        )
-                                        .toList(),
+                                          )
+                                          .toList(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: controller.sessionList
-                                        .where((session) => session
-                                            .orderEndTime!
-                                            .isBefore(DateTime.now()))
-                                        .map(
-                                          (session) => GestureDetector(
-                                            onTap: () {
-                                              controller.selectSession(session);
-                                              Get.back();
-                                            },
-                                            child: Card(
-                                              child: ListTile(
-                                                title: Text(
-                                                    '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
+                                SizedBox(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: controller.sessionList
+                                          .where((session) => session
+                                              .orderEndTime!
+                                              .isBefore(DateTime.now()))
+                                          .map(
+                                            (session) => GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                    .selectSession(session);
+                                                Get.back();
+                                              },
+                                              child: Card(
+                                                child: ListTile(
+                                                  title: Text(
+                                                      '${DateFormat('HH:mm dd/MM/yy').format(session.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(session.deliveryEndTime!)}'),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        )
-                                        .toList(),
+                                          )
+                                          .toList(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -393,7 +409,7 @@ class OrderView extends GetView<OrderController> {
           child: Column(
             children: [
               TextField(
-                onChanged: (value) => {},
+                onChanged: (value) => controller.searchSchool(value),
                 decoration: const InputDecoration(
                   labelText: 'Tìm kiếm',
                 ),
@@ -403,23 +419,25 @@ class OrderView extends GetView<OrderController> {
                 future: controller.fetchSchoolData,
                 child: Expanded(
                   child: SingleChildScrollView(
-                    child: Obx(() => Column(
-                      children: controller.schoolList
-                          .map(
-                            (school) => GestureDetector(
-                              onTap: () {
-                                Get.back();
-                                controller.selectSchool(school);
-                              },
-                              child: Card(
-                                child: ListTile(
-                                  title: Text(school.name.toString()),
+                    child: Obx(
+                      () => Column(
+                        children: controller.schoolList
+                            .map(
+                              (school) => GestureDetector(
+                                onTap: () {
+                                  Get.back();
+                                  controller.selectSchool(school);
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    title: Text(school.name.toString()),
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                          .toList(),
-                    ),) ,
+                            )
+                            .toList(),
+                      ),
+                    ),
                   ),
                 ),
               ),

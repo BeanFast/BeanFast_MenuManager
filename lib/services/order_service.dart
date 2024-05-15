@@ -22,9 +22,14 @@ class OrderService {
     return list;
   }
 
-  Future<List<Order>> getByStatus(
-      OrderStatus status) async {
-    Map<String, dynamic> queryParameters = {'status': status.code};
+  Future<List<Order>> getByStatus(OrderStatus status, String? schoolId,
+      String? sessionId, String? sessiondetailid) async {
+    Map<String, dynamic> queryParameters = {
+      'status': status.code,
+      'schoolId': schoolId,
+      'sessionId': sessionId,
+      'sessiondetailid': sessiondetailid,
+    };
 
     // if (page != null && size != null) {
     //   queryParameters['page'] = page;

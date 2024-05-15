@@ -43,15 +43,12 @@ class OrderTabView extends GetView<OrderController> {
             DataColumn(label: Text('Trường')),
             DataColumn(label: Text('Khung giờ')),
             DataColumn(label: Text('Cổng')),
-            DataColumn(
-              label: Text('Địa điểm'),
-            ),
             DataColumn(label: Text('Số sản phẩm')),
             DataColumn(label: Text('Tổng giá')),
             DataColumn(label: Text(' ')),
           ],
           // ignore: invalid_use_of_protected_member
-            source: MyDataTableSource(rows: controller.rows.value),
+          source: MyDataTableSource(rows: controller.rows.value),
         ),
       ),
     );
@@ -70,12 +67,10 @@ class OrderTabView extends GetView<OrderController> {
         ),
         DataCell(Text(order.paymentDate == null
             ? 'Chưa có'
-            : DateFormat('dd/MM/yyyy').format(order.paymentDate!))),
-        DataCell(Text(order.deliveryDate == null
-            ? 'Chưa có'
-            : DateFormat('dd/MM/yyyy').format(order.deliveryDate!))),
+            : DateFormat('HH:mm dd/MM/yy').format(order.paymentDate!))),
         DataCell(Text(order.sessionDetail!.code.toString())),
-        DataCell(Text(order.sessionDetail!.code.toString())),
+        DataCell(Text(
+            '${DateFormat('HH:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryEndTime!)}')),
         DataCell(Text(order.sessionDetail!.code.toString())),
         DataCell(Text(order.orderDetails!.length.toString())),
         DataCell(Text(Formatter.formatMoney(order.totalPrice.toString()))),

@@ -38,6 +38,11 @@ class SessionService {
     return list;
   }
 
+  Future<Session> getById(String id) async {
+    var response = await _apiService.request.get('$baseUrl/$id');
+    return Session.fromJson(response.data['data']);
+  }
+
   Future<bool> delete(String id) async {
     final response = await _apiService.request.delete("$baseUrl/$id");
     return response.statusCode == 200;
