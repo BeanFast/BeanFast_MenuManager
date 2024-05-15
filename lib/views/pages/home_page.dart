@@ -178,8 +178,8 @@ class HomeView extends StatelessWidget {
                       leading: Icon(_homeController.menuItems[i].icon),
                       title: Text(_homeController.menuItems[i].title),
                       selected: selectedMenuIndex.value == i,
-                      selectedTileColor:
-                          const Color.fromARGB(255, 122, 184, 235),
+                        selectedTileColor:
+                            const Color.fromARGB(255, 122, 184, 235),
                       onTap: () {
                         selectedMenuIndex.value = i;
                         _homeController.changePage(i);

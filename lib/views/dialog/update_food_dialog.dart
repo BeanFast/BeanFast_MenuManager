@@ -109,7 +109,7 @@ void showUpdateFoodDialog() {
             child:  Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Iconsax.add, size: 20,),
+                const Icon(Iconsax.add, size: 20,),
                 Text('Cập nhật', style: Get.textTheme.bodyMedium),
               ],
             ),

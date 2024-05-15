@@ -62,21 +62,27 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                         color: Colors.black, width: 0.5),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child: ListTile(
-                                    title: Text('Mã: ${menu.code}'),
-                                    subtitle: Text(
-                                        'Số lượng sản phẩm: ${menu.menuDetails!.length}'),
-                                    leading: Obx(
-                                      () => Radio<String>(
-                                        value: menu.id!,
-                                        groupValue:
-                                            controller.selectedMenuId.value,
-                                        onChanged: (String? value) {
-                                          if (value != null) {
-                                            controller
-                                                .updateSelectedValue(value);
-                                          }
-                                        },
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.updateSelectedValue(menu.id!);
+                                    
+                                    },
+                                    child: ListTile(
+                                      title: Text('Mã: ${menu.code}'),
+                                      subtitle: Text(
+                                          'Số lượng sản phẩm: ${menu.menuDetails!.length}'),
+                                      leading: Obx(
+                                        () => Radio<String>(
+                                          value: menu.id!,
+                                          groupValue:
+                                              controller.selectedMenuId.value,
+                                          onChanged: (String? value) {
+                                            if (value != null) {
+                                              controller
+                                                  .updateSelectedValue(value);
+                                            }
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
