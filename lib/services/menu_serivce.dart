@@ -27,14 +27,14 @@ class MenuService {
     return list;
   }
 
-  Future<Menu> getById(String id) async {
-    try {
-      final response = await _apiService.request.get('$baseUrl/$id');
-      return Menu.fromJson(response.data["data"]);
-    } on DioException catch (e) {
-      return e.response!.data["message"];
-    }
-  }
+  // Future<Menu> getById(String id) async {
+  //   try {
+  //     final response = await _apiService.request.get('$baseUrl/$id');
+  //     return Menu.fromJson(response.data["data"]);
+  //   } on DioException catch (e) {
+  //     return e.response!.data["message"];
+  //   }
+  // }
 
   Future<bool> create(
       String kitchenId, Map<String, double> mapMenuDetails) async {

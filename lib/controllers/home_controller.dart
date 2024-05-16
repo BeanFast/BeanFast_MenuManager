@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/views/pages/session_detail_page.dart';
 import '/contains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/views/pages/exchange_gift_page.dart';
@@ -15,7 +16,8 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const OrderView());
+  Rx<Widget> selectedContent = Rx<Widget>(const SessionDetailPage(
+      sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06'));
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -33,8 +35,9 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return const OrderView();
-        // return const DashboardView();
+        return const SessionDetailPage(
+            sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06');
+      // return const DashboardView();
       case 1:
         return const FoodView();
       case 2:

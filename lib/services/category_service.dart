@@ -19,8 +19,8 @@ class CategoryService {
     return list;
   }
 
-  Future<dynamic> getById(String id) async {
-    final response = await _apiService.request.get('$baseUrl/$id');
-    return response.data;
-  }
+  // Future<dynamic> getById(String id) async {
+  //   final response = await _apiService.request.get('$baseUrl/$id');
+  //   return response.data;
+  // }
 }

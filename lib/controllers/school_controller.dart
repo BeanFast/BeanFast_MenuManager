@@ -98,7 +98,7 @@ class SchoolController extends PaginatedDataTableController<School> {
     listLocation.removeAt(index);
     setLocationDataTable(listLocation);
   }
-  
+
   void search(String value) {
     if (value.isEmpty) {
       setDataTable(dataList);
@@ -184,6 +184,8 @@ class SchoolController extends PaginatedDataTableController<School> {
   Future fetchData() async {
     try {
       var data = await SchoolService().getAll();
+      data.sort(
+          (a, b) => (b.isOrderable! ? 1 : 0).compareTo(a.isOrderable! ? 1 : 0));
       dataList = data;
       setDataTable(dataList);
     } catch (e) {

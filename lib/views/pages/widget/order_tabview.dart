@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/dialog/order_dialog.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -83,56 +84,11 @@ class OrderTabView extends GetView<OrderController> {
             if (status == OrderStatus.preparing ||
                 status == OrderStatus.delivering)
               CancelOrderActivityButtonTable(onPressed: () {
-                showCancelDialog(order.id!);
+                OrderDialogs.showCancelOrderDialog(order.id!);
               }),
           ],
         )),
       ],
-    );
-  }
-
-  void showCancelDialog(String orderId) {
-    controller.reasonCancelOrderText.clear();
-    Get.dialog(
-      AlertDialog(
-        surfaceTintColor: Colors.white,
-        backgroundColor: ThemeColor.bgColor,
-        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
-        content: Form(
-          key: controller.formKey,
-          child: SizedBox(
-              // height: Get.height / 2,
-              width: Get.width * 0.8,
-              child: TextFormField(
-                controller: controller.reasonCancelOrderText,
-                decoration: const InputDecoration(),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Vui lòng nhập lý do';
-                  }
-                  return null;
-                },
-              )),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              if (controller.formKey.currentState!.validate()) {
-                Get.back();
-                await controller.cancelOrder(orderId);
-              }
-            },
-            child: Text('Huỷ đơn hàng',
-                style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
-          ),
-          TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text('Đóng', style: Get.textTheme.bodyMedium),
-          ),
-        ],
-      ),
     );
   }
 }

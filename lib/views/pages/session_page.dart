@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/views/pages/session_infor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -6,9 +5,10 @@ import 'package:intl/intl.dart';
 import '/controllers/session_controller.dart';
 import '/enums/status_enum.dart';
 import '/models/session.dart';
+import '/views/pages/widget/paginated_datatable_widget.dart';
+import 'session_detail_page.dart';
 import '/views/pages/loading_page.dart';
 import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/paginated_data_table_widget.dart';
 import 'create_session_page.dart';
 
 class SessionView extends GetView<SessionController> {
@@ -81,41 +81,26 @@ class SessionTabView extends GetView<SessionController> {
     Get.put(SessionController());
     controller.status = status;
     return LoadingView(
-      future: controller.refreshData,
-      child: SingleChildScrollView(
-        child: Obx(() => PaginatedDataTableView(
-            sortColumnIndex: controller.columnIndex.value,
-            sortAscending: controller.columnAscending.value,
-            search: (value) => controller.search(value),
-            refreshData: controller.refreshData,
-            loadPage: (page) => controller.loadPage(page),
-            columns: [
-              const DataColumn(
-                label: Text('Stt'),
-              ),
-              const DataColumn(
-                label: Text('Code'),
-              ),
-              const DataColumn(label: Text('Mã thực đơn')),
-              DataColumn(
-                  label: const Text('Thời gian đặt hàng'),
-                  onSort: (index, ascending) =>
-                      controller.sortByCreateDate(index)),
-              const DataColumn(label: Text('Thời gian giao hàng')),
-              const DataColumn(label: Text('Địa điểm')),
-              const DataColumn(label: Text(' ')),
-            ],
-            // ignore: invalid_use_of_protected_member
-            rows: controller.rows.value)),
+      future: controller.fetchData,
+      child: const PaginatedDataTableView<SessionController>(
+        columns: [
+          DataColumn(label: Text('Code')),
+          DataColumn(label: Text('Mã thực đơn')),
+          DataColumn(label: Text('Thời gian đặt hàng')),
+          DataColumn(label: Text('Thời gian giao hàng')),
+          DataColumn(label: Text('Địa điểm')),
+          DataColumn(label: Text('Số đơn hàng')),
+          DataColumn(label: Text('Số người giao hàng')),
+          DataColumn(label: Text(' ')),
+        ],
       ),
     );
   }
 
-  DataRow setRow(int index, Session session) {
+  DataRow setRow(Session session) {
     var menu = session.menu!;
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
         DataCell(Text(session.code.toString())),
         DataCell(Text(menu.code.toString())),
         DataCell(Text(
@@ -133,11 +118,13 @@ class SessionTabView extends GetView<SessionController> {
                 .toList(),
           ),
         )),
+        DataCell(Text(menu.code.toString())),
+        DataCell(Text(menu.code.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(onPressed: () {
-              Get.to(const SessionInformationPage());
+              Get.to(SessionDetailPage(sessionId: session.id!));
             }),
             if (status != SessionStatus.expired)
               DeleteButtonDataTable(onPressed: () {

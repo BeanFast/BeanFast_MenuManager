@@ -65,10 +65,15 @@ class SchoolView extends GetView<SchoolController> {
         DataCell(Text(school.address.toString())),
         DataCell(Text(school.locations!.length.toString())),
         DataCell(Text(school.studentCount.toString())),
-        const DataCell(Text(
-          'Đang hoạt động',
-          style: TextStyle(color: Colors.green),
-        )),
+        DataCell(school.isOrderable == true
+            ? const Text(
+                'Đang hoạt động',
+                style: TextStyle(color: Colors.green),
+              )
+            : const Text(
+                'Chưa hoạt động',
+                style: TextStyle(color: Colors.red),
+              )),
         DataCell(Row(
           children: [
             const Spacer(),

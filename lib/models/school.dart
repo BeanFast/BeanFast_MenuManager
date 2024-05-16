@@ -14,6 +14,7 @@ class School extends BaseModel {
   String? address;
   String? imagePath;
   int? studentCount;
+  bool? isOrderable;
   Area? area;
   Kitchen? kitchen;
   List<Profile>? profiles;
@@ -32,6 +33,7 @@ class School extends BaseModel {
     this.locations,
     this.imagePath,
     this.studentCount,
+    this.isOrderable,
     this.area,
     this.imageFile,
   }) : super(id: id, status: status);
@@ -50,6 +52,7 @@ class School extends BaseModel {
       }).toList(),
       imagePath: json['imagePath'] ?? "",
       studentCount: json['studentCount'] ?? 0,
+      isOrderable: json['orderable'] ?? false,
       area: json['area'] == null ? Area() : Area.fromJson(json['area']),
     );
   }
