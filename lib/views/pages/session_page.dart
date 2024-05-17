@@ -83,6 +83,7 @@ class SessionTabView extends GetView<SessionController> {
     return LoadingView(
       future: controller.fetchData,
       child: const PaginatedDataTableView<SessionController>(
+        title: 'Danh sách khung giờ',
         columns: [
           DataColumn(label: Text('Code')),
           DataColumn(label: Text('Mã thực đơn')),

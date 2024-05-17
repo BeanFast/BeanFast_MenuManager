@@ -16,8 +16,7 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const SessionDetailPage(
-      sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06'));
+  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [
@@ -35,9 +34,9 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return const SessionDetailPage(
-            sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06');
-      // return const DashboardView();
+        // return const SessionDetailPage(
+        //     sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06');
+      return const DashboardView();
       case 1:
         return const FoodView();
       case 2:

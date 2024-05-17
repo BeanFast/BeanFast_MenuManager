@@ -9,9 +9,11 @@ import '/utils/data_table.dart';
 class PaginatedDataTableView<T extends PaginatedDataTableController>
     extends StatelessWidget {
   final List<DataColumn> columns;
+  final String title;
 
   const PaginatedDataTableView({
     super.key,
+    required this.title,
     required this.columns,
   });
 
@@ -22,6 +24,7 @@ class PaginatedDataTableView<T extends PaginatedDataTableController>
         () => PaginatedDataTable2(
           header: Row(
             children: [
+              Text(title, style: Get.textTheme.titleLarge),
               const Spacer(),
               RefreshButtonDataTable(onPressed: () async {
                 await controller.fetchData();

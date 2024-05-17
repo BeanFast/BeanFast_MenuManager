@@ -164,18 +164,21 @@ class SessionDetailPage extends GetView<SessionDetailController> {
                                         height: 50,
                                         width: 50,
                                       ),
-                                      title: Text(
-                                          deliverer.fullName.toString(),
+                                      title: Text(deliverer.fullName.toString(),
                                           style: Get.textTheme.bodyMedium),
-                                      subtitle: Text(
-                                          deliverer.email.toString(),
+                                      subtitle: Text(deliverer.email.toString(),
                                           style: Get.textTheme.bodySmall),
-                                      trailing: DeleteButtonDataTable(
-                                        onPressed: () async {
-                                          await controller
-                                              .removeDeliverer(deliverer.id!);
-                                        },
-                                      ),
+                                      trailing: controller.selectedSessionDetail
+                                                  .value!.deliverers!.length >
+                                              1
+                                          ? DeleteButtonDataTable(
+                                              onPressed: () async {
+                                                await controller
+                                                    .removeDeliverer(
+                                                        deliverer.id!);
+                                              },
+                                            )
+                                          : null,
                                     ),
                                   ),
                                 )
@@ -189,6 +192,7 @@ class SessionDetailPage extends GetView<SessionDetailController> {
                 SizedBox(
                   height: Get.height * 0.8,
                   child: const PaginatedDataTableView<SessionDetailController>(
+                    title: 'Danh sách đơn hàng',
                     columns: [
                       DataColumn(label: Text('Code')),
                       DataColumn(label: Text('Học sinh')),

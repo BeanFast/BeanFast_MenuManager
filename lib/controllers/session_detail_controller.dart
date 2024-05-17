@@ -14,11 +14,16 @@ class SessionDetailController extends PaginatedDataTableController<Order> {
   Rx<Session> data = Session().obs;
   Rx<SessionDetail?> selectedSessionDetail = Rx<SessionDetail?>(null);
   RxList<User> delivererList = <User>[].obs;
+  Set<String> selectedIdDelivererList = {};
 
   void selectSessionDetail(String sessionDetailId) {
-    selectedSessionDetail.value =
-        data.value.sessionDetails!.firstWhere((e) => e.id == sessionDetailId);
-    dataList = selectedSessionDetail.value?.orders ?? [];
+    selectedIdDelivererList.clear(); //clear
+    selectedSessionDetail.value = data.value.sessionDetails!
+        .firstWhere((e) => e.id == sessionDetailId); //find
+    selectedSessionDetail.value!.deliverers?.forEach((deliverer) {
+      selectedIdDelivererList.add(deliverer.id!);
+    });
+    dataList = selectedSessionDetail.value?.orders ?? []; //set order list
     dataList.sort((a, b) => a.status!.compareTo(b.status!));
     setDataTable(dataList);
   }
@@ -33,24 +38,19 @@ class SessionDetailController extends PaginatedDataTableController<Order> {
   }
 
   Future addDeliverer(String delivererId) async {
-    selectedSessionDetail.value!.deliverers!.add(User(id: delivererId));
+    selectedIdDelivererList.add(delivererId);
     await updateDeliverer();
   }
 
   Future removeDeliverer(String delivererId) async {
-    selectedSessionDetail.value!.deliverers!
-        .removeWhere((e) => e.id == delivererId);
+    selectedIdDelivererList.remove(delivererId);
     await updateDeliverer();
   }
 
   Future updateDeliverer() async {
     try {
-      List<String> idList = [];
-      for (var e in selectedSessionDetail.value!.deliverers!) {
-        idList.add(e.id.toString());
-      }
       await SessionService().updateDeliverySchedule(
-          selectedSessionDetail.value!.id!, idList);
+          selectedSessionDetail.value!.id!, selectedIdDelivererList.toList());
       await fetchData();
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
@@ -69,8 +69,10 @@ class SessionDetailController extends PaginatedDataTableController<Order> {
     if (sessionId != null) {
       try {
         data.value = await SessionService().getById(sessionId!);
-        selectSessionDetail(selectedSessionDetail.value?.id ??
-            data.value.sessionDetails![0].id!);
+        selectSessionDetail(data.value.sessionDetails!
+                .any((e) => e.id == selectedSessionDetail.value?.id)
+            ? selectedSessionDetail.value!.id!
+            : data.value.sessionDetails![0].id!);
       } catch (e) {
         throw Exception(e);
       }

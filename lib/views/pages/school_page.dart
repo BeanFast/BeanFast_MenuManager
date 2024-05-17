@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -22,6 +23,7 @@ class SchoolView extends GetView<SchoolController> {
     return LoadingView(
       future: controller.fetchData,
       child: const PaginatedDataTableView<SchoolController>(
+        title: 'Danh sách trường học',
         columns: <DataColumn>[
           DataColumn(
             label: Text('Code'),
@@ -42,7 +44,7 @@ class SchoolView extends GetView<SchoolController> {
           DataColumn(
             label: Text('Trạng thái'),
           ),
-          DataColumn(label: Text(' ')),
+          DataColumn2(label: Text(''), fixedWidth: 85),
         ],
       ),
     );
