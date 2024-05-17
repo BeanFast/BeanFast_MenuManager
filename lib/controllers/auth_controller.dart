@@ -1,9 +1,11 @@
+import 'package:beanfast_menumanager/services/kitchen_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../contains/contrain.dart';
 import '/services/auth_service.dart';
 import '/utils/logger.dart';
 import '/enums/auth_state_enum.dart';
@@ -22,20 +24,39 @@ class AuthController extends GetxController with CacheManager {
     authState.value = newState;
   }
 
+  Future getKitchen() async {
+    try {
+      currentKitchen.value = await KitchenService().getCurrent();
+      return currentKitchen.value;
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+    }
+  }
+
+  Future getUser() async {
+    try {
+      currentUser.value = await AuthService().getUser();
+      return currentUser.value;
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+    }
+  }
+
   void checkLoginStatus() {
     final String? token = getToken();
     logger.e('token - ${token != null}');
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      final expiryTimestamp = decodedToken["exp"];
-      final currentTime = DateTime.now().millisecondsSinceEpoch;
-      if (expiryTimestamp < currentTime) {
+      int exp = decodedToken['exp'];
+      DateTime expirationDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+      if (expirationDate.isAfter(DateTime.now())) {
         changeAuthState(AuthState.authenticated);
         return;
       }
     }
     logOut();
   }
+  
 
   void login() async {
     emailController.text = 'kitchen.manager01.beanfast@gmail.com';
@@ -53,6 +74,11 @@ class AuthController extends GetxController with CacheManager {
         errorMessage.value = 'Tài khoản hoặc mật khẩu không đúng';
       }
     }
+  }
+
+  void clear() {
+    currentUser.value = null;
+    currentKitchen.value = null;
   }
 
   void logOut() {

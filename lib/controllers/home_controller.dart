@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/views/pages/session_detail_page.dart';
 import '/contains/contrain.dart';
 import '/utils/menu_item.dart';
 import '/views/pages/exchange_gift_page.dart';
@@ -16,7 +15,7 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
+  Rx<Widget> selectedContent = Rx<Widget>(const OrderView());
 
   // menu mặc định
   List<MenuItem> menuItems = [

@@ -17,6 +17,11 @@ class KitchenService {
     return list;
   }
 
+  Future<Kitchen> getCurrent() async {
+    final response = await _apiService.request.get('$baseUrl/current');
+    return Kitchen.fromJson(response.data['data']);
+  }
+
   Future<bool> create(Kitchen model) async {
     FormData formData = FormData.fromMap({
       'name': model.name,

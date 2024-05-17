@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/contains/contrain.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import '/utils/logger.dart';
 
-class SplashView extends StatelessWidget {
-  SplashView({super.key});
-
-  final AuthController _authController = Get.find();
+class SplashView extends GetView<AuthController> {
+  const SplashView({super.key});
 
   Future<void> initializeSettings() async {
-    print('initializeSettings');
-    _authController.checkLoginStatus();
-
-    //Simulate other services for 3 seconds
-    // await Future.delayed(Duration(seconds: 3));
+    logger.w('initializeSettings');
+    controller.checkLoginStatus();
+    // if (authState.value == AuthState.authenticated) {
+    //   await controller.getUser();
+    //   await controller.getKitchen();
+    // }
   }
 
   @override
@@ -34,10 +34,11 @@ class SplashView extends StatelessWidget {
             return LoginView();
           } else {
             return Obx(() {
-              switch (_authController.authState.value) {
+              switch (controller.authState.value) {
                 case AuthState.authenticated:
-                  return HomeView(); // get token -> get User
-                // return const HomeView(); // get token -> get User
+                  controller.getUser();
+                  controller.getKitchen();
+                  return const HomeView(); // get token -> get User
                 case AuthState.unauthenticated:
                   return LoginView();
                 default:

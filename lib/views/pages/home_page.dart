@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/auth_controller.dart';
 import '/contains/contrain.dart';
 import '/controllers/home_controller.dart';
 // import '/views/pages/widget/drawer_wdget.dart';
 
-class HomeView extends StatelessWidget {
-  HomeView({super.key});
-  final HomeController _homeController = Get.find();
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,10 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('Quản lý bếp'),
+            Obx(
+              () => Text(
+                  'Quản lý bếp ${currentKitchen.value?.name.toString() ?? ''}'),
+            ),
             const Spacer(),
             PopupMenuButton<String>(
               color: Colors.white,
@@ -64,15 +67,14 @@ class HomeView extends StatelessWidget {
                           TextButton(
                             child: const Text('Hủy'),
                             onPressed: () {
-                              Navigator.of(context).pop(
-                                  false); // Returns false when Cancel is clicked
+                              Get.back();
                             },
                           ),
                           TextButton(
                             child: const Text('Đồng ý'),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pop(true); // Returns true when OK is clicked
+                              Get.back();
+                              Get.find<AuthController>().logOut();
                             },
                           ),
                         ],
@@ -114,12 +116,12 @@ class HomeView extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            _homeController.toggleNavigation();
+            controller.toggleNavigation();
           },
         ),
       ),
       body: Obx(() {
-        return _homeController.isNavigationRailSelected.value
+        return controller.isNavigationRailSelected.value
             ? navigaView()
             : drawerView();
       }),
@@ -137,7 +139,7 @@ class HomeView extends StatelessWidget {
             selectedIndex: selectedMenuIndex.value,
             selectedIconTheme: const IconThemeData(color: Colors.blue),
             destinations: [
-              ..._homeController.menuItems.map(
+              ...controller.menuItems.map(
                 (e) => NavigationRailDestination(
                   icon: Icon(e.icon),
                   label: Text(e.title),
@@ -145,7 +147,7 @@ class HomeView extends StatelessWidget {
               ),
             ],
             onDestinationSelected: (destination) {
-              _homeController.changePage(destination);
+              controller.changePage(destination);
             },
           ),
           VerticalDivider(
@@ -154,7 +156,7 @@ class HomeView extends StatelessWidget {
             color: Colors.grey[300],
           ),
           Expanded(
-            child: _homeController.selectedContent.value,
+            child: controller.selectedContent.value,
           ),
         ],
       ),
@@ -173,16 +175,16 @@ class HomeView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  for (int i = 0; i < _homeController.menuItems.length; i++)
+                  for (int i = 0; i < controller.menuItems.length; i++)
                     ListTile(
-                      leading: Icon(_homeController.menuItems[i].icon),
-                      title: Text(_homeController.menuItems[i].title),
+                      leading: Icon(controller.menuItems[i].icon),
+                      title: Text(controller.menuItems[i].title),
                       selected: selectedMenuIndex.value == i,
-                        selectedTileColor:
-                            const Color.fromARGB(255, 122, 184, 235),
+                      selectedTileColor:
+                          const Color.fromARGB(255, 122, 184, 235),
                       onTap: () {
                         selectedMenuIndex.value = i;
-                        _homeController.changePage(i);
+                        controller.changePage(i);
                       },
                     ),
                 ],
@@ -190,7 +192,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _homeController.selectedContent.value,
+            child: controller.selectedContent.value,
           ),
         ],
       ),
