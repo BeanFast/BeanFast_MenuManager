@@ -96,29 +96,32 @@ class GiftView extends GetView<GiftController> {
     await controller.initDialog();
     Get.dialog(
       ConstrainedBox(
-        constraints:  BoxConstraints(maxWidth: Get.width * 0.8),
+        constraints: BoxConstraints(maxWidth: Get.width * 0.8),
         child: AlertDialog(
-          title:  Text('Thông tin món ăn',
-                  style: Get.textTheme.titleMedium),
+          title: Text('Thông quà tặng', style: Get.textTheme.titleMedium),
           content: Form(
             key: controller.formCreateKey,
             child: SingleChildScrollView(
               child: SizedBox(
-                width:   Get.width * 0.8,
+                width: Get.width * 0.8,
                 child: ListBody(
                   mainAxis: Axis.vertical,
                   children: [
-                    Obx(() => Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
-                          child: controller.imagePath.isEmpty
-                              ?  Text('No image selected' ,
-                  style: Get.textTheme.bodyMedium)
-                              : Image.network(
-                                  controller.imagePath.value,
-                                  fit: BoxFit.cover,
-                                ),
-                        )),
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
+                        child: controller.imagePath.isEmpty
+                            ? Text('Chưa có ảnh',
+                                style: Get.textTheme.bodyMedium)
+                            : Image.network(
+                                controller.imagePath.value,
+                                fit: BoxFit.contain,
+                                 width: 200,
+                                  height: 200,
+                              ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 5.0, right: 5.0, bottom: 10.0, top: 10.0),
@@ -126,10 +129,13 @@ class GiftView extends GetView<GiftController> {
                         onPressed: () {
                           controller.pickImage();
                         },
-                        child:  Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Iconsax.add, size: 20,),
+                            const Icon(
+                              Iconsax.add,
+                              size: 20,
+                            ),
                             Text('Chọn Ảnh', style: Get.textTheme.bodyMedium),
                           ],
                         ),
@@ -195,8 +201,8 @@ class GiftView extends GetView<GiftController> {
                         children: controller.messageErrors.map((message) {
                           return Text(
                             message,
-                            
-                  style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red),
+                            style: Get.textTheme.bodyMedium!
+                                .copyWith(color: Colors.red),
                           );
                         }).toList(),
                       );
@@ -209,10 +215,13 @@ class GiftView extends GetView<GiftController> {
           actions: <Widget>[
             TextButton(
               onPressed: controller.submitForm,
-              child:  Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Iconsax.add, size: 20,),
+                  const Icon(
+                    Iconsax.add,
+                    size: 20,
+                  ),
                   Text('Lưu', style: Get.textTheme.bodyMedium),
                 ],
               ),

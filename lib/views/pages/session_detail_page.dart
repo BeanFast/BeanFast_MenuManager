@@ -97,6 +97,7 @@ class SessionDetailPage extends GetView<SessionDetailController> {
                             style: Get.textTheme.titleMedium),
                         const SizedBox(height: 10),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: controller.data.value.sessionDetails!
                               .map(
                                 (sessionDetail) => GestureDetector(
@@ -110,6 +111,8 @@ class SessionDetailPage extends GetView<SessionDetailController> {
                                       size: 20,
                                     ),
                                     title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Cổng: ${sessionDetail.location!.name.toString()}',
