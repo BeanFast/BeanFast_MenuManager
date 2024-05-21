@@ -12,12 +12,11 @@ class OrderDialogs {
       AlertDialog(
         surfaceTintColor: Colors.white,
         backgroundColor: ThemeColor.bgColor,
-        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
+        title:  Text('Lý do bạn muốn huỷ đơn hàng?', style: Get.textTheme.titleMedium),
         content: Form(
           key: controller.formKey,
           child: SizedBox(
-              // height: Get.height / 2,
-              width: Get.width * 0.8,
+          
               child: TextFormField(
                 controller: controller.reasonCancelOrderText,
                 decoration: const InputDecoration(),

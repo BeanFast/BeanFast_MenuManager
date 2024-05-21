@@ -93,11 +93,11 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     controller.reasonCancelExchangeGiftText.clear();
     Get.dialog(
       AlertDialog(
-        title:  Text('Lý do bạn muốn huỷ đơn hàng?',style: Get.textTheme.titleMedium),
+        title: Text('Lý do bạn muốn huỷ đơn hàng?',
+            style: Get.textTheme.titleMedium),
         content: Form(
           key: controller.formKey,
           child: SizedBox(
-         
               child: TextFormField(
             controller: controller.reasonCancelExchangeGiftText,
             decoration: const InputDecoration(),
@@ -124,7 +124,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
             onPressed: () {
               Get.back();
             },
-            child:  Text('Đóng', style: Get.textTheme.bodyMedium),
+            child: Text('Đóng', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),
