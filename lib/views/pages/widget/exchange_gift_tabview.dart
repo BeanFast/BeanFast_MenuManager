@@ -68,10 +68,10 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
         ),
         DataCell(Text(exchangeGift.paymentDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yy').format(exchangeGift.paymentDate!))),
+            : DateFormat('dd/MM/yy').format(exchangeGift.paymentDate!))),
         DataCell(Text(exchangeGift.deliveryDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yy').format(exchangeGift.deliveryDate!))),
+            : DateFormat('dd/MM/yy').format(exchangeGift.deliveryDate!))),
         DataCell(Text(exchangeGift.sessionDetail!.code.toString())),
         DataCell(Text(Formatter.formatPoint(exchangeGift.points.toString()))),
         DataCell(Row(
