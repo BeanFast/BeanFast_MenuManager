@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/widget/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,6 @@ class HomeView extends GetView<HomeController> {
             PopupMenuButton<String>(
               color: Colors.white,
               surfaceTintColor: Colors.white,
-              icon: const Icon(Icons.settings),
               onSelected: (String result) {
                 if (result == 'Tài khoản') {
                   showDialog(
@@ -109,6 +109,36 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ],
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: const CustomNetworkImage(
+                        '',
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  Text(
+                    'Tên tài khoản',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Get.textTheme.bodyMedium!.copyWith(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

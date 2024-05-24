@@ -79,10 +79,10 @@ class MenuView extends GetView<MenuController> {
         ),
         DataCell(Text(menu.createDate == null
             ? ""
-            : DateFormat('dd-MM-yy').format(menu.createDate!))),
+            : DateFormat('dd/MM/yy').format(menu.createDate!))),
         DataCell(Text(menu.updateDate == null
             ? ""
-            : DateFormat('dd-MM-yy').format(menu.updateDate!))),
+            : DateFormat('dd/MM/yy').format(menu.updateDate!))),
         DataCell(Text(menu.menuDetails!.length.toString())),
         DataCell(Row(
           children: [

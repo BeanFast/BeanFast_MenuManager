@@ -102,11 +102,11 @@ class SessionTabView extends GetView<SessionController> {
         DataCell(Text(session.code.toString())),
         DataCell(Text(menu.code.toString())),
         DataCell(Text(
-            'Từ ${DateFormat('HH:mm dd-MM-yy').format(session.orderStartTime!)}'
-            '\nđến ${DateFormat('HH:mm dd-MM-yy').format(session.orderEndTime!)}')),
+            'Từ ${DateFormat('HH:mm dd/MM/yy').format(session.orderStartTime!)}'
+            '\nđến ${DateFormat('HH:mm dd/MM/yy').format(session.orderEndTime!)}')),
         DataCell(Text(
-            'Từ ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryStartTime!)}'
-            '\nđến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}')),
+            'Từ ${DateFormat('HH:mm dd/MM/yy').format(session.deliveryStartTime!)}'
+            '\nđến ${DateFormat('HH:mm dd/MM/yy').format(session.deliveryEndTime!)}')),
         DataCell(SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

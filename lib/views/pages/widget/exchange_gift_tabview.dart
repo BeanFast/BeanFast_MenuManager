@@ -68,10 +68,10 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
         ),
         DataCell(Text(exchangeGift.paymentDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yy').format(exchangeGift.paymentDate!))),
+            : DateFormat('dd/MM/yy').format(exchangeGift.paymentDate!))),
         DataCell(Text(exchangeGift.deliveryDate == null
             ? 'Chưa có'
-            : DateFormat('dd-MM-yy').format(exchangeGift.deliveryDate!))),
+            : DateFormat('dd/MM/yy').format(exchangeGift.deliveryDate!))),
         DataCell(Text(exchangeGift.sessionDetail!.code.toString())),
         DataCell(Text(Formatter.formatPoint(exchangeGift.points.toString()))),
         DataCell(Row(
@@ -93,11 +93,11 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     controller.reasonCancelExchangeGiftText.clear();
     Get.dialog(
       AlertDialog(
-        title:  Text('Lý do bạn muốn huỷ đơn hàng?',style: Get.textTheme.titleMedium),
+        title: Text('Lý do bạn muốn huỷ đơn hàng?',
+            style: Get.textTheme.titleMedium),
         content: Form(
           key: controller.formKey,
           child: SizedBox(
-         
               child: TextFormField(
             controller: controller.reasonCancelExchangeGiftText,
             decoration: const InputDecoration(),
@@ -124,7 +124,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
             onPressed: () {
               Get.back();
             },
-            child:  Text('Đóng', style: Get.textTheme.bodyMedium),
+            child: Text('Đóng', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),
