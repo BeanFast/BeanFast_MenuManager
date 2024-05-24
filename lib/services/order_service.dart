@@ -45,7 +45,7 @@ class OrderService {
   }
 
   Future<Order> getById(String id) async {
-    final response = await _apiService.request.get('food/$id');
+    final response = await _apiService.request.get('$baseUrl/$id');
     return Order.fromJson(response.data['data']);
   }
 

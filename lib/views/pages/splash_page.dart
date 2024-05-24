@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/contains/contrain.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
 import 'home_page.dart';

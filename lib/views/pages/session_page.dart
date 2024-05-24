@@ -20,9 +20,6 @@ class SessionView extends GetView<SessionController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách thực đơn'),
-        // leading: IconButton(
-        //     onPressed: () => Get.back(),
-        //     icon: const Icon(Icons.arrow_back_ios_new)),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),

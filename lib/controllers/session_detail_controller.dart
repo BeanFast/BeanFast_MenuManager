@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '/services/order_service.dart';
 import '/models/session_detail.dart';
 import '/models/user.dart';
 import '/models/order.dart';
@@ -76,6 +77,16 @@ class SessionDetailController extends PaginatedDataTableController<Order> {
       } catch (e) {
         throw Exception(e);
       }
+    }
+  }
+
+  Future cancelOrder(String orderId, String reason) async {
+    try {
+      await OrderService().cancelOrder(orderId, reason);
+      Get.snackbar('Thành công', 'Hủy đơn thành công');
+      await fetchData();
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/views/pages/session_detail_page.dart';
 import '/contains/contrain.dart';
 import '/utils/menu_item.dart';
+import '/views/pages/create_session_page.dart';
 import '/views/pages/exchange_gift_page.dart';
 import '/views/pages/category_page.dart';
 import '/views/pages/gift_page.dart';
@@ -33,9 +35,11 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        // return const SessionDetailPage(
-        //     sessionId: '9fbe4098-b77b-4b7f-8a4d-22380e1e4c06');
-      return const DashboardView();
+        return const CreateSessionPage(
+            schoolId: 'b254a297-cae1-4d26-afe2-b093227ded0a');
+      // return const SessionDetailPage(
+      //     sessionId: '73a25f1c-aeaa-404d-9d23-1675225185ac');
+      // return const DashboardView();
       case 1:
         return const FoodView();
       case 2:

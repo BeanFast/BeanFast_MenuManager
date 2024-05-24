@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
 
@@ -59,6 +60,21 @@ class SessionService {
     return list;
   }
 
+  Future<List<User>> getListDelivererByDeliveryDate(
+      DateTime deliveryStartTime, DateTime deliveryEndTime) async {
+    final response = await _apiService.request.get(
+        "$baseUrl/deliverers/available",
+        queryParameters: Map.from({
+          "deliveryStartTime": deliveryStartTime,
+          "deliveryEndTime": deliveryEndTime
+        }));
+    List<User> list = [];
+    for (var e in response.data['data']) {
+      list.add(User.fromJson(e));
+    }
+    return list;
+  }
+
   Future<bool> updateDeliverySchedule(
       String sessionDetailId, List<String> listDelivererId) async {
     // List<String> list = [];
@@ -73,13 +89,16 @@ class SessionService {
     return response.statusCode == 200;
   }
 
-  Future createSession(Session session) async {
+  Future createSession(Session session, Map<String, User> deliverers) async {
     List<Map<String, dynamic>> sessionDetails = [];
-    session.sessionDetails?.forEach((e) {
-      Map<String, dynamic> location = {
-        "LocationId": e.locationId,
+    deliverers.forEach((key, value) {
+       Map<String, dynamic> sessionDetail = {
+        "LocationId": key,
+        "Deliverers": [
+          {"DelivererId": value.id}
+        ]
       };
-      sessionDetails.add(location);
+      sessionDetails.add(sessionDetail);
     });
     Map<String, dynamic> data = {
       'menuId': session.menuId,

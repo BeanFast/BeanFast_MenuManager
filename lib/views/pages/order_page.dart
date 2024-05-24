@@ -131,13 +131,14 @@ class OrderView extends GetView<OrderController> {
               ),
               const SizedBox(height: 10),
               DefaultTabController(
-                length: 4,
+                length: 5,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const TabBar(
                       tabs: [
                         Tab(text: 'Đang chuẩn bị'),
+                        Tab(text: 'Đang chế biến'),
                         Tab(text: 'Đang giao'),
                         Tab(text: 'Hoàn thành'),
                         Tab(text: 'Đã hủy'),
@@ -150,6 +151,9 @@ class OrderView extends GetView<OrderController> {
                           OrderTabView(
                             status: OrderStatus.preparing,
                           ), // Đang chuẩn bị
+                          OrderTabView(
+                            status: OrderStatus.cooking,
+                          ), // Đang chế biến
                           OrderTabView(
                             status: OrderStatus.delivering,
                           ), // Đang giao

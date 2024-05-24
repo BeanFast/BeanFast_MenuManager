@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/controllers/order_controller.dart';
 import '/contains/theme_color.dart';
 
 class OrderDialogs {
-  static void showCancelOrderDialog(String orderId) {
-    OrderController controller = Get.find();
-    controller.reasonCancelOrderText.clear();
+  static void showCancelOrderDialog(String orderId, Future<dynamic> Function(String orderId, String reason) cancelOrder) {
+    
+    final TextEditingController reasonCancelOrderText = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     Get.dialog(
       AlertDialog(
         surfaceTintColor: Colors.white,
         backgroundColor: ThemeColor.bgColor,
         title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
         content: Form(
-          key: controller.formKey,
+          key: formKey,
           child: SizedBox(
-              // height: Get.height / 2,
               width: Get.width * 0.8,
               child: TextFormField(
-                controller: controller.reasonCancelOrderText,
+                controller: reasonCancelOrderText,
                 decoration: const InputDecoration(),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -32,9 +31,9 @@ class OrderDialogs {
         actions: [
           TextButton(
             onPressed: () async {
-              if (controller.formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 Get.back();
-                await controller.cancelOrder(orderId);
+                await cancelOrder(orderId, reasonCancelOrderText.text);
               }
             },
             child: Text('Huỷ đơn hàng',

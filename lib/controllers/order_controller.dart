@@ -17,7 +17,8 @@ class OrderController extends PaginatedDataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController reasonCancelOrderText = TextEditingController();
+  Rx<Order> order = Order().obs;
+
   RxList<School> schoolList = <School>[].obs;
   List<School> schoolDataList = [];
   RxList<Session> sessionList = <Session>[].obs;
@@ -53,6 +54,14 @@ class OrderController extends PaginatedDataTableController<Order> {
     }
   }
 
+  Future fetchOrder(String id) async {
+    try {
+      order.value = await OrderService().getById(id);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future fetchSchoolData() async {
     try {
       schoolDataList = await SchoolService().getAll();
@@ -67,7 +76,8 @@ class OrderController extends PaginatedDataTableController<Order> {
       try {
         sessionDataList = await SessionService()
             .getSessionsBySchoolId(selectedSchool.value!.id!, null);
-            sessionDataList.sort((a, b) => b.deliveryStartTime!.compareTo(a.deliveryStartTime!));
+        sessionDataList.sort(
+            (a, b) => b.deliveryStartTime!.compareTo(a.deliveryStartTime!));
         sessionList.value = sessionDataList;
       } catch (e) {
         throw Exception(e);
@@ -153,9 +163,8 @@ class OrderController extends PaginatedDataTableController<Order> {
   //   setDataTable(currentModelList);
   // }
 
-  Future cancelOrder(String orderId) async {
+  Future cancelOrder(String orderId, String reason) async {
     try {
-      String reason = reasonCancelOrderText.text.trim();
       await OrderService().cancelOrder(orderId, reason);
       Get.snackbar('Thành công', 'Hủy đơn thành công');
       await fetchData();

@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/controllers/order_controller.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,11 +10,12 @@ import '/models/order.dart';
 import '/utils/format_data.dart';
 import '/controllers/session_detail_controller.dart';
 import '/views/dialog/order_dialog.dart';
-import '/views/pages/loading_page.dart';
-import '/views/pages/widget/paginated_datatable_widget.dart';
+import 'loading_page.dart';
+import 'widget/paginated_datatable_widget.dart';
 import 'order_detail_page.dart';
 import 'widget/button_data_table.dart';
 import 'widget/image_default.dart';
+import 'widget/text_order_status_widget.dart';
 
 class SessionDetailPage extends GetView<SessionDetailController> {
   final String sessionId;
@@ -200,7 +203,8 @@ class SessionDetailPage extends GetView<SessionDetailController> {
                       DataColumn(label: Text('Người giao')),
                       DataColumn(label: Text('Số sản phẩm')),
                       DataColumn(label: Text('Tổng giá')),
-                      DataColumn(label: Text(' ')),
+                      DataColumn(label: Text('Trạng thái')),
+                      DataColumn2(label: Text(''), fixedWidth: 85),
                     ],
                   ),
                 ),
@@ -213,6 +217,7 @@ class SessionDetailPage extends GetView<SessionDetailController> {
   }
 
   static DataRow setRow(Order order) {
+    SessionDetailController controller = Get.find();
     return DataRow(
       cells: [
         DataCell(Text(order.code.toString())),
@@ -223,16 +228,17 @@ class SessionDetailPage extends GetView<SessionDetailController> {
         DataCell(Text(order.sessionDetail!.code.toString())),
         DataCell(Text(order.orderDetails!.length.toString())),
         DataCell(Text(Formatter.formatMoney(order.totalPrice.toString()))),
+        DataCell(TextOrderStatus(status: OrderStatus.fromInt(order.status!))),
         DataCell(Row(
           children: [
             const Spacer(),
             DetailButtonDataTable(onPressed: () {
-              Get.to(OrderDetailView(order));
+              Get.to(OrderDetailView(order.id!));
             }),
             if (order.status == OrderStatus.preparing.code ||
                 order.status == OrderStatus.delivering.code)
               CancelOrderActivityButtonTable(onPressed: () {
-                OrderDialogs.showCancelOrderDialog(order.id!);
+                OrderDialogs.showCancelOrderDialog(order.id!, controller.cancelOrder);
               }),
           ],
         )),

@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ import 'package:intl/intl.dart';
 import '/models/menu.dart';
 import '/models/school.dart';
 import '/models/session.dart';
-import '/models/session_detail.dart';
 import '/services/menu_serivce.dart';
 import '/services/school_service.dart';
 import '/services/session_service.dart';
@@ -20,11 +20,9 @@ class CreateSessionPage extends GetView<CreateSessionController> {
   @override
   Widget build(BuildContext context) {
     Get.put(CreateSessionController());
-    // var menuCode = Get.parameters['code'];
+    controller.schoolId = schoolId;
     return LoadingView(
-      future: () async {
-        await controller.refreshData(schoolId);
-      },
+      future: controller.freshData,
       child: Scaffold(
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -65,7 +63,6 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.updateSelectedValue(menu.id!);
-                                    
                                     },
                                     child: ListTile(
                                       title: Text('Mã: ${menu.code}'),
@@ -122,33 +119,19 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialEntryMode: DatePickerEntryMode.input,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
-
-                            if (pickedDate != null) {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                                initialEntryMode: TimePickerEntryMode.input,
-                              );
-                              if (pickedTime != null) {
-                                DateTime finalDateTime = DateTime(
-                                  pickedDate.year,
-                                  pickedDate.month,
-                                  pickedDate.day,
-                                  pickedTime.hour,
-                                  pickedTime.minute,
-                                );
-                                print(finalDateTime);
-                                controller.orderStartTime = finalDateTime;
-                                controller.lbOrderStartTime.value =
-                                    DateFormat('HH:mm - dd/MM/yyyy')
-                                        .format(finalDateTime);
+                            var orderStartTime = await pickDate();
+                            if (orderStartTime != null) {
+                              if (isValidTime(orderStartTime)) {
+                                if (controller.orderEndTime.value != null) {
+                                  if (orderStartTime.isAfter(
+                                      controller.orderEndTime.value!)) {
+                                    Get.snackbar('Thất bại',
+                                        'Thời gian đặt hàng không hợp lệ');
+                                    return;
+                                  }
+                                }
+                                controller.orderStartTime.value =
+                                    orderStartTime;
                               }
                             }
                           },
@@ -164,10 +147,10 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             padding: const EdgeInsets.all(10),
                             child: Obx(
                               () => Text(
-                                controller.lbOrderStartTime.value != 'Bắt đầu'
-                                    ? DateFormat('HH:mm - dd/MM/yyyy')
-                                        .format(controller.orderStartTime)
-                                    : controller.lbOrderStartTime.toString(),
+                                controller.orderStartTime.value == null
+                                    ? 'Trống'
+                                    : DateFormat('HH:mm - dd/MM/yyyy').format(
+                                        controller.orderStartTime.value!),
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ),
@@ -176,33 +159,18 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialEntryMode: DatePickerEntryMode.input,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
-
-                            if (pickedDate != null) {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                                initialEntryMode: TimePickerEntryMode.input,
-                              );
-
-                              if (pickedTime != null) {
-                                DateTime finalDateTime = DateTime(
-                                  pickedDate.year,
-                                  pickedDate.month,
-                                  pickedDate.day,
-                                  pickedTime.hour,
-                                  pickedTime.minute,
-                                );
-                                print(finalDateTime);
-                                controller.orderEndTime = finalDateTime;
-                                controller.lbOrderEndTime.value =
-                                    finalDateTime.toString();
+                            var orderEndTime = await pickDate();
+                            if (orderEndTime != null) {
+                              if (isValidTime(orderEndTime)) {
+                                if (controller.orderStartTime.value != null) {
+                                  if (controller.orderStartTime.value!
+                                      .isAfter(orderEndTime)) {
+                                    Get.snackbar('Thất bại',
+                                        'Thời gian đặt hàng không hợp lệ');
+                                    return;
+                                  }
+                                }
+                                controller.orderEndTime.value = orderEndTime;
                               }
                             }
                           },
@@ -217,10 +185,10 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
-                                  controller.lbOrderEndTime.value != 'Kết thúc'
-                                      ? DateFormat('HH:mm - dd/MM/yyyy')
-                                          .format(controller.orderEndTime)
-                                      : controller.lbOrderEndTime.toString(),
+                                  controller.orderEndTime.value == null
+                                      ? 'Trống'
+                                      : DateFormat('HH:mm - dd/MM/yyyy').format(
+                                          controller.orderEndTime.value!),
                                   style: Get.textTheme.bodyMedium,
                                 )),
                           ),
@@ -233,38 +201,20 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialEntryMode: DatePickerEntryMode.input,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
-
-                            if (pickedDate != null) {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                                initialEntryMode: TimePickerEntryMode.input,
-                              );
-
-                              if (pickedTime != null) {
-                                DateTime finalDateTime = DateTime(
-                                  pickedDate.year,
-                                  pickedDate.month,
-                                  pickedDate.day,
-                                  pickedTime.hour,
-                                  pickedTime.minute,
-                                );
-                                if (isValidDeliveryStartTime(finalDateTime)) {
-                                  controller.deliveryStartTime = finalDateTime;
-                                  controller.deliveryStartTime = finalDateTime;
-                                  controller.lbDeliveryStartTime.value =
-                                      finalDateTime.toString();
-                                } else {
-                                  Get.snackbar('Hệ thống',
-                                      'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+                            var deliveryStartTime = await pickDate();
+                            if (deliveryStartTime != null) {
+                              if (isValidTime(deliveryStartTime) &&
+                                  isValidDeliveryStartTime(deliveryStartTime)) {
+                                if (controller.deliveryEndTime.value != null) {
+                                  if (deliveryStartTime.isAfter(
+                                      controller.deliveryEndTime.value!)) {
+                                    Get.snackbar('Thất bại',
+                                        'Thời gian giao hàng không hợp lệ');
+                                    return;
+                                  }
                                 }
+                                controller.deliveryStartTime.value =
+                                    deliveryStartTime;
                               }
                             }
                           },
@@ -279,12 +229,10 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
-                                  controller.lbDeliveryStartTime.value !=
-                                          'Bắt đầu'
-                                      ? DateFormat('HH:mm - dd/MM/yyyy')
-                                          .format(controller.deliveryStartTime)
-                                      : controller.lbDeliveryStartTime
-                                          .toString(),
+                                  controller.deliveryStartTime.value == null
+                                      ? 'Trống'
+                                      : DateFormat('HH:mm - dd/MM/yyyy').format(
+                                          controller.deliveryStartTime.value!),
                                   style: Get.textTheme.bodyMedium,
                                 )),
                           ),
@@ -292,37 +240,21 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                         const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialEntryMode: DatePickerEntryMode.input,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
-
-                            if (pickedDate != null) {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                                initialEntryMode: TimePickerEntryMode.input,
-                              );
-
-                              if (pickedTime != null) {
-                                DateTime finalDateTime = DateTime(
-                                  pickedDate.year,
-                                  pickedDate.month,
-                                  pickedDate.day,
-                                  pickedTime.hour,
-                                  pickedTime.minute,
-                                );
-                                if (isValidDeliveryStartTime(finalDateTime)) {
-                                  controller.deliveryEndTime = finalDateTime;
-                                  controller.lbDeliveryEndTime.value =
-                                      finalDateTime.toString();
-                                } else {
-                                  Get.snackbar('Hệ thống',
-                                      'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+                            var deliveryEndTime = await pickDate();
+                            if (deliveryEndTime != null) {
+                              if (isValidTime(deliveryEndTime) &&
+                                  isValidDeliveryStartTime(deliveryEndTime)) {
+                                if (controller.deliveryStartTime.value !=
+                                    null) {
+                                  if (controller.deliveryStartTime.value!
+                                      .isAfter(deliveryEndTime)) {
+                                    Get.snackbar('Thất bại',
+                                        'Thời gian giao hàng không hợp lệ');
+                                    return;
+                                  }
                                 }
+                                controller.deliveryEndTime.value =
+                                    deliveryEndTime;
                               }
                             }
                           },
@@ -337,11 +269,10 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Obx(() => Text(
-                                  controller.lbDeliveryEndTime.value !=
-                                          'Kết thúc'
-                                      ? DateFormat('HH:mm - dd/MM/yyyy')
-                                          .format(controller.deliveryEndTime)
-                                      : controller.lbDeliveryEndTime.toString(),
+                                  controller.deliveryEndTime.value == null
+                                      ? 'Trống'
+                                      : DateFormat('HH:mm - dd/MM/yyyy').format(
+                                          controller.deliveryEndTime.value!),
                                   style: Get.textTheme.bodyMedium,
                                 )),
                           ),
@@ -377,7 +308,7 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                                       style: Get.textTheme
                                                           .bodyMedium),
                                                   subtitle: Text(
-                                                      'Người giao hàng: ${controller.selectedDeliverers[location.id]?.name ?? 'Chưa có'}',
+                                                      'Người giao hàng: ${controller.selectedDeliverers[location.id]?.fullName ?? 'Chưa có'}',
                                                       style: Get
                                                           .textTheme.bodySmall),
                                                   value: controller
@@ -385,58 +316,20 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                                                       .containsKey(location.id),
                                                   onChanged: (bool? value) {
                                                     if (value == true) {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                              'Chọn người giao hàng',
-                                                              style: Get
-                                                                  .textTheme
-                                                                  .titleMedium,
-                                                            ),
-                                                            content:
-                                                                SingleChildScrollView(
-                                                              child: SizedBox(
-                                                                width:
-                                                                    Get.width *
-                                                                        0.8,
-                                                                child: Column(
-                                                                  children: controller
-                                                                      .deliverers
-                                                                      .map(
-                                                                          (deliverer) {
-                                                                    return Card(
-                                                                      child:
-                                                                          ListTile(
-                                                                        title: Text(
-                                                                            'ID: ${deliverer.id}',
-                                                                            style:
-                                                                                Get.textTheme.bodyMedium),
-                                                                        subtitle: Text(
-                                                                            deliverer
-                                                                                .name,
-                                                                            style:
-                                                                                Get.textTheme.bodySmall!.copyWith(color: Colors.black54)),
-                                                                        onTap:
-                                                                            () {
-                                                                          controller.selectedDeliverers[location.id!] =
-                                                                              deliverer;
-                                                                          print(
-                                                                              'Selected deliverer for ${location.name}: ${deliverer.name}');
-
-                                                                          Get.back();
-                                                                        },
-                                                                      ),
-                                                                    );
-                                                                  }).toList(),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
+                                                      if (controller
+                                                                  .deliveryStartTime
+                                                                  .value ==
+                                                              null ||
+                                                          controller
+                                                                  .deliveryEndTime
+                                                                  .value ==
+                                                              null) {
+                                                        Get.snackbar('Thất bại',
+                                                            'Thời gian giao hàng còn trống');
+                                                        return;
+                                                      }
+                                                      showDeliverersDialog(
+                                                          location.id!);
                                                     } else {
                                                       controller
                                                           .selectedDeliverers
@@ -459,30 +352,8 @@ class CreateSessionPage extends GetView<CreateSessionController> {
                         Align(
                           alignment: Alignment.topRight,
                           child: GestureDetector(
-                            onTap: () {
-                              if (controller.orderStartTime
-                                  .isBefore(controller.orderEndTime)) {
-                              } else {
-                                Get.snackbar('Thất bại',
-                                    'Thời gian đặt hàng không hợp lệ');
-                                return;
-                              }
-                              if (controller.deliveryStartTime
-                                  .isBefore(controller.deliveryEndTime)) {
-                              } else {
-                                Get.snackbar('Thất bại',
-                                    'Thời gian giao hàng không hợp lệ');
-                                return;
-                              }
-                              if (controller.orderEndTime
-                                  .add(const Duration(hours: 6))
-                                  .isBefore(controller.deliveryStartTime)) {
-                              } else {
-                                Get.snackbar('Thất bại',
-                                    'Thời gian đặt hàng phải sao giao hàng 6 giờ');
-                                return;
-                              }
-                              controller.createSession();
+                            onTap: () async {
+                              await controller.createSession();
                             },
                             child: Container(
                               width: 100,
@@ -519,48 +390,117 @@ class CreateSessionPage extends GetView<CreateSessionController> {
       ),
     );
   }
+
+  void showDeliverersDialog(String locationId) {
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          'Chọn người giao hàng',
+          style: Get.textTheme.titleMedium,
+        ),
+        content: LoadingView(
+          future: controller.getDeliverers,
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: Get.width * 0.8,
+              child: Obx(
+                () => Column(
+                  children: controller.deliverers.map((deliverer) {
+                    return Card(
+                      child: ListTile(
+                        title: Text('Tên: ${deliverer.fullName}',
+                            style: Get.textTheme.bodyMedium),
+                        subtitle: Text(deliverer.email.toString(),
+                            style: Get.textTheme.bodySmall!
+                                .copyWith(color: Colors.black54)),
+                        onTap: () {
+                          Get.back();
+                          controller.selectedDeliverers[locationId] = deliverer;
+                          var a = controller.selectedDeliverers[locationId];
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<DateTime?> pickDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialEntryMode: DatePickerEntryMode.input,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: Get.context!,
+        initialTime: TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.input,
+      );
+      if (pickedTime != null) {
+        DateTime finalDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        return finalDateTime;
+      }
+    }
+    return null;
+  }
 }
 
 class CreateSessionController extends GetxController {
   var selectedMenuId = ''.obs;
-  String _schoolId = '';
+  String schoolId = '';
+  Rxn<DateTime> orderStartTime = Rxn<DateTime>();
+  Rxn<DateTime> orderEndTime = Rxn<DateTime>();
+  Rxn<DateTime> deliveryStartTime = Rxn<DateTime>();
+  Rxn<DateTime> deliveryEndTime = Rxn<DateTime>();
 
   void updateSelectedValue(String value) {
     selectedMenuId.value = value;
   }
 
-  // void toggleCheckbox(String id) {
-  //   if (listString.contains(id)) {
-  //     listString.remove(id);
-  //   } else {
-  //     listString.add(id);
-  //   }
-  // }
-
-  var deliverers = <Deliverer>[
-    Deliverer(name: 'Người giao hàng 1', id: '1'),
-    Deliverer(name: 'Người giao hàng 2', id: '2'),
-    Deliverer(name: 'Người giao hàng 3', id: '3'),
-    Deliverer(name: 'Người giao hàng 4', id: '4'),
-    Deliverer(name: 'Người giao hàng 5', id: '5'),
-  ].obs;
-
-  var selectedDeliverers = <String, Deliverer>{}.obs;
-
-  RxSet<String> listString = <String>{}.obs;
-
+  var deliverers = <User>[].obs;
   RxList<Menu> listMenu = <Menu>[].obs;
   Rx<School> school = School().obs;
-  Future refreshData(String schoolId) async {
-    _schoolId = schoolId;
+
+  var selectedDeliverers = <String, User>{}.obs; // session detail : deliverer
+
+  Future freshData() async {
     try {
       listMenu.value = await MenuService().getBySchoolId(schoolId);
       school.value = await SchoolService().getById(schoolId);
-      school.value.locations?.forEach((e) {
-        listString.add(e.id!);
-      });
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.message.toString());
+    }
+  }
+
+  Future getDeliverers() async {
+    if (deliveryStartTime.value == null || deliveryEndTime.value == null) {
+      Get.snackbar('Hệ thống', 'Thời gian giao hàng còn trống');
+      return;
+    }
+    try {
+      var data = await SessionService().getListDelivererByDeliveryDate(
+          deliveryStartTime.value!, deliveryEndTime.value!);
+      selectedDeliverers.forEach((key, value) {
+        data.removeWhere((e) => e.id == value.id);
+      });
+      deliverers.value = data;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -569,50 +509,59 @@ class CreateSessionController extends GetxController {
       Get.snackbar('Thất bại', 'Chưa có menu');
       return;
     }
-    List<SessionDetail> sessionDetails = [];
-    for (var e in listString) {
-      sessionDetails.add(SessionDetail(locationId: e));
+    if (orderStartTime.value == null ||
+        orderEndTime.value == null ||
+        deliveryStartTime.value == null ||
+        deliveryEndTime.value == null) {
+      Get.snackbar('Hệ thống', 'Thời gian còn trống');
+      return;
     }
+    if (orderStartTime.value!.isAfter(orderEndTime.value!)) {
+      Get.snackbar('Thất bại', 'Thời gian đặt hàng không hợp lệ');
+      return;
+    }
+    if (deliveryStartTime.value!.isAfter(deliveryEndTime.value!)) {
+      Get.snackbar('Thất bại', 'Thời gian giao hàng không hợp lệ');
+      return;
+    }
+    if (orderEndTime.value!
+        .add(const Duration(hours: 6))
+        .isAfter(deliveryStartTime.value!)) {
+      Get.snackbar('Thất bại', 'Thời gian đặt hàng phải sao giao hàng 6 giờ');
+      return;
+    }
+    Map<String, User> deliverers = selectedDeliverers;
     Session session = Session(
       menuId: selectedMenuId.value,
-      orderStartTime: orderStartTime,
-      orderEndTime: orderEndTime,
-      deliveryStartTime: deliveryStartTime,
-      deliveryEndTime: deliveryEndTime,
-      sessionDetails: sessionDetails,
+      orderStartTime: orderStartTime.value,
+      orderEndTime: orderEndTime.value,
+      deliveryStartTime: deliveryStartTime.value,
+      deliveryEndTime: deliveryEndTime.value,
     );
     try {
-      await SessionService().createSession(session);
+      await SessionService().createSession(session, deliverers);
       Get.back();
       Get.snackbar('Thông báo', 'Tạo thành công');
-      if (_schoolId.isNotEmpty) {
-        await refreshData(_schoolId);
-      }
+      await freshData();
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.message.toString());
     }
   }
-
-  // void toggle(int index) => isChecked[index] = !isChecked[index];
-
-  DateTime orderStartTime = DateTime.now();
-  DateTime orderEndTime = DateTime.now();
-  DateTime deliveryStartTime = DateTime.now();
-  DateTime deliveryEndTime = DateTime.now();
-
-  var lbOrderStartTime = 'Bắt đầu'.obs;
-  var lbOrderEndTime = 'Kết thúc'.obs;
-  var lbDeliveryStartTime = 'Bắt đầu'.obs;
-  var lbDeliveryEndTime = 'Kết thúc'.obs;
 }
 
-bool isValidDeliveryStartTime(DateTime deliveryStartTime) {
-  int hour = deliveryStartTime.hour;
-  return hour >= 4 && hour < 11;
+bool isValidTime(DateTime date) {
+  if (date.isBefore(DateTime.now())) {
+    Get.snackbar('Hệ thống', 'Thời gian đã quá hạn');
+    return false;
+  }
+  return true;
 }
 
-class Deliverer {
-  String name;
-  String id;
-  Deliverer({required this.name, required this.id});
+bool isValidDeliveryStartTime(DateTime deliveryTime) {
+  int hour = deliveryTime.hour;
+  if (hour >= 4 && hour < 11) {
+    return true;
+  }
+  Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+  return false;
 }

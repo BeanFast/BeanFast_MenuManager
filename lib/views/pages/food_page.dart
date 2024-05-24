@@ -86,19 +86,11 @@ class FoodView extends GetView<FoodController> {
             // sortColumnIndex: controller.columnIndex.value,
             // sortAscending: controller.columnAscending.value,
             columns: const <DataColumn>[
-              DataColumn2(
-                label: Text('Code'),
-              ),
+              DataColumn2(label: Text('Code')),
               DataColumn2(label: Text('Hình ảnh')),
-              DataColumn2(
-                label: Text('Tên sản phẩm'),
-              ),
-              DataColumn2(
-                label: Text('Loại'),
-              ),
-              DataColumn2(
-                label: Text('Giá'),
-              ),
+              DataColumn2(label: Text('Tên sản phẩm')),
+              DataColumn2(label: Text('Loại')),
+              DataColumn2(label: Text('Giá')),
               DataColumn2(label: Text(' ')),
             ],
             // ignore: invalid_use_of_protected_member
