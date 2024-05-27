@@ -1,20 +1,19 @@
-import 'package:beanfast_menumanager/controllers/order_controller.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/controllers/session_detail_controller.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/utils/format_data.dart';
-import '/controllers/session_detail_controller.dart';
 import '/views/dialog/order_dialog.dart';
 import 'loading_page.dart';
-import 'widget/paginated_datatable_widget.dart';
 import 'order_detail_page.dart';
 import 'widget/button_data_table.dart';
 import 'widget/image_default.dart';
+import 'widget/paginated_datatable_widget.dart';
 import 'widget/text_order_status_widget.dart';
 
 class SessionDetailPage extends GetView<SessionDetailController> {

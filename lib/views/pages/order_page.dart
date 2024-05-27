@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '/views/pages/loading_page.dart';
 import '/controllers/order_controller.dart';
 import '/enums/status_enum.dart';
+import '/views/pages/loading_page.dart';
 import 'widget/order_tabview.dart';
 
 class OrderView extends GetView<OrderController> {
@@ -32,26 +32,61 @@ class OrderView extends GetView<OrderController> {
                       onTap: () {
                         showSelectionSchoolDialog();
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(
-                            top: 6, bottom: 6, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Trường', style: Get.textTheme.bodyLarge),
+                          const SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(
+                                top: 6, bottom: 6, left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.5,
+                              ),
+                            ),
+                            // ignore: prefer_const_constructors
+                            child: Obx(
+                              () => Row(
+                                children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: Text(
+                                          controller.selectedSchool.value ==
+                                                  null
+                                              ? '--Trống--'
+                                              : controller
+                                                  .selectedSchool.value!.name
+                                                  .toString(),
+                                          style: Get.textTheme.bodyMedium!
+                                              .copyWith(),
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  if (controller.selectedSchool.value?.name !=
+                                          '--Trống--' &&
+                                      controller.selectedSchool.value != null)
+                                    GestureDetector(
+                                      onTap: () {
+                                        //Xoá filter
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 12,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        // ignore: prefer_const_constructors
-                        child: Obx(
-                          () => Center(
-                            child: Text(controller.selectedSchool.value == null
-                                ? '--Trống--'
-                                : controller.selectedSchool.value!.name
-                                    .toString()),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -66,25 +101,55 @@ class OrderView extends GetView<OrderController> {
                         }
                         showSelectionSessionDialog();
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(
-                            top: 6, bottom: 6, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Khung giờ', style: Get.textTheme.bodyLarge),
+                          const SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(
+                                top: 6, bottom: 6, left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.5,
+                              ),
+                            ),
+                            // ignore: prefer_const_constructors
+                            child: Obx(
+                              () => Row(
+                                children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: Text(controller
+                                                    .selectedSession.value ==
+                                                null
+                                            ? '--Trống--'
+                                            : '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
+                                      ),
+                                    ),
+                                  ),
+                                  if (controller.selectedSession.value
+                                          ?.deliveryStartTime !=
+                                      null)
+                                    GestureDetector(
+                                      onTap: () {
+                                        //Xoá filter
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 12,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        // ignore: prefer_const_constructors
-                        child: Obx(
-                          () => Center(
-                            child: Text(controller.selectedSession.value == null
-                                ? '--Trống--'
-                                : '${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}'),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -99,28 +164,59 @@ class OrderView extends GetView<OrderController> {
                         }
                         showSelectionSessionDetailDialog();
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(
-                            top: 6, bottom: 6, left: 10, right: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Cổng', style: Get.textTheme.bodyLarge),
+                          const SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(
+                                top: 6, bottom: 6, left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.5,
+                              ),
+                            ),
+                            // ignore: prefer_const_constructors
+                            child: Obx(
+                              () => Row(
+                                children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: Center(
+                                        child: Text(controller
+                                                    .selectedSessionDetail
+                                                    .value ==
+                                                null
+                                            ? '--Trống--'
+                                            : controller.selectedSessionDetail
+                                                .value!.location!.name
+                                                .toString()),
+                                      ),
+                                    ),
+                                  ),
+                                  if (controller.selectedSessionDetail.value !=
+                                          null &&
+                                      controller.selectedSessionDetail.value !=
+                                          null)
+                                    GestureDetector(
+                                      onTap: () {
+                                        //Xoá filter
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 12,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        // ignore: prefer_const_constructors
-                        child: Obx(
-                          () => Center(
-                            child: Text(
-                                controller.selectedSessionDetail.value == null
-                                    ? '--Trống--'
-                                    : controller.selectedSessionDetail.value!
-                                        .location!.name
-                                        .toString()),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ),

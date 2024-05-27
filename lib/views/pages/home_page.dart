@@ -16,10 +16,7 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: Row(
           children: [
-            Obx(
-              () => Text(
-                  'Quản lý bếp ${currentKitchen.value?.name.toString() ?? ''}'),
-            ),
+            const Text('Quản lý bếp'),
             const Spacer(),
             PopupMenuButton<String>(
               color: Colors.white,
@@ -30,15 +27,25 @@ class HomeView extends GetView<HomeController> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Thông tin tài khoản'),
-                        content: const SingleChildScrollView(
+                        title: Text(
+                          'Thông tin bếp',
+                          style: Get.textTheme.titleMedium,
+                        ),
+                        content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
-                              Text('Email tài khoản:'),
-                              Text('Thông tin 1:'),
-                              Text('Thông tin 2:'),
-                              Text('Thông tin 3:'),
-                              Text('Thông tin 4:'),
+                              Text(
+                                'Code: ${currentKitchen.value!.code}',
+                                style: Get.textTheme.bodyMedium,
+                              ),
+                              Text(
+                                'Tên bếp: ${currentKitchen.value!.name}',
+                                style: Get.textTheme.bodyMedium,
+                              ),
+                              Text(
+                                'Địa chỉ: ${currentKitchen.value!.address}',
+                                style: Get.textTheme.bodyMedium,
+                              ),
                             ],
                           ),
                         ),
@@ -109,35 +116,48 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ],
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: const CustomNetworkImage(
-                        '',
+              child: Obx(
+                () => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.black, width: 0.5),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
                         width: 40,
                         height: 40,
-                        fit: BoxFit.cover,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: CustomNetworkImage(
+                            currentKitchen.value?.imagePath ?? '',
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 7,
+                      ),
+                      Text(
+                        currentKitchen.value?.name.toString().capitalize ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Get.textTheme.bodyMedium!.copyWith(),
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  Text(
-                    'Tên tài khoản',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Get.textTheme.bodyMedium!.copyWith(),
-                  ),
-                ],
+                ),
               ),
             ),
           ],
