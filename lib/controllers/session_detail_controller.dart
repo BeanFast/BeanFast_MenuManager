@@ -69,7 +69,8 @@ class SessionDetailController extends PaginatedDataTableController<Order> {
   Future fetchData() async {
     if (sessionId != null) {
       try {
-        data.value = await SessionService().getById(sessionId!);
+        var session = await SessionService().getById(sessionId!);
+        data.value = session;
         selectSessionDetail(data.value.sessionDetails!
                 .any((e) => e.id == selectedSessionDetail.value?.id)
             ? selectedSessionDetail.value!.id!

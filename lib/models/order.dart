@@ -1,3 +1,5 @@
+import 'package:beanfast_menumanager/models/user.dart';
+
 import 'base_model.dart';
 import 'order_activity.dart';
 import 'order_detail.dart';
@@ -16,6 +18,7 @@ class Order extends BaseModel {
   String? feedback;
   SessionDetail? sessionDetail;
   Profile? profile;
+  User? deliverer;
   List<OrderDetail>? orderDetails;
   List<Transaction>? transactions;
   List<OrderActivity>? orderActivities;
@@ -33,6 +36,7 @@ class Order extends BaseModel {
     this.feedback,
     this.sessionDetail,
     this.profile,
+    this.deliverer,
     this.orderDetails,
     this.transactions,
     this.orderActivities,
@@ -56,6 +60,9 @@ class Order extends BaseModel {
         profile: json['profile'] == null
             ? Profile()
             : Profile.fromJson(json['profile']),
+        deliverer: json['deliverer'] == null
+            ? null
+            : User(fullName: json['deliverer']['fullName']),
         orderDetails: json['orderDetails']?.map<OrderDetail>((item) {
           return OrderDetail.fromJson(item);
         }).toList(),

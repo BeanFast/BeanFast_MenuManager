@@ -227,7 +227,7 @@ class SessionDetailPage extends GetView<SessionDetailController> {
         DataCell(Text(order.paymentDate == null
             ? 'Chưa có'
             : DateFormat('HH:mm dd/MM/yy').format(order.paymentDate!))),
-        DataCell(Text(order.sessionDetail!.code.toString())),
+        DataCell(Text(order.deliverer!.fullName.toString())),
         DataCell(Text(order.orderDetails!.length.toString())),
         DataCell(Text(Formatter.formatMoney(order.totalPrice.toString()))),
         DataCell(TextOrderStatus(status: OrderStatus.fromInt(order.status!))),
@@ -240,7 +240,8 @@ class SessionDetailPage extends GetView<SessionDetailController> {
             if (order.status == OrderStatus.preparing.code ||
                 order.status == OrderStatus.delivering.code)
               CancelOrderActivityButtonTable(onPressed: () {
-                OrderDialogs.showCancelOrderDialog(order.id!, controller.cancelOrder);
+                OrderDialogs.showCancelOrderDialog(
+                    order.id!, controller.cancelOrder);
               }),
           ],
         )),
