@@ -1,5 +1,6 @@
 import 'package:beanfast_menumanager/views/pages/widget/image_default.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
@@ -123,9 +124,9 @@ class HomeView extends GetView<HomeController> {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    // color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black, width: 0.5),
+                    // border: Border.all(color: Colors.black, width: 0.5),
                   ),
                   child: Row(
                     children: [
@@ -154,6 +155,13 @@ class HomeView extends GetView<HomeController> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Get.textTheme.bodyMedium!.copyWith(),
+                      ),
+                      const SizedBox(
+                        width: 7,
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        size: 24,
                       ),
                     ],
                   ),
