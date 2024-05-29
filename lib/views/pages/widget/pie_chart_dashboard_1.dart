@@ -19,12 +19,15 @@ class PieChart1 extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 0.3 + 100,
+          height: MediaQuery.of(context).size.height * 0.3 + 140,
           child: Column(
             children: [
               const Text(
                 'Top 10 tỉ lệ danh mục sản phẩm bán chạy nhất',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 1,
@@ -64,16 +67,19 @@ class PieChart1 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: showingIndicators(),
-                    ),
                     const SizedBox(
                       width: 28,
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: showingIndicators(),
               ),
             ],
           ),

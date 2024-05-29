@@ -154,21 +154,21 @@ class DashboardView extends GetView<DashboardController> {
             const SizedBox(
               height: 50,
             ),
-            SizedBox(
-              width: Get.width * 0.9,
-              child: PointDashboard2(
-                orderStatistics: controller.completeOrderStatistics,
-              ),
-            ),
+            // SizedBox(
+            //   width: Get.width * 0.9,
+            //   child: PointDashboard2(
+            //     orderStatistics: controller.completeOrderStatistics,
+            //   ),
+            // ),
             const SizedBox(
               height: 50,
             ),
-            SizedBox(
-              width: Get.width * 0.9,
-              child: LineChartSample2(
-                list: controller.orderStatisticByDays,
-              ),
-            ),
+            // SizedBox(
+            //   width: Get.width * 0.9,
+            //   child: LineChartSample2(
+            //     list: controller.orderStatisticByDays,
+            //   ),
+            // ),
             Row(
               children: [
                 Expanded(

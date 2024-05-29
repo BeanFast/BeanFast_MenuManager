@@ -35,8 +35,7 @@ class HomeController extends GetxController {
   Widget setSelectedContent(int index) {
     switch (index) {
       case 0:
-        return const CreateSessionPage(
-            schoolId: 'b254a297-cae1-4d26-afe2-b093227ded0a');
+        return const DashboardView();
       // return const SessionDetailPage(
       //     sessionId: '73a25f1c-aeaa-404d-9d23-1675225185ac');
       // return const DashboardView();

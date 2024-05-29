@@ -65,125 +65,124 @@ class PointDashboard2 extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             SizedBox(
-                width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: Obx(
-                  () => BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.symmetric(
-                          horizontal: BorderSide(
-                            color: ThemeColor.borderColor.withOpacity(0.2),
-                          ),
-                        ),
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        leftTitles: AxisTitles(
-                          drawBelowEverything: true,
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            interval: step,
-                            getTitlesWidget: (value, meta) {
-                              // print(value);
-                              return Text(
-                                value.toInt().toString(),
-                                textAlign: TextAlign.left,
-                              );
-                            },
-                          ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 36,
-                            getTitlesWidget: (value, meta) {
-                              final index = value.toInt();
-                              const style = TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                overflow: TextOverflow.ellipsis,
-                              );
-                              Widget text = Text(
-                                orderStatistics[value.toInt()].month,
-                                // style: style,
-                              );
-                              return SideTitleWidget(
-                                axisSide: meta.axisSide,
-                                child: text,
-                              );
-                            },
-                          ),
-                        ),
-                        rightTitles: const AxisTitles(),
-                        topTitles: const AxisTitles(),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) => FlLine(
-                          color: ThemeColor.borderColor.withOpacity(0.2),
-                          strokeWidth: 1,
-                        ),
-                      ),
-                      barGroups: orderStatistics.asMap().entries.map((e) {
-                        final index = e.key;
-                        final data = e.value;
-                        return generateBarGroup(
-                          index,
-                          // data.color,
-                          data.count.toDouble(),
-                          data.revenue.toDouble(),
-                        );
-                      }).toList(),
-                      maxY: maxCount + step,
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        handleBuiltInTouches: false,
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipBgColor: Colors.transparent,
-                          tooltipMargin: 0,
-                          getTooltipItem: (
-                            BarChartGroupData group,
-                            int groupIndex,
-                            BarChartRodData rod,
-                            int rodIndex,
-                          ) {
-                            return BarTooltipItem(
-                              rod.toY.toString(),
-                              TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: rod.color,
-                                fontSize: 18,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    blurRadius: 12,
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        touchCallback: (event, response) {
-                          // print(event);
-                          if (event.isInterestedForInteractions &&
-                              response != null &&
-                              response.spot != null) {
-                            // print(response.spot!.touchedBarGroupIndex);
-                            touchedGroupIndex.value =
-                                response.spot!.touchedBarGroupIndex;
-                          } else {
-                            touchedGroupIndex.value = -2;
-                          }
-                        },
+              width: MediaQuery.of(context).size.width * 1,
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: BarChart(
+                BarChartData(
+                  alignment: BarChartAlignment.spaceAround,
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.symmetric(
+                      horizontal: BorderSide(
+                        color: ThemeColor.borderColor.withOpacity(0.2),
                       ),
                     ),
                   ),
-                )),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    leftTitles: AxisTitles(
+                      drawBelowEverything: true,
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        interval: step,
+                        getTitlesWidget: (value, meta) {
+                          // print(value);
+                          return Text(
+                            value.toInt().toString(),
+                            textAlign: TextAlign.left,
+                          );
+                        },
+                      ),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 36,
+                        getTitlesWidget: (value, meta) {
+                          final index = value.toInt();
+                          const style = TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                          Widget text = Text(
+                            orderStatistics[value.toInt()].month,
+                            // style: style,
+                          );
+                          return SideTitleWidget(
+                            axisSide: meta.axisSide,
+                            child: text,
+                          );
+                        },
+                      ),
+                    ),
+                    rightTitles: const AxisTitles(),
+                    topTitles: const AxisTitles(),
+                  ),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    getDrawingHorizontalLine: (value) => FlLine(
+                      color: ThemeColor.borderColor.withOpacity(0.2),
+                      strokeWidth: 1,
+                    ),
+                  ),
+                  barGroups: orderStatistics.asMap().entries.map((e) {
+                    final index = e.key;
+                    final data = e.value;
+                    return generateBarGroup(
+                      index,
+                      // data.color,
+                      data.count.toDouble(),
+                      data.revenue.toDouble(),
+                    );
+                  }).toList(),
+                  maxY: maxCount + step,
+                  barTouchData: BarTouchData(
+                    enabled: true,
+                    handleBuiltInTouches: false,
+                    touchTooltipData: BarTouchTooltipData(
+                      tooltipBgColor: Colors.transparent,
+                      tooltipMargin: 0,
+                      getTooltipItem: (
+                        BarChartGroupData group,
+                        int groupIndex,
+                        BarChartRodData rod,
+                        int rodIndex,
+                      ) {
+                        return BarTooltipItem(
+                          rod.toY.toString(),
+                          TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: rod.color,
+                            fontSize: 18,
+                            shadows: const [
+                              Shadow(
+                                color: Colors.black26,
+                                blurRadius: 12,
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    touchCallback: (event, response) {
+                      // print(event);
+                      if (event.isInterestedForInteractions &&
+                          response != null &&
+                          response.spot != null) {
+                        // print(response.spot!.touchedBarGroupIndex);
+                        touchedGroupIndex.value =
+                            response.spot!.touchedBarGroupIndex;
+                      } else {
+                        touchedGroupIndex.value = -2;
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
           ]),
         ),
       );
