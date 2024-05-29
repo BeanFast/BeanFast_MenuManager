@@ -27,4 +27,10 @@ class ExchangeGiftService {
         .put('$baseUrl/cancel/$exchangeGiftId', data: formData);
     return response.statusCode == 200;
   }
+
+    Future<ExchangeGift> getById(String id) async {
+    final response = await _apiService.request.get('$baseUrl/$id');
+    ExchangeGift exchangeGift = ExchangeGift.fromJson(response.data['data']);
+    return exchangeGift;
+  }
 }

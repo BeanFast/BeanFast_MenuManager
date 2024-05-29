@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/views/pages/order_gift_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -77,7 +78,11 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
         DataCell(Row(
           children: [
             const Spacer(),
-            DetailButtonDataTable(onPressed: () {}),
+            DetailButtonDataTable(onPressed: () {
+              Get.to(OrderGiftDetailScreen(
+                orderGiftId: exchangeGift.id!,
+              ));
+            }),
             if (status == ExchangeGiftStatus.preparing ||
                 status == ExchangeGiftStatus.delivering)
               CancelOrderActivityButtonTable(onPressed: () {

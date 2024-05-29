@@ -11,18 +11,33 @@ enum FooodStatus {
 
 enum ExchangeGiftStatus {
   preparing(1, 'Chờ chuẩn bị'),
-  delivering(2, 'Chờ giao hàng'),
-  completed(3, 'Hoàn thành'),
-  cancelled(4, 'Đã hủy');
+  delivering(4, 'Chờ giao hàng'),
+  completed(5, 'Hoàn thành'),
+  cancelled(6, 'Đã hủy');
 
   const ExchangeGiftStatus(this.code, this.message);
 
   final int code;
   final String message;
+
+     static ExchangeGiftStatus fromInt(int code) {
+    switch (code) {
+      case 1:
+        return ExchangeGiftStatus.preparing;
+      case 4:
+        return ExchangeGiftStatus.delivering;
+      case 5:
+        return ExchangeGiftStatus.completed;
+      case 6:
+        return ExchangeGiftStatus.cancelled;
+      default:
+        return ExchangeGiftStatus.preparing;
+    }
+  }
 }
 
 enum OrderStatus {
-  preparing(2, 'Chờ chuẩn bị'),
+  preparing(2, 'Đang chuẩn bị'),
   cooking(3, 'Đang chế biến'),
   delivering(4, 'Chờ giao hàng'),
   completed(5, 'Hoàn thành'),

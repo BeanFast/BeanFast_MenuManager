@@ -27,6 +27,15 @@ class ExchangeGiftController extends DataTableController<ExchangeGift> {
       setDataTable(currentModelList);
     }
   }
+    Future getById(String id) async {
+    model.value = null;
+    try {
+      var data = await ExchangeGiftService().getById(id);
+      model.value = data;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   Future getData(list) async {

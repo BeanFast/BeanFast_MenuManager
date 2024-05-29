@@ -1,5 +1,4 @@
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
-import 'package:beanfast_menumanager/views/pages/widget/app_color_dashboard.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,80 +10,82 @@ class PieChart3 extends StatelessWidget {
   RxInt touchedIndex = (-1).obs;
   @override
   Widget build(BuildContext context) {
-    if (topSellerSchool.isNotEmpty) {
-      return Card(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 0.3 + 140,
-          child: Column(
-            children: [
-              const Text(
-                'Top 10 tỉ lệ trường bán chạy nhất',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
+    return Obx(
+      () => topSellerSchool.isNotEmpty
+          ? Card(
+              child: Container(
+                padding: const EdgeInsets.all(20),
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: Row(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 18,
+                height: MediaQuery.of(context).size.height * 0.3 + 140,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Top 10 tỉ lệ trường bán chạy nhất',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    Expanded(
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Obx(
-                          () => PieChart(
-                            PieChartData(
-                              pieTouchData: PieTouchData(
-                                touchCallback:
-                                    (FlTouchEvent event, pieTouchResponse) {
-                                  // if (!event.isInterestedForInteractions ||
-                                  //     pieTouchResponse == null ||
-                                  //     pieTouchResponse.touchedSection == null) {
-                                  //   touchedIndex = RxInt(-1);
-                                  //   return;
-                                  // }
-                                  // touchedIndex = RxInt(pieTouchResponse
-                                  //     .touchedSection!.touchedSectionIndex);
-                                },
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 1,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Row(
+                        children: <Widget>[
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Obx(
+                                () => PieChart(
+                                  PieChartData(
+                                    pieTouchData: PieTouchData(
+                                      touchCallback: (FlTouchEvent event,
+                                          pieTouchResponse) {
+                                        // if (!event.isInterestedForInteractions ||
+                                        //     pieTouchResponse == null ||
+                                        //     pieTouchResponse.touchedSection == null) {
+                                        //   touchedIndex = RxInt(-1);
+                                        //   return;
+                                        // }
+                                        // touchedIndex = RxInt(pieTouchResponse
+                                        //     .touchedSection!.touchedSectionIndex);
+                                      },
+                                    ),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 0,
+                                    centerSpaceRadius: 40,
+                                    sections: showingSections(),
+                                  ),
+                                ),
                               ),
-                              borderData: FlBorderData(
-                                show: false,
-                              ),
-                              sectionsSpace: 0,
-                              centerSpaceRadius: 40,
-                              sections: showingSections(),
                             ),
                           ),
-                        ),
+                          const SizedBox(
+                            width: 28,
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
-                      width: 28,
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: showingIndicators(),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: showingIndicators(),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    return Column(
-      children: [Text("Chưa có dữ liệu")],
+            )
+          : const Column(
+              children: [Text("Chưa có dữ liệu")],
+            ),
     );
   }
 

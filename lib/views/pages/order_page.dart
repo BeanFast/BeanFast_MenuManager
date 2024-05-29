@@ -289,8 +289,7 @@ class OrderView extends GetView<OrderController> {
                 style: Get.theme.textTheme.bodyMedium,
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                height: Get.height * 0.22,
+              Expanded(
                 child: LoadingView(
                   future: controller.fetchSessionDetailData,
                   child: SingleChildScrollView(
@@ -505,7 +504,7 @@ class OrderView extends GetView<OrderController> {
         title: Text('Trường', style: Get.textTheme.titleMedium),
         content: SizedBox(
           width: Get.width * 0.5,
-          height: Get.height * 0.5,
+          height: Get.height * 0.8,
           child: Column(
             children: [
               TextField(
