@@ -17,7 +17,7 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
+  Rx<Widget> selectedContent = Rx<Widget>(const FoodView());
 
   // menu mặc định
   List<MenuItem> menuItems = [

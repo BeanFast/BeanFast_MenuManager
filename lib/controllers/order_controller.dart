@@ -17,7 +17,7 @@ class OrderController extends PaginatedDataTableController<Order> {
   OrderStatus status = OrderStatus.preparing;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  Rx<Order> order = Order().obs;
+  Rxn<Order> order = Rxn();
 
   RxList<School> schoolList = <School>[].obs;
   List<School> schoolDataList = [];
@@ -55,6 +55,7 @@ class OrderController extends PaginatedDataTableController<Order> {
   }
 
   Future fetchOrder(String id) async {
+    order.value = null;
     try {
       order.value = await OrderService().getById(id);
     } catch (e) {
@@ -99,7 +100,7 @@ class OrderController extends PaginatedDataTableController<Order> {
     }
   }
 
-  Future selectSchool(School value) async {
+  Future selectSchool(School? value) async {
     selectedSchool.value = value;
     selectedSession.value = null;
     await fetchData();
@@ -115,13 +116,13 @@ class OrderController extends PaginatedDataTableController<Order> {
     }
   }
 
-  Future selectSession(Session value) async {
+  Future selectSession(Session? value) async {
     selectedSession.value = value;
     selectedSessionDetail.value = null;
     await fetchData();
   }
 
-  Future selectSessionDetail(SessionDetail value) async {
+  Future selectSessionDetail(SessionDetail? value) async {
     selectedSessionDetail.value = value;
     await fetchData();
   }
@@ -129,39 +130,6 @@ class OrderController extends PaginatedDataTableController<Order> {
   void setDate(String value) {
     datePicker.value = value;
   }
-
-  // @override
-  // void search(String value) {
-  //   if (value == '') {
-  //     setDataTable(initModelList);
-  //   } else {
-  //     currentModelList = initModelList
-  //         .where((e) => e.code!.toLowerCase().contains(value.toLowerCase()))
-  //         .toList();
-  //     setDataTable(currentModelList);
-  //   }
-  // }
-
-  // void sortByPaymentDate(int index) {
-  //   columnIndex.value = index;
-  //   columnAscending.value = !columnAscending.value;
-  //   currentModelList.sort((a, b) => a.paymentDate!.compareTo(b.paymentDate!));
-  //   if (!columnAscending.value) {
-  //     currentModelList = currentModelList.reversed.toList();
-  //   }
-  //   setDataTable(currentModelList);
-  // }
-
-  // void sortByDeliveryDate(int index) {
-  //   columnIndex.value = index;
-  //   columnAscending.value = !columnAscending.value;
-  //   currentModelList = initModelList;
-  //   currentModelList.sort((a, b) => a.deliveryDate!.compareTo(b.deliveryDate!));
-  //   if (!columnAscending.value) {
-  //     currentModelList = currentModelList.reversed.toList();
-  //   }
-  //   setDataTable(currentModelList);
-  // }
 
   Future cancelOrder(String orderId, String reason) async {
     try {

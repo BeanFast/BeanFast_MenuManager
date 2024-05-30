@@ -13,10 +13,13 @@ class CreateButtonDataTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child:  Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.add_outlined, size: 20,),
+          const Icon(
+            Icons.add_outlined,
+            size: 20,
+          ),
           Text('Thêm', style: Get.textTheme.bodyMedium),
         ],
       ),
@@ -25,17 +28,20 @@ class CreateButtonDataTable extends StatelessWidget {
 }
 
 class RefreshButtonDataTable extends StatelessWidget {
+  final bool disable;
   final void Function() onPressed;
 
   const RefreshButtonDataTable({
     super.key,
+    required this.disable,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed, icon: const Icon(Icons.refresh_outlined));
+        onPressed: disable ? null : onPressed,
+        icon: const Icon(Icons.refresh_outlined));
   }
 }
 

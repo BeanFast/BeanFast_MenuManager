@@ -1,16 +1,16 @@
-import 'package:beanfast_menumanager/views/pages/order_gift_detail_page.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../exchange_gift_detail_page.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/enums/status_enum.dart';
 import '/models/exchange_gift.dart';
 import '/utils/format_data.dart';
 import '/views/pages/loading_page.dart';
 import 'button_data_table.dart';
-import 'paginated_data_table_widget.dart';
-import 'text_data_table_widget.dart';
+import 'paginated_datatable_widget.dart';
 
 class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
   final ExchangeGiftStatus status;
@@ -21,51 +21,28 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     Get.put(ExchangeGiftController());
     controller.status = status;
     return LoadingView(
-      future: controller.refreshData,
-      child: SingleChildScrollView(
-        child: SizedBox(
-          width: Get.width,
-          child: Obx(() => PaginatedDataTableView(
-              sortColumnIndex: controller.columnIndex.value,
-              sortAscending: controller.columnAscending.value,
-              search: (value) => controller.search(value),
-              refreshData: controller.refreshData,
-              loadPage: (page) => controller.loadPage(page),
-              columns: [
-                const DataColumn(
-                  label: Text('Stt'),
-                ),
-                const DataColumn(
-                  label: Text('Code'),
-                ),
-                const DataColumn(label: Text('Học sinh')),
-                DataColumn(
-                    label: const Text('Ngày thanh toán'),
-                    onSort: (index, ascending) =>
-                        controller.sortByPaymentDate(index)),
-                const DataColumn(label: Text('Ngày nhận hàng')),
-                const DataColumn(label: Text('Địa điểm')),
-                const DataColumn(label: Text('Tổng điểm')),
-                const DataColumn(label: Text(' ')),
-              ],
-              // ignore: invalid_use_of_protected_member
-              rows: controller.rows.value)),
-        ),
+      future: controller.fetchData,
+      child: const PaginatedDataTableView<ExchangeGiftController>(
+        title: 'Danh sách trường học',
+        columns: <DataColumn>[
+          DataColumn(label: Text('Code')),
+          DataColumn(label: Text('Học sinh')),
+          DataColumn(label: Text('Ngày thanh toán')),
+          DataColumn(label: Text('Ngày nhận hàng')),
+          DataColumn(label: Text('Địa điểm')),
+          DataColumn(label: Text('Tổng điểm')),
+          DataColumn2(label: Text(''), fixedWidth: 85),
+        ],
       ),
     );
   }
 
-  DataRow setRow(int index, ExchangeGift exchangeGift) {
+  DataRow setRow(ExchangeGift exchangeGift) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
         DataCell(Text(exchangeGift.code.toString())),
         DataCell(
-          TextDataTable(
-            data: exchangeGift.profile!.fullName.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
+          Text(exchangeGift.profile!.fullName.toString()),
         ),
         DataCell(Text(exchangeGift.paymentDate == null
             ? 'Chưa có'
@@ -79,7 +56,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
           children: [
             const Spacer(),
             DetailButtonDataTable(onPressed: () {
-              Get.to(OrderGiftDetailScreen(
+              Get.to(ExchangeGiftDetailView(
                 orderGiftId: exchangeGift.id!,
               ));
             }),

@@ -24,8 +24,8 @@ class FoodController extends PaginatedDataTableController<Food> {
   final QuillController descriptionText = QuillController.basic();
   RxList<Category> listCategory = <Category>[].obs;
   List<Category> listInitCategory = [];
-  List<Food> listFood = [];
-  List<Food> listInitFood = [];
+  // List<Food> listFood = [];
+  // List<Food> listInitFood = [];
   RxList<Food> listCombo = <Food>[].obs;
   Rx<Category?> selectedCategory = Rx<Category?>(null);
   RxMap<String, int> combos = <String, int>{}.obs;
@@ -93,41 +93,6 @@ class FoodController extends PaginatedDataTableController<Food> {
           .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
           .toList();
     }
-  }
-
-  Future getAllFood() async {
-    listFood.clear();
-    try {
-      var data = await FoodService().getAll(false);
-      listInitFood = data;
-      listFood.addAll(listInitFood);
-      for (var c in combos.entries) {
-        listFood.removeWhere((e) => e.id! == c.key);
-      }
-      setFoodDataTable(listFood);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  void searchFood(String value) {
-    listFood.clear();
-    if (value.isEmpty) {
-      listFood.addAll(listInitFood);
-    } else {
-      listFood = listInitFood
-          .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-      setFoodDataTable(listFood);
-    }
-  }
-
-  void addFood(String id) {
-    combos.putIfAbsent(id, () => 1);
-    Food food = listInitFood.firstWhere((e) => e.id! == id);
-    listCombo.add(food);
-    listFood.remove(food);
-    setFoodDataTable(listFood);
   }
 
   void updateFood(String id, int quantity) {
@@ -202,6 +167,19 @@ class FoodController extends PaginatedDataTableController<Food> {
     }
   }
 
+   void search(String value) {
+    if (value.isEmpty) {
+      setDataTable(dataList);
+    } else {
+      var list = dataList
+          .where((e) =>
+              e.code!.toLowerCase().contains(value.toLowerCase()) ||
+              e.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+      setDataTable(list);
+    }
+  }
+
   @override
   void setDataTable(List<Food> list) {
     rows.value = list.map((dataMap) {
@@ -209,17 +187,54 @@ class FoodController extends PaginatedDataTableController<Food> {
     }).toList();
   }
 
-  void setFoodDataTable(List<Food> list) {
-    foodRows.value = list.map((dataMap) {
-      return const FoodView().setFoodRow(list.indexOf(dataMap), dataMap);
+  @override
+  Future fetchData() async {
+    try {
+      var data = await FoodService().getAll(null);
+      dataList = data;
+      setDataTable(dataList);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+}
+
+class FoodCreateController extends PaginatedDataTableController<Food> {
+
+  // void searchFood(String value) {
+  //   listFood.clear();
+  //   if (value.isEmpty) {
+  //     listFood.addAll(listInitFood);
+  //   } else {
+  //     listFood = listInitFood
+  //         .where((e) => e.name!.toLowerCase().contains(value.toLowerCase()))
+  //         .toList();
+  //     setFoodDataTable(listFood);
+  //   }
+  // }
+
+  void addFood(String id) {
+    Get.find<FoodController>().combos.putIfAbsent(id, () => 1);
+    Food food = dataList.firstWhere((e) => e.id! == id);
+    Get.find<FoodController>().listCombo.add(food);
+    dataList.remove(food);
+    setDataTable(dataList);
+  }
+
+  @override
+  void setDataTable(List<Food> list) {
+    rows.value = list.map((dataMap) {
+      return const FoodView().setFoodRow(dataMap);
     }).toList();
   }
 
   @override
   Future fetchData() async {
     try {
-      var data = await FoodService()
-          .getAll(null);
+      var data = await FoodService().getAll(false);
+      for (var c in Get.find<FoodController>().combos.entries) {
+        data.removeWhere((e) => e.id! == c.key);
+      }
       dataList = data;
       setDataTable(dataList);
     } catch (e) {

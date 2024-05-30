@@ -4,7 +4,6 @@ import '/services/api_service.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/food_controller.dart';
-import '/controllers/kitchen_controller.dart';
 import '/controllers/menu_controller.dart';
 import '/controllers/school_controller.dart';
 import '/controllers/menu_detail_controller.dart';
@@ -18,7 +17,6 @@ class AuthBindingController extends Bindings {
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<FoodController>(() => FoodController());
     Get.lazyPut<MenuController>(() => MenuController());
-    Get.lazyPut<KitchenController>(() => KitchenController());
     Get.lazyPut<SchoolController>(() => SchoolController());
     // Get.lazyPut<OrderController>(() => OrderController());
   }

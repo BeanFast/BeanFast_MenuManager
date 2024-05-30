@@ -75,7 +75,7 @@ class OrderView extends GetView<OrderController> {
                                       controller.selectedSchool.value != null)
                                     GestureDetector(
                                       onTap: () {
-                                        //Xoá filter
+                                        controller.selectSchool(null);
                                       },
                                       child: const Icon(
                                         Icons.close,
@@ -138,7 +138,7 @@ class OrderView extends GetView<OrderController> {
                                       null)
                                     GestureDetector(
                                       onTap: () {
-                                        //Xoá filter
+                                        controller.selectSession(null);
                                       },
                                       child: const Icon(
                                         Icons.close,
@@ -205,7 +205,7 @@ class OrderView extends GetView<OrderController> {
                                           null)
                                     GestureDetector(
                                       onTap: () {
-                                        //Xoá filter
+                                        controller.selectSessionDetail(null);
                                       },
                                       child: const Icon(
                                         Icons.close,

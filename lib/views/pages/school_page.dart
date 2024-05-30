@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/views/pages/school_detail.dart';
-import '/views/pages/widget/paginated_datatable_widget.dart';
 import '/controllers/school_controller.dart';
 import '/models/location.dart';
 import '/models/school.dart';
 import '/routes/app_routes.dart';
-import '/views/pages/loading_page.dart';
-import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
+import 'school_detail.dart';
+import 'loading_page.dart';
+import 'widget/paginated_datatable_widget.dart';
+import 'widget/button_data_table.dart';
+import 'widget/search_widget.dart';
+import 'widget/text_data_table_widget.dart';
 import 'widget/description_input_widget.dart';
 
 class SchoolView extends GetView<SchoolController> {
@@ -22,30 +23,55 @@ class SchoolView extends GetView<SchoolController> {
     Get.put(SchoolController());
     return LoadingView(
       future: controller.fetchData,
-      child: const PaginatedDataTableView<SchoolController>(
-        title: 'Danh sách trường học',
-        columns: <DataColumn>[
-          DataColumn(
-            label: Text('Code'),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Quản lý trường',
+                textAlign: TextAlign.start,
+                style: Get.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  SearchBox(search: controller.search),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: showCreateSchoolDialog,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.add_outlined,
+                          size: 20,
+                        ),
+                        Text('Tạo trường', style: Get.textTheme.bodyMedium),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: Get.height * 0.7,
+                child: const PaginatedDataTableView<SchoolController>(
+                  title: 'Danh sách trường học',
+                  columns: <DataColumn>[
+                    DataColumn(label: Text('Code')),
+                    DataColumn(label: Text('Hình ảnh')),
+                    DataColumn(label: Text('Tên trường')),
+                    DataColumn(label: Text('Địa chỉ')),
+                    DataColumn(label: Text('Số cổng')),
+                    DataColumn(label: Text('Số học sinh')),
+                    DataColumn(label: Text('Trạng thái')),
+                    DataColumn2(label: Text(''), fixedWidth: 85),
+                  ],
+                ),
+              ),
+            ],
           ),
-          DataColumn(label: Text('Hình ảnh')),
-          DataColumn(
-            label: Text('Tên trường'),
-          ),
-          DataColumn(
-            label: Text('Địa chỉ'),
-          ),
-          DataColumn(
-            label: Text('Số cổng'),
-          ),
-          DataColumn(
-            label: Text('Số học sinh'),
-          ),
-          DataColumn(
-            label: Text('Trạng thái'),
-          ),
-          DataColumn2(label: Text(''), fixedWidth: 85),
-        ],
+        ),
       ),
     );
   }

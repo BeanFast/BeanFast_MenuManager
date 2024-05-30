@@ -4,18 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/utils/data_table.dart';
-import '/views/pages/food_detail.dart';
-import '/contains/theme_color.dart';
-import '/views/pages/widget/description_input_widget.dart';
-import '/views/pages/loading_page.dart';
-import '/utils/format_data.dart';
 import '/models/food.dart';
 import '/controllers/food_controller.dart';
-import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
-import '/views/pages/widget/data_table_page.dart';
+import '/contains/theme_color.dart';
+import '/utils/format_data.dart';
+import 'loading_page.dart';
+import 'food_detail.dart';
+import 'widget/description_input_widget.dart';
+import 'widget/button_data_table.dart';
+import 'widget/search_widget.dart';
+import 'widget/text_data_table_widget.dart';
 import 'widget/image_default.dart';
+import 'widget/paginated_datatable_widget.dart';
 
 class FoodView extends GetView<FoodController> {
   const FoodView({super.key});
@@ -24,80 +24,73 @@ class FoodView extends GetView<FoodController> {
   Widget build(BuildContext context) {
     return LoadingView(
       future: controller.fetchData,
-      child: GetBuilder<FoodController>(builder: (controller) {
-        return Obx(
-          () => PaginatedDataTable2(
-            header: Column(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: SingleChildScrollView(
+          child: Column(children: [
+             Text(
+                'Quản lý món ăn',
+                textAlign: TextAlign.start,
+                style: Get.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
+            Row(
               children: [
-                const SizedBox(height: 13),
-                const Text('Quản lý sản phẩm'),
-                Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () async {
-                        await showDialog(false);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.add_outlined,
-                            size: 20,
-                          ),
-                          Text('Tạo thức ăn', style: Get.textTheme.bodyMedium),
-                        ],
+                SearchBox(search: controller.search),
+                const Spacer(),
+                TextButton(
+                  onPressed: () async {
+                    await showDialog(false);
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.add_outlined,
+                        size: 20,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        await showDialog(true);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.add_outlined,
-                            size: 20,
-                          ),
-                          Text('Tạo combo', style: Get.textTheme.bodyMedium),
-                        ],
+                      Text('Tạo thức ăn', style: Get.textTheme.bodyMedium),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await showDialog(true);
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.add_outlined,
+                        size: 20,
                       ),
-                    ),
-                  ],
+                      Text('Tạo combo', style: Get.textTheme.bodyMedium),
+                    ],
+                  ),
                 ),
               ],
             ),
-            availableRowsPerPage: const [2, 5, 10, 30, 100],
-            rowsPerPage: controller.rowsPerPage.value,
-            columnSpacing: 0,
-            onRowsPerPageChanged: (value) {
-              controller.changeRowsPerPage(value!);
-            },
-            onPageChanged: (int value) {
-              // controller.changePage(value);
-            },
-            // refreshData: controller.fetchData,
-            // loadPage: (page) => controller.loadPage(page),
-            // search: (value) => controller.search(value),
-            // sortColumnIndex: controller.columnIndex.value,
-            // sortAscending: controller.columnAscending.value,
-            columns: const <DataColumn>[
-              DataColumn2(label: Text('Code')),
-              DataColumn2(label: Text('Hình ảnh')),
-              DataColumn2(label: Text('Tên sản phẩm')),
-              DataColumn2(label: Text('Loại')),
-              DataColumn2(label: Text('Giá')),
-              DataColumn2(label: Text(' ')),
-            ],
-            // ignore: invalid_use_of_protected_member
-            source: MyDataTableSource(rows: controller.rows.value),
-          ),
-        );
-      }),
+            const SizedBox(height: 10),
+            SizedBox(
+                height: Get.height * 0.7,
+              child: const PaginatedDataTableView<FoodController>(
+                title: 'Danh sách món ăn',
+                columns: <DataColumn>[
+                  DataColumn2(label: Text('Code')),
+                  DataColumn2(label: Text('Hình ảnh')),
+                  DataColumn2(label: Text('Tên sản phẩm')),
+                  DataColumn2(label: Text('Loại')),
+                  DataColumn2(label: Text('Giá')),
+                  DataColumn2(label: Text('')),
+                ],
+              ),
+            ),
+          ]),
+        ),
+      ),
     );
   }
 
@@ -503,61 +496,34 @@ class FoodView extends GetView<FoodController> {
   }
 
   void showFoodDialog() {
+    var foodCreateController = Get.put(FoodCreateController());
     Get.dialog(
       AlertDialog(
         content: SizedBox(
           height: Get.height * 0.8,
           width: Get.width * 0.8,
           child: LoadingView(
-            future: controller.getAllFood,
-            child: Obx(
-              () => DataTableView(
-                title: 'Danh sách sản phẩm',
-                sortColumnIndex: 1,
-                sortAscending: true,
-                search: (value) => controller.searchFood(value),
-                refreshData: controller.getAllFood,
-                loadPage: (page) => (page),
-                columns: const [
-                  DataColumn(
-                    label: Text('Stt'),
-                  ),
-                  DataColumn(
-                    label: Text('Code'),
-                  ),
+              future: foodCreateController.fetchData,
+              child: const PaginatedDataTableView<FoodCreateController>(
+                title: 'Danh sách món ăn',
+                columns: [
+                  DataColumn(label: Text('Code')),
                   DataColumn(label: Text('Hình ảnh')),
-                  DataColumn(
-                    label: Text('Tên sản phẩm'),
-                  ),
-                  DataColumn(
-                    label: Text('Giá'),
-                  ),
-                  DataColumn(
-                    label: Text('Loại'),
-                  ),
+                  DataColumn(label: Text('Tên sản phẩm')),
+                  DataColumn(label: Text('Giá')),
+                  DataColumn(label: Text('Loại')),
                   DataColumn(label: Text(' ')),
                 ],
-                // ignore: invalid_use_of_protected_member
-                rows: controller.foodRows.value,
-              ),
-            ),
-          ),
+              )),
         ),
       ),
     );
   }
 
-  DataRow setFoodRow(int index, Food food) {
+  DataRow setFoodRow(Food food) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: food.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(food.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -567,13 +533,7 @@ class FoodView extends GetView<FoodController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: food.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(food.name.toString())),
         DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Text(food.category!.name.toString())),
         DataCell(Row(
@@ -582,7 +542,7 @@ class FoodView extends GetView<FoodController> {
             IconButton(
               icon: const Icon(Icons.add_outlined),
               onPressed: () {
-                controller.addFood(food.id!);
+                Get.find<FoodCreateController>().addFood(food.id!);
               },
             ),
           ],

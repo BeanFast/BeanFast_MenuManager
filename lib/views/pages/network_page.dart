@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:get/get.dart';
+
+import '/contains/theme_color.dart';
+import 'splash_page.dart';
+import 'widget/sbutton.dart';
+
+class NetworkView extends GetView<NetworkController> {
+  const NetworkView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(NetworkController());
+    return FutureBuilder(
+      future: controller.checkConnection(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: Lottie.asset(
+              'assets/images/loading.json',
+              width: 150,
+              height: 150,
+              fit: BoxFit.contain,
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return const ErrorNetworkScreen(); //Error checking connection'
+        } else {
+          return Obx(() {
+            if (controller.isConnected.value) {
+              return const SplashView();
+            } else {
+              return const ErrorNetworkScreen(); //No internet connection
+            }
+          });
+        }
+      },
+    );
+  }
+}
+
+class ErrorNetworkScreen extends GetView<NetworkController> {
+  const ErrorNetworkScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SButton(
+            color: ThemeColor.primaryColor,
+            borderColor: ThemeColor.primaryColor,
+            text: 'Tải lại',
+            textStyle: Get.textTheme.bodyLarge,
+            onPressed: () async {
+              await controller.checkConnection();
+            }),
+      ),
+    );
+  }
+}
+
+class NetworkController extends GetxController {
+  var isConnected = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    checkConnection();
+    Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  Future<void> checkConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    _updateConnectionStatus(connectivityResult);
+  }
+
+  void _updateConnectionStatus(List<ConnectivityResult> result) {
+    if (result.contains(ConnectivityResult.mobile) ||
+        result.contains(ConnectivityResult.wifi)) {
+      isConnected.value = true;
+    } else {
+      isConnected.value = false;
+    }
+  }
+}

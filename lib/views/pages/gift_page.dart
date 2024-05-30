@@ -1,16 +1,16 @@
-import 'package:beanfast_menumanager/models/gift.dart';
-import 'package:beanfast_menumanager/views/pages/gift_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/models/gift.dart';
 import '/controllers/gift_controller.dart';
-import '/views/pages/loading_page.dart';
+import 'gift_detail.dart';
+import 'loading_page.dart';
+import 'widget/button_data_table.dart';
+import 'widget/paginated_datatable_widget.dart';
 import '/utils/format_data.dart';
-import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
-import '/views/pages/widget/data_table_page.dart';
+import 'widget/search_widget.dart';
 
 class GiftView extends GetView<GiftController> {
   const GiftView({super.key});
@@ -19,51 +19,53 @@ class GiftView extends GetView<GiftController> {
   Widget build(BuildContext context) {
     Get.put(GiftController());
     return LoadingView(
-      future: controller.refreshData,
-      child: Obx(
-        () => DataTableView(
-          title: 'Quản lý quà',
-          header: CreateButtonDataTable(
-            onPressed: () async {
-              await showDialog();
-            },
+      future: controller.fetchData,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Quản lý quà',
+                textAlign: TextAlign.start,
+                style: Get.textTheme.titleMedium,
+              ),
+              Row(
+                children: [ 
+                  SearchBox(search: controller.search),
+                  const Spacer(),
+                   CreateButtonDataTable(
+                      onPressed: () async {
+                        await showDialog();
+                      },
+                    ),
+                ],
+              ),
+              SizedBox(
+                height: Get.height * 0.7,
+                child: const PaginatedDataTableView<GiftController>(
+                  title: 'Danh sách phần quà',
+                  columns: <DataColumn>[
+                            DataColumn(label: Text('Code')),
+                  DataColumn(label: Text('Hình ảnh')),
+                  DataColumn(label: Text('Tên sản phẩm')),
+                  DataColumn(label: Text('Số lượng')),
+                  DataColumn(label: Text('Điểm')),
+                  DataColumn(label: Text('')),
+                  ],
+                ),
+              ),
+            ],
           ),
-          refreshData: controller.refreshData,
-          loadPage: (page) => controller.loadPage(page),
-          search: (value) => controller.search(value),
-          sortColumnIndex: controller.columnIndex.value,
-          sortAscending: controller.columnAscending.value,
-          columns: <DataColumn>[
-            const DataColumn(
-              label: Text('Stt'),
-            ),
-            const DataColumn(
-              label: Text('Code'),
-            ),
-            const DataColumn(label: Text('Hình ảnh')),
-            DataColumn(
-                label: const Text('Tên sản phẩm'),
-                onSort: (index, ascending) => controller.sortByName(index)),
-            const DataColumn(label: Text(' ')),
-          ],
-          // ignore: invalid_use_of_protected_member
-          rows: controller.rows.value,
         ),
       ),
     );
   }
 
-  DataRow setRow(int index, Gift gift) {
+  DataRow setRow(Gift gift) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: gift.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(gift.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -73,13 +75,9 @@ class GiftView extends GetView<GiftController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: gift.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(gift.name.toString())),
+        DataCell(Text(gift.inStock.toString())),
+        DataCell(Text(gift.point.toString())),
         DataCell(Row(
           children: [
             const Spacer(),
@@ -117,8 +115,8 @@ class GiftView extends GetView<GiftController> {
                             : Image.network(
                                 controller.imagePath.value,
                                 fit: BoxFit.contain,
-                                 width: 200,
-                                  height: 200,
+                                width: 200,
+                                height: 200,
                               ),
                       ),
                     ),

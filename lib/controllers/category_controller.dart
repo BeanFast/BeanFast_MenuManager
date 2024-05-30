@@ -1,109 +1,37 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '/utils/logger.dart';
 import '/models/category.dart';
-import '/controllers/data_table_controller.dart';
 import '/services/category_service.dart';
 import '/views/pages/category_page.dart';
+import 'paginated_data_table_controller.dart';
 
-class CategoryController extends DataTableController<Category> {
-  final GlobalKey<FormState> formCreateKey = GlobalKey<FormState>();
-  RxString imagePath = ''.obs;
-  final TextEditingController foodName = TextEditingController();
-  final TextEditingController foodPrice = TextEditingController();
-  Rx<Category> categorySelected = Category().obs;
-  RxList<Category> listCategories = <Category>[].obs;
-  RxList<String> messageErrors = <String>[].obs;
-
-  @override
+class CategoryController extends PaginatedDataTableController<Category> {
   void search(String value) {
     if (value.isEmpty) {
-      setDataTable(initModelList);
+      setDataTable(dataList);
     } else {
-      currentModelList = initModelList
+      var list = dataList
           .where((e) =>
               e.code!.toLowerCase().contains(value.toLowerCase()) ||
               e.name!.toLowerCase().contains(value.toLowerCase()))
           .toList();
-      setDataTable(currentModelList);
+      setDataTable(list);
     }
-  }
-
-  @override
-  Future getData(list) async {
-    try {
-      var data = await CategoryService().getAll();
-      initModelList.addAll(data);
-    } on DioException catch (e) {
-      message = e.response!.data['message'];
-    }
-  }
-
-  @override
-  Future loadPage(int page) {
-    // TODO: implement loadPage
-    throw UnimplementedError();
   }
 
   @override
   void setDataTable(List<Category> list) {
     rows.value = list.map((dataMap) {
-      return const CategoryView().setRow(list.indexOf(dataMap), dataMap);
+      return const CategoryView().setRow(dataMap);
     }).toList();
   }
 
-  void sortByName(int index) {
-    columnIndex.value = index;
-    columnAscending.value = !columnAscending.value;
-    currentModelList.sort((a, b) => a.name!.compareTo(b.name!));
-    if (!columnAscending.value) {
-      currentModelList = currentModelList.reversed.toList();
-    }
-    setDataTable(currentModelList);
-  }
-
-  Future<void> initDialog() async {
-    imagePath.value = '';
-    foodName.text = '';
-    foodPrice.text = '';
-    listCategories.clear();
+  @override
+  Future fetchData() async {
     try {
       var data = await CategoryService().getAll();
-      listCategories.addAll(data);
-      categorySelected.value = listCategories[0];
+      dataList = data;
+      setDataTable(dataList);
     } catch (e) {
-      logger.e('FoodController: $e');
+      throw Exception(e);
     }
-  }
-
-  Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imagePath.value = pickedFile.path;
-    }
-  }
-
-  void submitForm() {
-    // messageErrors.value = [];
-    // model.value!.name = foodName.text;
-    // model.value!.price = Formatter.formatPriceToDouble(foodPrice.text);
-    // model.value!.categoryId = categorySelected.value.id;
-    // model.value!.imagePath = imagePath.value;
-    // model.value!.description = '';
-    // if (formCreateKey.currentState!.validate() && imagePath.value.isNotEmpty) {
-    //   try {
-    //     // FoodService().create(food);
-    //     Get.back();
-    //   } catch (e) {
-    //     throw Exception(e);
-    //   }
-    // } else {
-    //   messageErrors.add('Thông tin chưa chính xác');
-    // }
-    // if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
   }
 }

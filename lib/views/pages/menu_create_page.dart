@@ -1,14 +1,14 @@
-import 'package:beanfast_menumanager/models/menu_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/utils/data_table.dart';
+import '/models/menu_detail.dart';
 import '/models/food.dart';
-import '/utils/format_data.dart';
 import '/controllers/menu_create_update_controller.dart';
-import '/views/pages/loading_page.dart';
-import '/views/pages/widget/data_table_page.dart';
+import '/utils/data_table.dart';
+import '/utils/format_data.dart';
+import 'loading_page.dart';
+import 'widget/paginated_datatable_widget.dart';
 import 'widget/text_data_table_widget.dart';
 
 class MenuCreateView extends GetView<MenuCreateController> {
@@ -40,7 +40,8 @@ class MenuCreateView extends GetView<MenuCreateController> {
                     flex: 1,
                     child: TextButton(
                       onPressed: showAddFoodToMenuDialog,
-                      child:  Text('Thêm sản phẩm', style: Get.textTheme.bodyMedium),
+                      child: Text('Thêm sản phẩm',
+                          style: Get.textTheme.bodyMedium),
                     ),
                   ),
                   const Spacer(flex: 8),
@@ -48,7 +49,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
                     flex: 1,
                     child: TextButton(
                       onPressed: controller.createMenu,
-                      child:  Text('Tạo', style: Get.textTheme.bodyMedium),
+                      child: Text('Tạo', style: Get.textTheme.bodyMedium),
                     ),
                   ),
                 ],
@@ -56,8 +57,6 @@ class MenuCreateView extends GetView<MenuCreateController> {
               SizedBox(
                 width: Get.width,
                 child: Obx(() => PaginatedDataTable(
-                        // sortColumnIndex: controller.columnIndex.value,
-                        // sortAscending: controller.columnAscending.value,
                         columns: [
                           const DataColumn(
                             label: Text('Stt'),
@@ -147,8 +146,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
         controller.mapMenuDetails[foodId].toString();
     Get.dialog(
       AlertDialog(
-        title:  Text('Cập nhật giá bán',
-                  style: Get.textTheme.titleMedium),
+        title: Text('Cập nhật giá bán', style: Get.textTheme.titleMedium),
         content: TextField(
           controller: controller.priceController,
           keyboardType: TextInputType.number,
@@ -162,7 +160,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
               controller.addItemMenuDetails(foodId, newPrice);
               Get.back(); // Đóng dialog
             },
-            child:  Text('Cập nhật', style: Get.textTheme.bodyMedium),
+            child: Text('Cập nhật', style: Get.textTheme.bodyMedium),
           ),
         ],
       ),
@@ -177,36 +175,18 @@ class MenuCreateView extends GetView<MenuCreateController> {
           height: Get.height * 0.8,
           width: Get.width * 0.5,
           child: LoadingView(
-            future: controller.refreshData,
-            child: Obx(
-              () => DataTableView(
-                title: 'Danh sách sản phẩm',
-                sortColumnIndex: controller.columnIndex.value,
-                sortAscending: controller.columnAscending.value,
-                search: (value) => controller.search(value),
-                refreshData: controller.refreshData,
-                loadPage: (page) => controller.loadPage(page),
-                columns: [
-                  const DataColumn(
-                    label: Text('Stt'),
-                  ),
-                  const DataColumn(
-                    label: Text('Code'),
-                  ),
-                  const DataColumn(label: Text('Hình ảnh')),
-                  DataColumn(
-                      label: const Text('Tên sản phẩm'),
-                      onSort: (index, ascending) => (index, ascending) {}),
-                  const DataColumn(label: Text('Loại')),
-                  const DataColumn(label: Text('Combo')),
-                  DataColumn(
-                      label: const Text('Giá'),
-                      onSort: (index, ascending) => (index, ascending) {}),
-                  const DataColumn(label: Text(' ')),
-                ],
-                // ignore: invalid_use_of_protected_member
-                rows: controller.rows.value,
-              ),
+            future: controller.fetchData,
+            child: const PaginatedDataTableView<MenuCreateController>(
+              title: 'Danh sách loại',
+              columns: [
+                DataColumn(label: Text('Code')),
+                DataColumn(label: Text('Hình ảnh')),
+                DataColumn(label: Text('Tên sản phẩm')),
+                DataColumn(label: Text('Loại')),
+                DataColumn(label: Text('Combo')),
+                DataColumn(label: Text('Giá')),
+                DataColumn(label: Text(' ')),
+              ],
             ),
           ),
         ),
@@ -214,17 +194,10 @@ class MenuCreateView extends GetView<MenuCreateController> {
     );
   }
 
-  DataRow setRow(int index, Food food) {
+  DataRow setRow(Food food) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: food.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(food.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -234,13 +207,7 @@ class MenuCreateView extends GetView<MenuCreateController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: food.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(food.name.toString())),
         DataCell(Text(food.category!.name.toString())),
         DataCell(Text(food.isCombo! ? 'Combo' : 'Thức ăn')),
         DataCell(Text(Formatter.formatMoney(food.price.toString()))),

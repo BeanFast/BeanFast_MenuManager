@@ -10,8 +10,8 @@ import 'routes/app_routes.dart';
 import 'views/pages/dashboard_page.dart';
 import 'views/pages/food_page.dart';
 import 'views/pages/menu_detail_page.dart';
+import 'views/pages/network_page.dart';
 import 'views/pages/session_page.dart';
-import 'views/pages/splash_page.dart';
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => const SplashView(),
+          page: () => const NetworkView(),
           binding: AuthBindingController(),
           // transition: Transition.fade,
         ),

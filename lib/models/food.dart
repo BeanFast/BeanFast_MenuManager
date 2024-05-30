@@ -57,17 +57,4 @@ class Food extends BaseModel {
             ? Category()
             : Category.fromJson(json['category']),
       );
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "accessToken": accessToken.toString(),
-  //     "id": id.toString(),
-  //     "storeId": storeId.toString(),
-  //     "name": name,
-  //     "username": userName,
-  //     "role": userRole,
-  //     "status": status,
-  //     "picUrl": picUrl ?? "",
-  //   };
-  // }
 }

@@ -5,12 +5,10 @@ import 'package:intl/intl.dart';
 import '/controllers/menu_detail_controller.dart';
 import '/models/menu_detail.dart';
 import '/utils/format_data.dart';
-import '/views/pages/loading_page.dart';
-import '/views/pages/widget/paginated_data_table_widget.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
+import 'loading_page.dart';
+import 'widget/paginated_datatable_widget.dart';
 
 class MenuDetailView extends GetView<MenuDetailController> {
-  // List<MenuDetail>? menuDetails = [];
   const MenuDetailView({super.key});
 
   @override
@@ -18,19 +16,10 @@ class MenuDetailView extends GetView<MenuDetailController> {
     Get.put(MenuDetailController());
 
     return LoadingView(
-      future: () async {
-        await controller.refreshData();
-      },
+      future: controller.fetchData,
       child: Scaffold(
         appBar: AppBar(
           title: const Center(child: Text('Chi tiết thực đơn')),
-          // leading: IconButton(
-          //   onPressed: () {
-          //     changePage(MenuIndexState.menu.index);
-          //     Get.off(HomeView());
-          //   },
-          //   icon: const Icon(Icons.arrow_back_ios_new),
-          // ),
         ),
         body: Padding(
           padding:
@@ -164,38 +153,17 @@ class MenuDetailView extends GetView<MenuDetailController> {
                 ),
                 SizedBox(
                   width: Get.width,
-                  child: Obx(() => PaginatedDataTableView(
-                      sortColumnIndex: controller.columnIndex.value,
-                      sortAscending: controller.columnAscending.value,
-                      search: (value) => controller.search(value),
-                      refreshData: controller.refreshData,
-                      loadPage: (page) => controller.loadPage(page),
-                      columns: [
-                        const DataColumn(
-                          label: Text('Stt'),
-                        ),
-                        const DataColumn(
-                          label: Text('Code'),
-                        ),
-                        const DataColumn(label: Text('Hình ảnh')),
-                        DataColumn(
-                            label: const Text('Tên sản phẩm'),
-                            onSort: (index, ascending) =>
-                                controller.sortFoodByName(index)),
-                        DataColumn(
-                            label: const Text('Giá bán'),
-                            onSort: (index, ascending) =>
-                                controller.sortFoodByPrice(index)),
-                        DataColumn(
-                            label: const Text('Giá'),
-                            onSort: (index, ascending) =>
-                                controller.sortFoodByPrice(index)),
-                        const DataColumn(
-                          label: Text('Loại'),
-                        ),
-                      ],
-                      // ignore: invalid_use_of_protected_member
-                      rows: controller.rows.value)),
+                  child: const PaginatedDataTableView<MenuDetailController>(
+                    title: 'Danh sách món ăn',
+                    columns: [
+                      DataColumn(label: Text('Code')),
+                      DataColumn(label: Text('Hình ảnh')),
+                      DataColumn(label: Text('Tên sản phẩm')),
+                      DataColumn(label: Text('Giá bán')),
+                      DataColumn(label: Text('Giá')),
+                      DataColumn(label: Text('Loại')),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -205,18 +173,11 @@ class MenuDetailView extends GetView<MenuDetailController> {
     );
   }
 
-  DataRow setMenuDetailRow(int index, MenuDetail menuDetail) {
+  DataRow setRow(MenuDetail menuDetail) {
     var food = menuDetail.food!;
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: food.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(food.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -226,13 +187,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: food.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(food.name.toString())),
         DataCell(Text(Formatter.formatMoney(menuDetail.price.toString()))),
         DataCell(Text(Formatter.formatMoney(food.price.toString()))),
         DataCell(Text(food.category!.name!)),

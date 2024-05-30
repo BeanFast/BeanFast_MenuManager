@@ -1,13 +1,13 @@
-import 'package:beanfast_menumanager/views/pages/category_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/controllers/category_controller.dart';
-import '/views/pages/loading_page.dart';
 import '/models/category.dart';
-import '/views/pages/widget/button_data_table.dart';
-import '/views/pages/widget/text_data_table_widget.dart';
-import '/views/pages/widget/data_table_page.dart';
+import 'loading_page.dart';
+import 'category_detail.dart';
+import 'widget/search_widget.dart';
+import 'widget/button_data_table.dart';
+import 'widget/paginated_datatable_widget.dart';
 
 class CategoryView extends GetView<CategoryController> {
   const CategoryView({super.key});
@@ -16,46 +16,49 @@ class CategoryView extends GetView<CategoryController> {
   Widget build(BuildContext context) {
     Get.put(CategoryController());
     return LoadingView(
-      future: controller.refreshData,
-      child: Obx(
-        () => DataTableView(
-          title: 'Quản lý loại sản phẩm',
-          refreshData: controller.refreshData,
-          loadPage: (page) => controller.loadPage(page),
-          search: (value) => controller.search(value),
-          sortColumnIndex: controller.columnIndex.value,
-          sortAscending: controller.columnAscending.value,
-          columns: <DataColumn>[
-            const DataColumn(
-              label: Text('Stt'),
-            ),
-            const DataColumn(
-              label: Text('Code'),
-            ),
-            const DataColumn(label: Text('Hình ảnh')),
-            DataColumn(
-                label: const Text('Tên sản phẩm'),
-                onSort: (index, ascending) => controller.sortByName(index)),
-            const DataColumn(label: Text(' ')),
-          ],
-          // ignore: invalid_use_of_protected_member
-          rows: controller.rows.value,
+      future: controller.fetchData,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Quản lý loại',
+                textAlign: TextAlign.start,
+                style: Get.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  SearchBox(search: controller.search),
+                  const Spacer(),
+                ],
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: Get.height * 0.7,
+                child: const PaginatedDataTableView<CategoryController>(
+                  title: 'Danh sách loại',
+                  columns: <DataColumn>[
+                    DataColumn(label: Text('Code')),
+                    DataColumn(label: Text('Hình ảnh')),
+                    DataColumn(label: Text('Tên loại')),
+                    DataColumn(label: Text('')),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  DataRow setRow(int index, Category category) {
+  DataRow setRow(Category category) {
     return DataRow(
       cells: [
-        DataCell(Text((index + 1).toString())),
-        DataCell(
-          TextDataTable(
-            data: category.code.toString(),
-            maxLines: 2,
-            width: 100,
-          ),
-        ),
+        DataCell(Text(category.code.toString())),
         DataCell(
           SizedBox(
             width: 100,
@@ -65,13 +68,7 @@ class CategoryView extends GetView<CategoryController> {
             ),
           ),
         ),
-        DataCell(
-          TextDataTable(
-            data: category.name.toString(),
-            maxLines: 2,
-            width: 200,
-          ),
-        ),
+        DataCell(Text(category.name.toString())),
         DataCell(Row(
           children: [
             const Spacer(),

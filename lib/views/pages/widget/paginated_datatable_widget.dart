@@ -19,6 +19,7 @@ class PaginatedDataTableView<T extends PaginatedDataTableController>
 
   @override
   Widget build(BuildContext context) {
+    bool disableRefreshButton = false;
     return GetBuilder<T>(builder: (controller) {
       return Obx(
         () => PaginatedDataTable2(
@@ -26,9 +27,16 @@ class PaginatedDataTableView<T extends PaginatedDataTableController>
             children: [
               Text(title, style: Get.textTheme.titleLarge),
               const Spacer(),
-              RefreshButtonDataTable(onPressed: () async {
-                await controller.fetchData();
-              }),
+              RefreshButtonDataTable(
+                  disable: disableRefreshButton,
+                  onPressed: () async {
+                    try {
+                      disableRefreshButton = true;
+                      await controller.fetchData();
+                    } finally {
+                      disableRefreshButton = false;
+                    }
+                  }),
             ],
           ),
           sortColumnIndex: controller.sortColumnIndex.value,

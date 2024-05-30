@@ -19,31 +19,15 @@ class Gift extends BaseModel {
     this.imagePath,
   });
 
-  @override
-  String toString() {
-    return 'Gift(id: $id, code: $code, name: $name, point: $point, inStock: $inStock, imagePath: $imagePath, status: $status)';
-  }
-
   factory Gift.fromJson(dynamic json) => Gift(
         id: json['id'],
         code: json["code"],
         name: json['name'],
-        point: json['points'],
-        inStock: json['inStock'],
+        point:
+            json['points'] == null ? 0 : int.parse(json['points'].toString()),
+        inStock:
+            json['inStock'] == null ? 0 : int.parse(json['inStock'].toString()),
         imagePath: json['imagePath'] ?? "",
         status: json['status'],
       );
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "accessToken": accessToken.toString(),
-  //     "id": id.toString(),
-  //     "storeId": storeId.toString(),
-  //     "name": name,
-  //     "username": userName,
-  //     "role": userRole,
-  //     "status": status,
-  //     "picUrl": picUrl ?? "",
-  //   };
-  // }
 }
