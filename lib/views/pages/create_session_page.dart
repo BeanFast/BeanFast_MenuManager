@@ -559,7 +559,7 @@ bool isValidTime(DateTime date) {
 
 bool isValidDeliveryStartTime(DateTime deliveryTime) {
   int hour = deliveryTime.hour;
-  if (hour >= 4 && hour < 11) {
+  if (hour >= 4 && hour <= 11) {
     return true;
   }
   Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
