@@ -254,7 +254,7 @@ class OrderDetailView extends GetView<OrderController> {
                                   Text('Thời gian đặt hàng',
                                       style: Get.textTheme.bodyMedium),
                                   Text(
-                                      DateFormat('hh:mm dd/MM/yy').format(
+                                      DateFormat('HH:mm dd/MM/yy').format(
                                           controller.order.value.paymentDate!),
                                       style: Get.textTheme.bodySmall),
                                 ],
