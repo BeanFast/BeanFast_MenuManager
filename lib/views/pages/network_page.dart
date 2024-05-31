@@ -63,18 +63,23 @@ class ErrorNetworkScreen extends GetView<NetworkController> {
                     style: Get.textTheme.bodyMedium!),
               ],
             ),
+            const SizedBox(height: 20),
             Center(
-              child: SButton(
-                  color: ThemeColor.primaryColor,
-                  borderColor: ThemeColor.primaryColor,
-                  text: 'Thử lại',
-                  textStyle: Get.textTheme.titleMedium,
-                  onPressed: () async {
-                    await controller.checkConnection();
-                    if(controller.isConnected.value == false){
-                      Get.snackbar('Thông báo', 'Không thể kết nối mạng. Vui lòng kiểm tra lại kết nối mạng của bạn.');
-                    }
-                  }),
+              child: SizedBox(
+                width: 200,
+                child: SButton(
+                    color: ThemeColor.bgColor2,
+                    borderColor: ThemeColor.inputColor,
+                    text: 'Thử lại',
+                    textStyle: Get.textTheme.titleMedium,
+                    onPressed: () async {
+                      await controller.checkConnection();
+                      if (controller.isConnected.value == false) {
+                        Get.snackbar('Thông báo',
+                            'Không thể kết nối mạng. Vui lòng kiểm tra lại kết nối mạng của bạn.');
+                      }
+                    }),
+              ),
             ),
             const SizedBox(height: 30),
           ],
@@ -102,7 +107,7 @@ class NetworkController extends GetxController {
   void _updateConnectionStatus(List<ConnectivityResult> result) {
     if (result.contains(ConnectivityResult.mobile) ||
         result.contains(ConnectivityResult.wifi)) {
-      isConnected.value = false;
+      isConnected.value = true;
     } else {
       isConnected.value = false;
     }
