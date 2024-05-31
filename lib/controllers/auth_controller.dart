@@ -59,8 +59,8 @@ class AuthController extends GetxController with CacheManager {
   
 
   void login() async {
-    emailController.text = 'kitchen.manager01.beanfast@gmail.com';
-    passwordController.text = 'Ab123456';
+    // emailController.text = 'kitchen.manager01.beanfast@gmail.com';
+    // passwordController.text = 'Ab123456';
     try {
       logger.e('login');
       var response = await AuthService()
