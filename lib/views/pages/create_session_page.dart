@@ -1,25 +1,18 @@
-import 'package:beanfast_menumanager/models/user.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '/models/menu.dart';
-import '/models/school.dart';
-import '/models/session.dart';
-import '/services/menu_serivce.dart';
-import '/services/school_service.dart';
-import '/services/session_service.dart';
+import '/controllers/session_created_controller.dart';
 import '/views/pages/loading_page.dart';
 
-class CreateSessionPage extends GetView<CreateSessionController> {
+class CreateSessionPage extends GetView<SessionCreatedController> {
   final String schoolId;
   const CreateSessionPage({super.key, required this.schoolId});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CreateSessionController());
+    Get.put(SessionCreatedController());
     controller.schoolId = schoolId;
     return LoadingView(
       future: controller.freshData,
@@ -458,98 +451,8 @@ class CreateSessionPage extends GetView<CreateSessionController> {
     }
     return null;
   }
-}
 
-class CreateSessionController extends GetxController {
-  var selectedMenuId = ''.obs;
-  String schoolId = '';
-  Rxn<DateTime> orderStartTime = Rxn<DateTime>();
-  Rxn<DateTime> orderEndTime = Rxn<DateTime>();
-  Rxn<DateTime> deliveryStartTime = Rxn<DateTime>();
-  Rxn<DateTime> deliveryEndTime = Rxn<DateTime>();
-
-  void updateSelectedValue(String value) {
-    selectedMenuId.value = value;
-  }
-
-  var deliverers = <User>[].obs;
-  RxList<Menu> listMenu = <Menu>[].obs;
-  Rx<School> school = School().obs;
-
-  var selectedDeliverers = <String, User>{}.obs; // session detail : deliverer
-
-  Future freshData() async {
-    try {
-      listMenu.value = await MenuService().getBySchoolId(schoolId);
-      school.value = await SchoolService().getById(schoolId);
-    } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.message.toString());
-    }
-  }
-
-  Future getDeliverers() async {
-    if (deliveryStartTime.value == null || deliveryEndTime.value == null) {
-      Get.snackbar('Hệ thống', 'Thời gian giao hàng còn trống');
-      return;
-    }
-    try {
-      var data = await SessionService().getListDelivererByDeliveryDate(
-          deliveryStartTime.value!, deliveryEndTime.value!);
-      selectedDeliverers.forEach((key, value) {
-        data.removeWhere((e) => e.id == value.id);
-      });
-      deliverers.value = data;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<void> createSession() async {
-    if (selectedMenuId.value == '') {
-      Get.snackbar('Thất bại', 'Chưa có menu');
-      return;
-    }
-    if (orderStartTime.value == null ||
-        orderEndTime.value == null ||
-        deliveryStartTime.value == null ||
-        deliveryEndTime.value == null) {
-      Get.snackbar('Hệ thống', 'Thời gian còn trống');
-      return;
-    }
-    if (orderStartTime.value!.isAfter(orderEndTime.value!)) {
-      Get.snackbar('Thất bại', 'Thời gian đặt hàng không hợp lệ');
-      return;
-    }
-    if (deliveryStartTime.value!.isAfter(deliveryEndTime.value!)) {
-      Get.snackbar('Thất bại', 'Thời gian giao hàng không hợp lệ');
-      return;
-    }
-    if (orderEndTime.value!
-        .add(const Duration(hours: 6))
-        .isAfter(deliveryStartTime.value!)) {
-      Get.snackbar('Thất bại', 'Thời gian đặt hàng phải sao giao hàng 6 giờ');
-      return;
-    }
-    Map<String, User> deliverers = selectedDeliverers;
-    Session session = Session(
-      menuId: selectedMenuId.value,
-      orderStartTime: orderStartTime.value,
-      orderEndTime: orderEndTime.value,
-      deliveryStartTime: deliveryStartTime.value,
-      deliveryEndTime: deliveryEndTime.value,
-    );
-    try {
-      await SessionService().createSession(session, deliverers);
-      Get.back();
-      Get.snackbar('Thông báo', 'Tạo thành công');
-      await freshData();
-    } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.message.toString());
-    }
-  }
-}
-
-bool isValidTime(DateTime date) {
+  bool isValidTime(DateTime date) {
   if (date.isBefore(DateTime.now())) {
     Get.snackbar('Hệ thống', 'Thời gian đã quá hạn');
     return false;
@@ -564,4 +467,6 @@ bool isValidDeliveryStartTime(DateTime deliveryTime) {
   }
   Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
   return false;
+}
+
 }
