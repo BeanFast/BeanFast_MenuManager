@@ -30,6 +30,8 @@ enum ExchangeGiftStatus {
         return ExchangeGiftStatus.completed;
       case 6:
         return ExchangeGiftStatus.cancelled;
+      case 7:
+        return ExchangeGiftStatus.cancelled;
       default:
         return ExchangeGiftStatus.preparing;
     }
