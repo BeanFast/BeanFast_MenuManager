@@ -463,7 +463,7 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
     if (result) {
       return true;
     }
-    Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h59 sáng');
+    Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
     return false;
   }
 
