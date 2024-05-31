@@ -30,11 +30,7 @@ class OrderService {
       'sessionId': sessionId,
       'sessiondetailid': sessiondetailid,
     };
-
-    // if (page != null && size != null) {
-    //   queryParameters['page'] = page;
-    //   queryParameters['size'] = size;
-    // }
+    
     final response = await _apiService.request
         .get(baseUrl, queryParameters: queryParameters);
     List<Order> list = [];

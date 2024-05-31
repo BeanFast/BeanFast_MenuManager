@@ -31,12 +31,10 @@ class ExchangeGiftController
   Future cancelExchangeGift(String exchangeGiftId) async {
     try {
       String reason = reasonCancelExchangeGiftText.text.trim();
-      logger.e(reason);
       await ExchangeGiftService().cancelExchangeGift(exchangeGiftId, reason);
       Get.snackbar('Thành công', 'Hủy đơn thành công');
       await fetchData();
     } on DioException catch (e) {
-      logger.e(e.message);
       Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
