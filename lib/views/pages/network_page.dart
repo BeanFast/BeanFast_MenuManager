@@ -47,15 +47,38 @@ class ErrorNetworkScreen extends GetView<NetworkController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SButton(
-            color: ThemeColor.primaryColor,
-            borderColor: ThemeColor.primaryColor,
-            text: 'Tải lại',
-            textStyle: Get.textTheme.bodyLarge,
-            onPressed: () async {
-              await controller.checkConnection();
-            }),
+      body: Column(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  'assets/loading_error.json',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
+                Text('Mất kết nối mạng. Kiểm tra kết nối và thử lại bạn nhé.',
+                    style: Get.textTheme.bodyMedium!),
+              ],
+            ),
+          ),
+          Center(
+            child: SButton(
+                color: ThemeColor.primaryColor,
+                borderColor: ThemeColor.primaryColor,
+                text: 'Thử lại',
+                textStyle: Get.textTheme.titleMedium,
+                onPressed: () async {
+                  await controller.checkConnection();
+                  if(controller.isConnected.value == false){
+                    Get.snackbar('Thông báo', 'Không thể kết nối mạng. Vui lòng kiểm tra lại kết nối mạng của bạn.');
+                  }
+                }),
+          ),
+          const SizedBox(height: 30),
+        ],
       ),
     );
   }
