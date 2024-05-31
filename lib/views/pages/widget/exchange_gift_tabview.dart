@@ -28,8 +28,9 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
           DataColumn(label: Text('Code')),
           DataColumn(label: Text('Học sinh')),
           DataColumn(label: Text('Ngày thanh toán')),
-          DataColumn(label: Text('Ngày nhận hàng')),
-          DataColumn(label: Text('Địa điểm')),
+          DataColumn(label: Text('Trường')),
+          DataColumn(label: Text('Khung giờ')),
+          DataColumn(label: Text('Cổng')),
           DataColumn(label: Text('Tổng điểm')),
           DataColumn2(label: Text(''), fixedWidth: 85),
         ],
@@ -41,16 +42,14 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     return DataRow(
       cells: [
         DataCell(Text(exchangeGift.code.toString())),
-        DataCell(
-          Text(exchangeGift.profile!.fullName.toString()),
-        ),
+        DataCell(Text(exchangeGift.profile!.fullName.toString())),
         DataCell(Text(exchangeGift.paymentDate == null
             ? 'Chưa có'
             : DateFormat('dd/MM/yy').format(exchangeGift.paymentDate!))),
-        DataCell(Text(exchangeGift.deliveryDate == null
-            ? 'Chưa có'
-            : DateFormat('dd/MM/yy').format(exchangeGift.deliveryDate!))),
-        DataCell(Text(exchangeGift.sessionDetail!.code.toString())),
+        DataCell(Text(exchangeGift.sessionDetail!.location!.school!.name.toString())),
+        DataCell(Text(
+            '${DateFormat('HH:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryStartTime!)} - ${DateFormat('HH:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryEndTime!)}')),
+        DataCell(Text(exchangeGift.sessionDetail!.location!.name.toString())),
         DataCell(Text(Formatter.formatPoint(exchangeGift.points.toString()))),
         DataCell(Row(
           children: [
