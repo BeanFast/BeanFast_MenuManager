@@ -76,6 +76,7 @@ class OrderView extends GetView<OrderController> {
                                     GestureDetector(
                                       onTap: () {
                                         controller.selectSchool(null);
+                                        controller.selectSessionDetail(null);
                                       },
                                       child: const Icon(
                                         Icons.close,
