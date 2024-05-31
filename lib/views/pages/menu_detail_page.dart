@@ -66,43 +66,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('creatorId: ',
-                                            style: Get.textTheme.titleMedium),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                              controller.menu.value.creatorId
-                                                  .toString(),
-                                              style: Get.textTheme.bodyMedium),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('updaterId: ',
-                                            style: Get.textTheme.titleMedium),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                              controller.menu.value.updaterId
-                                                  .toString(),
-                                              style: Get.textTheme.bodyMedium),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('createDate: ',
+                                        Text('Ngày tạo: ',
                                             style: Get.textTheme.titleMedium),
                                         const SizedBox(width: 10),
                                         Expanded(
@@ -125,7 +89,7 @@ class MenuDetailView extends GetView<MenuDetailController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('updateDate: ',
+                                        Text('Ngày cập nhật: ',
                                             style: Get.textTheme.titleMedium),
                                         const SizedBox(width: 10),
                                         Expanded(
