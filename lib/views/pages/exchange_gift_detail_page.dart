@@ -59,6 +59,14 @@ class ExchangeGiftDetailView extends GetView<ExchangeGiftController> {
                                           .toString(),
                                       style: Get.textTheme.bodyMedium),
                                 ),
+                                 ListTile(
+                                  leading:
+                                      const Icon(Iconsax.close_circle),
+                                  title: Text('Lý do huỷ đơn',
+                                      style: Get.textTheme.titleMedium),
+                                  subtitle: Text('Lý đo huỷ đơn',
+                                      style: Get.textTheme.bodyMedium),
+                                ),
                                 ListTile(
                                   leading: const Icon(Iconsax.location),
                                   title: Text('Địa chỉ nhận hàng',
