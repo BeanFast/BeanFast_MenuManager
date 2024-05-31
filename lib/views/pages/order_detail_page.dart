@@ -12,11 +12,13 @@ import 'loading_page.dart';
 import 'widget/image_default.dart';
 
 class OrderDetailView extends GetView<OrderController> {
+ 
   const OrderDetailView(this.orderId, {super.key});
   final String orderId;
 
   @override
   Widget build(BuildContext context) {
+     Get.put(OrderController());
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Chi tiết đơn hàng')),
