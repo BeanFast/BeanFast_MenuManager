@@ -197,12 +197,11 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
                             var deliveryStartTime = await pickDate();
                             if (deliveryStartTime != null) {
                               if (isValidTime(deliveryStartTime) &&
-                                  isValidDeliveryStartTime(deliveryStartTime)) {
+                                  isValidDeliveryTimeIsMorning(
+                                      deliveryStartTime)) {
                                 if (controller.deliveryEndTime.value != null) {
-                                  if (deliveryStartTime.isAfter(
+                                  if (!isValidDeliveryTime(deliveryStartTime,
                                       controller.deliveryEndTime.value!)) {
-                                    Get.snackbar('Thất bại',
-                                        'Thời gian giao hàng không hợp lệ');
                                     return;
                                   }
                                 }
@@ -236,13 +235,13 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
                             var deliveryEndTime = await pickDate();
                             if (deliveryEndTime != null) {
                               if (isValidTime(deliveryEndTime) &&
-                                  isValidDeliveryStartTime(deliveryEndTime)) {
+                                  isValidDeliveryTimeIsMorning(
+                                      deliveryEndTime)) {
                                 if (controller.deliveryStartTime.value !=
                                     null) {
-                                  if (controller.deliveryStartTime.value!
-                                      .isAfter(deliveryEndTime)) {
-                                    Get.snackbar('Thất bại',
-                                        'Thời gian giao hàng không hợp lệ');
+                                  if (!isValidDeliveryTime(
+                                      controller.deliveryStartTime.value!,
+                                      deliveryEndTime)) {
                                     return;
                                   }
                                 }
@@ -409,7 +408,6 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
                         onTap: () {
                           Get.back();
                           controller.selectedDeliverers[locationId] = deliverer;
-                          var a = controller.selectedDeliverers[locationId];
                         },
                       ),
                     );
@@ -453,20 +451,36 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
   }
 
   bool isValidTime(DateTime date) {
-  if (date.isBefore(DateTime.now())) {
-    Get.snackbar('Hệ thống', 'Thời gian đã quá hạn');
-    return false;
-  }
-  return true;
-}
-
-bool isValidDeliveryStartTime(DateTime deliveryTime) {
-  int hour = deliveryTime.hour;
-  if (hour >= 4 && hour <= 11) {
+    if (date.isBefore(DateTime.now())) {
+      Get.snackbar('Hệ thống', 'Thời gian đã quá hạn');
+      return false;
+    }
     return true;
   }
-  Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
-  return false;
-}
 
+  bool isValidDeliveryTimeIsMorning(DateTime deliveryTime) {
+    int hour = deliveryTime.hour;
+    if (hour >= 4 && hour <= 11) {
+      return true;
+    }
+    Get.snackbar(
+        'Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+    return false;
+  }
+
+  bool isValidDeliveryTime(
+      DateTime deliveryStartTime, DateTime deliveryEndTime) {
+    if (deliveryStartTime.isAfter(deliveryEndTime)) {
+      Get.snackbar('Thất bại', 'Thời gian giao hàng không hợp lệ');
+      return false;
+    }
+    if (deliveryStartTime.day == deliveryEndTime.day &&
+        deliveryStartTime.month == deliveryEndTime.month &&
+        deliveryStartTime.year == deliveryEndTime.year) {
+      return true;
+    } else {
+      Get.snackbar('Hệ thống', 'Thời gian giao hàng phải cùng ngày');
+      return false;
+    }
+  }
 }
