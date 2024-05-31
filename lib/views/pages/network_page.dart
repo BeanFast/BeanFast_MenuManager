@@ -64,10 +64,11 @@ class ErrorNetworkScreen extends GetView<NetworkController> {
               ],
             ),
           ),
+          
           Center(
             child: SButton(
                 color: ThemeColor.primaryColor,
-                borderColor: ThemeColor.primaryColor,
+                borderColor: Colors.black,
                 text: 'Thử lại',
                 textStyle: Get.textTheme.titleMedium,
                 onPressed: () async {
