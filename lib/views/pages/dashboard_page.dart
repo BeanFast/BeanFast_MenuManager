@@ -1,18 +1,16 @@
 import 'package:beanfast_menumanager/utils/format_data.dart';
 import 'package:beanfast_menumanager/views/pages/loading_page.dart';
+import 'package:beanfast_menumanager/views/pages/widget/dashboard_1.dart';
 import 'package:beanfast_menumanager/views/pages/widget/order_by_date_line_chart.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_1.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_2.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_3.dart';
+import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_4.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '/controllers/dashboard_controller.dart';
 import '/views/pages/widget/widget_dashboard.dart';
-import 'widget/dashboard_1.dart';
-import 'widget/dashboard_2.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
@@ -22,85 +20,25 @@ class DashboardView extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     Get.put(DashboardController());
     return LoadingView(
-    future: () async {
-       Future.wait([
-        controller.getBestSellerFoods(),
-        controller.getOrderStatistics(),
-        controller.getBestSellerCategories(),
-        controller.getTotalFoodCount(),
-        controller.getTotalSchoolCount(),
-        controller.getOrderStatisticsByDays(),
-        controller.getTopSellerKitchens(),
-        controller.getTopSellerSchools(),
-      ]);
-    },
+      future: () async {
+        Future.wait([
+          controller.getBestSellerFoods(),
+          controller.getOrderStatistics(),
+          controller.getBestSellerCategories(),
+          controller.getTotalFoodCount(),
+          controller.getTotalSchoolCount(),
+          controller.getOrderStatisticsByDays(),
+          controller.getTopSellerKitchens(),
+          controller.getTopSellerSchools(),
+        ]);
+      },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(children: [
             const Padding(
               padding: EdgeInsets.only(bottom: 10),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(10.0),
-            //     child: SizedBox(
-            //       height: 40,
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.end,
-            //         children: [
-            //           GestureDetector(
-            //             onTap: () async {
-            //               final DateTimeRange? picked =
-            //                   await showDateRangePicker(
-            //                 context: context,
-            //                 initialDateRange: DateTimeRange(
-            //                   start: controller.selectedDateStart.value,
-            //                   end: controller.selectedDateEnd.value,
-            //                 ),
-            //                 firstDate: DateTime.now()
-            //                     .subtract(const Duration(days: 365)),
-            //                 lastDate: DateTime.now(),
-            //               );
-      
-            //               if (picked != null) {
-            //                 controller.selectedDateStart.value = picked.start;
-            //                 controller.selectedDateEnd.value = picked.end;
-            //                 controller.selectedDateStrStart.value =
-            //                     DateFormat('dd/MM/yyyy').format(picked.start);
-            //                 controller.selectedDateStrEnd.value =
-            //                     DateFormat('dd/MM/yyyy').format(picked.end);
-            //               }
-            //             },
-            //             child: Container(
-            //               padding: const EdgeInsets.only(
-            //                   left: 20, right: 20, top: 5, bottom: 5),
-            //               alignment: Alignment.center,
-            //               decoration: BoxDecoration(
-            //                   border: Border.all(color: Colors.black),
-            //                   borderRadius: BorderRadius.circular(12)),
-            //               child: Obx(
-            //                 () => Row(
-            //                   mainAxisAlignment: MainAxisAlignment.center,
-            //                   crossAxisAlignment: CrossAxisAlignment.center,
-            //                   children: [
-            //                     const Icon(
-            //                       Icons.calendar_today,
-            //                     ),
-            //                     const SizedBox(width: 10),
-            //                     Text(
-            //                       '${controller.selectedDateStrStart}  -  ${controller.selectedDateStrEnd}',
-            //                       style: Get.textTheme.bodyMedium,
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            
-            //   ),
-             ),
-            
+            ),
+
             Row(
               children: [
                 Expanded(
@@ -110,7 +48,8 @@ class DashboardView extends GetView<DashboardController> {
                         color: Colors.blue,
                         icon: Icons.money,
                         label: 'Tổng doanh thu',
-                        amount: Formatter.formatMoney(controller.totalRevenue.value))),
+                        amount: Formatter.formatMoney(
+                            controller.totalRevenue.value))),
                   ),
                 ),
                 Expanded(
@@ -120,7 +59,7 @@ class DashboardView extends GetView<DashboardController> {
                         () => InfoCard(
                             color: Colors.red,
                             icon: Icons.shopping_cart,
-                            label: 'Tổng số đơn hàng được hoàn thành',
+                            label: 'Số đơn hàng được hoàn thành',
                             amount: controller.totalOrder.value),
                       )),
                 ),
@@ -131,7 +70,7 @@ class DashboardView extends GetView<DashboardController> {
                       () => InfoCard(
                           color: Colors.orange,
                           icon: Icons.food_bank,
-                          label: 'Tổng số lượng thức ăn được bán',
+                          label: 'Số lượng thức ăn được bán',
                           amount: controller.totalFood.value),
                     ),
                   ),
@@ -143,7 +82,7 @@ class DashboardView extends GetView<DashboardController> {
                       () => InfoCard(
                           color: Colors.green,
                           icon: Icons.school,
-                          label: 'Tổng số trường học đang hoạt động',
+                          label: 'Số trường học đang hoạt động',
                           amount: controller.totalSchool.value),
                     ),
                   ),
@@ -158,7 +97,7 @@ class DashboardView extends GetView<DashboardController> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
             // SizedBox(
             //   width: Get.width * 0.9,
@@ -167,7 +106,7 @@ class DashboardView extends GetView<DashboardController> {
             //   ),
             // ),
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
             // SizedBox(
             //   width: Get.width * 0.9,
@@ -180,7 +119,7 @@ class DashboardView extends GetView<DashboardController> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child:   PieChart1(controller.bestSellerCategory),
+                    child: PieChart1(controller.bestSellerCategory),
                   ),
                 ),
                 Expanded(
@@ -199,28 +138,19 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                   ),
                 ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      children: [
+                        PieChart4(controller.topSellerSchools),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-      
             const SizedBox(height: 25),
-            // const Row(
-            //   children: [
-            //     Expanded(
-            //       child: Padding(
-            //         padding: EdgeInsets.only(left: 10, right: 10),
-            //         child: PieChart3(),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: Padding(
-            //         padding: EdgeInsets.only(left: 10, right: 10),
-            //         child: PieChart3(),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // PointDashboard3(),
-            // PointDashboard4(),
           ]),
         ),
       ),

@@ -16,41 +16,41 @@ class LineChartSample2 extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    if (list.isEmpty)
-      return Column(
-        children: [
-          Text("Chưa có dữ liệu"),
-        ],
-      );
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 1,
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: LineChart(
-            mainData(),
-          ),
-        ),
-        // SizedBox(
-        //   width: 60,
-        //   height: 20,
-        //   child: TextButton(
-        //     onPressed: () {
-        //       setState(() {
-        //         showAvg = !showAvg;
-        //       });
-        //     },
-        //     child: Text(
-        //       'avg',
-        //       style: TextStyle(
-        //         fontSize: 12,
-        //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
-    );
+    return Obx(() => list.isNotEmpty
+        ? Stack(
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: LineChart(
+                  mainData(),
+                ),
+              ),
+              // SizedBox(
+              //   width: 60,
+              //   height: 20,
+              //   child: TextButton(
+              //     onPressed: () {
+              //       setState(() {
+              //         showAvg = !showAvg;
+              //       });
+              //     },
+              //     child: Text(
+              //       'avg',
+              //       style: TextStyle(
+              //         fontSize: 12,
+              //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ],
+          )
+        : const Column(
+            children: [
+              Text("Chưa có dữ liệu"),
+            ],
+          ),);
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {

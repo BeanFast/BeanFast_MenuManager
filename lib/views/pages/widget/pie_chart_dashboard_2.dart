@@ -2,6 +2,7 @@ import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class PieChart2 extends StatelessWidget {
@@ -16,11 +17,11 @@ class PieChart2 extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.3 + 140,
+                height: MediaQuery.of(context).size.height * 0.3 + 200,
                 child: Column(
                   children: [
                     const Text(
-                      'Top 10 tỉ lệ bếp bán chạy nhất',
+                      'Tỉ lệ bếp bán chạy nhất',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -74,10 +75,12 @@ class PieChart2 extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: showingIndicators(),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: showingIndicators(),
+                      ),
                     ),
                   ],
                 ),

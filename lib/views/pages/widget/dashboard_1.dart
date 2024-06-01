@@ -12,49 +12,51 @@ class PointDashboard1 extends StatelessWidget {
   late double step;
   @override
   Widget build(BuildContext context) {
-    maxSoldCount =
-        bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
-    step = (maxSoldCount / 5).ceil().toDouble();
-    
-    return Obx(() => bestSellerFoods.isNotEmpty
-        ?   Card(
-          
-            child: Container(
-              // color: Colors.red,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  const Text(
-                    'Top 10 thức ăn bán chạy nhất',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 50),
-                  Obx(
-                    () => SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: BarChart(
-                        BarChartData(
-                          barTouchData: barTouchData,
-                          titlesData: titlesData,
-                          borderData: borderData,
-                          barGroups: barGroups,
-                          gridData: const FlGridData(show: false),
-                          alignment: BarChartAlignment.spaceAround,
-                          maxY: step * 5,
-                        ),
+    return Obx(() {
+      if (bestSellerFoods.isNotEmpty) {
+        maxSoldCount =
+            bestSellerFoods.map((e) => e.soldCount.toDouble()).reduce(max);
+        step = (maxSoldCount / 5).ceil().toDouble();
+        return Card(
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Text(
+                  'Top 10 thức ăn bán chạy nhất theo danh mục',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 50),
+                Obx(
+                  () => SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: BarChart(
+                      BarChartData(
+                        barTouchData: barTouchData,
+                        titlesData: titlesData,
+                        borderData: borderData,
+                        barGroups: barGroups,
+                        gridData: const FlGridData(show: false),
+                        alignment: BarChartAlignment.spaceAround,
+                        maxY: step * 5,
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          )
-        : const Column(
-            children: [
-              Text('Chưa có dữ liệu'),
-            ],
-          ));
+          ),
+        );
+      } else {
+        return const Column(
+          children: [
+            Text('Chưa có dữ liệu'),
+          ],
+        );
+      }
+    });
   }
 
   BarTouchData get barTouchData => BarTouchData(
