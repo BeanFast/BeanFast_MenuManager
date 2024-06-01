@@ -1,4 +1,5 @@
 import 'package:beanfast_menumanager/services/kitchen_service.dart';
+import 'package:beanfast_menumanager/views/pages/splash_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,9 +68,15 @@ class AuthController extends GetxController with CacheManager {
       if (response.statusCode == 200) {
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']); //Token is cached
+        Get.offAll(const SplashView());
+      }
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response?.data['message']);
+      if (e.response?.data['message'] == null) {
+        Get.snackbar('Lỗi', 'Đã có lỗi xảy ra');
       }
     } catch (e) {
-      Get.snackbar('Lỗi', 'Tài khoản hoặc mật khẩu không đúng');
+      Get.snackbar('Lỗi', 'Đã có lỗi xảy ra');
     }
   }
 
