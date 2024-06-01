@@ -21,7 +21,7 @@ class LineChartSample2 extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   const Text(
-                    'Biểu đồ đơn hàng theo 7 ngày',
+                    'Số lượng đơn đặt hàng trong 7 ngày gần nhất',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 50),
@@ -61,7 +61,7 @@ class LineChartSample2 extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    'Biểu đồ đơn hàng theo 7 ngày',
+                    'Số lượng đơn đặt hàng trong 7 ngày gần nhất',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 50),
