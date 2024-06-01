@@ -177,7 +177,7 @@ class LineChartSample2 extends StatelessWidget {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 7,
+      maxX: 6,
       minY: 0,
       maxY: (list.isNotEmpty
               ? list
