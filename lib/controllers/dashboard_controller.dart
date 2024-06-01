@@ -27,6 +27,8 @@ class DashboardController extends GetxController {
   RxList<BestSellerFood> bestSellerFoods = <BestSellerFood>[].obs;
   RxList<TopSellerKitchen> topSellerKitchens = <TopSellerKitchen>[].obs;
   RxList<TopSellerSchool> topSellerSchools = <TopSellerSchool>[].obs;
+  RxList<TopSellerByStatus> topSellerOrderByStatus = <TopSellerByStatus>[].obs;
+
   RxString totalRevenue = '0'.obs;
   RxString totalOrder = '0'.obs;
   RxString totalFood = '0'.obs;
@@ -56,6 +58,13 @@ class DashboardController extends GetxController {
     return result;
   }
 
+  Future<List<TopSellerByStatus>> getTopSellerOrderByStatus() async {
+    var dashboardService = DashboardService();
+    var result = await dashboardService.getTopSellerOrdersByStatus();
+    topSellerOrderByStatus.value = result;
+    return result;
+  }
+
   Future<List<TopSellerSchool>> getTopSellerSchools() async {
     var dashboardService = DashboardService();
     var result = await dashboardService.getTopSellerSchools(4);
@@ -79,6 +88,7 @@ class DashboardController extends GetxController {
     var dashboardService = DashboardService();
     var startDate = selectedDateStart.value;
     var endDate = selectedDateEnd.value;
+
     dashboardService
         .getOrderStatistics(startDate, endDate,
             status: OrderStatus.completed.code)
