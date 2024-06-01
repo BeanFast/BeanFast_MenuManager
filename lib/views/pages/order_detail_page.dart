@@ -12,13 +12,12 @@ import 'loading_page.dart';
 import 'widget/image_default.dart';
 
 class OrderDetailView extends GetView<OrderController> {
- 
   const OrderDetailView(this.orderId, {super.key});
   final String orderId;
 
   @override
   Widget build(BuildContext context) {
-     Get.put(OrderController());
+    Get.put(OrderController());
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Chi tiết đơn hàng')),
@@ -57,14 +56,15 @@ class OrderDetailView extends GetView<OrderController> {
                                           .toString(),
                                       style: Get.textTheme.bodyMedium),
                                 ),
-                                ListTile(
-                                  leading:
-                                      const Icon(Iconsax.close_circle),
-                                  title: Text('Lý do huỷ đơn',
-                                      style: Get.textTheme.titleMedium),
-                                  subtitle: Text('Lý đo huỷ đơn',
-                                      style: Get.textTheme.bodyMedium),
-                                ),
+                                if (controller.order.value!.status! == 6 ||
+                                    controller.order.value!.status! == 7)
+                                  ListTile(
+                                    leading: const Icon(Iconsax.close_circle),
+                                    title: Text('Lý do huỷ đơn',
+                                        style: Get.textTheme.titleMedium),
+                                    subtitle: Text(controller.order.value!.orderActivities?.first.name.toString() ?? '',
+                                        style: Get.textTheme.bodyMedium),
+                                  ),
                                 ListTile(
                                   leading: const Icon(Iconsax.location),
                                   title: Text('Địa chỉ nhận hàng',
@@ -116,14 +116,16 @@ class OrderDetailView extends GetView<OrderController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                        controller.order.value!.profile!.fullName
+                                        controller
+                                            .order.value!.profile!.fullName
                                             .toString(),
                                         style: Get.textTheme.titleSmall),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
                                 Column(
-                                  children: controller.order.value!.orderDetails!
+                                  children: controller
+                                      .order.value!.orderDetails!
                                       .map(
                                         (e) => Column(
                                           children: [

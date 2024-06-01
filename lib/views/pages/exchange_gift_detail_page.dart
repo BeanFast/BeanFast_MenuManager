@@ -59,12 +59,14 @@ class ExchangeGiftDetailView extends GetView<ExchangeGiftController> {
                                           .toString(),
                                       style: Get.textTheme.bodyMedium),
                                 ),
+                                 if (controller.model.value!.status! == 6 ||
+                                    controller.model.value!.status! == 7)
                                  ListTile(
                                   leading:
                                       const Icon(Iconsax.close_circle),
                                   title: Text('Lý do huỷ đơn',
                                       style: Get.textTheme.titleMedium),
-                                  subtitle: Text('Lý đo huỷ đơn',
+                                  subtitle: Text(controller.model.value!.orderActivities?.first.name.toString() ?? '',
                                       style: Get.textTheme.bodyMedium),
                                 ),
                                 ListTile(

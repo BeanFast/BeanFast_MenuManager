@@ -18,6 +18,7 @@ class ExchangeGift extends BaseModel {
   Gift? gift;
   List<OrderActivity>? activities;
   List<Transaction>? transactions;
+  List<OrderActivity>? orderActivities;
 
   ExchangeGift({
     id,
@@ -34,6 +35,7 @@ class ExchangeGift extends BaseModel {
     this.profile,
     this.transactions,
     this.activities,
+    this.orderActivities,
   }) : super(id: id, status: status);
 
   factory ExchangeGift.fromJson(dynamic json) => ExchangeGift(
@@ -59,6 +61,9 @@ class ExchangeGift extends BaseModel {
         sessionDetail: json['sessionDetail'] == null
             ? SessionDetail()
             : SessionDetail.fromJson(json['sessionDetail']),
+        orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
+          return OrderActivity.fromJson(item);
+        }).toList(),
       );
 
   // Map<String, dynamic> toJson() {
