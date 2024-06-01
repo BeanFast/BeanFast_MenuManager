@@ -1,4 +1,3 @@
-import 'package:beanfast_menumanager/utils/logger.dart';
 import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
 
@@ -77,10 +76,6 @@ class SessionService {
 
   Future<bool> updateDeliverySchedule(
       String sessionDetailId, List<String> listDelivererId) async {
-    // List<String> list = [];
-    // for (var e in listDelivererId) {
-    //   list.add(e);
-    // }
     Map<String, dynamic> data = {
       'DelivererIds': listDelivererId,
     };
@@ -92,7 +87,7 @@ class SessionService {
   Future createSession(Session session, Map<String, User> deliverers) async {
     List<Map<String, dynamic>> sessionDetails = [];
     deliverers.forEach((key, value) {
-       Map<String, dynamic> sessionDetail = {
+      Map<String, dynamic> sessionDetail = {
         "LocationId": key,
         "Deliverers": [
           {"DelivererId": value.id}

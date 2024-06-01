@@ -97,6 +97,10 @@ class SessionTabView extends GetView<SessionController> {
 
   DataRow setRow(Session session) {
     var menu = session.menu!;
+    int count = 0;
+    session.sessionDetails?.forEach((e) {
+      count += e.deliverers?.length ?? 0;
+    });
     return DataRow(
       cells: [
         DataCell(Text(session.code.toString())),
@@ -117,7 +121,7 @@ class SessionTabView extends GetView<SessionController> {
           ),
         )),
         DataCell(Text(menu.code.toString())),
-        DataCell(Text(menu.code.toString())),
+        DataCell(Text(count.toString())),
         DataCell(Row(
           children: [
             const Spacer(),

@@ -75,8 +75,6 @@ class AuthController extends GetxController with CacheManager {
       if (e.response?.data['message'] == null) {
         Get.snackbar('Lỗi', 'Đã có lỗi xảy ra');
       }
-    } catch (e) {
-      Get.snackbar('Lỗi', 'Đã có lỗi xảy ra');
     }
   }
 
