@@ -39,11 +39,24 @@ class PointDashboard2 extends StatelessWidget {
   Widget build(BuildContext context) {
     // Iterate through the remaining elements, updating min count if necessary
     return Obx(() => orderStatistics.isEmpty
-        ? const Column(
-            children: [
-              Text('Chưa có dữ liệu'),
-            ],
-          )
+        ?  Card(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Text(
+                  'Tổng kết số đơn và doanh thu (triệu đồng) theo tháng',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: const Center(child: Text('Chưa có dữ liệu'))),
+              ],
+            ),
+          ),
+        )
         : renderCard(context));
   }
 

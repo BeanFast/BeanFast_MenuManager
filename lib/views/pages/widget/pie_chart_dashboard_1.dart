@@ -2,7 +2,6 @@ import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class PieChart1 extends StatelessWidget {
@@ -11,83 +10,109 @@ class PieChart1 extends StatelessWidget {
   RxInt touchedIndex = (-1).obs;
   @override
   Widget build(BuildContext context) {
-    return Obx(() => bestSellerCategory.isNotEmpty
-        ? Card(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.3 + 200,
-              child: Column(
-                children: [
-                  const Text(
-                    'Tỉ lệ danh mục sản phẩm bán chạy nhất',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 1,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: Row(
-                      children: <Widget>[
-                        const SizedBox(
-                          height: 18,
-                        ),
-                        Expanded(
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Obx(
-                              () => PieChart(
-                                PieChartData(
-                                  pieTouchData: PieTouchData(
-                                    touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      // if (!event.isInterestedForInteractions ||
-                                      //     pieTouchResponse == null ||
-                                      //     pieTouchResponse.touchedSection == null) {
-                                      //   touchedIndex = RxInt(-1);
-                                      //   return;
-                                      // }
-                                      // touchedIndex = RxInt(pieTouchResponse
-                                      //     .touchedSection!.touchedSectionIndex);
-                                    },
+    return Obx(
+      () => bestSellerCategory.isNotEmpty
+          ? Card(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.3 + 200,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Tỉ lệ danh mục sản phẩm bán chạy nhất',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 1,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Row(
+                        children: <Widget>[
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Obx(
+                                () => PieChart(
+                                  PieChartData(
+                                    pieTouchData: PieTouchData(
+                                      touchCallback: (FlTouchEvent event,
+                                          pieTouchResponse) {
+                                        // if (!event.isInterestedForInteractions ||
+                                        //     pieTouchResponse == null ||
+                                        //     pieTouchResponse.touchedSection == null) {
+                                        //   touchedIndex = RxInt(-1);
+                                        //   return;
+                                        // }
+                                        // touchedIndex = RxInt(pieTouchResponse
+                                        //     .touchedSection!.touchedSectionIndex);
+                                      },
+                                    ),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 0,
+                                    centerSpaceRadius: 40,
+                                    sections: showingSections(),
                                   ),
-                                  borderData: FlBorderData(
-                                    show: false,
-                                  ),
-                                  sectionsSpace: 0,
-                                  centerSpaceRadius: 40,
-                                  sections: showingSections(),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 28,
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 28,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  // ignore: prefer_const_constructors
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: showingIndicators(),
+                    // ignore: prefer_const_constructors
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: showingIndicators(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Card(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.3 + 200,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Tỉ lệ danh mục sản phẩm bán chạy nhất',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 1,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: const Center(
+                        child: Text('Chưa có dữ liệu'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-        : const Column(
-            children: [Text("Chưa có dữ liệu")],
-          ));
+    );
   }
 
   List<PieChartSectionData> showingSections() {
