@@ -24,7 +24,7 @@ class CategoryView extends GetView<CategoryController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Quản lý loại',
+                'Danh mục sản phẩm',
                 textAlign: TextAlign.start,
                 style: Get.textTheme.titleMedium,
               ),
@@ -39,7 +39,7 @@ class CategoryView extends GetView<CategoryController> {
               SizedBox(
                 height: Get.height * 0.7,
                 child: const PaginatedDataTableView<CategoryController>(
-                  title: 'Danh sách loại',
+                  title: 'Danh mục sản phẩm',
                   columns: <DataColumn>[
                     DataColumn(label: Text('Code')),
                     DataColumn(label: Text('Hình ảnh')),

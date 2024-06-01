@@ -2,11 +2,10 @@ import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class PieChart3 extends StatelessWidget {
-  PieChart3(this.topSellerSchool, {super.key});
+class PieChart4 extends StatelessWidget {
+  PieChart4(this.topSellerSchool, {super.key});
   RxList<TopSellerSchool> topSellerSchool;
   RxInt touchedIndex = (-1).obs;
   @override

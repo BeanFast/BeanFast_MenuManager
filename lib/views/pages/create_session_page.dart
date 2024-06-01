@@ -459,14 +459,24 @@ class CreateSessionPage extends GetView<SessionCreatedController> {
   }
 
   bool isValidDeliveryTimeIsMorning(DateTime deliveryTime) {
-    int hour = deliveryTime.hour;
-    if (hour >= 4 && hour <= 11) {
+    var result = isDeliveryWindowEarlyMorning(deliveryTime);
+    if (result) {
       return true;
     }
-    Get.snackbar(
-        'Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
+    Get.snackbar('Hệ thống', 'Thời gian giao hàng phải từ 4h sáng đến 11h sáng');
     return false;
   }
+
+  bool isDeliveryWindowEarlyMorning(DateTime deliveryTime) {
+  // Combine date and time for accurate comparison
+  final startDate = DateTime(deliveryTime.year, deliveryTime.month, deliveryTime.day);
+
+
+  final fourAm = startDate.add(const Duration(hours: 4));
+  final elevenAm = startDate.add(const Duration(hours: 11));
+
+  return !(deliveryTime.isBefore(fourAm)  && deliveryTime.isAfter(elevenAm)) ;
+}
 
   bool isValidDeliveryTime(
       DateTime deliveryStartTime, DateTime deliveryEndTime) {

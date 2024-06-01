@@ -17,18 +17,18 @@ import '/views/pages/order_page.dart';
 class HomeController extends GetxController {
   RxBool isNavigationRailSelected = true.obs;
   // index of menuItem
-  Rx<Widget> selectedContent = Rx<Widget>(const ExchangeGiftView());
+  Rx<Widget> selectedContent = Rx<Widget>(const DashboardView());
 
   // menu mặc định
   List<MenuItem> menuItems = [
     const MenuItem(title: 'Báo cáo', icon: Icons.space_dashboard_outlined),
     const MenuItem(title: 'Thức ăn', icon: Icons.fastfood_outlined),
     const MenuItem(title: 'Thực đơn', icon: Icons.menu_outlined),
-    const MenuItem(title: 'Đơn hàng', icon: Icons.assignment_outlined),
-    const MenuItem(title: 'Đơn quà', icon: Icons.assignment_turned_in_outlined),
-    const MenuItem(title: 'Trường', icon: Icons.school_outlined),
+    const MenuItem(title: 'Đơn đặt món', icon: Icons.assignment_outlined),
+    const MenuItem(title: 'Đơn đổi quà', icon: Icons.assignment_turned_in_outlined),
+    const MenuItem(title: 'Trường Học', icon: Icons.school_outlined),
     const MenuItem(title: 'Quà', icon: Icons.card_giftcard_outlined),
-    const MenuItem(title: 'Loại', icon: Icons.category_outlined),
+    const MenuItem(title: 'Danh mục sản phẩm', icon: Icons.category_outlined),
   ];
 
   // index là vị trí của menuItems

@@ -56,7 +56,6 @@ class AuthController extends GetxController with CacheManager {
     }
     logOut();
   }
-  
 
   void login() async {
     // emailController.text = 'kitchen.manager01.beanfast@gmail.com';
@@ -69,8 +68,8 @@ class AuthController extends GetxController with CacheManager {
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']); //Token is cached
       }
-    }  catch (e) {
-      Get.snackbar('Thông báo', 'Tài khoản hoặc mật khẩu không đúng');
+    } catch (e) {
+      Get.snackbar('Lỗi', 'Tài khoản hoặc mật khẩu không đúng');
     }
   }
 
