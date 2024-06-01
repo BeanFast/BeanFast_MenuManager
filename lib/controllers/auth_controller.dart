@@ -66,10 +66,14 @@ class AuthController extends GetxController with CacheManager {
           .login(emailController.text, passwordController.text);
       if (response.statusCode == 200) {
         changeAuthState(AuthState.authenticated);
-        await saveToken(response.data['data']['accessToken']); //Token is cached
+        await saveToken(response.data['data']['accessToken']);
       }
-    } catch (e) {
-      Get.snackbar('Lỗi', 'Tài khoản hoặc mật khẩu không đúng');
+    } on DioException catch (e) {
+      if (e.response?.data['message'] != null) {
+        Get.snackbar('Lỗi', e.response?.data['message']);
+      } else {
+        Get.snackbar('Lỗi', 'Đã có lỗi xảy ra');
+      }
     }
   }
 
