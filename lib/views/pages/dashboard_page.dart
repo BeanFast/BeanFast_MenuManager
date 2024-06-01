@@ -90,30 +90,6 @@ class DashboardView extends GetView<DashboardController> {
               ],
             ),
             const SizedBox(height: 25),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: PointDashboard1(
-                bestSellerFoods: controller.bestSellerFoods,
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            // SizedBox(
-            //   width: Get.width * 0.9,
-            //   child: PointDashboard2(
-            //     orderStatistics: controller.completeOrderStatistics,
-            //   ),
-            // ),
-            const SizedBox(
-              height: 25,
-            ),
-            // SizedBox(
-            //   width: Get.width * 0.9,
-            //   child: LineChartSample2(
-            //     list: controller.orderStatisticByDays,
-            //   ),
-            // ),
             Row(
               children: [
                 Expanded(
@@ -150,6 +126,32 @@ class DashboardView extends GetView<DashboardController> {
                 ),
               ],
             ),
+            const SizedBox(height: 25),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: PointDashboard1(
+                bestSellerFoods: controller.bestSellerFoods,
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            // SizedBox(
+            //   width: Get.width * 0.9,
+            //   child: PointDashboard2(
+            //     orderStatistics: controller.completeOrderStatistics,
+            //   ),
+            // ),
+            const SizedBox(
+              height: 25,
+            ),
+            // SizedBox(
+            //   width: Get.width * 0.9,
+            //   child: LineChartSample2(
+            //     list: controller.orderStatisticByDays,
+            //   ),
+            // ),
+
             const SizedBox(height: 25),
           ]),
         ),
