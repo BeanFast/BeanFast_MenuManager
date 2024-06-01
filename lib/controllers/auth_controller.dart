@@ -59,8 +59,8 @@ class AuthController extends GetxController with CacheManager {
   
 
   void login() async {
-    emailController.text = 'kitchen.manager01.beanfast@gmail.com';
-    passwordController.text = '12345678';
+    // emailController.text = 'kitchen.manager01.beanfast@gmail.com';
+    // passwordController.text = 'Ab123456';
     try {
       logger.e('login');
       var response = await AuthService()
@@ -69,10 +69,8 @@ class AuthController extends GetxController with CacheManager {
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']); //Token is cached
       }
-    } on DioException catch (e) {
-      if (e.response!.statusCode == 400) {
-        errorMessage.value = 'Tài khoản hoặc mật khẩu không đúng';
-      }
+    }  catch (e) {
+      Get.snackbar('Thông báo', 'Tài khoản hoặc mật khẩu không đúng');
     }
   }
 

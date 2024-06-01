@@ -7,7 +7,6 @@ import '/services/exchange_gift_service.dart';
 import '/views/pages/widget/exchange_gift_tabview.dart';
 import '/enums/status_enum.dart';
 import 'paginated_data_table_controller.dart';
-import '/utils/logger.dart';
 
 class ExchangeGiftController
     extends PaginatedDataTableController<ExchangeGift> {

@@ -2,14 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/contains/contrain.dart';
 import '/models/menu_detail.dart';
 import '/models/food.dart';
 import '/services/food_service.dart';
 import '/views/pages/menu_create_page.dart';
 import '/services/menu_serivce.dart';
 import 'paginated_data_table_controller.dart';
-
-String kitchenId = '';
 
 class MenuCreateController extends PaginatedDataTableController<Food> {
   //detail
@@ -32,7 +31,7 @@ class MenuCreateController extends PaginatedDataTableController<Food> {
       ifAbsent: () => price,
     );
     List<Food> list = [];
-    list.addAll(dataList) ;
+    list.addAll(dataList);
     for (var e in dataList) {
       if (mapMenuDetails.containsKey(e.id!)) {
         MenuDetail model = MenuDetail(price: mapMenuDetails[e.id], food: e);
@@ -45,9 +44,9 @@ class MenuCreateController extends PaginatedDataTableController<Food> {
   }
 
   Future<void> createMenu() async {
-    if (kitchenId.isEmpty) return;
+    if (currentKitchen.value?.id == null) return;
     try {
-      await MenuService().create(kitchenId, mapMenuDetails);
+      await MenuService().create(currentKitchen.value!.id!, mapMenuDetails);
       Get.back();
       Get.snackbar('Thông báo', 'Tạo thành công');
     } on DioException catch (e) {
