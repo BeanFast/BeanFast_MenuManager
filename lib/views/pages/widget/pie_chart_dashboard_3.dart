@@ -2,7 +2,6 @@ import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class PieChart3 extends StatelessWidget {
@@ -86,8 +85,31 @@ class PieChart3 extends StatelessWidget {
                 ),
               ),
             )
-          : const Column(
-              children: [Text("Chưa có dữ liệu")],
+          : Card(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.3 + 200,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Tỉ lệ trường bán chạy nhất',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 1,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: const Center(
+                        child: Text('Chưa có dữ liệu'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
     );
   }

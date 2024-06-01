@@ -2,9 +2,7 @@ import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/app_color_dashboard.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 
 class LineChartSample2 extends StatelessWidget {
   LineChartSample2({super.key, required this.list});
@@ -17,40 +15,64 @@ class LineChartSample2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => list.isNotEmpty
-        ? Stack(
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: LineChart(
-                  mainData(),
-                ),
+        ? Card(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  const Text(
+                    'Số lượng đơn đặt hàng trong 7 ngày gần nhất',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 50),
+                  Container(
+                    padding: const EdgeInsets.only(left: 10, right: 20),
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: LineChart(
+                      mainData(),
+                    ),
+                  ),
+                  // SizedBox(
+                  //   width: 60,
+                  //   height: 20,
+                  //   child: TextButton(
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         showAvg = !showAvg;
+                  //       });
+                  //     },
+                  //     child: Text(
+                  //       'avg',
+                  //       style: TextStyle(
+                  //         fontSize: 12,
+                  //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
-              // SizedBox(
-              //   width: 60,
-              //   height: 20,
-              //   child: TextButton(
-              //     onPressed: () {
-              //       setState(() {
-              //         showAvg = !showAvg;
-              //       });
-              //     },
-              //     child: Text(
-              //       'avg',
-              //       style: TextStyle(
-              //         fontSize: 12,
-              //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ],
+            ),
           )
-        : const Column(
-            children: [
-              Text("Chưa có dữ liệu"),
-            ],
-          ),);
+        : Card(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  const Text(
+                    'Số lượng đơn đặt hàng trong 7 ngày gần nhất',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 50),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: const Center(child: Text('Chưa có dữ liệu'))),
+                ],
+              ),
+            ),
+          ));
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -144,7 +166,7 @@ class LineChartSample2 extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: intStep.toDouble(),
+            interval: intStep.toDouble() == 0 ? 1 : intStep.toDouble(),
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
@@ -155,7 +177,7 @@ class LineChartSample2 extends StatelessWidget {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 7,
+      maxX: 6,
       minY: 0,
       maxY: (list.isNotEmpty
               ? list

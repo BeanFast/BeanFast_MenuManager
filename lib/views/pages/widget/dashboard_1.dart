@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:beanfast_menumanager/contains/theme_color.dart';
+
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -50,10 +50,23 @@ class PointDashboard1 extends StatelessWidget {
           ),
         );
       } else {
-        return const Column(
-          children: [
-            Text('Chưa có dữ liệu'),
-          ],
+        return Card(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Text(
+                  'Top 10 thức ăn bán chạy nhất theo danh mục',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: const Center(child: Text('Chưa có dữ liệu'))),
+              ],
+            ),
+          ),
         );
       }
     });

@@ -4,9 +4,9 @@ import 'package:beanfast_menumanager/views/pages/widget/dashboard_1.dart';
 import 'package:beanfast_menumanager/views/pages/widget/dashboard_2.dart';
 import 'package:beanfast_menumanager/views/pages/widget/order_by_date_line_chart.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_1.dart';
-import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_2.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_3.dart';
 import 'package:beanfast_menumanager/views/pages/widget/pie_chart_dashboard_4.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,17 +22,21 @@ class DashboardView extends GetView<DashboardController> {
     Get.put(DashboardController());
     return LoadingView(
       future: () async {
-        Future.wait([
-          controller.getBestSellerFoods(),
-          controller.getOrderStatistics(),
-          controller.getBestSellerCategories(),
-          controller.getTotalFoodCount(),
-          controller.getTotalSchoolCount(),
-          controller.getOrderStatisticsByDays(),
-          controller.getTopSellerKitchens(),
-          controller.getTopSellerSchools(),
-          controller.getTopSellerOrderByStatus(),
-        ]);
+        try {
+          await Future.wait([
+            controller.getBestSellerFoods(),
+            controller.getOrderStatistics(),
+            controller.getBestSellerCategories(),
+            controller.getTotalFoodCount(),
+            controller.getTotalSchoolCount(),
+            controller.getOrderStatisticsByDays(),
+            controller.getTopSellerKitchens(),
+            controller.getTopSellerSchools(),
+            controller.getTopSellerOrderByStatus(),
+          ]);
+        } on DioException catch (e) {
+        Get.snackbar('Lỗi', e.response?.data['message']);
+        }
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -102,12 +106,6 @@ class DashboardView extends GetView<DashboardController> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: PieChart2(controller.topSellerKitchens),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       children: [
                         PieChart3(controller.topSellerSchools),
@@ -137,8 +135,8 @@ class DashboardView extends GetView<DashboardController> {
             const SizedBox(
               height: 25,
             ),
-            SizedBox(
-              width: Get.width * 0.9,
+            Padding(
+             padding: const EdgeInsets.only(left: 10, right: 10),
               child: PointDashboard2(
                 orderStatistics: controller.completeOrderStatistics,
               ),
@@ -146,8 +144,8 @@ class DashboardView extends GetView<DashboardController> {
             const SizedBox(
               height: 25,
             ),
-            SizedBox(
-              width: Get.width * 0.9,
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: LineChartSample2(
                 list: controller.orderStatisticByDays,
               ),
