@@ -99,6 +99,28 @@ class TopSellerSchool {
   }
 }
 
+class TopSellerByStatus {
+  int status;
+  int count;
+  int totalRevenue;
+  double percentage;
+  late Color color;
+  TopSellerByStatus({
+    required this.status,
+    required this.count,
+    required this.totalRevenue,
+    required this.percentage,
+  });
+  factory TopSellerByStatus.fromJson(Map<String, dynamic> json) {
+    return TopSellerByStatus(
+      status: json['status'],
+      count: json['count'],
+      totalRevenue: json['totalRevenue'],
+      percentage: json['percentage'],
+    );
+  }
+}
+
 class TopSellerKitchen {
   String name;
   int totalOrder;
@@ -171,6 +193,22 @@ class DashboardService {
       //   topSellerKitchen.color = AppColors.getRandomContentColor();
       //   result.add();
       // }
+    }
+    return result;
+  }
+
+  Future<List<TopSellerByStatus>> getTopSellerOrdersByStatus() async {
+    final response = await _apiService.request.get("/orders/countByStatus");
+    List<TopSellerByStatus> result = [];
+    if (response.statusCode == 200) {
+      List<dynamic> res = response.data['data'];
+
+      for (var i = 0; i < res.length; i++) {
+        var e = res[i];
+        var order = TopSellerByStatus.fromJson(e);
+        order.color = AppColors.getContentColor(i);
+        result.add(order);
+      }
     }
     return result;
   }

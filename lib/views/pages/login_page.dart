@@ -152,9 +152,9 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                       onPressed: () {
-                        // if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           controller.login();
-                        // }
+                        }
                       },
                       child:  Text('Đăng nhập',style:  Get.textTheme.bodyMedium!.copyWith(color: Colors.white) ),
                     ),

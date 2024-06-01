@@ -1,3 +1,4 @@
+import 'package:beanfast_menumanager/enums/status_enum.dart';
 import 'package:beanfast_menumanager/services/dashboard_service.dart';
 import 'package:beanfast_menumanager/views/pages/widget/indicator_pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -5,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PieChart4 extends StatelessWidget {
-  PieChart4(this.topSellerSchool, {super.key});
-  RxList<TopSellerSchool> topSellerSchool;
+  PieChart4(this.topSellerOrderByStatus, {super.key});
+  RxList<TopSellerByStatus> topSellerOrderByStatus;
   RxInt touchedIndex = (-1).obs;
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => topSellerSchool.isNotEmpty
+      () => topSellerOrderByStatus.isNotEmpty
           ? Card(
               child: Container(
                 padding: const EdgeInsets.all(20),
@@ -20,7 +21,7 @@ class PieChart4 extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text(
-                      'Tỉ lệ trường bán chạy nhất',
+                      'Tỉ lệ đơn hàng theo trạng thái',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -92,7 +93,7 @@ class PieChart4 extends StatelessWidget {
   }
 
   List<PieChartSectionData> showingSections() {
-    return topSellerSchool.asMap().entries.map((e) {
+    return topSellerOrderByStatus.asMap().entries.map((e) {
       final index = e.key;
       final data = e.value;
       final isTouched = index == touchedIndex.value;
@@ -112,7 +113,7 @@ class PieChart4 extends StatelessWidget {
   }
 
   List<Widget> showingIndicators() {
-    return topSellerSchool.asMap().entries.map((e) {
+    return topSellerOrderByStatus.asMap().entries.map((e) {
       final index = e.key;
       final data = e.value;
       final isTouched = index == touchedIndex.value;
@@ -120,7 +121,7 @@ class PieChart4 extends StatelessWidget {
       final radius = isTouched ? 80.0 : 75.0;
       return Indicator(
         color: data.color,
-        text: data.schoolName,
+        text: OrderStatus.fromInt(data.status).message,
         isSquare: false,
       );
     }).toList();

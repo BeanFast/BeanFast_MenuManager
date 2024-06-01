@@ -8,6 +8,7 @@ class ApiService extends GetxService {
   late Dio _dio;
   static BaseOptions options = BaseOptions(
     baseUrl: 'https://beanfast.id.vn/api/v1/',
+    // baseUrl: 'https://localhost:7122/api/v1/',
     headers: {
       Headers.contentTypeHeader: "application/json",
       Headers.acceptHeader: "text/plain"

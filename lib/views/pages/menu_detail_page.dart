@@ -27,96 +27,64 @@ class MenuDetailView extends GetView<MenuDetailController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Column(
-                  children: [
-                    Card(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Obx(
-                                () => Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Code: ',
-                                            style: Get.textTheme.titleMedium),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                              controller.menu.value.code
-                                                  .toString(),
-                                              style: Get.textTheme.bodyMedium),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Ngày tạo: ',
-                                            style: Get.textTheme.titleMedium),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                              controller.menu.value
-                                                          .createDate ==
-                                                      null
-                                                  ? ""
-                                                  : DateFormat('dd/MM/yyyy')
-                                                      .format(controller.menu
-                                                          .value.createDate!),
-                                              style: Get.textTheme.bodyMedium),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Ngày cập nhật: ',
-                                            style: Get.textTheme.titleMedium),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                              controller.menu.value
-                                                          .updateDate ==
-                                                      null
-                                                  ? ""
-                                                  : DateFormat('dd/MM/yyyy')
-                                                      .format(controller.menu
-                                                          .value.updateDate!),
-                                              style: Get.textTheme.bodyMedium),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                Card(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    child: Obx(
+                      () => Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Code: ', style: Get.textTheme.titleMedium),
+                              const SizedBox(width: 10),
+                              Text(controller.menu.value.code.toString(),
+                                  style: Get.textTheme.bodyMedium),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Ngày tạo: ',
+                                  style: Get.textTheme.titleMedium),
+                              const SizedBox(width: 10),
+                              Text(
+                                  controller.menu.value.createDate == null
+                                      ? ""
+                                      : DateFormat('dd/MM/yyyy').format(
+                                          controller.menu.value.createDate!),
+                                  style: Get.textTheme.bodyMedium),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Ngày cập nhật: ',
+                                  style: Get.textTheme.titleMedium),
+                              const SizedBox(width: 10),
+                              Text(
+                                  controller.menu.value.updateDate == null
+                                      ? ""
+                                      : DateFormat('dd/MM/yyyy').format(
+                                          controller.menu.value.updateDate!),
+                                  style: Get.textTheme.bodyMedium),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(
                   width: Get.width,
+                  height: 700,
                   child: const PaginatedDataTableView<MenuDetailController>(
                     title: 'Danh sách món ăn',
                     columns: [
