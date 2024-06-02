@@ -85,8 +85,8 @@ class LoginView extends GetView<AuthController> {
                         suffixIcon: IconButton(
                           icon: Icon(
                             _isPasswordHidden.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           onPressed: () {
                             _isPasswordHidden.value = !_isPasswordHidden.value;
@@ -156,7 +156,9 @@ class LoginView extends GetView<AuthController> {
                           controller.login();
                         }
                       },
-                      child:  Text('Đăng nhập',style:  Get.textTheme.bodyMedium!.copyWith(color: Colors.white) ),
+                      child: Text('Đăng nhập',
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: Colors.white)),
                     ),
                   ),
                 ],
